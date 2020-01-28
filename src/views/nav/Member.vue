@@ -2,14 +2,16 @@
   <div>
     <core-Toolbar />
     <core-navigation />
-    <h2>hello {{ message }}</h2>
+    <member-toolbar />
+    <member-cardList />
   </div>
 </template>
 
 <script>
 export default {
+  name: "memberList",
   data: () => ({
-    message: "Vue"
+    title: "MEMBER"
   })
 };
 </script>

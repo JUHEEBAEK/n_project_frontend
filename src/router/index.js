@@ -1,30 +1,85 @@
 import Vue from "vue";
-import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Router from "vue-router";
 
-Vue.use(VueRouter);
+Vue.use(Router);
 
-const routes = [
+// router 설정
+export default new Router({
+  mode: "history",
+  base: process.env.BASE_URL,
+  routes: [
+    {
+      path: "/",
+      name: "home",
+      component: () => import("../views/Home.vue")
+    },
+    {
+      path: "/attendance",
+      name: "attendance",
+      component: () => import("../views/footer/Attendance.vue")
+    },
+    {
+      path: "/squad",
+      name: "squad",
+      component: () => import("../views/footer/Squad.vue")
+    },
+    {
+      path: "/teamSetting",
+      name: "teamSetting",
+      component: () => import("../views/footer/TesmSetting.vue")
+    },
+    {
+      path: "/member",
+      component: () => import("../components/core/View.vue"),
+      children: [
+        {
+          path: "",
+          name: "memberList",
+          component: () => import("../views/nav/Member.vue")
+        },
+        {
+          path: ":id/profile",
+          component: () => import("../views/nav/Profile.vue")
+        }
+      ]
+    },
+    {
+      path: "/memberAdd",
+      name: "memberAdd",
+      component: () => import("../views/nav/MemberAdd.vue")
+    },
+    {
+      path: "/calendar",
+      name: "calendar",
+      component: () => import("../views/nav/Schedule.vue")
+    },
+    {
+      path: "*",
+      name: "notFound",
+      redirect: { name: "home" }
+      // component: () => import("../views/NotFound.vue")
+    }
+  ]
+});
+
+/*
+
+< 추후 모듈화가 필요할 경우에 대비한 코드 >
+
+const baseRoutes = [
   {
     path: "/",
     name: "home",
     component: Home
-  },
-  {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
   }
 ];
 
-const router = new VueRouter({
+const routes = baseRoutes.concat(test);
+
+export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes
 });
 
-export default router;
+*/

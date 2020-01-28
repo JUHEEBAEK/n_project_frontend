@@ -2,15 +2,17 @@
   <div>
     <core-Toolbar />
     <core-navigation />
-    <h2>hello {{ message }}</h2>
+    <squad-header />
+    <squad-rightDrawer />
+    <squad-date />
+    <squad-quarter />
+    <squad-contents />
   </div>
 </template>
 
 <script>
 export default {
-  data: () => ({
-    message: "Vue"
-  })
+  name: "Squad"
 };
 </script>
 

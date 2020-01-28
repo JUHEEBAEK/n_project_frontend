@@ -1,0 +1,379 @@
+<template>
+  <v-card outlined>
+    <v-row wrap class="pt-2">
+      <v-img src="../../assets/sun.png" contain width="30" height="30" />
+    </v-row>
+    <v-row class="">
+      <v-col>
+        <v-chip
+          v-for="member in members.good"
+          dark
+          label
+          :outlined="member.attend ? 'outlined' : ''"
+          :class="member.attend ? 'chip__member' : 'chip__member opacity-4'"
+          :color="member.attend ? 'tertiary' : 'muji'"
+          :key="member.name"
+          @click="isAttend(member)"
+        >
+          {{ member.name }}
+        </v-chip>
+      </v-col>
+    </v-row>
+    <v-row wrap>
+      <v-img src="../../assets/rainy.png" contain width="30" height="30" />
+    </v-row>
+    <v-row class="">
+      <v-col>
+        <v-chip
+          v-for="member in members.so_so"
+          dark
+          label
+          :outlined="member.attend ? 'outlined' : ''"
+          :class="member.attend ? 'chip__member' : 'chip__member opacity-4'"
+          :color="member.attend ? 'tertiary' : 'muji'"
+          :key="member.name"
+          @click="isAttend(member)"
+        >
+          {{ member.name }}
+        </v-chip>
+      </v-col>
+    </v-row>
+    <v-row wrap>
+      <v-img src="../../assets/cemetery.png" contain width="30" height="30" />
+    </v-row>
+    <v-row class="">
+      <v-col>
+        <v-chip
+          v-for="member in members.ghost"
+          dark
+          label
+          :outlined="member.attend ? 'outlined' : ''"
+          :class="member.attend ? 'chip__member' : 'chip__member opacity-4'"
+          :color="member.attend ? 'tertiary' : 'muji'"
+          :key="member.name"
+          @click="isAttend(member)"
+        >
+          {{ member.name }}
+        </v-chip>
+      </v-col>
+    </v-row>
+  </v-card>
+</template>
+
+<script>
+export default {
+  name: "List",
+  data: () => ({
+    members: {
+      good: [
+        {
+          name: "백주희",
+          lastGameIn: "2019-12-21",
+          role: "member",
+          grade: 1,
+          attend: true
+        },
+        {
+          name: "이종은",
+          lastGameIn: "2019-12-21",
+          role: "leader",
+          grade: 1,
+          attend: true
+        },
+        {
+          name: "김나경",
+          lastGameIn: "2019-12-21",
+          role: "leader",
+          grade: 1,
+          attend: true
+        },
+        {
+          name: "류새아라",
+          lastGameIn: "2019-12-21",
+          role: "member",
+          grade: 2,
+          attend: true
+        },
+        {
+          name: "박소연",
+          lastGameIn: "2019-12-21",
+          role: "member",
+          grade: 1,
+          attend: true
+        },
+        {
+          name: "이화인",
+          lastGameIn: "2019-12-21",
+          role: "member",
+          grade: 1,
+          attend: true
+        },
+        {
+          name: "조명선",
+          lastGameIn: "2019-12-21",
+          role: "member",
+          grade: 1,
+          attend: true
+        },
+        {
+          name: "함박눈",
+          lastGameIn: "2019-12-07",
+          role: "member",
+          grade: 1,
+          attend: false
+        },
+        {
+          name: "박아란",
+          lastGameIn: "2019-11-30",
+          role: "member",
+          grade: 1,
+          attend: false
+        },
+        {
+          name: "최예린",
+          lastGameIn: "2019-12-21",
+          role: "member",
+          grade: 2,
+          attend: true
+        },
+        {
+          name: "최주희",
+          lastGameIn: "2019-12-07",
+          role: "leader",
+          grade: 2,
+          attend: false
+        },
+        {
+          name: "김지현",
+          lastGameIn: "2019-12-07",
+          role: "member",
+          grade: 2,
+          attend: false
+        },
+        {
+          name: "김해린",
+          lastGameIn: "2019-12-07",
+          role: "member",
+          grade: 2,
+          attend: false
+        },
+        {
+          name: "고지원",
+          lastGameIn: "2019-11-30",
+          role: "member",
+          grade: 2,
+          attend: false
+        },
+        {
+          name: "김민지",
+          lastGameIn: "2019-11-30",
+          role: "member",
+          grade: 2,
+          attend: false
+        },
+        {
+          name: "박채린",
+          lastGameIn: "2019-11-30",
+          role: "member",
+          grade: 2,
+          attend: false
+        },
+        {
+          name: "이지윤",
+          lastGameIn: "2019-11-30",
+          role: "member",
+          grade: 2,
+          attend: false
+        },
+        {
+          name: "구유경",
+          lastGameIn: "2019-11-23",
+          role: "member",
+          grade: 2,
+          attend: false
+        },
+        {
+          name: "김세희",
+          lastGameIn: "2019-11-23",
+          role: "member",
+          grade: 2,
+          attend: false
+        },
+        {
+          name: "김소진",
+          lastGameIn: "2019-11-23",
+          role: "member",
+          grade: 2,
+          attend: false
+        }
+      ],
+      so_so: [
+        {
+          name: "임지영",
+          lastGameIn: "2019-12-21",
+          role: "member",
+          grade: 3,
+          attend: true
+        },
+        {
+          name: "원지향",
+          lastGameIn: "2019-11-23",
+          role: "member",
+          grade: 3,
+          attend: false
+        },
+        {
+          name: "이정명",
+          lastGameIn: "2019-11-23",
+          role: "member",
+          grade: 3,
+          attend: false
+        },
+        {
+          name: "윤영임",
+          lastGameIn: "2019-10-21",
+          role: "captain",
+          grade: 3,
+          attend: false
+        },
+        {
+          name: "박서진",
+          lastGameIn: "2019-10-21",
+          role: "member",
+          grade: 3,
+          attend: false
+        },
+        {
+          name: "이선경",
+          lastGameIn: "2019-10-07",
+          role: "member",
+          grade: 3,
+          attend: false
+        },
+        {
+          name: "박채민",
+          lastGameIn: "2019-10-08",
+          role: "member",
+          grade: 3,
+          attend: false
+        },
+        {
+          name: "장한솔",
+          lastGameIn: "2019-10-08",
+          role: "member",
+          grade: 3,
+          attend: false
+        },
+        {
+          name: "윤지선",
+          lastGameIn: "2019-10-28",
+          role: "member",
+          grade: 4,
+          attend: false
+        },
+        {
+          name: "박윤지",
+          lastGameIn: "2019-10-07",
+          role: "member",
+          grade: 4,
+          attend: false
+        },
+        {
+          name: "이미연",
+          lastGameIn: "2019-05-30",
+          role: "member",
+          grade: 4,
+          attend: false
+        },
+        {
+          name: "이유민",
+          lastGameIn: "2019-05-30",
+          role: "member",
+          grade: 4,
+          attend: false
+        }
+      ],
+      ghost: [
+        {
+          name: "윤민아",
+          lastGameIn: "2019-09-24",
+          role: "member",
+          grade: 5,
+          attend: false
+        },
+        {
+          name: "이현아",
+          lastGameIn: "2019-05-30",
+          role: "member",
+          grade: 5,
+          attend: false
+        },
+        {
+          name: "윤경숙",
+          lastGameIn: "2019-02-12",
+          role: "member",
+          grade: 5,
+          attend: false
+        },
+        {
+          name: "선하은",
+          lastGameIn: "2019-01-01",
+          role: "member",
+          grade: 5,
+          attend: false
+        },
+        {
+          name: "이현경",
+          lastGameIn: "2019-01-01",
+          role: "member",
+          grade: 5,
+          attend: false
+        },
+        {
+          name: "김민정",
+          lastGameIn: "2018-01-01",
+          role: "member",
+          grade: 5,
+          attend: false
+        },
+        {
+          name: "이수아",
+          lastGameIn: "2018-01-01",
+          role: "member",
+          grade: 5,
+          attend: false
+        },
+        {
+          name: "최선희",
+          lastGameIn: "2019-01-01",
+          role: "member",
+          grade: 5,
+          attend: false
+        },
+        {
+          name: "현동경",
+          lastGameIn: "2019-01-01",
+          role: "member",
+          grade: 5,
+          attend: false
+        }
+      ]
+    }
+  }),
+  methods: {
+    isAttend(item) {
+      item.attend = !item.attend;
+    }
+  }
+};
+</script>
+
+<style scoped>
+span + span {
+  margin: 2px;
+}
+
+.opacity-4 {
+  opacity: 0.4;
+}
+</style>

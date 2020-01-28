@@ -2,15 +2,13 @@
   <div>
     <core-Toolbar />
     <core-navigation />
-    <h2>hello {{ message }}</h2>
+    <calendar />
   </div>
 </template>
 
 <script>
 export default {
-  data: () => ({
-    message: "Vue"
-  })
+  name: "Schedule.vue"
 };
 </script>
 
