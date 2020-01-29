@@ -7,7 +7,7 @@
         md="4"
         lg="3"
         class="pa-0"
-        v-for="(item, idx) in memberList"
+        v-for="(item, idx) in searchResult"
         :key="idx"
       >
         <v-card class="card__profile px-0 py-1 ma-1">
@@ -46,7 +46,7 @@ const { mapActions, mapState } = createNamespacedHelpers("member");
 export default {
   data: () => ({}),
   computed: {
-    ...mapState(["memberList"])
+    ...mapState([ "searchResult"])
   },
   mounted() {
     this.select_member();
@@ -69,6 +69,7 @@ export default {
 
     moveDetails(item) {
       console.log(item);
+
       this.details_member(item.id);
       this.$router.push({ path: `member/${item.id}/profile` });
     }

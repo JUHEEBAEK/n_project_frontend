@@ -6,10 +6,13 @@ import {
   updateMember,
   detailsMember
 } from "../../api/member.js";
+import { set } from "../../utils/index";
 
 const state = {
   memberList: [],
+  searchResult: [],
   profile: {},
+  memberId: "",
   res: ""
 };
 
@@ -17,6 +20,7 @@ const getters = {};
 const mutations = {
   [constants.SELECT_MEMBER](state, memberList) {
     state.memberList = memberList;
+    state.searchResult = memberList;
   },
   [constants.DELETE_MEMBER](state, memberId) {
     console.log(memberId);
@@ -24,13 +28,12 @@ const mutations = {
     // state.memberList.splice(index, 1);
   },
   [constants.DETAILS_MEMBER](state, memberProfile) {
-    console.log("mutations");
-    console.log(memberProfile);
     state.profile = memberProfile;
   },
   [constants.UPDATE_MEMBER](state, memberProfile) {
-    state.profile = memberProfile;
-  }
+    state.res = memberProfile;
+  },
+  [constants.setSearchResult]: set("searchResult")
 };
 
 const actions = {
@@ -77,7 +80,8 @@ const actions = {
     try {
       console.log("update_member payload:", payload);
       const response = await updateMember(payload);
-      commit("UPDATE_MEMBER", response.data);
+      commit("UPDATE_MEMBER", response);
+      console.log(response);
       return response.data;
     } catch (e) {
       console.log(e);

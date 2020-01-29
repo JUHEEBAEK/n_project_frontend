@@ -4,7 +4,7 @@
       <v-app-bar dark height="360" prominent>
         <template v-slot:img="{ props }">
           <v-img
-            :src="require(`../../assets/bgImage/${profile.bg_image}`)"
+            :src="imageUrl"
             position="top center"
             v-bind="props"
           />
@@ -15,12 +15,7 @@
       </v-app-bar>
 
       <v-card-text class="text--primary">
-        <v-text-field
-          v-model="profile.name"
-          filled
-          label="NAME"
-          prepend-icon="fas fa-user"
-        />
+        <v-text-field v-model="profile.name" filled label="NAME" prepend-icon="fas fa-user" />
         <v-text-field
           v-model="profile.uniform_number"
           filled
@@ -43,7 +38,7 @@
         >
           <template v-slot:activator="{ on }">
             <v-text-field
-              :v-model="profile.join_date"
+              :v-model="moment(profile.join_date).format('YYYY-MM-DD')"
               label="JOINING_DATE"
               filled
               hide-details
@@ -52,30 +47,34 @@
               v-on="on"
             />
           </template>
-          <v-date-picker v-model="profile.join_date" @input="menu = false" />
+          <v-date-picker v-model="date" @input="menu = false" />
         </v-menu>
-        <v-radio-group
-          v-model="profile.inflow_route"
-          row
-          prepend-icon="fas fa-paper-plane"
-        >
+        <v-radio-group v-model="profile.inflow_route" row prepend-icon="fas fa-paper-plane">
           <v-radio label="인스타" value="I" />
           <v-radio label="블로그" value="B" />
           <v-radio label="기타" value="O" />
+        </v-radio-group>
+
+        <v-radio-group v-model="profile.bg_image" row prepend-icon="fas fa-image" @change="changeImage">
+          <v-radio label="welcome" value="ledWelcome.jpg" />
+          <v-radio label="wow" value="ledWow.jpg" />
+          <v-radio label="what" value="ledWhat.jpg" />
+          <v-radio label="yeah" value="ledYeah.jpg" />
+          <v-radio label="game" value="ledGame.jpg" />
+          <v-radio label="soccer" value="ledSoccer.jpg" />
+          <v-radio label="beer" value="ledBeer.jpg" />
+          <v-radio label="movie" value="ledVedio.jpg" />
+          <v-radio label="music" value="ledClef.jpg" />
         </v-radio-group>
       </v-card-text>
 
       <v-card-actions class="justify-center">
         <v-row>
           <v-col cols="6">
-            <v-btn color="primary" block text @click="updateMember(profile)">
-              UPDATE
-            </v-btn>
+            <v-btn color="primary" block text @click="updateMember(profile)">UPDATE</v-btn>
           </v-col>
           <v-col cols="6">
-            <v-btn color="red" block text @click="deleteMember(profile.id)">
-              DELETE
-            </v-btn>
+            <v-btn color="red" block text @click="deleteMember(profile.id)">DELETE</v-btn>
           </v-col>
         </v-row>
       </v-card-actions>
@@ -93,23 +92,25 @@ const { mapState, mapActions, mapMutations } = createNamespacedHelpers(
 export default {
   data: () => ({
     menu: false,
-    date: ""
+    date: "",
+    imageUrl: ""
   }),
   computed: {
-    ...mapState(["profile"]),
+    ...mapState(["profile"])
   },
   created() {
     console.log("Created");
-    console.log(this.profile);
     this.date = moment(this.profile.join_date).format("YYYY-MM-DD");
-    console.log(this.date);
+    console.log("setImages");
+    this.imageUrl = require(`../../assets/bgImage/${this.profile['bg_image']}`);
   },
   methods: {
     ...mapActions(["delete_member", "update_member"]),
     ...mapMutations(["DETAILS_MEMBER"]),
     updateMember(profile) {
       console.log(profile);
-      let formData = { member_id : profile.id, member: profile};
+      profile.join_date = moment(this.profile.join_date).format("YYYY-MM-DD");
+      let formData = { member_id: profile.id, member: profile };
       this.update_member(formData);
     },
     deleteMember(member_id) {
@@ -123,6 +124,11 @@ export default {
     backPage() {
       console.log("back 가자.");
       this.$router.go(-1);
+    },
+    changeImage(target) {
+      console.log(target);
+      this.imageUrl = require(`../../assets/bgImage/${target}`);
+      console.log(this.imageUrl);
     }
   }
 };

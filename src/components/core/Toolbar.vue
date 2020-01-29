@@ -1,7 +1,6 @@
 <template>
   <v-app-bar app flat>
     <v-app-bar-nav-icon @click.stop="onClickBtn" />
-
     <router-link to="/">
       <v-toolbar-title class="black--text"> {{ title }} </v-toolbar-title>
     </router-link>
