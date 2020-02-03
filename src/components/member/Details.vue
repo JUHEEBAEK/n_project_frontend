@@ -96,7 +96,8 @@ export default {
     imageUrl: ""
   }),
   computed: {
-    ...mapState(["profile"])
+    ...mapState(["profile"]),
+
   },
   created() {
     console.log("Created");

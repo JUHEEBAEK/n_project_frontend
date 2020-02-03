@@ -31,7 +31,7 @@
 
 <script>
 import { createNamespacedHelpers } from "vuex";
-const { mapState, mapMutations } = createNamespacedHelpers("layout");
+const { mapState, mapMutations } = createNamespacedHelpers("common");
 
 export default {
   data: () => ({
@@ -69,7 +69,7 @@ export default {
     ...mapState(["drawer"]),
     drawer: {
       get() {
-        return this.$store.state.layout.drawer;
+        return this.$store.state.common.drawer;
       },
       set(val) {
         this.setDrawer(val);

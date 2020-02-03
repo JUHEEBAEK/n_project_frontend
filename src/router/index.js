@@ -30,12 +30,12 @@ export default new Router({
     },
     {
       path: "/member",
-      component: () => import("../components/core/View.vue"),
+      component: () => import("../views/nav/Member.vue"),
       children: [
         {
           path: "",
-          name: "memberList",
-          component: () => import("../views/nav/Member.vue")
+          name: "memberList"
+          // component: () => import("../views/nav/Member.vue")
         },
         {
           path: ":id/profile",
@@ -56,7 +56,9 @@ export default new Router({
     {
       path: "*",
       name: "notFound",
-      redirect: { name: "home" }
+      redirect: {
+        name: "home"
+      }
       // component: () => import("../views/NotFound.vue")
     }
   ]

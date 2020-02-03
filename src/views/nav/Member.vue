@@ -1,7 +1,7 @@
 <template>
   <div>
     <core-Toolbar />
-    <core-navigation />
+    <core-Navigation />
     <member-toolbar />
     <member-cardList />
   </div>

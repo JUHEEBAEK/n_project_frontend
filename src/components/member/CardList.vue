@@ -46,7 +46,7 @@ const { mapActions, mapState } = createNamespacedHelpers("member");
 export default {
   data: () => ({}),
   computed: {
-    ...mapState([ "searchResult"])
+    ...mapState(["searchResult"])
   },
   mounted() {
     this.select_member();
