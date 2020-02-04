@@ -4,7 +4,7 @@ const state = {
   // navigation 의 상태 (들어가 있는지 나와있는지)
   drawer: false,
   setting: false,
-  alert: true,
+  alert: false,
 };
 
 const getters = {};
@@ -15,8 +15,7 @@ const mutations = {
   [constants.setAlert]: set("alert"),
 };
 
-const actions = {
-};
+const actions = {};
 
 export default {
   state,

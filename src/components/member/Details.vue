@@ -3,11 +3,7 @@
     <v-card>
       <v-app-bar dark height="360" prominent>
         <template v-slot:img="{ props }">
-          <v-img
-            :src="imageUrl"
-            position="top center"
-            v-bind="props"
-          />
+          <v-img :src="imageUrl" position="top center" v-bind="props" />
         </template>
         <v-btn icon @click="backPage">
           <v-icon>fas fa-times</v-icon>
@@ -15,7 +11,12 @@
       </v-app-bar>
 
       <v-card-text class="text--primary">
-        <v-text-field v-model="profile.name" filled label="NAME" prepend-icon="fas fa-user" />
+        <v-text-field
+          v-model="profile.name"
+          filled
+          label="NAME"
+          prepend-icon="fas fa-user"
+        />
         <v-text-field
           v-model="profile.uniform_number"
           filled
@@ -49,13 +50,22 @@
           </template>
           <v-date-picker v-model="date" @input="menu = false" />
         </v-menu>
-        <v-radio-group v-model="profile.inflow_route" row prepend-icon="fas fa-paper-plane">
+        <v-radio-group
+          v-model="profile.inflow_route"
+          row
+          prepend-icon="fas fa-paper-plane"
+        >
           <v-radio label="인스타" value="I" />
           <v-radio label="블로그" value="B" />
           <v-radio label="기타" value="O" />
         </v-radio-group>
 
-        <v-radio-group v-model="profile.bg_image" row prepend-icon="fas fa-image" @change="changeImage">
+        <v-radio-group
+          v-model="profile.bg_image"
+          row
+          prepend-icon="fas fa-image"
+          @change="changeImage"
+        >
           <v-radio label="welcome" value="ledWelcome.jpg" />
           <v-radio label="wow" value="ledWow.jpg" />
           <v-radio label="what" value="ledWhat.jpg" />
@@ -71,10 +81,14 @@
       <v-card-actions class="justify-center">
         <v-row>
           <v-col cols="6">
-            <v-btn color="primary" block text @click="updateMember(profile)">UPDATE</v-btn>
+            <v-btn color="primary" block text @click="updateMember(profile)"
+              >UPDATE</v-btn
+            >
           </v-col>
           <v-col cols="6">
-            <v-btn color="red" block text @click="deleteMember(profile.id)">DELETE</v-btn>
+            <v-btn color="red" block text @click="deleteMember(profile.id)"
+              >DELETE</v-btn
+            >
           </v-col>
         </v-row>
       </v-card-actions>
@@ -96,14 +110,13 @@ export default {
     imageUrl: ""
   }),
   computed: {
-    ...mapState(["profile"]),
-
+    ...mapState(["profile"])
   },
   created() {
     console.log("Created");
     this.date = moment(this.profile.join_date).format("YYYY-MM-DD");
     console.log("setImages");
-    this.imageUrl = require(`../../assets/bgImage/${this.profile['bg_image']}`);
+    this.imageUrl = require(`../../assets/bgImage/${this.profile["bg_image"]}`);
   },
   methods: {
     ...mapActions(["delete_member", "update_member"]),

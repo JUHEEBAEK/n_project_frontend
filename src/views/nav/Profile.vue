@@ -6,12 +6,11 @@
 </template>
 
 <script>
-  import { createNamespacedHelpers } from "vuex";
-  const { mapActions } = createNamespacedHelpers("member");
+import { createNamespacedHelpers } from "vuex";
+const { mapActions } = createNamespacedHelpers("member");
 
-  export default {
-  data: () => ({
-  }),
+export default {
+  data: () => ({}),
   created() {
     let member_id = this.$route.params.id;
     console.log(this.$route.params.id);

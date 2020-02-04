@@ -4,6 +4,7 @@ export const setSetting = "setSetting";
 export const setAlert = "SET_ALERT";
 export const setSearchResult = "SET_SEARCH_RESULT";
 export const setModal = "SET_MODAL";
+export const setAddCalendrModal = "SET_ADD_CALENDAR_MODAL";
 export const SELECT_MEMBER = "SELECT_MEMBER";
 export const DELETE_MEMBER = "DELETE_MEMBER";
 export const UPDATE_MEMBER = "UPDATE_MEMBER";

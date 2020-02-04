@@ -7,8 +7,7 @@ Vue.use(Router);
 export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
-  routes: [
-    {
+  routes: [{
       path: "/",
       name: "home",
       component: () => import("../views/Home.vue")
@@ -31,8 +30,7 @@ export default new Router({
     {
       path: "/member",
       component: () => import("../views/nav/Member.vue"),
-      children: [
-        {
+      children: [{
           path: "",
           name: "memberList"
           // component: () => import("../views/nav/Member.vue")
@@ -52,6 +50,10 @@ export default new Router({
       path: "/calendar",
       name: "calendar",
       component: () => import("../views/nav/Schedule.vue")
+    },
+    {
+      path: "/testUi",
+      component: () => import("../views/testui/testUi.vue")
     },
     {
       path: "*",

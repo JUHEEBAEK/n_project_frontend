@@ -7,13 +7,13 @@ import {
 import "./registerServiceWorker";
 import "roboto-fontface/css/roboto/roboto-fontface.css";
 import "@fortawesome/fontawesome-free/css/all.css";
-import moment from "moment";
 
 import "./components";
 import vuetify from "./plugins/vuetify";
+import VueMoment from "./plugins/moment";
 
 Vue.config.productionTip = false;
-Vue.prototype.moment = moment;
+Vue.use(VueMoment);
 
 const ignoreWarnMessage =
   "The .native modifier for v-on is only valid on components but it was used on <div>.";
@@ -24,7 +24,7 @@ Vue.config.warnHandler = function (msg, vm, trace) {
     vm = null;
     trace = null;
   }
-}
+};
 
 new Vue({
   router,
