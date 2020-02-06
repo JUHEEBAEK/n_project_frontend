@@ -1,15 +1,11 @@
 <template>
   <v-menu
-    v-model="popover_menu"
+    v-model="addMenu"
     :close-on-content-click="false"
-    :nudge-width="200"
+    :nudge-width="400"
+    max-width="448"
     offset-x
   >
-    <template v-slot:activator="{ on }">
-      <v-btn color="indigo" dark v-on="on">
-        Menu as Popover
-      </v-btn>
-    </template>
     <v-card color="grey lighten-4">
       <v-form class="form">
         <v-toolbar color="grey lighten-4" flat tile height="40px">
@@ -54,10 +50,10 @@
                 min-width="290px"
               >
                 <template v-slot:activator="{ on }">
-                  <v-text-field v-model="date" :placeholder="date" v-on="on" />
+                  <v-text-field v-model="selectedDate" :placeholder="selectedDate" v-on="on" />
                 </template>
                 <v-date-picker
-                  v-model="date"
+                  v-model="selectedDate"
                   no-title
                   @input="menu_date = false"
                 />
@@ -158,11 +154,11 @@ const { mapState, mapMutations } = createNamespacedHelpers("calendar");
 
 import moment from "moment";
 export default {
-  props: ["_clickDate"],
+  props: ["selectedDate"],
   data: () => ({
-    popover_menu: true,
+    popover_menu: false,
     color: "rgb(230, 124, 115)",
-    date: moment().format("YYYY-MM-DD"),
+    // date: moment().format("YYYY-MM-DD"),
     start_time: moment().format("HH:mm"),
     end_time: moment().format("HH:mm"),
     menu_date: false,
@@ -183,11 +179,11 @@ export default {
         id: 1,
         type: "practice",
         name: "연습경기",
-        color: "rgb(230, 124, 115)"
+        color: "rgb(51, 182, 121)"
       },
-      { id: 2, type: "league", name: "리그", color: "rgb(51, 182, 121)" },
+      { id: 2, type: "league", name: "리그", color: "rgb(246, 191, 38)" },
       { id: 3, type: "match", name: "친선", color: "rgb(121, 134, 203)" },
-      { id: 4, type: "contest", name: "대회", color: "rgb(246, 191, 38)" }
+      { id: 4, type: "contest", name: "대회", color: "rgb(230, 124, 115)" }
     ]
   }),
   computed: {
