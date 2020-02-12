@@ -1,18 +1,18 @@
 <template>
-  <v-card color="grey lighten-4" min-width="350px" flat>
+  <v-card class="calendar__event" color="grey lighten-4" flat>
     <v-toolbar color="grey lighten-4" flat tile height="40px">
       <v-spacer />
-      <v-btn icon small class="mx-1">
+      <v-btn icon small class="mx-1" @click="openUpdateModal()">
         <v-icon small class="toolbar__icon">fas fa-edit</v-icon>
       </v-btn>
       <v-btn icon small class="mx-1">
         <v-icon small class="toolbar__icon">fas fa-trash-alt</v-icon>
       </v-btn>
-      <v-btn icon small class="mx-1" @click="selectedOpen = false">
+      <v-btn icon small class="mx-1" @click="close()">
         <v-icon small>fas fa-times</v-icon>
       </v-btn>
     </v-toolbar>
-    <v-card-text class="pa-2">
+    <v-card-text class="pa-4">
       <div class="item__container">
         <div class="row">
           <div class="col-2 align-self-center">
@@ -47,10 +47,7 @@
             </div>
             <div class="row">
               <div class="col-12 py-0">
-                <span
-                  class="schedule__address"
-                  v-html="selectedEvent.address"
-                />
+                <span class="schedule__address" v-html="selectedEvent.address" />
               </div>
             </div>
           </div>
@@ -64,10 +61,7 @@
           <div class="col-10 text-left">
             <div class="row">
               <div class="col-12 py-0">
-                <span
-                  class="schedule__attendance"
-                  v-html="`참석자 ${selectedEvent.attendCount} 명`"
-                />
+                <span class="schedule__attendance" v-html="`참석자 ${selectedEvent.attendCount} 명`" />
               </div>
             </div>
             <div class="row">
@@ -76,9 +70,7 @@
                   class="attendance__member"
                   v-for="(item, idx) in selectedEvent.attend"
                   :key="idx"
-                >
-                  {{ item }}
-                </span>
+                >{{ item }}</span>
               </div>
             </div>
           </div>
@@ -89,9 +81,27 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from "vuex";
+const { mapMutations } = createNamespacedHelpers("calendar");
+
 export default {
-  props: ["selectedEvent"]
+  props: ["selectedEvent"],
+  methods: {
+    ...mapMutations(["SET_FULL_EVENT_MODAL"]),
+    openUpdateModal() {
+      console.log("open~!!!");
+      this.SET_FULL_EVENT_MODAL(true);
+    },
+    close() {
+      // 상위 컴포넌트의 calendar 에서 event close 함수 사용
+      this.$emit("close");
+    }
+  }
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.calendar__event {
+  width: 400px;
+}
+</style>

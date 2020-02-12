@@ -25,10 +25,17 @@
         >
           <template v-slot:day="{ date }">
             <template v-for="event in eventsMap[date]">
-              <v-menu :key="event.name" v-model="event.open" offset-x>
+              <v-menu
+                :key="event.name"
+                v-model="event.open"
+                :close-on-content-click="false"
+                :nudge-width="250"
+                offset-x
+                offset-y
+                offset-overfloww
+              >
                 <template v-slot:activator="{ on }">
                   <div
-                    v-if="!event.hasDay"
                     v-ripple
                     :class="`my__event ${event.color}`"
                     v-on="on"
@@ -36,13 +43,14 @@
                     v-html="event.name"
                   ></div>
                 </template>
-                <calendar-add :selectedDate="date"></calendar-add>
 
-                <calendar-event :selectedEvent="event"></calendar-event>
+                <calendar-event :selectedEvent="event" @close="close(event)"></calendar-event>
+                <calendar-fullEvent :selectedEvent="event"></calendar-fullEvent>
               </v-menu>
             </template>
-          </template>
 
+            <calendar-add :newEventBox="newEventBox" :selectedDate="clickDay" :day="date"></calendar-add>
+          </template>
           <!-- <calendar-add :click__date="date"></calendar-add> -->
           <!-- @click:event="showEvent" -->
         </v-calendar>
@@ -52,8 +60,10 @@
 </template>
 
 <script>
+import stringSchedule from "../assets/value/stringSchedule.json";
+
 import { createNamespacedHelpers } from "vuex";
-const { mapMutations } = createNamespacedHelpers("calendar");
+const { mapState, mapMutations } = createNamespacedHelpers("calendar");
 
 export default {
   data: () => ({
@@ -62,131 +72,16 @@ export default {
     today: new Date().toISOString().substr(0, 10),
     start: null,
     end: null,
+    clickDay: "",
+    // newEventBox: false,
     closeOnClick: true,
     selectedOpen: false,
     selectedEvent: {},
-    addEvent: {},
     selectedElement: null,
-    events: [
-      {
-        id: 1,
-        name: "[훈련] 우면 다목적 구장",
-        date: "2020-02-01",
-        start: "2020-02-01 15:00",
-        end: "2020-02-01 17:00",
-        place: "우면 다목정 구장",
-        address: "서울 서초구 우면동 440-5",
-        attendCount: 2,
-        attend: ["백주희, 이화인"],
-        color: "grape",
-        type: "training",
-        open: false
-      },
-      {
-        id: 2,
-        name: "[경기] 잠실 제 2구장",
-        date: "2020-02-08",
-        start: "2020-02-08 17:00",
-        end: "2020-02-08 19:00",
-        place: "잠실 제 2구장",
-        address: "서울특별시 송파구 올림픽로 25",
-        attendCount: 10,
-        attend: [
-          "백주희",
-          "이현아",
-          "조명선, 이화인",
-          "이종은",
-          "김나경",
-          "이지윤",
-          "박채민",
-          "원지향",
-          "김지현"
-        ],
-        color: "sage",
-        type: "practice",
-        open: false
-      },
-      {
-        id: 3,
-        name: "[친선] 잠실 제 3구장",
-        date: "2020-02-15",
-        start: "2020-02-15 17:00",
-        end: "2020-02-15 19:00",
-        place: "잠실 제 3구장",
-        address: "서울특별시 송파구 올림픽로 25",
-        attendCount: 8,
-        attend: [
-          "백주희",
-          "이현아",
-          "조명선, 이화인",
-          "이종은",
-          "김나경",
-          "이지윤",
-          "박채민"
-        ],
-        color: "lavender",
-        type: "game",
-        open: false
-      },
-      {
-        id: 4,
-        name: "[훈련] 풀굿",
-        date: "2020-02-22",
-        start: "2020-02-22 15:00",
-        end: "2020-02-22 18:00",
-        place: "풀굿",
-        address: "서울시 관악구 은천동 봉천두산아파트 208동 상가 지하",
-        attendCount: 6,
-        attend: ["백주희", "이현아", "최주희", "이화인", "이종은", "김나경"],
-        color: "grape",
-        type: "training",
-        open: false
-      },
-      {
-        id: 5,
-        name: "[대회] 수원 에스빌드 파크",
-        date: "2020-02-29",
-        start: "2020-02-29 09:00",
-        end: "2020-02-22 13:00",
-        place: "수원 에스빌드 파크",
-        address: "수원시",
-        attendCount: 8,
-        attend: [
-          "백주희",
-          "이현아",
-          "최주희",
-          "이화인",
-          "이종은",
-          "김나경",
-          "함박눈",
-          "윤영임"
-        ],
-        color: "banana",
-        type: "training",
-        open: false
-      }
-    ],
-    colors: [
-      "blue",
-      "indigo",
-      "deep-purple",
-      "cyan",
-      "green",
-      "orange",
-      "grey darken-1"
-    ],
-    names: [
-      "Meeting",
-      "Holiday",
-      "PTO",
-      "Travel",
-      "Event",
-      "Birthday",
-      "Conference",
-      "Party"
-    ]
+    events: stringSchedule.events
   }),
   computed: {
+    ...mapState(["newEventBox"]),
     title() {
       const { start, end } = this;
       if (!start || !end) {
@@ -213,7 +108,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["SET_ADD_CALENDAR_MODAL"]),
+    ...mapMutations(["SET_NEW_EVENT_MODAL"]),
     setToday() {
       this.focus = this.today;
     },
@@ -225,19 +120,8 @@ export default {
     },
     dateClick(event, isAdd) {
       console.log(event);
-      this.events.push({
-        name: "(제목없음)",
-        date: event.date,
-        start: event.date,
-        end: event.date,
-        place: "",
-        address: "",
-        color: "sage",
-        type: "practice",
-        new: true,
-        open: true
-      });
-      this.SET_ADD_CALENDAR_MODAL(true);
+      this.clickDay = event.date;
+      this.SET_NEW_EVENT_MODAL(!this.newEventBox);
     },
     getEventColor(event) {
       console.log(event);
@@ -247,9 +131,10 @@ export default {
       this.start = start;
       this.end = end;
     },
-    close() {
+    close(event) {
       console.log("닫아줘");
-      this.selectedOpen = false;
+      console.log(event.open);
+      event.open = false;
     }
   }
 };
