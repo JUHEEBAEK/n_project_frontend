@@ -19,20 +19,14 @@
           />
           <v-card-text class="text--primary pa-1">
             <div class="text text__title">{{ item.name }}</div>
-            <div class="text text__uniformNumber px-2 tertiary--text">
-              {{ item.uniform_number ? item.uniform_number : "00" }}
-            </div>
-            <div class="text text__caption">
-              {{ moment(item.join_date).format("YYYY-MM-DD") }}
-            </div>
+            <div
+              class="text text__uniformNumber px-2 tertiary--text"
+            >{{ item.uniform_number ? item.uniform_number : "00" }}</div>
+            <div class="text text__caption">{{ item.join_date }}</div>
           </v-card-text>
           <v-card-actions class="justify-center">
-            <v-btn color="primary" text @click="moveDetails(item)">
-              UPDATE
-            </v-btn>
-            <v-btn color="red" text @click="deleteMember(item.id)">
-              DELETE
-            </v-btn>
+            <v-btn color="primary" text @click="moveDetails(item)">UPDATE</v-btn>
+            <v-btn color="red" text @click="deleteMember(item.id)">DELETE</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -41,8 +35,10 @@
 </template>
 
 <script>
+import moment from "moment";
 import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState } = createNamespacedHelpers("member");
+
 export default {
   data: () => ({}),
   computed: {
