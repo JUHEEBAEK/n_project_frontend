@@ -30,16 +30,10 @@ export default new Router({
     {
       path: "/member",
       component: () => import("../views/nav/Member.vue"),
-      children: [{
-          path: "",
-          name: "memberList"
-          // component: () => import("../views/nav/Member.vue")
-        },
-        {
-          path: ":id/profile",
-          component: () => import("../views/nav/Profile.vue")
-        }
-      ]
+    },
+    {
+      path: "/member/:id/profile",
+      component: () => import("../views/nav/Profile.vue")
     },
     {
       path: "/memberAdd",

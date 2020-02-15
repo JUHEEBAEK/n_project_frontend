@@ -39,7 +39,6 @@ const mutations = {
 const actions = {
   async add_member(context, form) {
     try {
-      console.log("actions Add Member", form);
       const response = await addMember(form);
       return response.data;
     } catch (e) {

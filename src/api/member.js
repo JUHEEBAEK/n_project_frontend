@@ -16,7 +16,7 @@ async function addMember(form) {
 
 async function selectMember() {
   try {
-    const response = await axios.get(`${devUrl}/api/member/members`);
+    const response = await axios.get(`${devUrl}/api/member/list`);
     return response;
   } catch (e) {
     console.log(e);
@@ -25,7 +25,7 @@ async function selectMember() {
 
 async function detailsMember(id) {
   try {
-    const response = await axios.get(`${devUrl}/api/member/members${id}`);
+    const response = await axios.get(`${devUrl}/api/member/${id}`);
     return response.data;
   } catch (e) {
     console.log(e);

@@ -49,7 +49,7 @@
     },
     "extends": [
       "plugin:vue/essential",
-      "prettier"
+      "@vue/prettier"
     ],
     "rules": {
       "no-console": "off",
