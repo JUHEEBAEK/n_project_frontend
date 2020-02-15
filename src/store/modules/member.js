@@ -67,8 +67,10 @@ const actions = {
 
   async details_member({ commit }, payload) {
     try {
+      console.log("actions", payload);
       const response = await detailsMember(payload);
-      commit("DETAILS_MEMBER", response.data);
+      // commit("DETAILS_MEMBER", response.data);
+      console.log(response);
       return response.data;
     } catch (e) {
       console.log(e);

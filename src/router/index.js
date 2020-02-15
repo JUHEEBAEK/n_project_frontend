@@ -32,8 +32,10 @@ export default new Router({
       component: () => import("../views/nav/Member.vue"),
     },
     {
-      path: "/member/:id/profile",
-      component: () => import("../views/nav/Profile.vue")
+      name: "memberUpdatePage",
+      path: "/member/:memberId",
+      component: () => import("../views/nav/Profile.vue"),
+      props: true
     },
     {
       path: "/memberAdd",
