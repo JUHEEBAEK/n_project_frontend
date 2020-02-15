@@ -4,18 +4,32 @@ const state = {
   // navigation 의 상태 (들어가 있는지 나와있는지)
   drawer: false,
   setting: false,
-  alert: false,
+  snackBar: false,
+  
 };
 
-const getters = {};
+const getters = {
+  snackBar(state) {
+    if (state.snackBar) {
+      return state.snackBar;
+    } else {
+      return null;
+    }
+  }
+};
 
 const mutations = {
   [constants.setDrawer]: set("drawer"),
   [constants.setSetting]: set("setting"),
-  [constants.setAlert]: set("alert"),
+  [constants.setSnackBar]: set("snackBar"),
 };
 
-const actions = {};
+const actions = {
+  async set_SnackBar({ commit }, value) {
+    console.log(value);
+    commit("SET_SNACKBAR", value);
+  }
+};
 
 export default {
   state,

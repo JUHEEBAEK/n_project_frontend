@@ -1,7 +1,8 @@
 // layout 과 관련된 부분
 export const setDrawer = "setDrawer";
 export const setSetting = "setSetting";
-export const setAlert = "SET_ALERT";
+export const setSnackBar = "SET_SNACK_BAR";
+
 export const setModal = "SET_MODAL";
 export const setSearchResult = "SET_SEARCH_RESULT";
 

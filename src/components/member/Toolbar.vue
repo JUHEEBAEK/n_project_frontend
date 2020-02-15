@@ -2,11 +2,26 @@
   <div>
     <v-card class="mx-auto">
       <v-app-bar flat>
-        <v-toolbar-title class="grey--text">총 {{ searchResult.length }} 명</v-toolbar-title>
+        <v-toolbar-title class="grey--text"
+          >총 {{ searchResult.length }} 명</v-toolbar-title
+        >
         <v-spacer />
 
-        <v-text-field v-model="search" hide-details prepend-icon="fas fa-search" single-line />
-        <v-btn class="mx-2" fab dark small color="primary" @click="moveMemverAdd()">
+        <v-text-field
+          v-model="search"
+          hide-details
+          placeholder="이름으로 검색"
+          prepend-icon="fas fa-search"
+          single-line
+        />
+        <v-btn
+          class="mx-2"
+          fab
+          dark
+          small
+          color="primary"
+          @click="moveMemverAdd()"
+        >
           <v-icon dark>fas fa-plus</v-icon>
         </v-btn>
       </v-app-bar>
@@ -29,7 +44,7 @@ export default {
   },
   watch: {
     search(val) {
-      console.log("search?/???");
+      console.log("search????");
       this.searchList(val);
     }
   },
@@ -38,9 +53,8 @@ export default {
     searchList(val) {
       if (val !== "" && val.length !== 0) {
         const result = this.memberList.filter(item => {
-          return (
-            item.name.indexOf(val) > -1 || item.uniform_number.indexOf(val) > -1
-          );
+          let name = item.name;
+          return name.indexOf(val) > -1;
         });
         this.SET_SEARCH_RESULT(result);
       } else {
