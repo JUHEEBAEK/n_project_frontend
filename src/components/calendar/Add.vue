@@ -9,7 +9,7 @@
       offset-overflow
     >
       <template v-slot:activator="{ on }">
-        <div v-ripple v-on="on" class="event__new muji" @click.stop="close()">{{newEventTitle}}</div>
+        <div v-ripple v-on="on" class="event__new muji" @click.stop="close()">{{new_event_title}}</div>
       </template>
 
       <v-card color="grey lighten-4" :slotData="slotData">
@@ -24,7 +24,7 @@
             <v-row dense>
               <v-col cols="2"></v-col>
               <v-col cols="9">
-                <v-text-field v-model="eventName" dense height="40" placeholder="제목 및 시간 추가" />
+                <v-text-field v-model="event_name" dense height="40" placeholder="제목 및 시간 추가" />
               </v-col>
             </v-row>
             <v-row dense>
@@ -33,13 +33,13 @@
               </v-col>
               <v-col cols="9" align-self="start">
                 <v-select
-                  v-model="selected_type"
+                  v-model="event_type"
                   dense
                   :items="types"
                   label="Select a type"
                   item-value="type"
                   item-text="name"
-                  @change="clickType()"
+                  @change="changeType()"
                 />
               </v-col>
             </v-row>
@@ -60,6 +60,7 @@
                     <v-text-field
                       v-model="selectedDate"
                       dense
+                      readonly
                       :placeholder="selectedDate"
                       v-on="on"
                     />
@@ -89,7 +90,6 @@
                       dense
                       :placeholder="start_time"
                       color="grey"
-                      readonly
                       v-on="on"
                     />
                   </template>
@@ -119,7 +119,6 @@
                       dense
                       color="grey"
                       placeholder="19:00"
-                      readonly
                       v-on="on"
                     />
                   </template>
@@ -138,7 +137,7 @@
               </v-col>
               <v-col cols="9">
                 <v-select
-                  v-model="stadium_type"
+                  v-model="stadium_id"
                   dense
                   :items="stadiumList"
                   label="Select a stadium"
@@ -166,7 +165,8 @@ import stringSchedules from "../../assets/value/stringSchedule";
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: calendarMapState,
-  mapMutations: calendarMapMutaions
+  mapMutations: calendarMapMutaions,
+  mapActions: calendarMapActions
 } = createNamespacedHelpers("calendar");
 const {
   mapState: stadiuMapState,
@@ -180,19 +180,18 @@ export default {
     popover_menu: false,
     color: "rgb(230, 124, 115)",
     // date: moment().format("YYYY-MM-DD"),
-    start_time: moment().format("HH:mm"),
-    end_time: moment().format("HH:mm"),
+    start_time: "17:00",
+    end_time: "19:00",
     menu_date: false,
     menu_start: false,
     menu_end: false,
 
-    eventName: "",
-
-    selected_type: {},
+    event_name: "",
+    event_type: "",
     stadium_type: "",
-    newEventTitle: "(제목없음)",
-    stadiums: stringStadium.stadium,
-    types: stringSchedules.types
+
+    new_event_title: "(제목없음)",
+    types: stringSchedules.typeList
   }),
   created() {
     this.date = this._clickDate;
@@ -214,17 +213,28 @@ export default {
   },
   methods: {
     ...stadiumMapActions(["select_stadium"]),
+    ...calendarMapActions(["add_event"]),
     ...calendarMapMutaions(["SET_NEW_EVENT_MODAL"]),
-    clickType() {
-      console.log(this.selected_type);
-      this.color = this.types[this.selected_type].color;
+    changeType() {
+      this.color = stringSchedules.types[this.event_type].color;
     },
     submit() {
       console.log("저장");
 
       let _srcData = {};
 
-      _srcData["name"] = this.eventName;
+      _srcData["name"] = this.event_name;
+      _srcData["stadium_id"] = this.stadium_id;
+      _srcData["type"] = this.event_type;
+      _srcData["date"] = this.selectedDate;
+      _srcData["start_time"] = this.start_time;
+      _srcData["end_time"] = this.end_time;
+
+      console.log(_srcData);
+
+      this.add_event(_srcData).then(() => {
+        console.log("success");
+      });
     },
     close() {
       console.log("close");
