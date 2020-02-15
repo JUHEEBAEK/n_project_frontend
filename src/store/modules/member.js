@@ -23,7 +23,6 @@ const mutations = {
     state.searchResult = memberList;
   },
   [constants.DELETE_MEMBER](state, memberId) {
-    console.log(memberId);
     // let index = state.memberList.findIndex(member => member.id == memberId)
     // state.memberList.splice(index, 1);
   },
@@ -67,10 +66,7 @@ const actions = {
 
   async details_member({ commit }, payload) {
     try {
-      console.log("actions", payload);
       const response = await detailsMember(payload);
-      // commit("DETAILS_MEMBER", response.data);
-      console.log(response);
       return response.data;
     } catch (e) {
       console.log(e);
@@ -79,10 +75,8 @@ const actions = {
 
   async update_member({ commit }, payload) {
     try {
-      console.log("update_member payload:", payload);
       const response = await updateMember(payload);
       commit("UPDATE_MEMBER", response);
-      console.log(response);
       return response.data;
     } catch (e) {
       console.log(e);

@@ -8,7 +8,5 @@
 */
 
 export const set = property => (state, payload) => {
-  console.log("property", property);
-  console.log("payload", payload);
   state[property] = payload;
 };

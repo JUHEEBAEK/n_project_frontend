@@ -24,10 +24,8 @@ async function selectMember() {
 }
 
 async function detailsMember(id) {
-  console.log(id);
   try {
     const response = await axios.get(`${devUrl}/api/member/${id}`);
-    console.log("membet api", response);
     return response.data;
   } catch (e) {
     console.log(e);

@@ -55,7 +55,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["select_member", "delete_member", "details_member"]),
+    ...mapActions(["select_member", "delete_member"]),
     testButton() {
       console.log("dbug");
     },

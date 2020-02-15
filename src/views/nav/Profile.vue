@@ -88,17 +88,22 @@
         </v-row>
       </v-card-actions>
     </v-card>
+
+    <util-snack-bar :purpose="snackBarPurpose" :message="snackBarMessage" />
   </div>
 </template>
 
 <script>
 import moment from "moment";
+import util from "../../mixin/util.js";
+
 import { createNamespacedHelpers } from "vuex";
 const { mapState, mapActions, mapMutations } = createNamespacedHelpers(
   "member"
 );
 
 export default {
+  mixins: [util],
   props: {
     // 선택한 선수
     memberId: {
@@ -107,8 +112,6 @@ export default {
     }
   },
   async created() {
-    console.log("Created Profile");
-    console.log("memberId ", this.memberId);
     await this.getMemberInfo(this.memberId);
   },
   data: () => ({
@@ -134,18 +137,16 @@ export default {
     },
 
     setMemberInfo(memberInfo) {
-      console.log("set");
       this.date = moment(memberInfo.join_date).format("YYYY-MM-DD");
-      console.log("1");
       this.imageUrl = require(`../../assets/bgImage/${memberInfo["bg_image"]}`);
-      console.log("2");
     },
     updateMember(memberInfo) {
-      console.log(memberInfo);
       memberInfo.join_date = moment(this.memberInfo.join_date).format(
         "YYYY-MM-DD"
       );
       let formData = { member_id: memberInfo.id, member: memberInfo };
+
+      this.setSnackBar(this.snackBarSuccess, "정상적으로 수정되었습니다");
       this.update_member(formData);
     },
     deleteMember(memberId) {
@@ -157,13 +158,10 @@ export default {
       this.$router.push({ path: `member/${item.id}/memberInfo` });
     },
     backPage() {
-      console.log("back 가자.");
       this.$router.go(-1);
     },
     changeImage(target) {
-      console.log(target);
       this.imageUrl = require(`../../assets/bgImage/${target}`);
-      console.log(this.imageUrl);
     }
   }
 };

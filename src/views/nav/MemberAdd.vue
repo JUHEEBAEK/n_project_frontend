@@ -94,10 +94,7 @@ export default {
     nickName: "",
     route: null,
     uniform_number: "",
-    uniform_numberList: [],
-
-    snackBarPurpose: "showSuccess",
-    snackBarMessage: "저장되었습니다"
+    uniform_numberList: []
   }),
   created() {
     console.log("Created");
@@ -115,11 +112,8 @@ export default {
       _srcData["uniform_number"] = this.uniform_number;
       _srcData["inflow_route"] = this.route;
 
-      console.log(_srcData);
-
-      this.setSnackBar(this.snackBarSuccess, "정상적으로 추가되었습니다");
       this.add_member(_srcData).then(() => {
-        console.log("success");
+        this.setSnackBar(this.snackBarSuccess, "정상적으로 추가되었습니다");
       });
 
       this.clear();

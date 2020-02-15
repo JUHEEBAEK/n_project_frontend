@@ -3,7 +3,7 @@
     <v-snackbar
       v-if="purpose === 'showSuccess' || purpose === 'showFail'"
       v-model="snackBar"
-      :color="setColor"
+      :color="setColor()"
       multi-line
       :timeout="timeout"
     >
@@ -35,11 +35,12 @@ export default {
       get() {
         return this.$store.state["common"].snackBar;
       }
-    },
-    setColor() {
-      console.log("setColor");
+    }
+  },
+  methods: {
+    setColor: function() {
       if (this.purpose === "showSuccess") {
-        return null;
+        return "grey darken-4";
       } else if (this.purpose === "showFail") {
         return "red lighten-1";
       }

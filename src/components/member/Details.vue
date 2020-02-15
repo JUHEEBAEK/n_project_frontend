@@ -120,7 +120,6 @@ export default {
   },
   methods: {
     ...mapActions(["delete_member", "update_member"]),
-    ...mapMutations(["DETAILS_MEMBER"]),
     updateMember(profile) {
       console.log(profile);
       profile.join_date = moment(this.profile.join_date).format("YYYY-MM-DD");
