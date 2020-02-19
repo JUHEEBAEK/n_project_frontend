@@ -83,7 +83,7 @@ export default {
     events: stringSchedule.events
   }),
   computed: {
-    ...mapState(["newEventBox"]),
+    ...mapState(["newEventBox", "eventList"]),
     title() {
       const { start, end } = this;
       if (!start || !end) {
@@ -101,7 +101,7 @@ export default {
     },
     eventsMap() {
       const map = {};
-      this.events.forEach(e => {
+      this.eventList.forEach(e => {
         console.log(e);
         (map[e.date] = map[e.date] || []).push(e);
       });
@@ -142,6 +142,8 @@ export default {
   },
   mounted() {
     this.select_event();
+    console.log("예시 events");
+    console.log(this.events);
   }
 };
 </script>
