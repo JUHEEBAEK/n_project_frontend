@@ -1,9 +1,5 @@
 <template>
-  <v-bottom-navigation
-    color="light-blue darken-4"
-    v-model="bottomNav"
-    height="72"
-  >
+  <v-bottom-navigation color="light-blue darken-4" v-model="bottomNav" height="72">
     <v-btn v-for="item in items" :key="item.title" :to="item.to">
       <span>{{ item.title }}</span>
       <v-img :src="`../../${item.icon}`" class="footer__img" contain />
@@ -18,7 +14,7 @@ export default {
     bottomNav: "CALENDAR",
     items: [
       {
-        title: "CALENDAR",
+        title: "ATTENDANCE",
         to: "/attendance",
         icon: require("../../assets/linear/dark/046-calendar.png")
       },

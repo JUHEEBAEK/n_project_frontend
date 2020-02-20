@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import stringSchedule from "../assets/value/stringSchedule.json";
+import stringSchedule from "../assets/value/Schedule.json";
 
 import { createNamespacedHelpers } from "vuex";
 const { mapState, mapMutations } = createNamespacedHelpers("calendar");
