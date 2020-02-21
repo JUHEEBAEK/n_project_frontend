@@ -3,17 +3,16 @@
     <core-Toolbar></core-Toolbar>
     <core-navigation></core-navigation>
     <div>
-      <v-container>
-        <v-row justify="center">
-          <v-col cols="4" class="attandance__date">
-            <span class="date__year">{{ year }}</span>
-            <span>-</span>
-            <span class="date__month">{{ month }}</span>
-          </v-col>
-        </v-row>
-      </v-container>
-
       <v-sheet class="mx-auto" elevation="8">
+        <div>
+          <v-row>
+            <v-col cols="4" class="attandance__date">
+              <span>SELECTED DATE</span> -
+              <span class="date__month pr-2">{{ setMonth }}</span>
+              <span class="date__year">{{ setYear }}</span>
+            </v-col>
+          </v-row>
+        </div>
         <v-slide-group v-model="model" class="pa-5" show-arrows center-active>
           <v-slide-item
             v-for="item in scheduleList"
@@ -37,77 +36,86 @@
             </v-card>
           </v-slide-item>
         </v-slide-group>
-
         <v-expand-transition>
-          <v-sheet color="grey lighten-4" height="200" tile>
+          <v-sheet color="grey lighten-4" height="400" tile>
             <v-row class="fill-height" align="center" justify="center">
               <v-col cols="12" sm="12" md="12" lg="3">
-                <h3 class="title">{{ scheduleName }}</h3>
+                <v-card :loading="loading" class="mx-auto">
+                  <v-card-title class="schedule__title">{{ scheduleName }}</v-card-title>
+
+                  <v-card-text>
+                    <div
+                      class="my-3 subtitle-1 schedule__time"
+                    >{{ scheduleStart }} - {{ scheduleEnd }}</div>
+                  </v-card-text>
+
+                  <v-divider class="mx-4"></v-divider>
+
+                  <v-card-text class="schedule__stadium">{{ scheduleStadium }}</v-card-text>
+                  <v-card-text class="grey--text">{{ scheduleAddress }}</v-card-text>
+                </v-card>
               </v-col>
-              <v-col cols="12" sm="12" md="12" lg="3">
-                <h5 class="title">{{ scheduleStart }} - {{ scheduleEnd }}</h5>
+              <v-col cols="12" sm="12" md="12" lg="8">
+                <v-card outlined class="pa-3">
+                  <v-row wrap justify="center">
+                    <v-col cols="1" align-self="center">
+                      <v-img src="../../assets/sun.png" contain width="30" height="30" />
+                    </v-col>
+                    <v-col cols="9">
+                      <div class="text-left">
+                        <v-chip
+                          v-for="member in good"
+                          dark
+                          label
+                          :outlined="member.attend ? 'outlined' : ''"
+                          :class="member.attend ? 'chip__member' : 'chip__member opacity-4'"
+                          :color="member.attend ? 'tertiary' : 'muji'"
+                          :key="member.name"
+                          @click="isAttend(member)"
+                        >{{ member.name }}</v-chip>
+                      </div>
+                    </v-col>
+                  </v-row>
+                  <v-row wrap justify="center">
+                    <v-col cols="1" align-self="center">
+                      <v-img src="../../assets/rainy.png" contain width="30" height="30" />
+                    </v-col>
+                    <v-col cols="9">
+                      <div class="text-left">
+                        <v-chip
+                          v-for="member in so_so"
+                          dark
+                          label
+                          :outlined="member.attend ? 'outlined' : ''"
+                          :class="member.attend ? 'chip__member' : 'chip__member opacity-4'"
+                          :color="member.attend ? 'tertiary' : 'muji'"
+                          :key="member.name"
+                          @click="isAttend(member)"
+                        >{{ member.name }}</v-chip>
+                      </div>
+                    </v-col>
+                  </v-row>
+                  <v-row wrap justify="center">
+                    <v-col cols="1" align-self="center">
+                      <v-img src="../../assets/cemetery.png" contain width="30" height="30" />
+                    </v-col>
+                    <v-col cols="9">
+                      <div class="text-left">
+                        <v-chip
+                          v-for="member in ghost"
+                          dark
+                          label
+                          :outlined="member.attend ? 'outlined' : ''"
+                          :class="member.attend ? 'chip__member' : 'chip__member opacity-4'"
+                          :color="member.attend ? 'tertiary' : 'muji'"
+                          :key="member.name"
+                          @click="isAttend(member)"
+                        >{{ member.name }}</v-chip>
+                      </div>
+                    </v-col>
+                  </v-row>
+                </v-card>
               </v-col>
-              <v-col cols="12" sm="12" md="12" lg="3">
-                <p class="title">{{ scheduleStadium }}</p>
-              </v-col>
-              <v-col cols="12" sm="12" md="12" lg="3">
-                <p class="title">{{ scheduleAddress }}</p>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-card outlined>
-                <v-row wrap class="pa-2">
-                  <v-img src="../../assets/sun.png" contain width="30" height="30" />
-                </v-row>
-                <v-row class justify="center">
-                  <v-col cols="8">
-                    <v-chip
-                      v-for="member in good"
-                      dark
-                      label
-                      :outlined="member.attend ? 'outlined' : ''"
-                      :class="member.attend ? 'chip__member' : 'chip__member opacity-4'"
-                      :color="member.attend ? 'tertiary' : 'muji'"
-                      :key="member.name"
-                      @click="isAttend(member)"
-                    >{{ member.name }}</v-chip>
-                  </v-col>
-                </v-row>
-                <v-row wrap>
-                  <v-img src="../../assets/rainy.png" contain width="30" height="30" />
-                </v-row>
-                <v-row class>
-                  <v-col>
-                    <v-chip
-                      v-for="member in so_so"
-                      dark
-                      label
-                      :outlined="member.attend ? 'outlined' : ''"
-                      :class="member.attend ? 'chip__member' : 'chip__member opacity-4'"
-                      :color="member.attend ? 'tertiary' : 'muji'"
-                      :key="member.name"
-                      @click="isAttend(member)"
-                    >{{ member.name }}</v-chip>
-                  </v-col>
-                </v-row>
-                <v-row wrap>
-                  <v-img src="../../assets/cemetery.png" contain width="30" height="30" />
-                </v-row>
-                <v-row class>
-                  <v-col>
-                    <v-chip
-                      v-for="member in ghost"
-                      dark
-                      label
-                      :outlined="member.attend ? 'outlined' : ''"
-                      :class="member.attend ? 'chip__member' : 'chip__member opacity-4'"
-                      :color="member.attend ? 'tertiary' : 'muji'"
-                      :key="member.name"
-                      @click="isAttend(member)"
-                    >{{ member.name }}</v-chip>
-                  </v-col>
-                </v-row>
-              </v-card>
             </v-row>
           </v-sheet>
         </v-expand-transition>
@@ -117,6 +125,7 @@
 </template>
 
 <script>
+import moment from "moment";
 import stringAttendance from "../../assets/value/Attendance.json";
 import stringSchedule from "../../assets/value/Schedule.json";
 import {
@@ -145,6 +154,8 @@ export default {
     model: 0,
     year: new Date().toISOString().substr(0, 4),
     month: new Date().toISOString().substr(5, 2),
+    setYear: moment().format("YYYY"),
+    setMonth: moment().format("MMMM"),
     scheduleName: null,
     scheduleStart: null,
     scheduleEnd: null,
@@ -165,8 +176,8 @@ export default {
       console.log("attendList", attendList);
     },
     setDate(item) {
-      this.year = item.date.substr(0, 4);
-      this.month = item.date.substr(5, 2);
+      this.setYear = moment(item.date).format("YYYY");
+      this.setMonth = moment(item.date).format("MMMM");
 
       this.scheduleName = item.name;
       this.scheduleStart = item.start.substr(11, 5);
@@ -181,7 +192,15 @@ export default {
 <style scoped>
 .attandance__date {
   font-size: 24px;
-  font-weight: 800;
+  font-weight: 600;
+}
+.date__month {
+  font-size: 20px;
+  font-weight: 500;
+}
+.date__year {
+  font-size: 28px;
+  font-weight: 00;
 }
 .date__day {
   font-size: 20px;
