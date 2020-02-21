@@ -41,6 +41,7 @@
                     v-on="on"
                     @click.stop
                     v-html="event.name"
+                    @click="load_member(event.id)"
                   ></div>
                 </template>
 
@@ -111,7 +112,7 @@ export default {
   },
   methods: {
     ...mapMutations(["SET_NEW_EVENT_MODAL"]),
-    ...mapActions(["select_event"]),
+    ...mapActions(["select_event", "load_member"]),
     setToday() {
       this.focus = this.today;
     },
