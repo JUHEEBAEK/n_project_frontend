@@ -41,6 +41,7 @@
                     v-on="on"
                     @click.stop
                     v-html="event.name"
+                    @click="load_member(event.id)"
                   ></div>
                 </template>
 
@@ -63,7 +64,9 @@
 import stringSchedule from "../assets/value/Schedule.json";
 
 import { createNamespacedHelpers } from "vuex";
-const { mapState, mapMutations } = createNamespacedHelpers("calendar");
+const { mapState, mapMutations, mapActions } = createNamespacedHelpers(
+  "calendar"
+);
 
 export default {
   data: () => ({
@@ -81,7 +84,7 @@ export default {
     events: stringSchedule.events
   }),
   computed: {
-    ...mapState(["newEventBox"]),
+    ...mapState(["newEventBox", "eventList"]),
     title() {
       const { start, end } = this;
       if (!start || !end) {
@@ -99,7 +102,7 @@ export default {
     },
     eventsMap() {
       const map = {};
-      this.events.forEach(e => {
+      this.eventList.forEach(e => {
         console.log(e);
         (map[e.date] = map[e.date] || []).push(e);
       });
@@ -109,6 +112,7 @@ export default {
   },
   methods: {
     ...mapMutations(["SET_NEW_EVENT_MODAL"]),
+    ...mapActions(["select_event", "load_member"]),
     setToday() {
       this.focus = this.today;
     },
@@ -136,6 +140,11 @@ export default {
       console.log(event.open);
       event.open = false;
     }
+  },
+  mounted() {
+    this.select_event();
+    console.log("예시 events");
+    console.log(this.events);
   }
 };
 </script>

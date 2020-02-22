@@ -6,11 +6,13 @@ const devUrl = "http://localhost:3000";
 async function selectStadium() {
   try {
     const response = await axios.get(`${devUrl}/api/stadium/list`);
-    console.log(response);
+    // console.log(response);
     return response;
   } catch (e) {
     console.log(e);
   }
 }
 
-export { selectStadium };
+export {
+  selectStadium
+};

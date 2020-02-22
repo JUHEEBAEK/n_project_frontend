@@ -42,7 +42,7 @@
           <div class="col-10 text-left">
             <div class="row">
               <div class="col-12 py-0">
-                <span class="schedule__place" v-html="selectedEvent.place" />
+                <span class="schedule__stadium_name" v-html="selectedEvent.stadium_name" />
               </div>
             </div>
             <div class="row">
@@ -68,9 +68,9 @@
               <div class="col-12 py-0">
                 <span
                   class="attendance__member"
-                  v-for="(item, idx) in selectedEvent.attend"
+                  v-for="(item, idx) in selectedEvent.memeber_name_list"
                   :key="idx"
-                >{{ item }}</span>
+                >{{ item }},</span>
               </div>
             </div>
           </div>
