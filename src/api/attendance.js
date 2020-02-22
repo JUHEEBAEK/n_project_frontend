@@ -23,6 +23,7 @@ async function countAllSchedule() {
 async function selectSchedule() {
   try {
     const response = await axios.get(`${devUrl}/api/schedule/list`);
+    console.log(response);
     return response.data;
   } catch (e) {
     console.log(e);

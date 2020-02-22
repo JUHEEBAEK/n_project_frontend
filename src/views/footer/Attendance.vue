@@ -3,7 +3,7 @@
     <core-Toolbar></core-Toolbar>
     <core-navigation></core-navigation>
     <div>
-      <v-sheet class="mx-auto" elevation="8">
+      <v-sheet elevation="8">
         <div>
           <v-row>
             <v-col cols="4" class="attandance__date">
@@ -13,7 +13,7 @@
             </v-col>
           </v-row>
         </div>
-        <v-slide-group v-model="model" class="pa-5" show-arrows center-active>
+        <v-slide-group v-model="model" show-arrows center-active>
           <v-slide-item
             v-for="item in scheduleList"
             :key="item.id"
@@ -22,15 +22,14 @@
             <v-card
               :color="active ? 'primary' : 'grey lighten-1'"
               class="ma-4"
-              height="50"
-              width="100"
+              height="40"
+              width="80"
               @click="toggle"
               @click.native="setDate(item)"
             >
               <v-row class="fill-height" align="center" justify="center">
                 <v-scale-transition>
                   <span class="date__day">{{ item.date.substr(8,2) }}</span>
-                  <v-icon v-if="active" color="white" size="36" v-text="'fas fa-times-circle'"></v-icon>
                 </v-scale-transition>
               </v-row>
             </v-card>
@@ -137,12 +136,8 @@ import {
 export default {
   name: "Attendance.vue",
   async created() {
-    console.log("created");
     this.countAllSchedule = await countAllSchedule();
     this.countAttendace = await countAttendance();
-    // this.scheduleList = await selectSchedule();
-
-    console.log(this.scheduleList);
 
     this.setAllScheduleList(this.countAllSchedule);
   },
@@ -151,11 +146,12 @@ export default {
     countAttendace: null,
     yearAllSceduleCount: {},
     scheduleList: stringSchedule.events,
-    model: 0,
+    model: null,
     year: new Date().toISOString().substr(0, 4),
     month: new Date().toISOString().substr(5, 2),
     setYear: moment().format("YYYY"),
     setMonth: moment().format("MMMM"),
+    setDay: null,
     scheduleName: null,
     scheduleStart: null,
     scheduleEnd: null,
@@ -191,16 +187,16 @@ export default {
 
 <style scoped>
 .attandance__date {
-  font-size: 24px;
-  font-weight: 600;
-}
-.date__month {
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 200;
 }
 .date__year {
-  font-size: 28px;
-  font-weight: 00;
+  font-size: 20px;
+  font-weight: 400;
+}
+.date__month {
+  font-size: 24px;
+  font-weight: 500;
 }
 .date__day {
   font-size: 20px;
