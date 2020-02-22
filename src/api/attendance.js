@@ -23,12 +23,29 @@ async function countAllSchedule() {
 async function selectSchedule() {
   try {
     const response = await axios.get(`${devUrl}/api/schedule/list`);
-    console.log(response);
     return response.data;
   } catch (e) {
     console.log(e);
   }
 }
 
+async function countThreeMonths(form) {
+  try {
+    const response = await axios.post(`${devUrl}/api/attendance/count/threeMonths`, form);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+}
 
-export { countAttendance, countAllSchedule, selectSchedule };
+function setJsonData(arr) {
+  let res = {};
+  arr.forEach(element => {
+    let obj = JSON.parse(element.json);
+    res[obj.id] = obj;
+  });
+  return res;
+}
+
+
+export { countAttendance, countAllSchedule, selectSchedule, countThreeMonths };
