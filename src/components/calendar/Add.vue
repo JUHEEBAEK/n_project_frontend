@@ -159,8 +159,8 @@
 </template>
 
 <script>
-import stringStadium from "../../assets/value/stringStadium";
-import stringSchedules from "../../assets/value/stringSchedule";
+import stringStadium from "../../assets/value/Stadium";
+import stringSchedules from "../../assets/value/Schedule";
 
 import { createNamespacedHelpers } from "vuex";
 const {
