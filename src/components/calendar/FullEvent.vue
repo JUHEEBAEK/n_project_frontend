@@ -13,9 +13,10 @@
             <v-icon>fas fa-times</v-icon>
           </v-btn>
           <v-text-field
+            ref="name"
             class="event__title"
             height="48"
-            v-model="selectedEvent.name"
+            v-model="name"
             placeholder="제목 및 시간 추가"
           />
           <v-btn color="primary" dark class="ma-2" @click="save()">Save</v-btn>
@@ -28,7 +29,6 @@
                 <v-icon class="white--text">fas fa-times</v-icon>
               </span>
               <v-menu
-                ref="menu_date"
                 v-model="menu_date"
                 transition="scale-transition"
                 offset-y
@@ -37,6 +37,7 @@
               >
                 <template v-slot:activator="{ on }">
                   <v-text-field
+                    ref="menu_date"
                     v-model="selectedEvent.date"
                     solo
                     dense
@@ -55,10 +56,8 @@
             </v-col>
             <v-col cols="1">
               <v-menu
-                ref="menu_start"
                 v-model="menu_start"
                 :nudge-right="40"
-                :return-value.sync="start_time"
                 transition="scale-transition"
                 max-width="240px"
                 min-width="240px"
@@ -66,10 +65,10 @@
               >
                 <template v-slot:activator="{ on }">
                   <v-text-field
+                    ref="start_time"
                     v-model="start_time"
                     dense
                     solo
-                    :placeholder="start_time"
                     color="grey"
                     readonly
                     v-on="on"
@@ -86,10 +85,8 @@
             <b class="align-self-center">-</b>
             <v-col cols="1">
               <v-menu
-                ref="menu_end"
                 v-model="menu_end"
                 :nudge-right="40"
-                :return-value.sync="end_time"
                 transition="scale-transition"
                 max-width="240px"
                 min-width="240px"
@@ -97,11 +94,11 @@
               >
                 <template v-slot:activator="{ on }">
                   <v-text-field
+                    ref="end_time"
                     v-model="end_time"
                     dense
                     solo
                     color="grey"
-                    placeholder="19:00"
                     readonly
                     v-on="on"
                   />
@@ -124,8 +121,9 @@
                 <v-icon>fas fa-map-marker-alt</v-icon>
               </span>
               <v-select
+                ref="stadium"
+                v-model="selectedEvent.stadium_id"
                 class="px-2"
-                v-model="selectedEvent.place"
                 dense
                 solo
                 hide-details
@@ -142,7 +140,8 @@
                 <v-icon :style="`color: ${color}`">fas fa-circle</v-icon>
               </span>
               <v-select
-                v-model="selectedEvent.type"
+                ref="type"
+                v-model="selectedEvent.type_index"
                 class="px-1"
                 dense
                 solo
@@ -151,7 +150,6 @@
                 label="Select a type"
                 item-value="id"
                 item-text="name"
-                @change="clickType()"
               />
             </v-col>
           </v-row>
@@ -169,13 +167,16 @@ import stringSchedules from "../../assets/value/Schedule";
 
 import { createNamespacedHelpers } from "vuex";
 import moment from "moment";
-const { mapState, mapMutations } = createNamespacedHelpers("calendar");
+const { mapState, mapMutations, mapActions } = createNamespacedHelpers(
+  "calendar"
+);
 
 export default {
   props: ["selectedEvent"],
   data: () => ({
-    start_time: moment().format("HH:mm"),
-    end_time: moment().format("HH:mm"),
+    name: "제목 들어갈 곳",
+    start_time: "17:00",
+    end_time: "19:00",
     menu_date: false,
     menu_start: false,
     menu_end: false,
@@ -183,7 +184,7 @@ export default {
     sound: true,
     widgets: false,
     stadiums: stringStadium.stadium,
-    types: stringSchedules.types,
+    types: stringSchedules.typeList,
     items: [
       {
         title: "Click Me"
@@ -205,15 +206,41 @@ export default {
   created() {
     console.log("created");
     console.log(this.selectedEvent);
+    this.start_time = this.selectedEvent.start;
+    this.end_time = this.selectedEvent.end;
+    this.name = this.selectedEvent.name;
   },
   methods: {
     ...mapMutations(["SET_FULL_EVENT_MODAL"]),
+    ...mapActions(["update_event"]),
     close() {
       console.log("dialog 닫아라");
       this.SET_FULL_EVENT_MODAL(!this.fullEventDialog);
     },
     save() {
-      console.log("event 저장");
+      console.log("save event");
+      // value 포맷 맞추기 날짜, 없을 때
+      var date = this.$refs.menu_date.value;
+      var start_time = this.$refs.start_time.value;
+      var end_time = this.$refs.end_time.value;
+      var stadium_id = this.$refs.stadium.value;
+      var name = this.$refs.name.value;
+      var type = this.$refs.type.value + 1;
+      console.log(date, end_time, start_time, stadium_id, name, type);
+      var scheduleFormData = {
+        date: date,
+        start_time,
+        start_time,
+        end_time: end_time,
+        stadium_id: stadium_id,
+        name: name,
+        type: type
+      };
+      this.update_event({
+        schedule_id: this.selectedEvent.id,
+        schedule: scheduleFormData
+      });
+      this.close();
     }
   }
 };

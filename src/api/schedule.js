@@ -36,4 +36,19 @@ async function deleteEvent(schedule_id_form) {
   }
 }
 
-export { addEvent, selectEvent, deleteEvent };
+async function updateEvent(formData) {
+  try {
+    console.log("update api: ", formData)
+    const response = await axios.put(`${devUrl}/api/schedule/update`, formData)
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export {
+  addEvent,
+  selectEvent,
+  deleteEvent,
+  updateEvent
+};
