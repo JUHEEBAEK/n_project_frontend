@@ -1,6 +1,15 @@
-import { set } from "../../utils/index";
-import { addEvent, selectEvent, deleteEvent } from "../../api/schedule.js";
-import { attendanceList } from "../../api/attend.js";
+import {
+  set
+} from "../../utils/index";
+import {
+  addEvent,
+  selectEvent,
+  deleteEvent,
+  updateEvent
+} from "../../api/schedule.js";
+import {
+  attendanceList
+} from "../../api/attend.js";
 
 import moment from "moment";
 import * as constants from "../constants";
@@ -37,6 +46,16 @@ const mutations = {
       item["color"] = "grape"; // 적당한 색으로 넣어준다
       //open은 default false로 설정해준다
       item["open"] = false;
+
+      let type_list = {
+        'T': 0,
+        'P': 1,
+        'L': 2,
+        'M': 3,
+        'C': 4
+      }
+      item["type_index"] = type_list[item["type"]]
+
       //넣어주기
       event_list.push(item);
     }
@@ -107,9 +126,23 @@ const actions = {
     const attend_list = await attendanceList(id);
     context.commit("ADD_MEMBER_LIST", attend_list["data"]);
   },
-  async delete_event({ dispatch }, schedule_id_form) {
+  async delete_event({
+    dispatch
+  }, schedule_id_form) {
     try {
       const response = await deleteEvent(schedule_id_form);
+      dispatch("select_event");
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async update_event({
+    commit,
+    dispatch
+  }, update_form) {
+    try {
+      const reponse = await updateEvent(update_form);
       dispatch("select_event");
       return response.data;
     } catch (e) {
