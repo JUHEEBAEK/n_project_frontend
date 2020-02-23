@@ -3,7 +3,8 @@ import {
 } from "../../utils/index";
 import {
   addEvent,
-  selectEvent
+  selectEvent,
+  deleteEvent,
 } from "../../api/schedule.js";
 import {
   attendanceList
@@ -113,6 +114,17 @@ const actions = {
   async load_member(context, id) {
     const attend_list = await attendanceList(id);
     context.commit("ADD_MEMBER_LIST", attend_list["data"]);
+  },
+  async delete_event({
+    dispatch
+  }, schedule_id_form) {
+    try {
+      const response = await deleteEvent(schedule_id_form);
+      dispatch('select_event');
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
   }
 };
 
