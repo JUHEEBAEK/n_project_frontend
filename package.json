@@ -48,8 +48,9 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/essential",
-      "@vue/prettier"
+      "plugin:vue/recommended",
+      "prettier/vue",
+      "plugin:prettier/recommended"
     ],
     "rules": {
       "no-console": "off",
@@ -58,15 +59,17 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "overrides": [{
-      "files": [
-        "**/__tests__/*.{j,t}s?(x)",
-        "**/tests/unit/**/*.spec.{j,t}s?(x)"
-      ],
-      "env": {
-        "jest": true
+    "overrides": [
+      {
+        "files": [
+          "**/__tests__/*.{j,t}s?(x)",
+          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+        ],
+        "env": {
+          "jest": true
+        }
       }
-    }]
+    ]
   },
   "browserslist": [
     "> 1%",
