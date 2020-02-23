@@ -231,7 +231,7 @@ export default {
   },
   methods: {
     ...stadiumMapActions(["select_stadium"]),
-    ...calendarMapActions(["add_event"]),
+    ...calendarMapActions(["add_event", "select_event"]),
     ...calendarMapMutaions(["SET_NEW_EVENT_MODAL"]),
     changeType() {
       this.color = stringSchedules.types[this.event_type].color;
@@ -253,6 +253,7 @@ export default {
       this.add_event(_srcData).then(() => {
         console.log("success");
         this.close();
+        this.select_event();
       });
     },
     close() {
