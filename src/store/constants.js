@@ -2,6 +2,7 @@
 export const setDrawer = "setDrawer";
 export const setSetting = "setSetting";
 export const setSnackBar = "SET_SNACK_BAR";
+export const setAlert = "SET_ALERT";
 
 export const setModal = "SET_MODAL";
 export const setSearchResult = "SET_SEARCH_RESULT";

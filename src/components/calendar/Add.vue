@@ -9,12 +9,20 @@
       offset-overflow
     >
       <template v-slot:activator="{ on }">
-        <div v-ripple v-on="on" class="event__new muji" @click.stop="close()">{{new_event_title}}</div>
+        <div v-ripple v-on="on" class="event__new muji" @click.stop="close()">
+          {{ new_event_title }}
+        </div>
       </template>
 
       <v-card color="grey lighten-4" :slotData="slotData">
         <v-form class="form">
-          <v-toolbar class="popover__header" height="40" color="grey lighten-4" flat tile>
+          <v-toolbar
+            class="popover__header"
+            height="40"
+            color="grey lighten-4"
+            flat
+            tile
+          >
             <v-spacer />
             <v-btn icon small class="mx-1" @click="close()">
               <v-icon small>fas fa-times</v-icon>
@@ -24,7 +32,12 @@
             <v-row dense>
               <v-col cols="2"></v-col>
               <v-col cols="9">
-                <v-text-field v-model="event_name" dense height="40" placeholder="제목 및 시간 추가" />
+                <v-text-field
+                  v-model="event_name"
+                  dense
+                  height="40"
+                  placeholder="제목 및 시간 추가"
+                />
               </v-col>
             </v-row>
             <v-row dense>
@@ -65,7 +78,12 @@
                       v-on="on"
                     />
                   </template>
-                  <v-date-picker v-model="selectedDate" dense no-title @input="menu_date = false" />
+                  <v-date-picker
+                    v-model="selectedDate"
+                    dense
+                    no-title
+                    @input="menu_date = false"
+                  />
                 </v-menu>
               </v-col>
             </v-row>
@@ -172,6 +190,7 @@ const {
   mapState: stadiuMapState,
   mapActions: stadiumMapActions
 } = createNamespacedHelpers("stadium");
+const { mapMutations: mapMutationsCommon } = createNamespacedHelpers("common");
 
 import moment from "moment";
 export default {
@@ -213,8 +232,9 @@ export default {
   },
   methods: {
     ...stadiumMapActions(["select_stadium"]),
-    ...calendarMapActions(["add_event"]),
+    ...calendarMapActions(["add_event", "select_event"]),
     ...calendarMapMutaions(["SET_NEW_EVENT_MODAL"]),
+    ...mapMutationsCommon(["SET_ALERT"]),
     changeType() {
       this.color = stringSchedules.types[this.event_type].color;
     },
@@ -234,6 +254,9 @@ export default {
 
       this.add_event(_srcData).then(() => {
         console.log("success");
+        this.SET_ALERT(true);
+        this.close();
+        this.select_event();
       });
     },
     close() {

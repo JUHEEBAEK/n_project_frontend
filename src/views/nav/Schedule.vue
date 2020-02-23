@@ -1,5 +1,6 @@
 <template>
   <div>
+    <core-alert />
     <core-Toolbar />
     <core-navigation />
     <calendar />
