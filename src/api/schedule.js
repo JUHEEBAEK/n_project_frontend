@@ -26,20 +26,14 @@ async function selectEvent() {
 async function deleteEvent(schedule_id_form) {
   try {
     console.log("api deleteEvent");
-    const response = await axios.delete(
-      `${devUrl}/api/schedule/delete`, {
-        data: schedule_id_form
-      }
-    );
-    console.log('deleteEvent response - ', response);
-    return response
+    const response = await axios.delete(`${devUrl}/api/schedule/delete`, {
+      data: schedule_id_form
+    });
+    console.log("deleteEvent response - ", response);
+    return response;
   } catch (e) {
     console.log(e);
   }
 }
 
-export {
-  addEvent,
-  selectEvent,
-  deleteEvent
-};
+export { addEvent, selectEvent, deleteEvent };

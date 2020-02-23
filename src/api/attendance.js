@@ -30,5 +30,8 @@ async function selectSchedule() {
   }
 }
 
-
-export { countAttendance, countAllSchedule, selectSchedule };
+export {
+  countAttendance,
+  countAllSchedule,
+  selectSchedule
+};

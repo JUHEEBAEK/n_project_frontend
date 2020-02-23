@@ -14,7 +14,8 @@
           :color="member.attend ? 'tertiary' : 'muji'"
           :key="member.name"
           @click="isAttend(member)"
-        >{{ member.name }}</v-chip>
+          >{{ member.name }}</v-chip
+        >
       </v-col>
     </v-row>
     <v-row wrap>
@@ -31,7 +32,8 @@
           :color="member.attend ? 'tertiary' : 'muji'"
           :key="member.name"
           @click="isAttend(member)"
-        >{{ member.name }}</v-chip>
+          >{{ member.name }}</v-chip
+        >
       </v-col>
     </v-row>
     <v-row wrap>
@@ -48,7 +50,8 @@
           :color="member.attend ? 'tertiary' : 'muji'"
           :key="member.name"
           @click="isAttend(member)"
-        >{{ member.name }}</v-chip>
+          >{{ member.name }}</v-chip
+        >
       </v-col>
     </v-row>
   </v-card>

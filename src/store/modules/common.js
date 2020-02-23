@@ -1,4 +1,6 @@
-import { set } from "../../utils/index";
+import {
+  set
+} from "../../utils/index";
 import * as constants from "../constants";
 const state = {
   // navigation 의 상태 (들어가 있는지 나와있는지)
@@ -26,7 +28,9 @@ const mutations = {
 };
 
 const actions = {
-  async set_SnackBar({ commit }, value) {
+  async set_SnackBar({
+    commit
+  }, value) {
     console.log(value);
     commit("SET_SNACKBAR", value);
   }
