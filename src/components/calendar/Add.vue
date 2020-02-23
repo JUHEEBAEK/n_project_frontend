@@ -190,6 +190,7 @@ const {
   mapState: stadiuMapState,
   mapActions: stadiumMapActions
 } = createNamespacedHelpers("stadium");
+const { mapMutations: mapMutationsCommon } = createNamespacedHelpers("common");
 
 import moment from "moment";
 export default {
@@ -233,6 +234,7 @@ export default {
     ...stadiumMapActions(["select_stadium"]),
     ...calendarMapActions(["add_event", "select_event"]),
     ...calendarMapMutaions(["SET_NEW_EVENT_MODAL"]),
+    ...mapMutationsCommon(["SET_ALERT"]),
     changeType() {
       this.color = stringSchedules.types[this.event_type].color;
     },
@@ -252,6 +254,7 @@ export default {
 
       this.add_event(_srcData).then(() => {
         console.log("success");
+        this.SET_ALERT(true);
         this.close();
         this.select_event();
       });
