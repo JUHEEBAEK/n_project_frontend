@@ -112,7 +112,6 @@ export default {
     eventsMap() {
       const map = {};
       this.eventList.forEach(e => {
-        console.log(e);
         (map[e.date] = map[e.date] || []).push(e);
       });
       console.log(map);
