@@ -38,14 +38,4 @@ async function countThreeMonths(form) {
   }
 }
 
-function setJsonData(arr) {
-  let res = {};
-  arr.forEach(element => {
-    let obj = JSON.parse(element.json);
-    res[obj.id] = obj;
-  });
-  return res;
-}
-
-
 export { countAttendance, countAllSchedule, selectSchedule, countThreeMonths };

@@ -11,7 +11,7 @@
 
 <script>
 import { createNamespacedHelpers } from "vuex";
-const { mapState, mapMutations } = createNamespacedHelpers("layout");
+const { mapState, mapMutations } = createNamespacedHelpers("common");
 export default {
   data: () => ({
     timeout: 5000,

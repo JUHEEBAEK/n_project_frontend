@@ -1,19 +1,23 @@
 import * as constants from "../constants";
-import { selectStadium } from "../../api/stadium.js";
+import {
+  selectStadium
+} from "../../api/stadium.js";
 
 const state = {
-  stadiumList: [],
+  stadiumList: []
 };
 
 const getters = {};
 const mutations = {
   [constants.SELECT_STADIUM](state, stadiumList) {
     state.stadiumList = stadiumList;
-  },
+  }
 };
 
 const actions = {
-  async select_stadium({ commit }) {
+  async select_stadium({
+    commit
+  }) {
     try {
       const response = await selectStadium();
       commit("SELECT_STADIUM", response.data);
@@ -21,7 +25,7 @@ const actions = {
     } catch (e) {
       console.log(e);
     }
-  },
+  }
 };
 
 export default {

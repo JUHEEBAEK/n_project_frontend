@@ -3,7 +3,9 @@ import {
 } from "../../utils/index";
 import {
   addEvent,
-  selectEvent
+  selectEvent,
+  deleteEvent,
+  updateEvent
 } from "../../api/schedule.js";
 import {
   attendanceList
@@ -44,6 +46,16 @@ const mutations = {
       item["color"] = "grape"; // 적당한 색으로 넣어준다
       //open은 default false로 설정해준다
       item["open"] = false;
+
+      let type_list = {
+        'T': 0,
+        'P': 1,
+        'L': 2,
+        'M': 3,
+        'C': 4
+      }
+      item["type_index"] = type_list[item["type"]]
+
       //넣어주기
       event_list.push(item);
     }
@@ -73,19 +85,19 @@ const mutations = {
       }
     }
     if (index == -1) {
-      console.log("ADD_MEMBER_LIST, can not find Schedule")
-      return
+      console.log("ADD_MEMBER_LIST, can not find Schedule");
+      return;
     }
-    console.log(state.eventList)
-    console.log(index, state.eventList[index])
+    console.log(state.eventList);
+    console.log(index, state.eventList[index]);
     let item = state.eventList[index];
     item["attendCount"] = member_count;
     item["memeber_id_list"] = memeber_id_list;
     item["memeber_name_list"] = memeber_name_list;
 
     state.eventList[index] = item;
-    console.log(state.eventList[index])
-  },
+    console.log(state.eventList[index]);
+  }
 };
 
 const actions = {
@@ -113,6 +125,29 @@ const actions = {
   async load_member(context, id) {
     const attend_list = await attendanceList(id);
     context.commit("ADD_MEMBER_LIST", attend_list["data"]);
+  },
+  async delete_event({
+    dispatch
+  }, schedule_id_form) {
+    try {
+      const response = await deleteEvent(schedule_id_form);
+      dispatch("select_event");
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async update_event({
+    commit,
+    dispatch
+  }, update_form) {
+    try {
+      const reponse = await updateEvent(update_form);
+      dispatch("select_event");
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
   }
 };
 

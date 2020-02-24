@@ -54,4 +54,10 @@ async function updateMember(formData) {
   }
 }
 
-export { addMember, selectMember, deleteMember, detailsMember, updateMember };
+export {
+  addMember,
+  selectMember,
+  deleteMember,
+  detailsMember,
+  updateMember
+};

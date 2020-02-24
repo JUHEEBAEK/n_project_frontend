@@ -20,9 +20,7 @@ const util = {
       this.snackBarPurpose = purpose;
       this.snackBarMessage = message;
       this.SET_SNACK_BAR(true);
-
-    },
-  
+    }
   }
 };
 

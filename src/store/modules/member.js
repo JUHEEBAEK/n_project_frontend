@@ -6,7 +6,9 @@ import {
   updateMember,
   detailsMember
 } from "../../api/member.js";
-import { set } from "../../utils/index";
+import {
+  set
+} from "../../utils/index";
 
 const state = {
   memberList: [],
@@ -44,7 +46,9 @@ const actions = {
       console.log(e);
     }
   },
-  async select_member({ commit }) {
+  async select_member({
+    commit
+  }) {
     try {
       const response = await selectMember();
       commit("SELECT_MEMBER", response);
@@ -54,7 +58,9 @@ const actions = {
     }
   },
 
-  async delete_member({ commit }, payload) {
+  async delete_member({
+    commit
+  }, payload) {
     try {
       const response = await deleteMember(payload);
       commit("DELETE_MEMBER", response.data);
@@ -64,7 +70,9 @@ const actions = {
     }
   },
 
-  async details_member({ commit }, payload) {
+  async details_member({
+    commit
+  }, payload) {
     try {
       const response = await detailsMember(payload);
       return response.data;
@@ -73,7 +81,9 @@ const actions = {
     }
   },
 
-  async update_member({ commit }, payload) {
+  async update_member({
+    commit
+  }, payload) {
     try {
       const response = await updateMember(payload);
       commit("UPDATE_MEMBER", response);

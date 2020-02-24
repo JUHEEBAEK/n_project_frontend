@@ -3,7 +3,9 @@
     <v-col>
       <v-sheet height="64">
         <v-toolbar flat dense color="white">
-          <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">Today</v-btn>
+          <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday"
+            >Today</v-btn
+          >
           <v-btn fab text small color="grey darken-2" @click="prev">
             <v-icon small>fas fa-chevron-left</v-icon>
           </v-btn>
@@ -45,12 +47,19 @@
                   ></div>
                 </template>
 
-                <calendar-event :selectedEvent="event" @close="close(event)"></calendar-event>
+                <calendar-event
+                  :selectedEvent="event"
+                  @close="close(event)"
+                ></calendar-event>
                 <calendar-fullEvent :selectedEvent="event"></calendar-fullEvent>
               </v-menu>
             </template>
 
-            <calendar-add :newEventBox="newEventBox" :selectedDate="clickDay" :day="date"></calendar-add>
+            <calendar-add
+              :newEventBox="newEventBox"
+              :selectedDate="clickDay"
+              :day="date"
+            ></calendar-add>
           </template>
           <!-- <calendar-add :click__date="date"></calendar-add> -->
           <!-- @click:event="showEvent" -->
@@ -103,7 +112,6 @@ export default {
     eventsMap() {
       const map = {};
       this.eventList.forEach(e => {
-        console.log(e);
         (map[e.date] = map[e.date] || []).push(e);
       });
       console.log(map);

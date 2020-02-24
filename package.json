@@ -48,8 +48,8 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/essential",
-      "@vue/prettier"
+      "plugin:vue/recommended",
+      "prettier/vue"
     ],
     "rules": {
       "no-console": "off",
