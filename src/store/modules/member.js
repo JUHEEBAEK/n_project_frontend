@@ -47,8 +47,8 @@ const actions = {
   async select_member({ commit }) {
     try {
       const response = await selectMember();
-      commit("SELECT_MEMBER", response.data);
-      return response.data;
+      commit("SELECT_MEMBER", response);
+      return response;
     } catch (e) {
       console.log(e);
     }

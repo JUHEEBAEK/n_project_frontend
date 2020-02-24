@@ -6,7 +6,7 @@
       <v-sheet elevation="8">
         <div>
           <v-row>
-            <v-col cols="4" class="attandance__date">
+            <v-col cols="6" class="attandance__date">
               <span>SELECTED DATE</span> -
               <span class="date__month pr-2">{{ setMonth }}</span>
               <span class="date__year">{{ setYear }}</span>
@@ -127,31 +127,37 @@
 import moment from "moment";
 import stringAttendance from "../../assets/value/Attendance.json";
 import stringSchedule from "../../assets/value/Schedule.json";
-import {
-  countAllSchedule,
-  countAttendance,
-  selectSchedule
-} from "../../api/attendance.js";
+import { selectSchedule, countThreeMonths } from "../../api/attendance.js";
+import { selectMember } from "../../api/member.js";
 
 export default {
   name: "Attendance.vue",
   async created() {
-    this.countAllSchedule = await countAllSchedule();
-    this.countAttendace = await countAttendance();
+    this.scheduleList = await selectSchedule();
+    // await this.setFormatMemberList();
 
-    this.setAllScheduleList(this.countAllSchedule);
+    this.activeSchedule();
+
+    let date = moment(this.today).format("YYYYMM");
+    let beforeDate = moment(this.today)
+      .subtract(3, "months")
+      .format("YYYYMM");
+
+    const formData = { standard_date: date, before_date: beforeDate };
+
+    this.countMonthList = await countThreeMonths(formData);
   },
   data: () => ({
-    countAllSchedule: null,
-    countAttendace: null,
-    yearAllSceduleCount: {},
-    scheduleList: stringSchedule.events,
+    memberList: [],
+    setMemberList: [],
+    countMonthList: [],
     model: null,
-    year: new Date().toISOString().substr(0, 4),
-    month: new Date().toISOString().substr(5, 2),
     setYear: moment().format("YYYY"),
     setMonth: moment().format("MMMM"),
+    today: moment().format("YYYY-MM-DD"),
     setDay: null,
+    scheduleList: [],
+    scheduleLength: 0,
     scheduleName: null,
     scheduleStart: null,
     scheduleEnd: null,
@@ -165,8 +171,14 @@ export default {
     isAttend(item) {
       item.attend = !item.attend;
     },
-    setAllScheduleList(countList) {
-      console.log("countList", countList);
+    // 제일 최근의 스케줄을 선택해주는 함수.
+    activeSchedule: async function() {
+      this.model = this.scheduleList.length - 1;
+      this.setDate(this.scheduleList[this.model]);
+    },
+
+    setFormatMemberList: async function(countMember) {
+      this.memberList = await selectMember();
     },
     setAttendaceList(attendList) {
       console.log("attendList", attendList);
@@ -176,10 +188,10 @@ export default {
       this.setMonth = moment(item.date).format("MMMM");
 
       this.scheduleName = item.name;
-      this.scheduleStart = item.start.substr(11, 5);
-      this.scheduleEnd = item.end.substr(11, 5);
+      this.scheduleStart = item.start;
+      this.scheduleEnd = item.end;
       this.scheduleAddress = item.address;
-      this.scheduleStadium = item.place;
+      this.scheduleStadium = item.stadium_name;
     }
   }
 };
