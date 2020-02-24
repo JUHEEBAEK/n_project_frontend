@@ -134,7 +134,7 @@ export default {
   name: "Attendance.vue",
   async created() {
     this.scheduleList = await selectSchedule();
-    await this.setFormatMemberList();
+    // await this.setFormatMemberList();
 
     this.activeSchedule();
 
@@ -146,8 +146,6 @@ export default {
     const formData = { standard_date: date, before_date: beforeDate };
 
     this.countMonthList = await countThreeMonths(formData);
-
-    this.setCountAsAttendance(this.countMonthList);
   },
   data: () => ({
     memberList: [],
@@ -178,24 +176,9 @@ export default {
       this.model = this.scheduleList.length - 1;
       this.setDate(this.scheduleList[this.model]);
     },
-    setCountAsAttendance(countList) {
-      console.log(this.countMonthList);
-      let arr = [];
 
-      let aaa = [...countList, ...this.memberList];
-      console.log(aaa);
-
-      console.log(arr);
-    },
-
-    setFormatMemberList: async function() {
+    setFormatMemberList: async function(countMember) {
       this.memberList = await selectMember();
-
-      this.memberList = this.memberList.map(item => ({
-        id: item.id,
-        name: item.name,
-        count: 0
-      }));
     },
     setAttendaceList(attendList) {
       console.log("attendList", attendList);
