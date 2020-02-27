@@ -11,12 +11,7 @@
       </v-app-bar>
 
       <v-card-text class="text--primary">
-        <v-text-field
-          v-model="profile.name"
-          filled
-          label="NAME"
-          prepend-icon="fas fa-user"
-        />
+        <v-text-field v-model="profile.name" filled label="NAME" prepend-icon="fas fa-user" />
         <v-text-field
           v-model="profile.uniform_number"
           filled
@@ -50,11 +45,7 @@
           </template>
           <v-date-picker v-model="date" @input="menu = false" />
         </v-menu>
-        <v-radio-group
-          v-model="profile.inflow_route"
-          row
-          prepend-icon="fas fa-paper-plane"
-        >
+        <v-radio-group v-model="profile.inflow_route" row prepend-icon="fas fa-paper-plane">
           <v-radio label="인스타" value="I" />
           <v-radio label="블로그" value="B" />
           <v-radio label="기타" value="O" />
@@ -81,14 +72,10 @@
       <v-card-actions class="justify-center">
         <v-row>
           <v-col cols="6">
-            <v-btn color="primary" block text @click="updateMember(profile)"
-              >UPDATE</v-btn
-            >
+            <v-btn color="primary" block text @click="updateMember(profile)">UPDATE</v-btn>
           </v-col>
           <v-col cols="6">
-            <v-btn color="red" block text @click="deleteMember(profile.id)"
-              >DELETE</v-btn
-            >
+            <v-btn color="red" block text @click="deleteMember(profile.id)">DELETE</v-btn>
           </v-col>
         </v-row>
       </v-card-actions>
@@ -113,15 +100,12 @@ export default {
     ...mapState(["profile"])
   },
   created() {
-    console.log("Created");
     this.date = moment(this.profile.join_date).format("YYYY-MM-DD");
-    console.log("setImages");
     this.imageUrl = require(`../../assets/bgImage/${this.profile["bg_image"]}`);
   },
   methods: {
     ...mapActions(["delete_member", "update_member"]),
     updateMember(profile) {
-      console.log(profile);
       profile.join_date = moment(this.profile.join_date).format("YYYY-MM-DD");
       let formData = { member_id: profile.id, member: profile };
       this.update_member(formData);
@@ -131,17 +115,13 @@ export default {
       this.delete_member(formData);
     },
     moveDetails(item) {
-      console.log(item);
       this.$router.push({ path: `member/${item.id}/profile` });
     },
     backPage() {
-      console.log("back 가자.");
       this.$router.go(-1);
     },
     changeImage(target) {
-      console.log(target);
       this.imageUrl = require(`../../assets/bgImage/${target}`);
-      console.log(this.imageUrl);
     }
   }
 };

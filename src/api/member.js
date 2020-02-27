@@ -5,9 +5,7 @@ const devUrl = "http://localhost:3000";
 
 async function addMember(form) {
   try {
-    console.log(form);
     const response = await axios.post(`${devUrl}/api/member/create`, form);
-    console.log(response);
     return response;
   } catch (e) {
     console.log(e);
@@ -46,7 +44,6 @@ async function deleteMember(member_id) {
 
 async function updateMember(formData) {
   try {
-    console.log("update api: ", formData);
     const response = await axios.put(`${devUrl}/api/member/update`, formData);
     return response;
   } catch (e) {

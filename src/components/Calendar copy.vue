@@ -3,9 +3,7 @@
     <v-col>
       <v-sheet height="64">
         <v-toolbar flat color="white">
-          <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday"
-            >Today</v-btn
-          >
+          <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">Today</v-btn>
           <v-btn fab text small color="grey darken-2" @click="prev">
             <v-icon small>fas fa-chevron-left</v-icon>
           </v-btn>
@@ -45,9 +43,7 @@
               <span v-html="selectedEvent.details"></span>
             </v-card-text>
             <v-card-actions>
-              <v-btn text color="secondary" @click.stop="cancelButton"
-                >Cancel</v-btn
-              >
+              <v-btn text color="secondary" @click.stop="cancelButton">Cancel</v-btn>
             </v-card-actions>
           </v-card>
         </v-menu>
@@ -122,7 +118,6 @@ export default {
   computed: {
     ...mapState(["modal"]),
     title() {
-      console.log("title");
       const { start, end } = this;
       if (!start || !end) {
         return "";
@@ -158,12 +153,9 @@ export default {
       this.$refs.calendar.next();
     },
     cancelButton() {
-      console.log("cancel");
       this.SET_MODAL(false);
     },
     showEvent({ nativeEvent, event }) {
-      console.log(nativeEvent);
-      console.log(event);
       const open = () => {
         this.selectedEvent = event;
         this.selectedElement = nativeEvent.target;
@@ -180,7 +172,6 @@ export default {
       nativeEvent.stopPropagation();
     },
     updateRange({ start, end }) {
-      console.log("updateRange");
       this.start = start;
       this.end = end;
     }

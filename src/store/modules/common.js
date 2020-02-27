@@ -31,7 +31,6 @@ const actions = {
   async set_SnackBar({
     commit
   }, value) {
-    console.log(value);
     commit("SET_SNACKBAR", value);
   }
 };

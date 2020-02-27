@@ -4,7 +4,7 @@
       <v-icon class="fas fa-arrow-left" />
     </v-btn>
     <v-spacer />
-    <v-toolbar-title> {{ tableHeader }} </v-toolbar-title>
+    <v-toolbar-title>{{ tableHeader }}</v-toolbar-title>
     <v-spacer />
   </v-toolbar>
 </template>
@@ -15,7 +15,6 @@ export default {
   props: ["tableHeader"],
   methods: {
     backPage() {
-      console.log("back 가자.");
       this.$router.go(-1);
     }
   }

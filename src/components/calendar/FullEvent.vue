@@ -204,8 +204,6 @@ export default {
     ...mapState(["fullEventDialog"])
   },
   created() {
-    console.log("created");
-    console.log(this.selectedEvent);
     this.start_time = this.selectedEvent.start;
     this.end_time = this.selectedEvent.end;
     this.name = this.selectedEvent.name;
@@ -214,11 +212,9 @@ export default {
     ...mapMutations(["SET_FULL_EVENT_MODAL"]),
     ...mapActions(["update_event"]),
     close() {
-      console.log("dialog 닫아라");
       this.SET_FULL_EVENT_MODAL(!this.fullEventDialog);
     },
     save() {
-      console.log("save event");
       // value 포맷 맞추기 날짜, 없을 때
       var date = this.$refs.menu_date.value;
       var start_time = this.$refs.start_time.value;
@@ -226,7 +222,7 @@ export default {
       var stadium_id = this.$refs.stadium.value;
       var name = this.$refs.name.value;
       var type = this.$refs.type.value + 1;
-      console.log(date, end_time, start_time, stadium_id, name, type);
+
       var scheduleFormData = {
         date: date,
         start_time,

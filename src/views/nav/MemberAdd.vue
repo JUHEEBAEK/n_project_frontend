@@ -18,12 +18,7 @@
             <v-text-field v-model="name" label="이름" hide-details outlined />
           </v-col>
           <v-col cols="12" class="py-2">
-            <v-text-field
-              v-model="nickName"
-              label="닉네임"
-              hide-details
-              outlined
-            />
+            <v-text-field v-model="nickName" label="닉네임" hide-details outlined />
           </v-col>
           <v-col cols="12" class="py-2">
             <v-menu
@@ -96,16 +91,11 @@ export default {
     uniform_number: "",
     uniform_numberList: []
   }),
-  created() {
-    console.log("Created");
-    this.loop100();
-  },
+  created() {},
   methods: {
     ...mapActions(["add_member"]),
     submit() {
-      console.log("Submit data");
       let _srcData = {};
-
       _srcData["name"] = this.name;
       _srcData["nick_name"] = this.nickName;
       _srcData["join_date"] = this.date;
@@ -118,7 +108,6 @@ export default {
 
       this.clear();
     },
-
     clear() {
       //this.$v.$reset()
       this.name = "";
@@ -126,13 +115,6 @@ export default {
       this.date = new Date().toISOString().substr(0, 10);
       this.uniform_number = "";
       this.route = null;
-    },
-
-    loop100() {
-      console.log("loop");
-      for (let i = 1; i < 100; i++) {
-        this.uniform_numberList.push(i);
-      }
     }
   }
 };

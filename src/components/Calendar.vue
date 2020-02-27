@@ -3,9 +3,7 @@
     <v-col>
       <v-sheet height="64">
         <v-toolbar flat dense color="white">
-          <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday"
-            >Today</v-btn
-          >
+          <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">Today</v-btn>
           <v-btn fab text small color="grey darken-2" @click="prev">
             <v-icon small>fas fa-chevron-left</v-icon>
           </v-btn>
@@ -31,7 +29,6 @@
                 :key="event.name"
                 v-model="event.open"
                 :close-on-content-click="false"
-                :nudge-width="250"
                 offset-x
                 offset-y
                 offset-overfloww
@@ -47,22 +44,13 @@
                   ></div>
                 </template>
 
-                <calendar-event
-                  :selectedEvent="event"
-                  @close="close(event)"
-                ></calendar-event>
+                <calendar-event :selectedEvent="event" @close="close(event)"></calendar-event>
                 <calendar-fullEvent :selectedEvent="event"></calendar-fullEvent>
               </v-menu>
             </template>
 
-            <calendar-add
-              :newEventBox="newEventBox"
-              :selectedDate="clickDay"
-              :day="date"
-            ></calendar-add>
+            <calendar-add :newEventBox="newEventBox" :selectedDate="clickDay" :day="date"></calendar-add>
           </template>
-          <!-- <calendar-add :click__date="date"></calendar-add> -->
-          <!-- @click:event="showEvent" -->
         </v-calendar>
       </v-sheet>
     </v-col>
@@ -89,8 +77,7 @@ export default {
     closeOnClick: true,
     selectedOpen: false,
     selectedEvent: {},
-    selectedElement: null,
-    events: stringSchedule.events
+    selectedElement: null
   }),
   computed: {
     ...mapState(["newEventBox", "eventList"]),
@@ -112,9 +99,9 @@ export default {
     eventsMap() {
       const map = {};
       this.eventList.forEach(e => {
+        e.color = this.getEventColor(e.type);
         (map[e.date] = map[e.date] || []).push(e);
       });
-      console.log(map);
       return map;
     }
   },
@@ -131,28 +118,22 @@ export default {
       this.$refs.calendar.next();
     },
     dateClick(event, isAdd) {
-      console.log(event);
       this.clickDay = event.date;
       this.SET_NEW_EVENT_MODAL(!this.newEventBox);
     },
-    getEventColor(event) {
-      console.log(event);
-      return event.color;
+    getEventColor(type) {
+      return stringSchedules.types[type].color;
     },
     updateRange({ start, end }) {
       this.start = start;
       this.end = end;
     },
     close(event) {
-      console.log("닫아줘");
-      console.log(event.open);
       event.open = false;
     }
   },
   mounted() {
     this.select_event();
-    console.log("예시 events");
-    console.log(this.events);
   }
 };
 </script>
