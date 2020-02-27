@@ -36,7 +36,8 @@
                 <template v-slot:activator="{ on }">
                   <div
                     v-ripple
-                    :class="`my__event ${event.color}`"
+                    class="my__event"
+                    :style="`background-color:${event.color}`"
                     v-on="on"
                     @click.stop
                     v-html="event.name"
@@ -58,7 +59,7 @@
 </template>
 
 <script>
-import stringSchedule from "../assets/value/Schedule.json";
+import stringSchedules from "../assets/value/Schedule.json";
 
 import { createNamespacedHelpers } from "vuex";
 const { mapState, mapMutations, mapActions } = createNamespacedHelpers(
