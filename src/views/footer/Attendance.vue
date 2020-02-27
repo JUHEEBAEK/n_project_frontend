@@ -29,7 +29,7 @@
             >
               <v-row class="fill-height" align="center" justify="center">
                 <v-scale-transition>
-                  <span class="date__day">{{ item.date.substr(8,2) }}</span>
+                  <span class="date__day">{{ item.date.substr(8, 2) }}</span>
                 </v-scale-transition>
               </v-row>
             </v-card>
@@ -40,76 +40,112 @@
             <v-row class="fill-height" align="center" justify="center">
               <v-col cols="12" sm="12" md="12" lg="3">
                 <v-card :loading="loading" class="mx-auto">
-                  <v-card-title class="schedule__title">{{ scheduleName }}</v-card-title>
+                  <v-card-title class="schedule__title">{{
+                    scheduleName
+                  }}</v-card-title>
 
                   <v-card-text>
-                    <div
-                      class="my-3 subtitle-1 schedule__time"
-                    >{{ scheduleStart }} - {{ scheduleEnd }}</div>
+                    <div class="my-3 subtitle-1 schedule__time">
+                      {{ scheduleStart }} - {{ scheduleEnd }}
+                    </div>
                   </v-card-text>
 
                   <v-divider class="mx-4"></v-divider>
 
-                  <v-card-text class="schedule__stadium">{{ scheduleStadium }}</v-card-text>
-                  <v-card-text class="grey--text">{{ scheduleAddress }}</v-card-text>
+                  <v-card-text class="schedule__stadium">{{
+                    scheduleStadium
+                  }}</v-card-text>
+                  <v-card-text class="grey--text">{{
+                    scheduleAddress
+                  }}</v-card-text>
                 </v-card>
               </v-col>
               <v-col cols="12" sm="12" md="12" lg="8">
                 <v-card outlined class="pa-3">
                   <v-row wrap justify="center">
                     <v-col cols="1" align-self="center">
-                      <v-img src="../../assets/sun.png" contain width="30" height="30" />
+                      <v-img
+                        src="../../assets/sun.png"
+                        contain
+                        width="30"
+                        height="30"
+                      />
                     </v-col>
                     <v-col cols="9">
                       <div class="text-left">
                         <v-chip
-                          v-for="member in good"
+                          v-for="member in good_attendance"
                           dark
                           label
                           :outlined="member.attend ? 'outlined' : ''"
-                          :class="member.attend ? 'chip__member' : 'chip__member opacity-4'"
+                          :class="
+                            member.attend
+                              ? 'chip__member'
+                              : 'chip__member opacity-4'
+                          "
                           :color="member.attend ? 'tertiary' : 'muji'"
                           :key="member.name"
                           @click="isAttend(member)"
-                        >{{ member.name }}</v-chip>
+                          >{{ member.name }}</v-chip
+                        >
                       </div>
                     </v-col>
                   </v-row>
                   <v-row wrap justify="center">
                     <v-col cols="1" align-self="center">
-                      <v-img src="../../assets/rainy.png" contain width="30" height="30" />
+                      <v-img
+                        src="../../assets/rainy.png"
+                        contain
+                        width="30"
+                        height="30"
+                      />
                     </v-col>
                     <v-col cols="9">
                       <div class="text-left">
                         <v-chip
-                          v-for="member in so_so"
+                          v-for="member in so_so_attendance"
                           dark
                           label
                           :outlined="member.attend ? 'outlined' : ''"
-                          :class="member.attend ? 'chip__member' : 'chip__member opacity-4'"
+                          :class="
+                            member.attend
+                              ? 'chip__member'
+                              : 'chip__member opacity-4'
+                          "
                           :color="member.attend ? 'tertiary' : 'muji'"
                           :key="member.name"
                           @click="isAttend(member)"
-                        >{{ member.name }}</v-chip>
+                          >{{ member.name }}</v-chip
+                        >
                       </div>
                     </v-col>
                   </v-row>
                   <v-row wrap justify="center">
                     <v-col cols="1" align-self="center">
-                      <v-img src="../../assets/cemetery.png" contain width="30" height="30" />
+                      <v-img
+                        src="../../assets/cemetery.png"
+                        contain
+                        width="30"
+                        height="30"
+                      />
                     </v-col>
                     <v-col cols="9">
                       <div class="text-left">
                         <v-chip
-                          v-for="member in ghost"
+                          v-for="member in ghost_attendance"
                           dark
                           label
                           :outlined="member.attend ? 'outlined' : ''"
-                          :class="member.attend ? 'chip__member' : 'chip__member opacity-4'"
+                          :class="
+                            member.attend
+                              ? 'chip__member'
+                              : 'chip__member opacity-4'
+                          "
                           :color="member.attend ? 'tertiary' : 'muji'"
                           :key="member.name"
                           @click="isAttend(member)"
-                        >{{ member.name }}</v-chip>
+                          >{{ member.name }}</v-chip
+                        >
                       </div>
                     </v-col>
                   </v-row>
@@ -125,12 +161,11 @@
 
 <script>
 import moment from "moment";
-import stringAttendance from "../../assets/value/Attendance.json";
 import stringSchedule from "../../assets/value/Schedule.json";
 import { selectSchedule, countThreeMonths } from "../../api/attendance.js";
 import { selectMember } from "../../api/member.js";
 import { createNamespacedHelpers } from "vuex";
-const { mapState, mapActions } = createNamespacedHelpers("calendar");
+const { mapState, mapActions } = createNamespacedHelpers("attend");
 
 export default {
   name: "Attendance.vue",
@@ -138,25 +173,21 @@ export default {
     this.scheduleList = await selectSchedule();
     // await this.setFormatMemberList();
 
-    this.activeSchedule();
+    // 선택된거
+    await this.activeSchedule();
+    // 출석률 가져오기
+    await this.get_attend_rate(this.scheduleList[this.model].date);
+    // 그중에 출석한 사람들 업데이트 해주기
+    await this.get_attendance(this.scheduleList[this.model].id);
 
-    let date = moment(this.today).format("YYYYMM");
-    let beforeDate = moment(this.today)
-      .subtract(3, "months")
-      .format("YYYYMM");
+    // 이후에 state에서 good soso ghost를 바로 가져와서 업데이트 해주자
+    console.log(
+      this.good_attendance,
+      this.so_so_attendance,
+      this.ghost_attendance
+    );
 
-    const formData = { standard_date: date, before_date: beforeDate };
-
-    console.log("want to see 1", this.scheduleList[this.model]);
-    //날짜를 가져오기
-    
-    // 이후에 출석을 했는지 여부는 추가로 넣어주자
-    // 선택된 schedule id가 필요하다 this.scheduleList[this.model].id
-    // get_attendance로 이름을 바꾼다
-    // if (this.scheduleList[this.model].id) {
-    //   await this.load_member(this.scheduleList[this.model].id);
-    //   console.log("want to see", this.memberAttendList);
-    // }
+    // 이후에 slide에서 model이 변경되었을 경우에도 업데이트 하자(model이라는 명칭도 바꾸고)
   },
   data: () => ({
     memberList: [],
@@ -173,16 +204,13 @@ export default {
     scheduleStart: null,
     scheduleEnd: null,
     scheduleStadium: null,
-    scheduleAddress: null,
-    good: stringAttendance.good,
-    so_so: stringAttendance.so_so,
-    ghost: stringAttendance.ghost
+    scheduleAddress: null
   }),
   computed: {
-    ...mapState(["memberAttendList"])
+    ...mapState(["good_attendance", "so_so_attendance", "ghost_attendance"])
   },
   methods: {
-    ...mapActions(["load_member"]),
+    ...mapActions(["get_attend_rate", "get_attendance"]),
     isAttend(item) {
       item.attend = !item.attend;
     },
