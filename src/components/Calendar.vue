@@ -74,7 +74,6 @@ export default {
     start: null,
     end: null,
     clickDay: "",
-    // newEventBox: false,
     closeOnClick: true,
     selectedOpen: false,
     selectedEvent: {},

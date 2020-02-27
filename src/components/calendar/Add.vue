@@ -181,7 +181,6 @@ export default {
   data: () => ({
     popover_menu: false,
     color: "rgb(230, 124, 115)",
-    // date: moment().format("YYYY-MM-DD"),
     start_time: "17:00",
     end_time: "19:00",
     menu_date: false,

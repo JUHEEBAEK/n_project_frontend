@@ -25,8 +25,6 @@ const mutations = {
     state.searchResult = memberList;
   },
   [constants.DELETE_MEMBER](state, memberId) {
-    // let index = state.memberList.findIndex(member => member.id == memberId)
-    // state.memberList.splice(index, 1);
   },
   [constants.DETAILS_MEMBER](state, memberProfile) {
     state.profile = memberProfile;

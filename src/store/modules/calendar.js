@@ -40,10 +40,7 @@ const mutations = {
       }
       //attendCount 필요함
       item["attendCount"] = 0;
-      let date = moment(item["date"]);
-      item["date"] = moment(item["date"]).format("YYYY-MM-DD");
-
-      item["color"] = "grape"; // 적당한 색으로 넣어준다
+      
       //open은 default false로 설정해준다
       item["open"] = false;
 
