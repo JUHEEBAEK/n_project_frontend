@@ -129,6 +129,8 @@ import stringAttendance from "../../assets/value/Attendance.json";
 import stringSchedule from "../../assets/value/Schedule.json";
 import { selectSchedule, countThreeMonths } from "../../api/attendance.js";
 import { selectMember } from "../../api/member.js";
+import { createNamespacedHelpers } from "vuex";
+const { mapState, mapActions } = createNamespacedHelpers("calendar");
 
 export default {
   name: "Attendance.vue",
@@ -144,35 +146,17 @@ export default {
       .format("YYYYMM");
 
     const formData = { standard_date: date, before_date: beforeDate };
-    console.log("countThreeMonths");
-    this.countMonthList = await countThreeMonths(formData);
-    console.log("countMonthList", this.countMonthList); // 57명이 나오면 전부 다 있음
 
-    // 가장 count가 높은 사람이 위에 있기 때문에 max값은 처음 사람의 것
-    let max_count = this.countMonthList[0].count;
-    let good_count = this.countMonthList[0].count * 0.7;
-    let so_so_count = this.countMonthList[0].count * 0.2;
-
-    // good so_so ghost 3가지로 분류한다
-    let good_list = [];
-    let so_so_list = [];
-    let ghost_list = [];
-    for (var i in this.countMonthList) {
-      let item = this.countMonthList[i];
-
-      if (item.count >= good_count) {
-        good_list.push(item);
-        continue;
-      } else if (item.count >= so_so_count) {
-        so_so_list.push(item);
-      } else {
-        ghost_list.push(item);
-      }
-    }
-
+    console.log("want to see 1", this.scheduleList[this.model]);
+    //날짜를 가져오기
+    
     // 이후에 출석을 했는지 여부는 추가로 넣어주자
-    // 선택된 schedule id가 필요하다
-    console.log(this.model);
+    // 선택된 schedule id가 필요하다 this.scheduleList[this.model].id
+    // get_attendance로 이름을 바꾼다
+    // if (this.scheduleList[this.model].id) {
+    //   await this.load_member(this.scheduleList[this.model].id);
+    //   console.log("want to see", this.memberAttendList);
+    // }
   },
   data: () => ({
     memberList: [],
@@ -194,7 +178,11 @@ export default {
     so_so: stringAttendance.so_so,
     ghost: stringAttendance.ghost
   }),
+  computed: {
+    ...mapState(["memberAttendList"])
+  },
   methods: {
+    ...mapActions(["load_member"]),
     isAttend(item) {
       item.attend = !item.attend;
     },
