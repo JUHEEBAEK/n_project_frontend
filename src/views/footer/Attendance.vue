@@ -13,7 +13,7 @@
             </v-col>
           </v-row>
         </div>
-        <v-slide-group v-model="model" show-arrows center-active>
+        <v-slide-group v-model="scheduleIndex" show-arrows center-active>
           <v-slide-item
             v-for="item in scheduleList"
             :key="item.id"
@@ -40,36 +40,37 @@
             <v-row class="fill-height" align="center" justify="center">
               <v-col cols="12" sm="12" md="12" lg="3">
                 <v-card :loading="loading" class="mx-auto">
-                  <v-card-title class="schedule__title">{{
+                  <v-card-title class="schedule__title">
+                    {{
                     scheduleName
-                  }}</v-card-title>
+                    }}
+                  </v-card-title>
 
                   <v-card-text>
-                    <div class="my-3 subtitle-1 schedule__time">
-                      {{ scheduleStart }} - {{ scheduleEnd }}
-                    </div>
+                    <div
+                      class="my-3 subtitle-1 schedule__time"
+                    >{{ scheduleStart }} - {{ scheduleEnd }}</div>
                   </v-card-text>
 
                   <v-divider class="mx-4"></v-divider>
 
-                  <v-card-text class="schedule__stadium">{{
+                  <v-card-text class="schedule__stadium">
+                    {{
                     scheduleStadium
-                  }}</v-card-text>
-                  <v-card-text class="grey--text">{{
+                    }}
+                  </v-card-text>
+                  <v-card-text class="grey--text">
+                    {{
                     scheduleAddress
-                  }}</v-card-text>
+                    }}
+                  </v-card-text>
                 </v-card>
               </v-col>
               <v-col cols="12" sm="12" md="12" lg="8">
                 <v-card outlined class="pa-3">
                   <v-row wrap justify="center">
                     <v-col cols="1" align-self="center">
-                      <v-img
-                        src="../../assets/sun.png"
-                        contain
-                        width="30"
-                        height="30"
-                      />
+                      <v-img src="../../assets/sun.png" contain width="30" height="30" />
                     </v-col>
                     <v-col cols="9">
                       <div class="text-left">
@@ -86,19 +87,13 @@
                           :color="member.attend ? 'tertiary' : 'muji'"
                           :key="member.name"
                           @click="isAttend(member)"
-                          >{{ member.name }}</v-chip
-                        >
+                        >{{ member.name }}</v-chip>
                       </div>
                     </v-col>
                   </v-row>
                   <v-row wrap justify="center">
                     <v-col cols="1" align-self="center">
-                      <v-img
-                        src="../../assets/rainy.png"
-                        contain
-                        width="30"
-                        height="30"
-                      />
+                      <v-img src="../../assets/rainy.png" contain width="30" height="30" />
                     </v-col>
                     <v-col cols="9">
                       <div class="text-left">
@@ -115,19 +110,13 @@
                           :color="member.attend ? 'tertiary' : 'muji'"
                           :key="member.name"
                           @click="isAttend(member)"
-                          >{{ member.name }}</v-chip
-                        >
+                        >{{ member.name }}</v-chip>
                       </div>
                     </v-col>
                   </v-row>
                   <v-row wrap justify="center">
                     <v-col cols="1" align-self="center">
-                      <v-img
-                        src="../../assets/cemetery.png"
-                        contain
-                        width="30"
-                        height="30"
-                      />
+                      <v-img src="../../assets/cemetery.png" contain width="30" height="30" />
                     </v-col>
                     <v-col cols="9">
                       <div class="text-left">
@@ -144,8 +133,7 @@
                           :color="member.attend ? 'tertiary' : 'muji'"
                           :key="member.name"
                           @click="isAttend(member)"
-                          >{{ member.name }}</v-chip
-                        >
+                        >{{ member.name }}</v-chip>
                       </div>
                     </v-col>
                   </v-row>
@@ -169,31 +157,11 @@ const { mapState, mapActions } = createNamespacedHelpers("attend");
 
 export default {
   name: "Attendance.vue",
-  async created() {
-    this.scheduleList = await selectSchedule();
-    // await this.setFormatMemberList();
-
-    // 선택된거
-    await this.activeSchedule();
-    // 출석률 가져오기
-    await this.get_attend_rate(this.scheduleList[this.model].date);
-    // 그중에 출석한 사람들 업데이트 해주기
-    await this.get_attendance(this.scheduleList[this.model].id);
-
-    // 이후에 state에서 good soso ghost를 바로 가져와서 업데이트 해주자
-    console.log(
-      this.good_attendance,
-      this.so_so_attendance,
-      this.ghost_attendance
-    );
-
-    // 이후에 slide에서 model이 변경되었을 경우에도 업데이트 하자(model이라는 명칭도 바꾸고)
-  },
   data: () => ({
     memberList: [],
     setMemberList: [],
     countMonthList: [],
-    model: null,
+    scheduleIndex: null,
     setYear: moment().format("YYYY"),
     setMonth: moment().format("MMMM"),
     today: moment().format("YYYY-MM-DD"),
@@ -209,6 +177,24 @@ export default {
   computed: {
     ...mapState(["good_attendance", "so_so_attendance", "ghost_attendance"])
   },
+  watch: {
+    scheduleIndex: async function(val) {
+      console.log("schedule index", val);
+      if (val) {
+        this.setDate(this.scheduleList[this.scheduleIndex]);
+        // 출석률 가져오기
+        await this.get_attend_rate(this.scheduleList[this.scheduleIndex].date);
+        // 그중에 출석한 사람들 업데이트 해주기
+        await this.get_attendance(this.scheduleList[this.scheduleIndex].id);
+      }
+    }
+  },
+
+  async created() {
+    this.scheduleList = await selectSchedule();
+    await this.activeSchedule();
+  },
+
   methods: {
     ...mapActions(["get_attend_rate", "get_attendance"]),
     isAttend(item) {
@@ -216,8 +202,8 @@ export default {
     },
     // 제일 최근의 스케줄을 선택해주는 함수.
     activeSchedule: async function() {
-      this.model = this.scheduleList.length - 1;
-      this.setDate(this.scheduleList[this.model]);
+      this.scheduleIndex = this.scheduleList.length - 1;
+      this.setDate(this.scheduleList[this.scheduleIndex]);
     },
 
     setFormatMemberList: async function(countMember) {

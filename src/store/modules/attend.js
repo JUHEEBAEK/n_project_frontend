@@ -30,9 +30,6 @@ const mutations = {
             result_dictionary[item.member_id] = true
         }
         state.attendance = result_dictionary;
-        console.log('attendance', attendance)
-        console.log(result_dictionary)
-        console.log(result_dictionary[9], result_dictionary[3], result_dictionary[15])
     },
     update_attendance_attend(state) {
         // state.attendance
@@ -74,9 +71,9 @@ const mutations = {
         let ghost_list = [];
 
         // 가장 count가 높은 순으로 정렬되어 있기 때문에 max값은 처음 사람의 것
-        let max_count = countMonthList[0].count;
-        let good_count = countMonthList[0].count * 0.7;
-        let so_so_count = countMonthList[0].count * 0.2;
+        let max_count = countMonthList[0].count ? countMonthList[0].count : 0;
+        let good_count = max_count * 0.7;
+        let so_so_count = max_count * 0.2;
 
         for (var i in countMonthList) {
             let item = countMonthList[i];
