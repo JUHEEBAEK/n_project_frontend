@@ -3,7 +3,9 @@ import {
     countThreeMonths
 } from "../../api/attendance.js";
 import {
-    attendanceList
+    attendanceList,
+    addAttend,
+    deleteAttend,
 } from "../../api/attend.js";
 import moment from "moment";
 
@@ -119,8 +121,27 @@ const actions = {
         const countMonthList = await countThreeMonths(formData);
         commit("SET_COUNT_THREE_MONTHS", countMonthList);
     },
+    async add_attend(context, payload) {
+        let response = await addAttend(payload);
+        console.log('add_attend', response)
+        if (response.err) {
+            return false
+        } else {
+            return true
+        }
+    },
+    async delete_attend(context, payload) {
+        let response = await deleteAttend(payload);
+        console.log('delte_attend', response)
+        if (response.err) {
+            return false
+        } else {
+            return true
+        }
+    },
 
 };
+
 
 export default {
     state,

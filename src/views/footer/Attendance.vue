@@ -172,7 +172,9 @@ export default {
     scheduleStart: null,
     scheduleEnd: null,
     scheduleStadium: null,
-    scheduleAddress: null
+    scheduleAddress: null,
+
+    requesting: false
   }),
   computed: {
     ...mapState(["good_attendance", "so_so_attendance", "ghost_attendance"])
@@ -196,9 +198,35 @@ export default {
   },
 
   methods: {
-    ...mapActions(["get_attend_rate", "get_attendance"]),
-    isAttend(item) {
-      item.attend = !item.attend;
+    ...mapActions([
+      "get_attend_rate",
+      "get_attendance",
+      "add_attend",
+      "delete_attend"
+    ]),
+    async isAttend(item) {
+      console.log("this is clicked", item);
+      this.requesting = true;
+
+      let success_in_query = false;
+      let form = {
+        member_id: item.id,
+        schedule_id: this.scheduleList[this.scheduleIndex].id
+      };
+      if (item.attend) {
+        // delete api
+        success_in_query = await this.delete_attend(form);
+      } else {
+        // insert api
+        success_in_query = await this.add_attend(form);
+      }
+
+      // attend를 없애기 만약 콜백에 문제가 없는 경우에 로컬 변경
+      if (success_in_query) {
+        item.attend = !item.attend;
+      }
+
+      this.requesting = false;
     },
     // 제일 최근의 스케줄을 선택해주는 함수.
     activeSchedule: async function() {
