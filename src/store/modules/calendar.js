@@ -3,7 +3,7 @@ import {
 } from "../../utils/index";
 import {
   addEvent,
-  selectEvent,
+  getEventList,
   deleteEvent,
   updateEvent
 } from "../../api/schedule.js";
@@ -40,10 +40,7 @@ const mutations = {
       }
       //attendCount 필요함
       item["attendCount"] = 0;
-      let date = moment(item["date"]);
-      item["date"] = moment(item["date"]).format("YYYY-MM-DD");
-
-      item["color"] = "grape"; // 적당한 색으로 넣어준다
+      
       //open은 default false로 설정해준다
       item["open"] = false;
 
@@ -62,7 +59,6 @@ const mutations = {
     state.eventList = event_list;
   },
   ADD_MEMBER_LIST(state, memberList) {
-    console.log("ADD_MEMBER_LIST", memberList);
     if (memberList.length == 0) {
       return false;
     }
@@ -88,23 +84,18 @@ const mutations = {
       console.log("ADD_MEMBER_LIST, can not find Schedule");
       return;
     }
-    console.log(state.eventList);
-    console.log(index, state.eventList[index]);
     let item = state.eventList[index];
     item["attendCount"] = member_count;
     item["memeber_id_list"] = memeber_id_list;
     item["memeber_name_list"] = memeber_name_list;
 
     state.eventList[index] = item;
-    console.log(state.eventList[index]);
   }
 };
 
 const actions = {
   async add_event(context, form) {
     try {
-      console.log(context);
-      console.log(form);
       const response = await addEvent(form);
       return response.data;
     } catch (e) {
@@ -113,9 +104,7 @@ const actions = {
   },
   async select_event(context) {
     try {
-      console.log("Action select_event");
-      const response = await selectEvent();
-      console.log("Action select_event", response);
+      const response = await getEventList();
       context.commit("SET_EVENT_LIST", response.data);
       return response.data;
     } catch (e) {

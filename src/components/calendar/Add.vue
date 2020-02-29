@@ -9,20 +9,12 @@
       offset-overflow
     >
       <template v-slot:activator="{ on }">
-        <div v-ripple v-on="on" class="event__new muji" @click.stop="close()">
-          {{ new_event_title }}
-        </div>
+        <div v-ripple v-on="on" class="event__new muji" @click.stop="close()">{{ new_event_title }}</div>
       </template>
 
       <v-card color="grey lighten-4" :slotData="slotData">
-        <v-form class="form">
-          <v-toolbar
-            class="popover__header"
-            height="40"
-            color="grey lighten-4"
-            flat
-            tile
-          >
+        <v-form class="form" ref="form" lazy-validation>
+          <v-toolbar class="popover__header" height="40" color="grey lighten-4" flat tile>
             <v-spacer />
             <v-btn icon small class="mx-1" @click="close()">
               <v-icon small>fas fa-times</v-icon>
@@ -36,7 +28,9 @@
                   v-model="event_name"
                   dense
                   height="40"
+                  label="TITLE"
                   placeholder="제목 및 시간 추가"
+                  :rules="emptyCheckRules"
                 />
               </v-col>
             </v-row>
@@ -48,10 +42,11 @@
                 <v-select
                   v-model="event_type"
                   dense
-                  :items="types"
-                  label="Select a type"
-                  item-value="type"
+                  label="TYPE"
                   item-text="name"
+                  item-value="type"
+                  :items="types"
+                  :rules="emptyCheckRules"
                   @change="changeType()"
                 />
               </v-col>
@@ -72,18 +67,15 @@
                   <template v-slot:activator="{ on }">
                     <v-text-field
                       v-model="selectedDate"
+                      v-on="on"
                       dense
+                      disabled
                       readonly
                       :placeholder="selectedDate"
-                      v-on="on"
+                      :rules="emptyCheckRules"
                     />
                   </template>
-                  <v-date-picker
-                    v-model="selectedDate"
-                    dense
-                    no-title
-                    @input="menu_date = false"
-                  />
+                  <v-date-picker v-model="selectedDate" dense no-title @input="menu_date = false" />
                 </v-menu>
               </v-col>
             </v-row>
@@ -95,20 +87,20 @@
                 <v-menu
                   ref="menu_start"
                   v-model="menu_start"
+                  :close-on-content-click="false"
                   :nudge-right="40"
                   :return-value.sync="start_time"
                   transition="scale-transition"
-                  max-width="240px"
-                  min-width="240px"
-                  offset-y
+                  max-width="290px"
+                  min-width="290px"
                 >
                   <template v-slot:activator="{ on }">
                     <v-text-field
                       v-model="start_time"
-                      dense
-                      :placeholder="start_time"
-                      color="grey"
                       v-on="on"
+                      label="START TIME"
+                      readonly
+                      :rules="emptyCheckRules"
                     />
                   </template>
                   <v-time-picker
@@ -122,30 +114,32 @@
               <b class="align-self-center">-</b>
               <v-col cols="4" align-self="center">
                 <v-menu
-                  ref="menu_end"
+                  ref="menu"
                   v-model="menu_end"
+                  :close-on-content-click="false"
                   :nudge-right="40"
                   :return-value.sync="end_time"
                   transition="scale-transition"
-                  max-width="240px"
-                  min-width="240px"
-                  offset-y
+                  max-width="290px"
+                  min-width="290px"
                 >
                   <template v-slot:activator="{ on }">
                     <v-text-field
                       v-model="end_time"
-                      dense
-                      color="grey"
-                      placeholder="19:00"
                       v-on="on"
-                    />
+                      label="END TIME"
+                      readonly
+                      :rules="emptyCheckRules"
+                    ></v-text-field>
                   </template>
                   <v-time-picker
                     v-if="menu_end"
                     v-model="end_time"
+                    format="24hr"
+                    :min="start_time"
                     full-width
-                    @click:minute="$refs.menu_end.save(end_time)"
-                  />
+                    @click:minute="$refs.menu.save(end_time)"
+                  ></v-time-picker>
                 </v-menu>
               </v-col>
             </v-row>
@@ -157,10 +151,11 @@
                 <v-select
                   v-model="stadium_id"
                   dense
-                  :items="stadiumList"
-                  label="Select a stadium"
+                  label="STADIUM"
                   item-value="id"
                   item-text="name"
+                  :items="stadiumList"
+                  :rules="emptyCheckRules"
                 />
               </v-col>
             </v-row>
@@ -179,6 +174,7 @@
 <script>
 import stringStadium from "../../assets/value/Stadium";
 import stringSchedules from "../../assets/value/Schedule";
+import regex from "../../mixin/regex.js";
 
 import { createNamespacedHelpers } from "vuex";
 const {
@@ -198,20 +194,19 @@ export default {
   data: () => ({
     popover_menu: false,
     color: "rgb(230, 124, 115)",
-    // date: moment().format("YYYY-MM-DD"),
-    start_time: "17:00",
-    end_time: "19:00",
     menu_date: false,
     menu_start: false,
     menu_end: false,
 
+    start_time: null,
+    end_time: null,
     event_name: "",
     event_type: "",
     stadium_type: "",
-
     new_event_title: "(제목없음)",
     types: stringSchedules.typeList
   }),
+  mixins: [regex],
   created() {
     this.date = this._clickDate;
   },
@@ -238,30 +233,34 @@ export default {
     changeType() {
       this.color = stringSchedules.types[this.event_type].color;
     },
-    submit() {
-      console.log("저장");
-
-      let _srcData = {};
-
-      _srcData["name"] = this.event_name;
-      _srcData["stadium_id"] = this.stadium_id;
-      _srcData["type"] = this.event_type;
-      _srcData["date"] = this.selectedDate;
-      _srcData["start_time"] = this.start_time;
-      _srcData["end_time"] = this.end_time;
-
-      console.log(_srcData);
-
-      this.add_event(_srcData).then(() => {
-        console.log("success");
-        this.SET_ALERT(true);
-        this.close();
-        this.select_event();
-      });
-    },
     close() {
-      console.log("close");
+      this.initDialog();
       this.SET_NEW_EVENT_MODAL(!this.newEventBox);
+    },
+    initDialog() {
+      this.event_name = "";
+      this.start_time = null;
+      this.end_time = null;
+      this.event_type = "";
+      this.stadium_type = "";
+    },
+    submit() {
+      if (this.$refs.form.validate()) {
+        let _srcData = {};
+
+        _srcData["name"] = this.event_name;
+        _srcData["stadium_id"] = this.stadium_id;
+        _srcData["type"] = this.event_type;
+        _srcData["date"] = this.selectedDate;
+        _srcData["start_time"] = this.start_time;
+        _srcData["end_time"] = this.end_time;
+
+        this.add_event(_srcData).then(() => {
+          this.SET_ALERT(true);
+          this.close();
+          this.select_event();
+        });
+      }
     }
   }
 };

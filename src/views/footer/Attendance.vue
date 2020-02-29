@@ -134,7 +134,6 @@ export default {
   name: "Attendance.vue",
   async created() {
     this.scheduleList = await selectSchedule();
-    // await this.setFormatMemberList();
 
     this.activeSchedule();
 

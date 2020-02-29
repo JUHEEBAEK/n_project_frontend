@@ -5,7 +5,6 @@ const devUrl = "http://localhost:3000";
 
 async function addEvent(form) {
   try {
-    console.log("api", form);
     const response = await axios.post(`${devUrl}/api/schedule/create`, form);
     return response;
   } catch (e) {
@@ -13,9 +12,8 @@ async function addEvent(form) {
   }
 }
 
-async function selectEvent() {
+async function getEventList() {
   try {
-    console.log("api selectEvent");
     const response = await axios.get(`${devUrl}/api/schedule/list`);
     return response;
   } catch (e) {
@@ -23,13 +21,20 @@ async function selectEvent() {
   }
 }
 
+async function getInfo(schduleId) {
+  try {
+    const response = await axios.get(`${devUrl}/api/schedule/getInfo/${schduleId}`);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 async function deleteEvent(schedule_id_form) {
   try {
-    console.log("api deleteEvent");
     const response = await axios.delete(`${devUrl}/api/schedule/delete`, {
       data: schedule_id_form
     });
-    console.log("deleteEvent response - ", response);
     return response;
   } catch (e) {
     console.log(e);
@@ -38,7 +43,6 @@ async function deleteEvent(schedule_id_form) {
 
 async function updateEvent(formData) {
   try {
-    console.log("update api: ", formData)
     const response = await axios.put(`${devUrl}/api/schedule/update`, formData)
     return response;
   } catch (e) {
@@ -48,7 +52,8 @@ async function updateEvent(formData) {
 
 export {
   addEvent,
-  selectEvent,
+  getEventList,
+  getInfo,
   deleteEvent,
   updateEvent
 };

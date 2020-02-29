@@ -11,12 +11,7 @@
       </v-app-bar>
 
       <v-card-text class="text--primary">
-        <v-text-field
-          v-model="memberInfo.name"
-          filled
-          label="NAME"
-          prepend-icon="fas fa-user"
-        />
+        <v-text-field v-model="memberInfo.name" filled label="NAME" prepend-icon="fas fa-user" />
         <v-text-field
           v-model="memberInfo.uniform_number"
           filled
@@ -50,11 +45,7 @@
           </template>
           <v-date-picker v-model="date" @input="menu = false" />
         </v-menu>
-        <v-radio-group
-          v-model="memberInfo.inflow_route"
-          row
-          prepend-icon="fas fa-paper-plane"
-        >
+        <v-radio-group v-model="memberInfo.inflow_route" row prepend-icon="fas fa-paper-plane">
           <v-radio label="인스타" value="I" />
           <v-radio label="블로그" value="B" />
           <v-radio label="기타" value="O" />
@@ -81,9 +72,7 @@
       <v-card-actions>
         <v-row>
           <v-col cols="12">
-            <v-btn color="primary" block text @click="updateMember(memberInfo)"
-              >UPDATE</v-btn
-            >
+            <v-btn color="primary" block text @click="updateMember(memberInfo)">UPDATE</v-btn>
           </v-col>
         </v-row>
       </v-card-actions>
@@ -154,7 +143,6 @@ export default {
       this.delete_member(formData);
     },
     moveDetails(item) {
-      console.log(item);
       this.$router.push({ path: `member/${item.id}/memberInfo` });
     },
     backPage() {
