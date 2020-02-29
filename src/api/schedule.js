@@ -12,10 +12,19 @@ async function addEvent(form) {
   }
 }
 
-async function selectEvent() {
+async function getEventList() {
   try {
     const response = await axios.get(`${devUrl}/api/schedule/list`);
     return response;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+async function getInfo(schduleId) {
+  try {
+    const response = await axios.get(`${devUrl}/api/schedule/getInfo/${schduleId}`);
+    return response.data;
   } catch (e) {
     console.log(e);
   }
@@ -43,7 +52,8 @@ async function updateEvent(formData) {
 
 export {
   addEvent,
-  selectEvent,
+  getEventList,
+  getInfo,
   deleteEvent,
   updateEvent
 };

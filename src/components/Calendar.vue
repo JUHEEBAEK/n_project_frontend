@@ -46,7 +46,7 @@
                 </template>
 
                 <calendar-event :selectedEvent="event" @close="close(event)"></calendar-event>
-                <calendar-fullEvent :selectedEvent="event"></calendar-fullEvent>
+                <calendar-fullEvent :eventId="event.id" @closeEcent="close(event)"></calendar-fullEvent>
               </v-menu>
             </template>
 
@@ -130,6 +130,8 @@ export default {
     },
     close(event) {
       event.open = false;
+      // 이벤트 닫힐 때 입력했던 값 초기화
+      this.initDialog();
     }
   },
   mounted() {

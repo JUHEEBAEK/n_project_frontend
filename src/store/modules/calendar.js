@@ -3,7 +3,7 @@ import {
 } from "../../utils/index";
 import {
   addEvent,
-  selectEvent,
+  getEventList,
   deleteEvent,
   updateEvent
 } from "../../api/schedule.js";
@@ -104,7 +104,7 @@ const actions = {
   },
   async select_event(context) {
     try {
-      const response = await selectEvent();
+      const response = await getEventList();
       context.commit("SET_EVENT_LIST", response.data);
       return response.data;
     } catch (e) {

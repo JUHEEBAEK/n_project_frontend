@@ -8,53 +8,42 @@
   >
     <v-card tile>
       <form>
-        <v-toolbar class="pa-2" flat light>
-          <v-btn icon @click="close()">
-            <v-icon>fas fa-times</v-icon>
-          </v-btn>
-          <v-text-field
-            ref="name"
-            class="event__title"
-            height="48"
-            v-model="name"
-            placeholder="제목 및 시간 추가"
-          />
-          <v-btn color="primary" dark class="ma-2" @click="save()">Save</v-btn>
-          <v-spacer></v-spacer>
-        </v-toolbar>
+        <v-row>
+          <v-col cols="8" class="event__title">
+            <v-toolbar class="pa-2" flat light>
+              <v-btn icon @click="close()">
+                <v-icon>fas fa-times</v-icon>
+              </v-btn>
+              <v-text-field
+                ref="name"
+                dense
+                hide-details
+                height="48"
+                v-model="name"
+                placeholder="제목 및 시간 추가"
+              />
+              <v-btn color="primary" dark class="ma-2" @click="save()">Save</v-btn>
+              <v-spacer></v-spacer>
+            </v-toolbar>
+          </v-col>
+        </v-row>
         <v-card-text>
           <v-row dense>
-            <v-col cols="2" class="d-flex">
-              <span class="px-3">
-                <v-icon class="white--text">fas fa-times</v-icon>
-              </span>
+            <v-col cols="2" class="event__date">
               <v-menu
                 v-model="menu_date"
                 transition="scale-transition"
-                offset-y
+                :close-on-content-click="false"
                 max-width="290px"
                 min-width="290px"
               >
                 <template v-slot:activator="{ on }">
-                  <v-text-field
-                    ref="menu_date"
-                    v-model="selectedEvent.date"
-                    solo
-                    dense
-                    de
-                    :placeholder="selectedEvent.date"
-                    v-on="on"
-                  />
+                  <v-text-field ref="menu_date" v-model="date" solo dense readonly v-on="on" />
                 </template>
-                <v-date-picker
-                  v-model="selectedEvent.date"
-                  dense
-                  no-title
-                  @input="menu_date = false"
-                />
+                <v-date-picker v-model="date" dense no-title />
               </v-menu>
             </v-col>
-            <v-col cols="1">
+            <v-col cols="1" class="event__time">
               <v-menu
                 v-model="menu_start"
                 :nudge-right="40"
@@ -77,12 +66,12 @@
                 <v-time-picker
                   v-if="menu_start"
                   v-model="start_time"
+                  format="24hr"
                   full-width
                   @click:minute="$refs.menu_start.save(start_time)"
                 />
               </v-menu>
             </v-col>
-            <b class="align-self-center">-</b>
             <v-col cols="1">
               <v-menu
                 v-model="menu_end"
@@ -106,6 +95,8 @@
                 <v-time-picker
                   v-if="menu_end"
                   v-model="end_time"
+                  format="24hr"
+                  :min="start_time"
                   full-width
                   @click:minute="$refs.menu_end.save(end_time)"
                 />
@@ -113,47 +104,54 @@
             </v-col>
           </v-row>
 
-          <v-divider></v-divider>
-
           <v-row dense>
-            <v-col cols="4" class="d-flex">
-              <span class="px-2 align-self-center">
-                <v-icon>fas fa-map-marker-alt</v-icon>
-              </span>
-              <v-select
-                ref="stadium"
-                v-model="selectedEvent.stadium_id"
-                class="px-2"
-                dense
-                solo
-                hide-details
-                :items="stadiums"
-                label="Select a stadium"
-                item-value="id"
-                item-text="name"
-              />
+            <v-col cols="6">
+              <div class="d-flex event__stadium">
+                <span class="event__icon align-self-center">
+                  <v-icon>fas fa-map-marker-alt</v-icon>
+                </span>
+                <v-select
+                  ref="stadium"
+                  v-model="stadium"
+                  class="px-2"
+                  dense
+                  solo
+                  hide-details
+                  :items="stadiumList"
+                  label="경기장 선택"
+                  item-value="id"
+                  item-text="name"
+                  @change="setAddress"
+                ></v-select>
+              </div>
+              <div class="event__address py-3">
+                <v-text-field dense hide-details filled v-model="address" readonly />
+              </div>
             </v-col>
           </v-row>
           <v-row dense>
-            <v-col cols="4" class="d-flex">
-              <span class="px-2 align-self-center">
+            <v-col cols="3" class="d-flex">
+              <span class="event__icon align-self-center">
                 <v-icon :style="`color: ${color}`">fas fa-circle</v-icon>
               </span>
               <v-select
                 ref="type"
-                v-model="selectedEvent.type_index"
+                v-model="type"
                 class="px-1"
                 dense
                 solo
                 hide-details
-                :items="types"
+                :items="typeList"
                 label="Select a type"
-                item-value="id"
+                item-value="type"
                 item-text="name"
+                @change="setColor"
               />
             </v-col>
           </v-row>
         </v-card-text>
+
+        <v-divider></v-divider>
 
         <div style="flex: 1 1 auto;"></div>
       </form>
@@ -162,7 +160,6 @@
 </template>
 
 <script>
-import stringStadium from "../../assets/value/Stadium";
 import stringSchedules from "../../assets/value/Schedule";
 
 import { createNamespacedHelpers } from "vuex";
@@ -171,48 +168,47 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers(
   "calendar"
 );
 
+import { getStadiumList } from "../../api/stadium.js";
+import { getInfo } from "../../api/schedule.js";
+
 export default {
-  props: ["selectedEvent"],
+  async created() {
+    await this.getStadiumList();
+    await this.getScheduleInfo(this.eventId);
+  },
+  props: ["eventId"],
   data: () => ({
-    name: "제목 들어갈 곳",
-    start_time: "17:00",
-    end_time: "19:00",
+    scheduleInfo: {},
     menu_date: false,
     menu_start: false,
     menu_end: false,
-    notifications: false,
-    sound: true,
-    widgets: false,
-    stadiums: stringStadium.stadium,
-    types: stringSchedules.typeList,
-    items: [
-      {
-        title: "Click Me"
-      },
-      {
-        title: "Click Me"
-      },
-      {
-        title: "Click Me"
-      },
-      {
-        title: "Click Me 2"
-      }
-    ]
+    name: "",
+    date: null,
+    start_time: null,
+    end_time: null,
+    stadium: null,
+    address: "",
+    type: null,
+    color: null,
+    stadiumList: [],
+    typeList: stringSchedules.typeList
   }),
   computed: {
     ...mapState(["fullEventDialog"])
-  },
-  created() {
-    this.start_time = this.selectedEvent.start;
-    this.end_time = this.selectedEvent.end;
-    this.name = this.selectedEvent.name;
   },
   methods: {
     ...mapMutations(["SET_FULL_EVENT_MODAL"]),
     ...mapActions(["update_event"]),
     close() {
       this.SET_FULL_EVENT_MODAL(!this.fullEventDialog);
+      this.$emit("closeEcent");
+    },
+    getScheduleInfo: async function(id) {
+      this.scheduleInfo = await getInfo(id);
+      await this.setScheduleInfo(this.scheduleInfo);
+    },
+    getStadiumList: async function() {
+      this.stadiumList = await getStadiumList();
     },
     save() {
       // value 포맷 맞추기 날짜, 없을 때
@@ -221,22 +217,53 @@ export default {
       var end_time = this.$refs.end_time.value;
       var stadium_id = this.$refs.stadium.value;
       var name = this.$refs.name.value;
-      var type = this.$refs.type.value + 1;
+      var type = this.$refs.type.value;
 
       var scheduleFormData = {
         date: date,
-        start_time,
         start_time,
         end_time: end_time,
         stadium_id: stadium_id,
         name: name,
         type: type
       };
+
       this.update_event({
-        schedule_id: this.selectedEvent.id,
+        schedule_id: this.eventId,
         schedule: scheduleFormData
       });
+
       this.close();
+    },
+    setAddress(value) {
+      this.stadiumList.forEach(item => {
+        if (item.id === value) {
+          this.address = item.address;
+        }
+      });
+    },
+    setColor(type) {
+      if (type === "T") {
+        this.color = "rgb(142, 36, 170)";
+      } else if (type === "P") {
+        this.color = "rgb(51, 182, 121)";
+      } else if (type === "L") {
+        this.color = "rgb(246, 191, 38)";
+      } else if (type === "M") {
+        this.color = "rgb(121, 134, 203)";
+      } else if (type === "C") {
+        this.color = "rgb(230, 124, 115)";
+      }
+    },
+    setScheduleInfo(info) {
+      this.name = info.name;
+      this.date = info.date;
+      this.start_time = info.start_time;
+      this.end_time = info.end_time;
+      this.stadium = info.stadium_id;
+      this.address = info.address;
+      this.type = info.type;
+      this.setColor(this.type);
     }
   }
 };
@@ -246,5 +273,17 @@ export default {
 .event__title {
   font-size: 28px;
   line-height: 28px;
+}
+
+.event__date {
+  margin-left: 45px;
+}
+
+.event__icon {
+  margin: 0 10px;
+}
+
+.event__address {
+  margin-left: 45px;
 }
 </style>

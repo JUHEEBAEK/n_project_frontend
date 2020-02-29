@@ -1,6 +1,6 @@
 import * as constants from "../constants";
 import {
-  selectStadium
+  getStadiumList
 } from "../../api/stadium.js";
 
 const state = {
@@ -19,9 +19,9 @@ const actions = {
     commit
   }) {
     try {
-      const response = await selectStadium();
-      commit("SELECT_STADIUM", response.data);
-      return response.data;
+      const response = await getStadiumList();
+      commit("SELECT_STADIUM", response);
+      return response;
     } catch (e) {
       console.log(e);
     }
