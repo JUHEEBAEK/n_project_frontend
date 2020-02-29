@@ -20,7 +20,7 @@ async function countAllSchedule() {
     console.log(e);
   }
 }
-async function selectSchedule() {
+async function getEventList() {
   try {
     const response = await axios.get(`${devUrl}/api/schedule/list`);
     return response.data;
@@ -38,4 +38,4 @@ async function countThreeMonths(form) {
   }
 }
 
-export { countAttendance, countAllSchedule, selectSchedule, countThreeMonths };
+export { countAttendance, countAllSchedule, getEventList, countThreeMonths };

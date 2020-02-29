@@ -13,7 +13,7 @@
             </v-col>
           </v-row>
         </div>
-        <v-slide-group v-model="model" show-arrows center-active>
+        <v-slide-group v-model="scheduleIndex" show-arrows center-active>
           <v-slide-item
             v-for="item in scheduleList"
             :key="item.id"
@@ -29,7 +29,7 @@
             >
               <v-row class="fill-height" align="center" justify="center">
                 <v-scale-transition>
-                  <span class="date__day">{{ item.date.substr(8,2) }}</span>
+                  <span class="date__day">{{ item.date.substr(8, 2) }}</span>
                 </v-scale-transition>
               </v-row>
             </v-card>
@@ -41,7 +41,6 @@
               <v-col cols="12" sm="12" md="12" lg="3">
                 <v-card :loading="loading" class="mx-auto">
                   <v-card-title class="schedule__title">{{ scheduleName }}</v-card-title>
-
                   <v-card-text>
                     <div
                       class="my-3 subtitle-1 schedule__time"
@@ -63,11 +62,15 @@
                     <v-col cols="9">
                       <div class="text-left">
                         <v-chip
-                          v-for="member in good"
+                          v-for="member in good_attendance"
                           dark
                           label
                           :outlined="member.attend ? 'outlined' : ''"
-                          :class="member.attend ? 'chip__member' : 'chip__member opacity-4'"
+                          :class="
+                            member.attend
+                              ? 'chip__member'
+                              : 'chip__member opacity-4'
+                          "
                           :color="member.attend ? 'tertiary' : 'muji'"
                           :key="member.name"
                           @click="isAttend(member)"
@@ -82,11 +85,15 @@
                     <v-col cols="9">
                       <div class="text-left">
                         <v-chip
-                          v-for="member in so_so"
+                          v-for="member in so_so_attendance"
                           dark
                           label
                           :outlined="member.attend ? 'outlined' : ''"
-                          :class="member.attend ? 'chip__member' : 'chip__member opacity-4'"
+                          :class="
+                            member.attend
+                              ? 'chip__member'
+                              : 'chip__member opacity-4'
+                          "
                           :color="member.attend ? 'tertiary' : 'muji'"
                           :key="member.name"
                           @click="isAttend(member)"
@@ -101,11 +108,15 @@
                     <v-col cols="9">
                       <div class="text-left">
                         <v-chip
-                          v-for="member in ghost"
+                          v-for="member in ghost_attendance"
                           dark
                           label
                           :outlined="member.attend ? 'outlined' : ''"
-                          :class="member.attend ? 'chip__member' : 'chip__member opacity-4'"
+                          :class="
+                            member.attend
+                              ? 'chip__member'
+                              : 'chip__member opacity-4'
+                          "
                           :color="member.attend ? 'tertiary' : 'muji'"
                           :key="member.name"
                           @click="isAttend(member)"
@@ -125,15 +136,16 @@
 
 <script>
 import moment from "moment";
-import stringAttendance from "../../assets/value/Attendance.json";
 import stringSchedule from "../../assets/value/Schedule.json";
-import { selectSchedule, countThreeMonths } from "../../api/attendance.js";
+import { getEventList, countThreeMonths } from "../../api/attendance.js";
 import { selectMember } from "../../api/member.js";
+import { createNamespacedHelpers } from "vuex";
+const { mapState, mapActions } = createNamespacedHelpers("attend");
 
 export default {
   name: "Attendance.vue",
   async created() {
-    this.scheduleList = await selectSchedule();
+    this.scheduleList = await getEventList();
 
     this.activeSchedule();
 
@@ -150,7 +162,7 @@ export default {
     memberList: [],
     setMemberList: [],
     countMonthList: [],
-    model: null,
+    scheduleIndex: null,
     setYear: moment().format("YYYY"),
     setMonth: moment().format("MMMM"),
     today: moment().format("YYYY-MM-DD"),
@@ -162,18 +174,60 @@ export default {
     scheduleEnd: null,
     scheduleStadium: null,
     scheduleAddress: null,
-    good: stringAttendance.good,
-    so_so: stringAttendance.so_so,
-    ghost: stringAttendance.ghost
+
+    requesting: false
   }),
+  computed: {
+    ...mapState(["good_attendance", "so_so_attendance", "ghost_attendance"])
+  },
+  watch: {
+    scheduleIndex: async function(val) {
+      console.log("schedule index", val);
+      if (val) {
+        this.setDate(this.scheduleList[this.scheduleIndex]);
+        // 출석률 가져오기
+        await this.get_attend_rate(this.scheduleList[this.scheduleIndex].date);
+        // 그중에 출석한 사람들 업데이트 해주기
+        await this.get_attendance(this.scheduleList[this.scheduleIndex].id);
+      }
+    }
+  },
+
   methods: {
-    isAttend(item) {
-      item.attend = !item.attend;
+    ...mapActions([
+      "get_attend_rate",
+      "get_attendance",
+      "add_attend",
+      "delete_attend"
+    ]),
+    async isAttend(item) {
+      console.log("this is clicked", item);
+      this.requesting = true;
+
+      let success_in_query = false;
+      let form = {
+        member_id: item.id,
+        schedule_id: this.scheduleList[this.scheduleIndex].id
+      };
+      if (item.attend) {
+        // delete api
+        success_in_query = await this.delete_attend(form);
+      } else {
+        // insert api
+        success_in_query = await this.add_attend(form);
+      }
+
+      // attend를 없애기 만약 콜백에 문제가 없는 경우에 로컬 변경
+      if (success_in_query) {
+        item.attend = !item.attend;
+      }
+
+      this.requesting = false;
     },
     // 제일 최근의 스케줄을 선택해주는 함수.
     activeSchedule: async function() {
-      this.model = this.scheduleList.length - 1;
-      this.setDate(this.scheduleList[this.model]);
+      this.scheduleIndex = this.scheduleList.length - 1;
+      this.setDate(this.scheduleList[this.scheduleIndex]);
     },
 
     setFormatMemberList: async function(countMember) {

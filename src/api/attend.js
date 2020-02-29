@@ -12,6 +12,34 @@ async function attendanceList(id) {
     }
 }
 
+async function addAttend(form) {
+    try {
+        const response = await axios.post(
+            `${devUrl}/api/attendance/create`,
+            form
+        );
+        return response;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function deleteAttend(form) {
+    try {
+        const response = await axios.delete(
+            `${devUrl}/api/attendance/delete`, {
+                data: form
+            }
+        );
+        return response;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
 export {
-    attendanceList
+    attendanceList,
+    addAttend,
+    deleteAttend,
 };
