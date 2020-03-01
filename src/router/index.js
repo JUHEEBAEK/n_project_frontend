@@ -12,13 +12,14 @@ export default new Router({
       name: "home",
       component: () => import("../views/Home.vue")
     },
+    // footer view
     {
       path: "/attendance",
       name: "attendance",
       component: () => import("../views/footer/Attendance.vue")
     },
     {
-      path: "/squad",
+      path: "/squadView",
       name: "squad",
       component: () => import("../views/footer/Squad.vue")
     },
@@ -27,6 +28,8 @@ export default new Router({
       name: "teamSetting",
       component: () => import("../views/footer/TesmSetting.vue")
     },
+
+    // navigation view
     {
       path: "/member",
       component: () => import("../views/nav/Member.vue"),
@@ -47,6 +50,12 @@ export default new Router({
       name: "calendar",
       component: () => import("../views/nav/Schedule.vue")
     },
+    {
+      path: "/squad",
+      name: "squadInput",
+      component: () => import("../views/nav/Squad.vue")
+    },
+    
     {
       path: "/testUi",
       component: () => import("../views/testui/testUi.vue")
