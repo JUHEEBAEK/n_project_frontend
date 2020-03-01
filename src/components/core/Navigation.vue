@@ -10,12 +10,7 @@
     <v-divider />
     <v-list nav>
       <v-list-item-group color="primary">
-        <v-list-item
-          class="nav__item"
-          v-for="item in items"
-          :key="item.title"
-          :to="`${item.to}`"
-        >
+        <v-list-item class="nav__item" v-for="item in items" :key="item.title" :to="`${item.to}`">
           <v-list-item-icon>
             <v-img :src="item.icon" contain width="24" />
           </v-list-item-icon>
@@ -52,17 +47,22 @@ export default {
         icon: require("../../assets/linear/dark/deadline.png")
       },
       {
-        title: "STADIUM",
-        to: "",
-        icon: require("../../assets/linear/dark/stadium.png")
-      },
-      {
-        title: "TRAINING",
-        to: "",
-        icon: require("../../assets/linear/dark/training.png")
-      },
+        title: "SQUAD",
+        to: "/squad",
+        icon: require("../../assets/linear/dark/003-tshirt.png")
+      }
+      // {
+      //   title: "STADIUM",
+      //   to: "",
+      //   icon: require("../../assets/linear/dark/stadium.png")
+      // },
+      // {
+      //   title: "TRAINING",
+      //   to: "",
+      //   icon: require("../../assets/linear/dark/training.png")
+      // },
       /* 임시로 추가 */
-      { title: "Spinner", to: "spinner" }
+      // { title: "Spinner", to: "spinner" }
     ]
   }),
   computed: {

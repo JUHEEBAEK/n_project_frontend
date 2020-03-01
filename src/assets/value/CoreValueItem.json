@@ -1,0 +1,39 @@
+{
+  "navigationItems": [{
+      "title": "TEAM",
+      "to": "",
+      "icon": "require('../../assets/fsnnnn_emblem_official2.png')"
+    },
+    {
+      "title": "MEMBER",
+      "to": "/member",
+      "icon": "require('../../assets/linear/dark/team.png')"
+    },
+    {
+      "title": "CALENDAR",
+      "to": "/calendar",
+      "icon": "require('../../assets/linear/dark/deadline.png')"
+    },
+    {
+      "title": "SQUAD",
+      "to": "/squad",
+      "icon": "require('../../assets/linear/dark/003-tshirt.png')"
+    }, {
+      "title": "STADIUM",
+      "to": "/",
+      "icon": "require('../../assets/linear/dark/stadium.png')"
+    },
+    {
+      "title": "TRAINING",
+      "to": "/",
+      "icon": "require('../../assets/linear/dark/training.png')"
+    },
+    {
+      "title": "SPINNER",
+      "to": "/"
+    }
+  ],
+  "footerItems": [
+
+  ]
+}

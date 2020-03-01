@@ -20,7 +20,7 @@ export default {
       },
       {
         title: "SQUAD",
-        to: "/squad",
+        to: "/squadView",
         icon: require("../../assets/linear/dark/003-tshirt.png")
       },
       {

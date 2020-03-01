@@ -1,5 +1,5 @@
 {
-    "good": [{
+    "member": [{
             "name": "백주희",
             "lastGameIn": "2019-12-21",
             "role": "member",
@@ -82,8 +82,9 @@
             "role": "member",
             "grade": 2,
             "attend": false
-        },
-        {
+        }
+    ],
+    "so_so": [{
             "name": "김해린",
             "lastGameIn": "2019-12-07",
             "role": "member",
@@ -138,9 +139,7 @@
             "role": "member",
             "grade": 2,
             "attend": false
-        }
-    ],
-    "so_so": [{
+        }, {
             "name": "임지영",
             "lastGameIn": "2019-12-21",
             "role": "member",
