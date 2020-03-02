@@ -186,7 +186,7 @@ const {
   mapState: stadiuMapState,
   mapActions: stadiumMapActions
 } = createNamespacedHelpers("stadium");
-const { mapMutations: mapMutationsCommon } = createNamespacedHelpers("common");
+const { mapMutations: commonMapMutations } = createNamespacedHelpers("common");
 
 import moment from "moment";
 export default {
@@ -229,7 +229,7 @@ export default {
     ...stadiumMapActions(["select_stadium"]),
     ...calendarMapActions(["add_schedule", "select_schedule"]),
     ...calendarMapMutaions(["SET_NEW_SCHEDULE_MODAL"]),
-    ...mapMutationsCommon(["SET_ALERT"]),
+    ...commonMapMutations(["SET_ALERT"]),
     changeType() {
       this.color = stringSchedules.types[this.schedule_type].color;
     },

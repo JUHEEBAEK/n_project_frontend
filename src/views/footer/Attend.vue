@@ -139,7 +139,10 @@ import moment from "moment";
 import { getScheduleList, countThreeMonths } from "../../api/attend.js";
 import { getMember } from "../../api/member.js";
 import { createNamespacedHelpers } from "vuex";
-const { mapState, mapActions } = createNamespacedHelpers("attend");
+const {
+  mapState: attendMapState,
+  mapActions: attendMapActions
+} = createNamespacedHelpers("attend");
 
 export default {
   name: "Attend.vue",
@@ -177,7 +180,7 @@ export default {
     requesting: false
   }),
   computed: {
-    ...mapState(["good_attend", "so_so_attend", "ghost_attend"])
+    ...attendMapState(["good_attend", "so_so_attend", "ghost_attend"])
   },
   watch: {
     scheduleIndex: async function(val) {
@@ -193,7 +196,7 @@ export default {
   },
 
   methods: {
-    ...mapActions([
+    ...attendMapActions([
       "get_attend_rate",
       "get_attend",
       "add_attend",

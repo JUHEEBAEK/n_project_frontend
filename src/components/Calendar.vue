@@ -62,7 +62,7 @@
 import stringSchedules from "../assets/value/Schedule.json";
 
 import { createNamespacedHelpers } from "vuex";
-const { mapState, mapMutations, mapActions } = createNamespacedHelpers(
+const { mapState: calendarMapState, mapMutations: calendarMapMutations, mapActions: calendarMapActions } = createNamespacedHelpers(
   "calendar"
 );
 
@@ -80,7 +80,7 @@ export default {
     selectedElement: null
   }),
   computed: {
-    ...mapState(["newScheduleBox", "scheduleList"]),
+    ...calendarMapState(["newScheduleBox", "scheduleList"]),
     title() {
       const { start, end } = this;
       if (!start || !end) {
@@ -106,8 +106,8 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["SET_NEW_SCHEDULE_MODAL"]),
-    ...mapActions(["select_Schedule", "load_member"]),
+    ...calendarMapMutations(["SET_NEW_SCHEDULE_MODAL"]),
+    ...calendarMapActions(["select_Schedule", "load_member"]),
     setToday() {
       this.focus = this.today;
     },

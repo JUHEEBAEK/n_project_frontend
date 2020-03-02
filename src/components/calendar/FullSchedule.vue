@@ -164,9 +164,11 @@ import stringSchedules from "../../assets/value/Schedule";
 
 import { createNamespacedHelpers } from "vuex";
 import moment from "moment";
-const { mapState, mapMutations, mapActions } = createNamespacedHelpers(
-  "calendar"
-);
+const {
+  mapState: calendarMapState,
+  mapMutations: calendarMapMutations,
+  mapActions: calendarMapActions
+} = createNamespacedHelpers("calendar");
 
 import { getStadiumList } from "../../api/stadium.js";
 import { getInfo } from "../../api/schedule.js";
@@ -194,11 +196,11 @@ export default {
     typeList: stringSchedules.typeList
   }),
   computed: {
-    ...mapState(["fullScheduleDialog"])
+    ...calendarMapState(["fullScheduleDialog"])
   },
   methods: {
-    ...mapMutations(["SET_FULL_SCHEDULE_MODAL"]),
-    ...mapActions(["update_schedule"]),
+    ...calendarMapMutations(["SET_FULL_SCHEDULE_MODAL"]),
+    ...calendarMapActions(["update_schedule"]),
     close() {
       this.SET_FULL_SCHEDULE_MODAL(!this.fullScheduleDialog);
       this.$emit("closeEcent");

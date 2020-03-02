@@ -82,13 +82,16 @@
 
 <script>
 import { createNamespacedHelpers } from "vuex";
-const { mapMutations, mapActions } = createNamespacedHelpers("calendar");
+const {
+  mapMutations: calendarMapMutations,
+  mapActions: calendarMapActions
+} = createNamespacedHelpers("calendar");
 
 export default {
   props: ["selectedSchedule"],
   methods: {
-    ...mapMutations(["SET_FULL_SCHEDULE_MODAL"]),
-    ...mapActions(["delete_schedule"]),
+    ...calendarMapMutations(["SET_FULL_SCHEDULE_MODAL"]),
+    ...calendarMapActions(["delete_schedule"]),
     openUpdateModal() {
       this.SET_FULL_SCHEDULE_MODAL(true);
     },

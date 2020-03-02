@@ -1,5 +1,10 @@
-import { createNamespacedHelpers, mapGetters } from "vuex";
-const { mapMutations } = createNamespacedHelpers("common");
+import {
+  createNamespacedHelpers,
+  mapGetters
+} from "vuex";
+const {
+  mapMutations: commonMapMutations
+} = createNamespacedHelpers("common");
 
 const util = {
   data: () => ({
@@ -13,7 +18,7 @@ const util = {
     snackBarSuccess: "showSuccess"
   }),
   methods: {
-    ...mapMutations(["SET_SNACK_BAR"]),
+    ...commonMapMutations(["SET_SNACK_BAR"]),
     // snackBar 를 여는 함수. (snackBar 는 자동으로 닫히기 때문에 SnackBar 를 닫는 함수는 필요없다)
     setSnackBar(purpose, message) {
       // purpose : showSuccess or showFail

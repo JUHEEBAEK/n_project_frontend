@@ -37,19 +37,22 @@
 <script>
 import moment from "moment";
 import { createNamespacedHelpers } from "vuex";
-const { mapActions, mapState } = createNamespacedHelpers("member");
+const {
+  mapState: memberMapState,
+  mapActions: memberMapActions
+} = createNamespacedHelpers("member");
 
 export default {
   data: () => ({}),
   computed: {
-    ...mapState(["searchResult"])
+    ...memberMapState(["searchResult"])
   },
   mounted() {
     this.select_member();
   },
 
   methods: {
-    ...mapActions(["select_member", "delete_member"]),
+    ...memberMapActions(["select_member", "delete_member"]),
     testButton() {
       console.log("dbug");
     },

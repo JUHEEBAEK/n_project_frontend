@@ -76,7 +76,7 @@
 <script>
 import util from "../../mixin/util.js";
 import { createNamespacedHelpers } from "vuex";
-const { mapActions } = createNamespacedHelpers("member");
+const { mapActions: memberMapActions } = createNamespacedHelpers("member");
 
 export default {
   name: "Add",
@@ -93,7 +93,7 @@ export default {
   }),
   created() {},
   methods: {
-    ...mapActions(["add_member"]),
+    ...memberMapActions(["add_member"]),
     submit() {
       let _srcData = {};
       _srcData["name"] = this.name;

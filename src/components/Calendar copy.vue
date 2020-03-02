@@ -54,7 +54,10 @@
 
 <script>
 import { createNamespacedHelpers } from "vuex";
-const { mapMutations, mapState } = createNamespacedHelpers("common");
+const {
+  mapState: commonMapState,
+  mapMutations: commonMapMutations
+} = createNamespacedHelpers("common");
 
 export default {
   data: () => ({
@@ -116,7 +119,7 @@ export default {
     ]
   }),
   computed: {
-    ...mapState(["modal"]),
+    ...commonMapState(["modal"]),
     title() {
       const { start, end } = this;
       if (!start || !end) {
@@ -138,7 +141,7 @@ export default {
     this.$refs.calendar.checkChange();
   },
   methods: {
-    ...mapMutations(["SET_MODAL"]),
+    ...commonMapMutations(["SET_MODAL"]),
 
     getScheduleColor(schedule) {
       return schedule.color;
