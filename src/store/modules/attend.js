@@ -30,7 +30,7 @@ const mutations = {
         }
         state.attend = result_dictionary;
     },
-    update_attend_attend(state) {
+    UPDATE_ATTEND(state) {
         // state.attend
         for (let i in state.good_attend) {
             let item = state.good_attend[i]
@@ -101,7 +101,7 @@ const actions = {
     }, schedule_id) {
         const attend = await attendList(schedule_id);
         commit("SET_attend", attend.data);
-        commit("update_attend_attend");
+        commit("UPDATE_ATTEND");
     },
     async get_attend_rate({
         commit
