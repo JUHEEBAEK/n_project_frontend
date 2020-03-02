@@ -1,6 +1,6 @@
 import {
     attendList,
-    addAttend,
+    createAttend,
     countThreeMonths,
     deleteAttend,
 } from "../../api/attend.js";
@@ -119,7 +119,7 @@ const actions = {
         commit("SET_COUNT_THREE_MONTHS", countMonthList);
     },
     async add_attend(context, payload) {
-        let response = await addAttend(payload);
+        let response = await createAttend(payload);
         console.log('add_attend', response)
         if (response.err) {
             return false

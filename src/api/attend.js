@@ -12,7 +12,7 @@ async function attendList(id) {
     }
 }
 
-async function addAttend(form) {
+async function createAttend(form) {
     try {
         const response = await axios.post(
             `${devUrl}/api/attend/create`,
@@ -74,7 +74,7 @@ async function countThreeMonths(form) {
 
 export {
     attendList,
-    addAttend,
+    createAttend,
     deleteAttend,
     countAttend,
     countAllSchedule,

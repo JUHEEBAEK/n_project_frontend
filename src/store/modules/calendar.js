@@ -2,7 +2,7 @@ import {
   set
 } from "../../utils/index";
 import {
-  addSchedule,
+  createSchedule,
   getScheduleList,
   deleteSchedule,
   updateSchedule
@@ -40,7 +40,7 @@ const mutations = {
       }
       //attendCount 필요함
       item["attendCount"] = 0;
-      
+
       //open은 default false로 설정해준다
       item["open"] = false;
 
@@ -96,7 +96,7 @@ const mutations = {
 const actions = {
   async add_schedule(context, form) {
     try {
-      const response = await addSchedule(form);
+      const response = await createSchedule(form);
       return response.data;
     } catch (e) {
       console.log(e);

@@ -3,7 +3,7 @@ import axios from "axios";
 // const baseUrl = 'http://15.164.138.118:3000';
 const devUrl = "http://localhost:3000";
 
-async function addSchedule(form) {
+async function createSchedule(form) {
   try {
     const response = await axios.post(`${devUrl}/api/schedule/create`, form);
     return response;
@@ -51,7 +51,7 @@ async function updateSchedule(formData) {
 }
 
 export {
-  addSchedule,
+  createSchedule,
   getScheduleList,
   getInfo,
   deleteSchedule,
