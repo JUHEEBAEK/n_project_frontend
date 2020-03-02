@@ -137,7 +137,7 @@
 <script>
 import moment from "moment";
 import stringSchedule from "../../assets/value/Schedule.json";
-import { getEventList, countThreeMonths } from "../../api/attend.js";
+import { getScheduleList, countThreeMonths } from "../../api/attend.js";
 import { selectMember } from "../../api/member.js";
 import { createNamespacedHelpers } from "vuex";
 const { mapState, mapActions } = createNamespacedHelpers("attend");
@@ -145,7 +145,7 @@ const { mapState, mapActions } = createNamespacedHelpers("attend");
 export default {
   name: "Attend.vue",
   async created() {
-    this.scheduleList = await getEventList();
+    this.scheduleList = await getScheduleList();
 
     this.activeSchedule();
 

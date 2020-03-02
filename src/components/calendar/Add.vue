@@ -1,7 +1,7 @@
 <template>
-  <div v-if="createNewEvent">
+  <div v-if="createNewSchedule">
     <v-menu
-      v-model="newEventBox"
+      v-model="newScheduleBox"
       :close-on-content-click="false"
       :nudge-width="200"
       offset-x
@@ -9,7 +9,7 @@
       offset-overflow
     >
       <template v-slot:activator="{ on }">
-        <div v-ripple v-on="on" class="event__new muji" @click.stop="close()">{{ new_event_title }}</div>
+        <div v-ripple v-on="on" class="schedule__new muji" @click.stop="close()">{{ new_schedule_title }}</div>
       </template>
 
       <v-card color="grey lighten-4" :slotData="slotData">
@@ -25,7 +25,7 @@
               <v-col cols="2"></v-col>
               <v-col cols="9">
                 <v-text-field
-                  v-model="event_name"
+                  v-model="schedule_name"
                   dense
                   height="40"
                   label="TITLE"
@@ -40,7 +40,7 @@
               </v-col>
               <v-col cols="9" align-self="start">
                 <v-select
-                  v-model="event_type"
+                  v-model="schedule_type"
                   dense
                   label="TYPE"
                   item-text="name"
@@ -190,7 +190,7 @@ const { mapMutations: mapMutationsCommon } = createNamespacedHelpers("common");
 
 import moment from "moment";
 export default {
-  props: ["selectedDate", "day", "newEventBox"],
+  props: ["selectedDate", "day", "newScheduleBox"],
   data: () => ({
     popover_menu: false,
     color: "rgb(230, 124, 115)",
@@ -200,10 +200,10 @@ export default {
 
     start_time: null,
     end_time: null,
-    event_name: "",
-    event_type: "",
+    schedule_name: "",
+    schedule_type: "",
     stadium_type: "",
-    new_event_title: "(제목없음)",
+    new_schedule_title: "(제목없음)",
     types: stringSchedules.typeList
   }),
   mixins: [regex],
@@ -211,10 +211,10 @@ export default {
     this.date = this._clickDate;
   },
   computed: {
-    ...calendarMapState(["newEventBox"]),
+    ...calendarMapState(["newScheduleBox"]),
     ...stadiuMapState(["stadiumList"]),
-    createNewEvent() {
-      return this.newEventBox && this.day === this.selectedDate;
+    createNewSchedule() {
+      return this.newScheduleBox && this.day === this.selectedDate;
     },
     slotData() {
       return {
@@ -227,38 +227,38 @@ export default {
   },
   methods: {
     ...stadiumMapActions(["select_stadium"]),
-    ...calendarMapActions(["add_event", "select_event"]),
-    ...calendarMapMutaions(["SET_NEW_EVENT_MODAL"]),
+    ...calendarMapActions(["add_schedule", "select_schedule"]),
+    ...calendarMapMutaions(["SET_NEW_SCHEDULE_MODAL"]),
     ...mapMutationsCommon(["SET_ALERT"]),
     changeType() {
-      this.color = stringSchedules.types[this.event_type].color;
+      this.color = stringSchedules.types[this.schedule_type].color;
     },
     close() {
       this.initDialog();
-      this.SET_NEW_EVENT_MODAL(!this.newEventBox);
+      this.SET_NEW_SCHEDULE_MODAL(!this.newScheduleBox);
     },
     initDialog() {
-      this.event_name = "";
+      this.schedule_name = "";
       this.start_time = null;
       this.end_time = null;
-      this.event_type = "";
+      this.schedule_type = "";
       this.stadium_type = "";
     },
     submit() {
       if (this.$refs.form.validate()) {
         let _srcData = {};
 
-        _srcData["name"] = this.event_name;
+        _srcData["name"] = this.schedule_name;
         _srcData["stadium_id"] = this.stadium_id;
-        _srcData["type"] = this.event_type;
+        _srcData["type"] = this.schedule_type;
         _srcData["date"] = this.selectedDate;
         _srcData["start_time"] = this.start_time;
         _srcData["end_time"] = this.end_time;
 
-        this.add_event(_srcData).then(() => {
+        this.add_schedule(_srcData).then(() => {
           this.SET_ALERT(true);
           this.close();
-          this.select_event();
+          this.select_schedule();
         });
       }
     }
@@ -270,7 +270,7 @@ export default {
 .popover__header {
   padding-top: 20px;
 }
-.event__new {
+.schedule__new {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

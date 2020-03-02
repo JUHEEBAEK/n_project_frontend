@@ -3,7 +3,7 @@ import axios from "axios";
 // const baseUrl = 'http://15.164.138.118:3000';
 const devUrl = "http://localhost:3000";
 
-async function addEvent(form) {
+async function addSchedule(form) {
   try {
     const response = await axios.post(`${devUrl}/api/schedule/create`, form);
     return response;
@@ -12,7 +12,7 @@ async function addEvent(form) {
   }
 }
 
-async function getEventList() {
+async function getScheduleList() {
   try {
     const response = await axios.get(`${devUrl}/api/schedule/list`);
     return response;
@@ -30,7 +30,7 @@ async function getInfo(schduleId) {
   }
 }
 
-async function deleteEvent(schedule_id_form) {
+async function deleteSchedule(schedule_id_form) {
   try {
     const response = await axios.delete(`${devUrl}/api/schedule/delete`, {
       data: schedule_id_form
@@ -41,7 +41,7 @@ async function deleteEvent(schedule_id_form) {
   }
 }
 
-async function updateEvent(formData) {
+async function updateSchedule(formData) {
   try {
     const response = await axios.put(`${devUrl}/api/schedule/update`, formData)
     return response;
@@ -51,9 +51,9 @@ async function updateEvent(formData) {
 }
 
 export {
-  addEvent,
-  getEventList,
+  addSchedule,
+  getScheduleList,
   getInfo,
-  deleteEvent,
-  updateEvent
+  deleteSchedule,
+  updateSchedule
 };

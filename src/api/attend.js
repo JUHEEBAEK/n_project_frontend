@@ -54,7 +54,7 @@ async function countAllSchedule() {
         console.log(e);
     }
 }
-async function getEventList() {
+async function getScheduleList() {
     try {
         const response = await axios.get(`${devUrl}/api/schedule/list`);
         return response.data;
@@ -78,6 +78,6 @@ export {
     deleteAttend,
     countAttend,
     countAllSchedule,
-    getEventList,
+    getScheduleList,
     countThreeMonths
 };
