@@ -136,7 +136,6 @@
 
 <script>
 import moment from "moment";
-import stringSchedule from "../../assets/value/Schedule.json";
 import { getScheduleList, countThreeMonths } from "../../api/attend.js";
 import { selectMember } from "../../api/member.js";
 import { createNamespacedHelpers } from "vuex";
