@@ -37,23 +37,6 @@ async function deleteAttend(form) {
     }
 }
 
-async function countAttend() {
-    try {
-        const response = await axios.get(`${devUrl}/api/attend/count`);
-        return response.data;
-    } catch (e) {
-        console.log(e);
-    }
-}
-
-async function countAllSchedule() {
-    try {
-        const response = await axios.get(`${devUrl}/api/attend/allCount`);
-        return response.data;
-    } catch (e) {
-        console.log(e);
-    }
-}
 async function getScheduleList() {
     try {
         const response = await axios.get(`${devUrl}/api/schedule/list`);
@@ -76,8 +59,6 @@ export {
     attendList,
     createAttend,
     deleteAttend,
-    countAttend,
-    countAllSchedule,
     getScheduleList,
     countThreeMonths
 };
