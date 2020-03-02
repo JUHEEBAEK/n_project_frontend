@@ -61,13 +61,13 @@
           <div class="col-10 text-left">
             <div class="row">
               <div class="col-12 py-0">
-                <span class="schedule__attendance" v-html="`참석자 ${selectedEvent.attendCount} 명`" />
+                <span class="schedule__attend" v-html="`참석자 ${selectedEvent.attendCount} 명`" />
               </div>
             </div>
             <div class="row">
               <div class="col-12 py-0">
                 <span
-                  class="attendance__member"
+                  class="attend__member"
                   v-for="(item, idx) in selectedEvent.memeber_name_list"
                   :key="idx"
                 >{{ item }},</span>

@@ -13,9 +13,9 @@ export default new Router({
       component: () => import("../views/Home.vue")
     },
     {
-      path: "/attendance",
-      name: "attendance",
-      component: () => import("../views/footer/Attendance.vue")
+      path: "/attend",
+      name: "attend",
+      component: () => import("../views/footer/Attend.vue")
     },
     {
       path: "/squad",

@@ -1,22 +1,20 @@
 import {
-    countThreeMonths
-} from "../../api/attendance.js";
-import {
-    attendanceList,
+    attendList,
     addAttend,
+    countThreeMonths,
     deleteAttend,
 } from "../../api/attend.js";
 import moment from "moment";
 
 const state = {
-    attendance: [{
+    attend: [{
         id: null,
         name: null,
         attend: false
     }],
-    good_attendance: [],
-    so_so_attendance: [],
-    ghost_attendance: [],
+    good_attend: [],
+    so_so_attend: [],
+    ghost_attend: [],
 };
 
 const getters = {
@@ -24,42 +22,42 @@ const getters = {
 };
 
 const mutations = {
-    SET_ATTENDANCE(state, attendance) {
+    SET_ATTEND(state, attend) {
         let result_dictionary = {}
-        for (var i in attendance) {
-            let item = attendance[i]
+        for (var i in attend) {
+            let item = attend[i]
             result_dictionary[item.member_id] = true
         }
-        state.attendance = result_dictionary;
+        state.attend = result_dictionary;
     },
-    update_attendance_attend(state) {
-        // state.attendance
-        for (let i in state.good_attendance) {
-            let item = state.good_attendance[i]
-            if (state.attendance[item.id]) {
+    update_attend_attend(state) {
+        // state.attend
+        for (let i in state.good_attend) {
+            let item = state.good_attend[i]
+            if (state.attend[item.id]) {
                 item["attend"] = true
             } else {
                 item["attend"] = false
             }
-            state.good_attendance[i] = item;
+            state.good_attend[i] = item;
         }
-        for (let i in state.so_so_attendance) {
-            let item = state.so_so_attendance[i]
-            if (state.attendance[item.id]) {
+        for (let i in state.so_so_attend) {
+            let item = state.so_so_attend[i]
+            if (state.attend[item.id]) {
                 item["attend"] = true
             } else {
                 item["attend"] = false
             }
-            state.so_so_attendance[i] = item;
+            state.so_so_attend[i] = item;
         }
-        for (let i in state.ghost_attendance) {
-            let item = state.ghost_attendance[i]
-            if (state.attendance[item.id]) {
+        for (let i in state.ghost_attend) {
+            let item = state.ghost_attend[i]
+            if (state.attend[item.id]) {
                 item["attend"] = true
             } else {
                 item["attend"] = false
             }
-            state.ghost_attendance[i] = item;
+            state.ghost_attend[i] = item;
         }
 
     },
@@ -90,20 +88,20 @@ const mutations = {
             }
         }
 
-        state.good_attendance = good_list;
-        state.so_so_attendance = so_so_list;
-        state.ghost_attendance = ghost_list;
+        state.good_attend = good_list;
+        state.so_so_attend = so_so_list;
+        state.ghost_attend = ghost_list;
 
     }
 };
 
 const actions = {
-    async get_attendance({
+    async get_attend({
         commit
     }, schedule_id) {
-        const attendance = await attendanceList(schedule_id);
-        commit("SET_ATTENDANCE", attendance.data);
-        commit("update_attendance_attend");
+        const attend = await attendList(schedule_id);
+        commit("SET_attend", attend.data);
+        commit("update_attend_attend");
     },
     async get_attend_rate({
         commit

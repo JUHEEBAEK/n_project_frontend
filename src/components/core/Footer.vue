@@ -14,8 +14,8 @@ export default {
     bottomNav: "CALENDAR",
     items: [
       {
-        title: "ATTENDANCE",
-        to: "/attendance",
+        title: "ATTEND",
+        to: "/attend",
         icon: require("../../assets/linear/dark/046-calendar.png")
       },
       {

@@ -8,7 +8,7 @@ import {
   updateEvent
 } from "../../api/schedule.js";
 import {
-  attendanceList
+  attendList
 } from "../../api/attend.js";
 
 import moment from "moment";
@@ -112,7 +112,7 @@ const actions = {
     }
   },
   async load_member(context, id) {
-    const attend_list = await attendanceList(id);
+    const attend_list = await attendList(id);
     context.commit("ADD_MEMBER_LIST", attend_list["data"]);
   },
   async delete_event({

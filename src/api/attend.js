@@ -3,9 +3,9 @@ import axios from "axios";
 // const baseUrl = 'http://15.164.138.118:3000';
 const devUrl = "http://localhost:3000";
 
-async function attendanceList(id) {
+async function attendList(id) {
     try {
-        const response = await axios.get(`${devUrl}/api/attendance/getAttendanceList/${id}`);
+        const response = await axios.get(`${devUrl}/api/attend/getattendList/${id}`);
         return response.data;
     } catch (e) {
         console.log(e);
@@ -15,7 +15,7 @@ async function attendanceList(id) {
 async function addAttend(form) {
     try {
         const response = await axios.post(
-            `${devUrl}/api/attendance/create`,
+            `${devUrl}/api/attend/create`,
             form
         );
         return response;
@@ -27,7 +27,7 @@ async function addAttend(form) {
 async function deleteAttend(form) {
     try {
         const response = await axios.delete(
-            `${devUrl}/api/attendance/delete`, {
+            `${devUrl}/api/attend/delete`, {
                 data: form
             }
         );
@@ -37,9 +37,47 @@ async function deleteAttend(form) {
     }
 }
 
+async function countAttend() {
+    try {
+        const response = await axios.get(`${devUrl}/api/attend/count`);
+        return response.data;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function countAllSchedule() {
+    try {
+        const response = await axios.get(`${devUrl}/api/attend/allCount`);
+        return response.data;
+    } catch (e) {
+        console.log(e);
+    }
+}
+async function getEventList() {
+    try {
+        const response = await axios.get(`${devUrl}/api/schedule/list`);
+        return response.data;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function countThreeMonths(form) {
+    try {
+        const response = await axios.post(`${devUrl}/api/attend/count/threeMonths`, form);
+        return response.data;
+    } catch (e) {
+        console.log(e);
+    }
+}
 
 export {
-    attendanceList,
+    attendList,
     addAttend,
     deleteAttend,
+    countAttend,
+    countAllSchedule,
+    getEventList,
+    countThreeMonths
 };

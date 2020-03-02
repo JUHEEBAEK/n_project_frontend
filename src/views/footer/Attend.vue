@@ -62,7 +62,7 @@
                     <v-col cols="9">
                       <div class="text-left">
                         <v-chip
-                          v-for="member in good_attendance"
+                          v-for="member in good_attend"
                           dark
                           label
                           :outlined="member.attend ? 'outlined' : ''"
@@ -85,7 +85,7 @@
                     <v-col cols="9">
                       <div class="text-left">
                         <v-chip
-                          v-for="member in so_so_attendance"
+                          v-for="member in so_so_attend"
                           dark
                           label
                           :outlined="member.attend ? 'outlined' : ''"
@@ -108,7 +108,7 @@
                     <v-col cols="9">
                       <div class="text-left">
                         <v-chip
-                          v-for="member in ghost_attendance"
+                          v-for="member in ghost_attend"
                           dark
                           label
                           :outlined="member.attend ? 'outlined' : ''"
@@ -137,13 +137,13 @@
 <script>
 import moment from "moment";
 import stringSchedule from "../../assets/value/Schedule.json";
-import { getEventList, countThreeMonths } from "../../api/attendance.js";
+import { getEventList, countThreeMonths } from "../../api/attend.js";
 import { selectMember } from "../../api/member.js";
 import { createNamespacedHelpers } from "vuex";
 const { mapState, mapActions } = createNamespacedHelpers("attend");
 
 export default {
-  name: "Attendance.vue",
+  name: "Attend.vue",
   async created() {
     this.scheduleList = await getEventList();
 
@@ -178,7 +178,7 @@ export default {
     requesting: false
   }),
   computed: {
-    ...mapState(["good_attendance", "so_so_attendance", "ghost_attendance"])
+    ...mapState(["good_attend", "so_so_attend", "ghost_attend"])
   },
   watch: {
     scheduleIndex: async function(val) {
@@ -188,7 +188,7 @@ export default {
         // 출석률 가져오기
         await this.get_attend_rate(this.scheduleList[this.scheduleIndex].date);
         // 그중에 출석한 사람들 업데이트 해주기
-        await this.get_attendance(this.scheduleList[this.scheduleIndex].id);
+        await this.get_attend(this.scheduleList[this.scheduleIndex].id);
       }
     }
   },
@@ -196,7 +196,7 @@ export default {
   methods: {
     ...mapActions([
       "get_attend_rate",
-      "get_attendance",
+      "get_attend",
       "add_attend",
       "delete_attend"
     ]),
@@ -233,7 +233,7 @@ export default {
     setFormatMemberList: async function(countMember) {
       this.memberList = await selectMember();
     },
-    setAttendaceList(attendList) {
+    setAttendList(attendList) {
       console.log("attendList", attendList);
     },
     setDate(item) {
