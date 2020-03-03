@@ -9,7 +9,12 @@
       offset-overflow
     >
       <template v-slot:activator="{ on }">
-        <div v-ripple v-on="on" class="schedule__new muji" @click.stop="close()">{{ new_schedule_title }}</div>
+        <div
+          v-ripple
+          v-on="on"
+          class="schedule__new muji"
+          @click.stop="close()"
+        >{{ new_schedule_title }}</div>
       </template>
 
       <v-card color="grey lighten-4" :slotData="slotData">
@@ -172,7 +177,6 @@
 </template>
 
 <script>
-import stringStadium from "../../assets/value/Stadium";
 import stringSchedules from "../../assets/value/Schedule";
 import regex from "../../mixin/regex.js";
 
