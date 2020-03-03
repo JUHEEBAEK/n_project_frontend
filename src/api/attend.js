@@ -49,7 +49,7 @@ async function getScheduleList() {
 async function countThreeMonths(form) {
     try {
         const response = await axios.post(`${devUrl}/api/attend/count/threeMonths`, form);
-        return response.data;
+        return response;
     } catch (e) {
         console.log(e);
     }

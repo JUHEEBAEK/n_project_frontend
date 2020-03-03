@@ -115,8 +115,8 @@ const actions = {
             standard_date: date,
             before_date: beforeDate
         };
-        const countMonthList = await countThreeMonths(formData);
-        commit("SET_COUNT_THREE_MONTHS", countMonthList);
+        const response = await countThreeMonths(formData);
+        commit("SET_COUNT_THREE_MONTHS", response.data);
     },
     async add_attend(context, payload) {
         let response = await createAttend(payload);

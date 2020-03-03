@@ -159,7 +159,8 @@ export default {
 
     const formData = { standard_date: date, before_date: beforeDate };
 
-    this.countMonthList = await countThreeMonths(formData);
+    const response_count = await countThreeMonths(formData);
+    this.countMonthList = response_count.data;
   },
   data: () => ({
     memberList: [],
