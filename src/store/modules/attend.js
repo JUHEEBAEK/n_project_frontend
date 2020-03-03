@@ -120,20 +120,20 @@ const actions = {
     },
     async add_attend(context, payload) {
         let response = await createAttend(payload);
-        console.log('add_attend', response)
-        if (response.err) {
-            return false
-        } else {
+        console.log('add_attend', response.data)
+        if (response) {
             return true
+        } else {
+            return false
         }
     },
     async delete_attend(context, payload) {
         let response = await deleteAttend(payload);
-        console.log('delte_attend', response)
-        if (response.err) {
-            return false
-        } else {
+        console.log('delte_attend', response.data)
+        if (response) {
             return true
+        } else {
+            return false
         }
     },
 
