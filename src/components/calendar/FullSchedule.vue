@@ -206,7 +206,8 @@ export default {
       this.$emit("closeEcent");
     },
     getScheduleInfo: async function(id) {
-      this.scheduleInfo = await getInfo(id);
+      let response = await getInfo(id);
+      this.scheduleInfo = response.data;
       await this.setScheduleInfo(this.scheduleInfo);
     },
     getStadiumList: async function() {

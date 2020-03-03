@@ -24,7 +24,8 @@ async function getScheduleList() {
 async function getInfo(schduleId) {
   try {
     const response = await axios.get(`${devUrl}/api/schedule/getInfo/${schduleId}`);
-    return response.data;
+
+    return response;
   } catch (e) {
     console.log(e);
   }
