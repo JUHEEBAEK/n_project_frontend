@@ -40,7 +40,7 @@ async function deleteAttend(form) {
 async function getScheduleList() {
     try {
         const response = await axios.get(`${devUrl}/api/schedule/list`);
-        return response.data;
+        return response;
     } catch (e) {
         console.log(e);
     }

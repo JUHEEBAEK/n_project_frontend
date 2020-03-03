@@ -147,7 +147,8 @@ const {
 export default {
   name: "Attend.vue",
   async created() {
-    this.scheduleList = await getScheduleList();
+    const response = await getScheduleList();
+    this.scheduleList = response.data;
 
     this.activeSchedule();
 
