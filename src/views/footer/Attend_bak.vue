@@ -4,7 +4,37 @@
     <core-navigation></core-navigation>
     <div>
       <v-sheet elevation="8">
-        <schedule-date-list :scheduleList="scheduleList" :scheduleIndex="scheduleIndex"></schedule-date-list>
+        <div>
+          <v-row>
+            <v-col cols="6" class="attandance__date">
+              <span>SELECTED DATE</span> -
+              <span class="date__month pr-2">{{ setMonth }}</span>
+              <span class="date__year">{{ setYear }}</span>
+            </v-col>
+          </v-row>
+        </div>
+        <v-slide-group v-model="scheduleIndex" show-arrows center-active>
+          <v-slide-item
+            v-for="item in scheduleList"
+            :key="item.id"
+            v-slot:default="{ active, toggle }"
+          >
+            <v-card
+              :color="active ? 'primary' : 'grey lighten-1'"
+              class="ma-4"
+              height="40"
+              width="80"
+              @click="toggle"
+              @click.native="setDate(item)"
+            >
+              <v-row class="fill-height" align="center" justify="center">
+                <v-scale-transition>
+                  <span class="date__day">{{ item.date.substr(8, 2) }}</span>
+                </v-scale-transition>
+              </v-row>
+            </v-card>
+          </v-slide-item>
+        </v-slide-group>
         <v-expand-transition>
           <v-sheet color="grey lighten-4" height="400" tile>
             <v-row class="fill-height" align="center" justify="center">
@@ -132,11 +162,13 @@ export default {
   },
   data: () => ({
     memberList: [],
+    setMemberList: [],
     countMonthList: [],
     scheduleIndex: null,
     setYear: moment().format("YYYY"),
     setMonth: moment().format("MMMM"),
     today: moment().format("YYYY-MM-DD"),
+    setDay: null,
     scheduleList: [],
     scheduleLength: 0,
     scheduleName: null,
@@ -152,6 +184,7 @@ export default {
   },
   watch: {
     scheduleIndex: async function(val) {
+      console.log("schedule index", val);
       if (val) {
         this.setDate(this.scheduleList[this.scheduleIndex]);
         // 출석률 가져오기
@@ -161,6 +194,7 @@ export default {
       }
     }
   },
+
   methods: {
     ...attendMapActions([
       "get_attend_rate",
@@ -197,6 +231,13 @@ export default {
       this.scheduleIndex = this.scheduleList.length - 1;
       this.setDate(this.scheduleList[this.scheduleIndex]);
     },
+
+    setFormatMemberList: async function(countMember) {
+      this.memberList = await getMember();
+    },
+    setAttendList(attendList) {
+      console.log("attendList", attendList);
+    },
     setDate(item) {
       this.setYear = moment(item.date).format("YYYY");
       this.setMonth = moment(item.date).format("MMMM");
@@ -206,13 +247,6 @@ export default {
       this.scheduleEnd = item.end;
       this.scheduleAddress = item.address;
       this.scheduleStadium = item.stadium_name;
-    },
-
-    setFormatMemberList: async function(countMember) {
-      this.memberList = await getMember();
-    },
-    setAttendList(attendList) {
-      console.log("attendList", attendList);
     }
   }
 };
