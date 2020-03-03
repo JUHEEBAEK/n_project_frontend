@@ -5,8 +5,8 @@ const devUrl = "http://localhost:3000";
 
 async function getStadiumList() {
   try {
-    const response = await axios.get(`${devUrl}/api/stadium/list`);
-;    return response.data;
+    const response = await axios.get(`${devUrl}/api/stadium/list`);;
+    return response;
   } catch (e) {
     console.log(e);
   }

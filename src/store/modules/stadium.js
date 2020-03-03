@@ -20,7 +20,7 @@ const actions = {
   }) {
     try {
       const response = await getStadiumList();
-      commit("SELECT_STADIUM", response);
+      commit("SELECT_STADIUM", response.data);
       return response;
     } catch (e) {
       console.log(e);

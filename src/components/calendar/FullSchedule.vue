@@ -211,7 +211,8 @@ export default {
       await this.setScheduleInfo(this.scheduleInfo);
     },
     getStadiumList: async function() {
-      this.stadiumList = await getStadiumList();
+      const response = await getStadiumList();
+      this.stadiumList = response.data;
     },
     save() {
       // value 포맷 맞추기 날짜, 없을 때
