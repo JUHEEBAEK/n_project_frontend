@@ -24,7 +24,7 @@ async function getMember() {
 async function detailsMember(id) {
   try {
     const response = await axios.get(`${devUrl}/api/member/${id}`);
-    return response.data;
+    return response;
   } catch (e) {
     console.log(e);
   }
