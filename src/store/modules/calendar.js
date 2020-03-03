@@ -112,8 +112,8 @@ const actions = {
     }
   },
   async load_member(context, id) {
-    const attend_list = await attendList(id);
-    context.commit("ADD_MEMBER_LIST", attend_list["data"]);
+    const response = await attendList(id);
+    context.commit("ADD_MEMBER_LIST", response.data);
   },
   async delete_schedule({
     dispatch

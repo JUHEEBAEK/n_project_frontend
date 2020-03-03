@@ -99,8 +99,8 @@ const actions = {
     async get_attend({
         commit
     }, schedule_id) {
-        const attend = await attendList(schedule_id);
-        commit("SET_ATTEND", attend.data);
+        const response = await attendList(schedule_id);
+        commit("SET_ATTEND", response.data);
         commit("UPDATE_ATTEND");
     },
     async get_attend_rate({

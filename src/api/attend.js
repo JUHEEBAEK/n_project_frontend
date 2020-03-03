@@ -6,7 +6,7 @@ const devUrl = "http://localhost:3000";
 async function attendList(id) {
     try {
         const response = await axios.get(`${devUrl}/api/attend/getattendList/${id}`);
-        return response.data;
+        return response;
     } catch (e) {
         console.log(e);
     }
