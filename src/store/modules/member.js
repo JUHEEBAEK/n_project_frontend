@@ -83,7 +83,7 @@ const actions = {
   }, payload) {
     try {
       const response = await updateMember(payload);
-      commit("UPDATE_MEMBER", response);
+      commit("UPDATE_MEMBER", response.data);
       return response.data;
     } catch (e) {
       console.log(e);
