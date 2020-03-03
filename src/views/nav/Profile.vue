@@ -87,9 +87,10 @@ import moment from "moment";
 import util from "../../mixin/util.js";
 
 import { createNamespacedHelpers } from "vuex";
-const { mapState, mapActions, mapMutations } = createNamespacedHelpers(
-  "member"
-);
+const {
+  mapState: memberMapState,
+  mapActions: memberMapActions
+} = createNamespacedHelpers("member");
 
 export default {
   mixins: [util],
@@ -116,10 +117,10 @@ export default {
     imageUrl: ""
   }),
   computed: {
-    ...mapState(["profile"])
+    ...memberMapState(["profile"])
   },
   methods: {
-    ...mapActions(["details_member", "delete_member", "update_member"]),
+    ...memberMapActions(["details_member", "delete_member", "update_member"]),
     async getMemberInfo(memberId) {
       this.memberInfo = await this.details_member(memberId);
       this.setMemberInfo(this.memberInfo);

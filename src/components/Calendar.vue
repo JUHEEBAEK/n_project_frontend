@@ -20,14 +20,14 @@
           color="primary"
           type="month"
           :now="today"
-          @click:day="event => dateClick(event, true)"
+          @click:day="schedule => dateClick(schedule, true)"
           @change="updateRange"
         >
           <template v-slot:day="{ date }">
-            <template v-for="event in eventsMap[date]">
+            <template v-for="schedule in schedulesMap[date]">
               <v-menu
-                :key="event.name"
-                v-model="event.open"
+                :key="schedule.name"
+                v-model="schedule.open"
                 :close-on-content-click="false"
                 offset-x
                 offset-y
@@ -36,21 +36,21 @@
                 <template v-slot:activator="{ on }">
                   <div
                     v-ripple
-                    class="my__event"
-                    :style="`background-color:${event.color}`"
+                    class="my__schedule"
+                    :style="`background-color:${schedule.color}`"
                     v-on="on"
                     @click.stop
-                    v-html="event.name"
-                    @click="load_member(event.id)"
+                    v-html="schedule.name"
+                    @click="load_member(schedule.id)"
                   ></div>
                 </template>
 
-                <calendar-event :selectedEvent="event" @close="close(event)"></calendar-event>
-                <calendar-fullEvent :eventId="event.id" @closeEcent="close(event)"></calendar-fullEvent>
+                <calendar-schedule :selectedSchedule="schedule" @close="close(schedule)"></calendar-schedule>
+                <calendar-fullSchedule :scheduleId="schedule.id" @closeEcent="close(schedule)"></calendar-fullSchedule>
               </v-menu>
             </template>
 
-            <calendar-add :newEventBox="newEventBox" :selectedDate="clickDay" :day="date"></calendar-add>
+            <calendar-add :newScheduleBox="newScheduleBox" :selectedDate="clickDay" :day="date"></calendar-add>
           </template>
         </v-calendar>
       </v-sheet>
@@ -62,7 +62,7 @@
 import stringSchedules from "../assets/value/Schedule.json";
 
 import { createNamespacedHelpers } from "vuex";
-const { mapState, mapMutations, mapActions } = createNamespacedHelpers(
+const { mapState: calendarMapState, mapMutations: calendarMapMutations, mapActions: calendarMapActions } = createNamespacedHelpers(
   "calendar"
 );
 
@@ -76,11 +76,11 @@ export default {
     clickDay: "",
     closeOnClick: true,
     selectedOpen: false,
-    selectedEvent: {},
+    selectedSchedule: {},
     selectedElement: null
   }),
   computed: {
-    ...mapState(["newEventBox", "eventList"]),
+    ...calendarMapState(["newScheduleBox", "scheduleList"]),
     title() {
       const { start, end } = this;
       if (!start || !end) {
@@ -96,18 +96,18 @@ export default {
         month: "long"
       });
     },
-    eventsMap() {
+    schedulesMap() {
       const map = {};
-      this.eventList.forEach(e => {
-        e.color = this.getEventColor(e.type);
+      this.scheduleList.forEach(e => {
+        e.color = this.getScheduleColor(e.type);
         (map[e.date] = map[e.date] || []).push(e);
       });
       return map;
     }
   },
   methods: {
-    ...mapMutations(["SET_NEW_EVENT_MODAL"]),
-    ...mapActions(["select_event", "load_member"]),
+    ...calendarMapMutations(["SET_NEW_SCHEDULE_MODAL"]),
+    ...calendarMapActions(["select_Schedule", "load_member"]),
     setToday() {
       this.focus = this.today;
     },
@@ -117,25 +117,25 @@ export default {
     next() {
       this.$refs.calendar.next();
     },
-    dateClick(event, isAdd) {
-      this.clickDay = event.date;
-      this.SET_NEW_EVENT_MODAL(!this.newEventBox);
+    dateClick(Schedule, isAdd) {
+      this.clickDay = Schedule.date;
+      this.SET_NEW_SCHEDULE_MODAL(!this.newScheduleBox);
     },
-    getEventColor(type) {
+    getScheduleColor(type) {
       return stringSchedules.types[type].color;
     },
     updateRange({ start, end }) {
       this.start = start;
       this.end = end;
     },
-    close(event) {
-      event.open = false;
+    close(schedule) {
+      schedule.open = false;
       // 이벤트 닫힐 때 입력했던 값 초기화
       this.initDialog();
     }
   },
   mounted() {
-    this.select_event();
+    this.select_schedule();
   }
 };
 </script>
@@ -151,7 +151,7 @@ export default {
   font-weight: 600;
   font-size: 18px;
 }
-.my__event {
+.my__schedule {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

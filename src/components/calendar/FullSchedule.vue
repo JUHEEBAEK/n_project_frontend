@@ -1,6 +1,6 @@
 <template>
   <v-dialog
-    v-model="fullEventDialog"
+    v-model="fullScheduleDialog"
     fullscreen
     hide-overlay
     transition="dialog-bottom-transition"
@@ -9,7 +9,7 @@
     <v-card tile>
       <form>
         <v-row>
-          <v-col cols="8" class="event__title">
+          <v-col cols="8" class="schedule__title">
             <v-toolbar class="pa-2" flat light>
               <v-btn icon @click="close()">
                 <v-icon>fas fa-times</v-icon>
@@ -29,7 +29,7 @@
         </v-row>
         <v-card-text>
           <v-row dense>
-            <v-col cols="2" class="event__date">
+            <v-col cols="2" class="schedule__date">
               <v-menu
                 v-model="menu_date"
                 transition="scale-transition"
@@ -43,7 +43,7 @@
                 <v-date-picker v-model="date" dense no-title />
               </v-menu>
             </v-col>
-            <v-col cols="1" class="event__time">
+            <v-col cols="1" class="schedule__time">
               <v-menu
                 v-model="menu_start"
                 :nudge-right="40"
@@ -106,8 +106,8 @@
 
           <v-row dense>
             <v-col cols="6">
-              <div class="d-flex event__stadium">
-                <span class="event__icon align-self-center">
+              <div class="d-flex schedule__stadium">
+                <span class="schedule__icon align-self-center">
                   <v-icon>fas fa-map-marker-alt</v-icon>
                 </span>
                 <v-select
@@ -124,14 +124,14 @@
                   @change="setAddress"
                 ></v-select>
               </div>
-              <div class="event__address py-3">
+              <div class="schedule__address py-3">
                 <v-text-field dense hide-details filled v-model="address" readonly />
               </div>
             </v-col>
           </v-row>
           <v-row dense>
             <v-col cols="3" class="d-flex">
-              <span class="event__icon align-self-center">
+              <span class="schedule__icon align-self-center">
                 <v-icon :style="`color: ${color}`">fas fa-circle</v-icon>
               </span>
               <v-select
@@ -164,9 +164,11 @@ import stringSchedules from "../../assets/value/Schedule";
 
 import { createNamespacedHelpers } from "vuex";
 import moment from "moment";
-const { mapState, mapMutations, mapActions } = createNamespacedHelpers(
-  "calendar"
-);
+const {
+  mapState: calendarMapState,
+  mapMutations: calendarMapMutations,
+  mapActions: calendarMapActions
+} = createNamespacedHelpers("calendar");
 
 import { getStadiumList } from "../../api/stadium.js";
 import { getInfo } from "../../api/schedule.js";
@@ -174,9 +176,9 @@ import { getInfo } from "../../api/schedule.js";
 export default {
   async created() {
     await this.getStadiumList();
-    await this.getScheduleInfo(this.eventId);
+    await this.getScheduleInfo(this.scheduleId);
   },
-  props: ["eventId"],
+  props: ["scheduleId"],
   data: () => ({
     scheduleInfo: {},
     menu_date: false,
@@ -194,13 +196,13 @@ export default {
     typeList: stringSchedules.typeList
   }),
   computed: {
-    ...mapState(["fullEventDialog"])
+    ...calendarMapState(["fullScheduleDialog"])
   },
   methods: {
-    ...mapMutations(["SET_FULL_EVENT_MODAL"]),
-    ...mapActions(["update_event"]),
+    ...calendarMapMutations(["SET_FULL_SCHEDULE_MODAL"]),
+    ...calendarMapActions(["update_schedule"]),
     close() {
-      this.SET_FULL_EVENT_MODAL(!this.fullEventDialog);
+      this.SET_FULL_SCHEDULE_MODAL(!this.fullScheduleDialog);
       this.$emit("closeEcent");
     },
     getScheduleInfo: async function(id) {
@@ -228,8 +230,8 @@ export default {
         type: type
       };
 
-      this.update_event({
-        schedule_id: this.eventId,
+      this.update_schedule({
+        schedule_id: this.scheduleId,
         schedule: scheduleFormData
       });
 
@@ -270,20 +272,20 @@ export default {
 </script>
 
 <style>
-.event__title {
+.schedule__title {
   font-size: 28px;
   line-height: 28px;
 }
 
-.event__date {
+.schedule__date {
   margin-left: 45px;
 }
 
-.event__icon {
+.schedule__icon {
   margin: 0 10px;
 }
 
-.event__address {
+.schedule__address {
   margin-left: 45px;
 }
 </style>

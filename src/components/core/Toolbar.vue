@@ -10,7 +10,9 @@
 
 <script>
 import { createNamespacedHelpers } from "vuex";
-const { mapMutations } = createNamespacedHelpers("common");
+const {
+  mapMutations: commonMapMutations
+} = createNamespacedHelpers("common");
 
 export default {
   name: "Toolbar.vue",
@@ -20,7 +22,7 @@ export default {
   computed: {},
   watch: {},
   methods: {
-    ...mapMutations(["setDrawer"]),
+    ...commonMapMutations(["setDrawer"]),
     onClickBtn() {
       this.setDrawer(!this.$store.state.common.drawer);
     }

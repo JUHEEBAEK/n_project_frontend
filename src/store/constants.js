@@ -7,8 +7,8 @@ export const setAlert = "SET_ALERT";
 export const setModal = "SET_MODAL";
 export const setSearchResult = "SET_SEARCH_RESULT";
 
-export const setNewEventModal = "SET_NEW_EVENT_MODAL";
-export const setFullEventModal = "SET_FULL_EVENT_MODAL";
+export const setNewScheduleModal = "SET_NEW_SCHEDULE_MODAL";
+export const setFullScheduleModal = "SET_FULL_SCHEDULE_MODAL";
 
 export const SELECT_MEMBER = "SELECT_MEMBER";
 export const DELETE_MEMBER = "DELETE_MEMBER";

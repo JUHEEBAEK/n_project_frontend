@@ -14,9 +14,9 @@ export default new Router({
     },
     // footer view
     {
-      path: "/attendance",
-      name: "attendance",
-      component: () => import("../views/footer/Attendance.vue")
+      path: "/attend",
+      name: "attend",
+      component: () => import("../views/footer/Attend.vue")
     },
     {
       path: "/squadView",

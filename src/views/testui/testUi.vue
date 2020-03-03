@@ -1,6 +1,6 @@
 <template>
   <div>
-    <calendar-addEvent></calendar-addEvent>
+    <calendar-addSchedule></calendar-addSchedule>
   </div>
 </template>
 

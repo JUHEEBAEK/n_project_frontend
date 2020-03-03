@@ -2,30 +2,30 @@ import {
   set
 } from "../../utils/index";
 import {
-  addEvent,
-  getEventList,
-  deleteEvent,
-  updateEvent
+  createSchedule,
+  getScheduleList,
+  deleteSchedule,
+  updateSchedule
 } from "../../api/schedule.js";
 import {
-  attendanceList
+  attendList
 } from "../../api/attend.js";
 
 import moment from "moment";
 import * as constants from "../constants";
 const state = {
   // navigation 의 상태 (들어가 있는지 나와있는지)
-  newEventBox: false,
-  fullEventDialog: false,
+  newScheduleBox: false,
+  fullScheduleDialog: false,
   scheduleList: [],
-  eventList: []
+  scheduleList: []
 };
 
 const mutations = {
-  [constants.setNewEventModal]: set("newEventBox"),
-  [constants.setFullEventModal]: set("fullEventDialog"),
-  SET_EVENT_LIST(state, payload) {
-    let event_list = [];
+  [constants.setNewScheduleModal]: set("newScheduleBox"),
+  [constants.setFullScheduleModal]: set("fullScheduleDialog"),
+  SET_SCHEDULE_LIST(state, payload) {
+    let schedule_list = [];
     for (var index in payload) {
       let item = payload[index];
 
@@ -40,7 +40,7 @@ const mutations = {
       }
       //attendCount 필요함
       item["attendCount"] = 0;
-      
+
       //open은 default false로 설정해준다
       item["open"] = false;
 
@@ -54,9 +54,9 @@ const mutations = {
       item["type_index"] = type_list[item["type"]]
 
       //넣어주기
-      event_list.push(item);
+      schedule_list.push(item);
     }
-    state.eventList = event_list;
+    state.scheduleList = schedule_list;
   },
   ADD_MEMBER_LIST(state, memberList) {
     if (memberList.length == 0) {
@@ -71,10 +71,10 @@ const mutations = {
     }
 
     let schedule_id = memberList[0]["schedule_id"];
-    // eventList에서 id가 일치하는 list를 찾은 다음에 가져오기
+    // scheduleList에서 id가 일치하는 list를 찾은 다음에 가져오기
     let index = -1;
-    for (let i in state.eventList) {
-      let id_check = state.eventList[i]["id"];
+    for (let i in state.scheduleList) {
+      let id_check = state.scheduleList[i]["id"];
       if (id_check == schedule_id) {
         index = i;
         break;
@@ -84,55 +84,55 @@ const mutations = {
       console.log("ADD_MEMBER_LIST, can not find Schedule");
       return;
     }
-    let item = state.eventList[index];
+    let item = state.scheduleList[index];
     item["attendCount"] = member_count;
     item["memeber_id_list"] = memeber_id_list;
     item["memeber_name_list"] = memeber_name_list;
 
-    state.eventList[index] = item;
+    state.scheduleList[index] = item;
   }
 };
 
 const actions = {
-  async add_event(context, form) {
+  async add_schedule(context, form) {
     try {
-      const response = await addEvent(form);
+      const response = await createSchedule(form);
       return response.data;
     } catch (e) {
       console.log(e);
     }
   },
-  async select_event(context) {
+  async select_schedule(context) {
     try {
-      const response = await getEventList();
-      context.commit("SET_EVENT_LIST", response.data);
+      const response = await getScheduleList();
+      context.commit("SET_SCHEDULE_LIST", response.data);
       return response.data;
     } catch (e) {
       console.log(e);
     }
   },
   async load_member(context, id) {
-    const attend_list = await attendanceList(id);
+    const attend_list = await attendList(id);
     context.commit("ADD_MEMBER_LIST", attend_list["data"]);
   },
-  async delete_event({
+  async delete_schedule({
     dispatch
   }, schedule_id_form) {
     try {
-      const response = await deleteEvent(schedule_id_form);
-      dispatch("select_event");
+      const response = await deleteSchedule(schedule_id_form);
+      dispatch("select_schedule");
       return response.data;
     } catch (e) {
       console.log(e);
     }
   },
-  async update_event({
+  async update_schedule({
     commit,
     dispatch
   }, update_form) {
     try {
-      const reponse = await updateEvent(update_form);
-      dispatch("select_event");
+      const reponse = await updateSchedule(update_form);
+      dispatch("select_schedule");
       return response.data;
     } catch (e) {
       console.log(e);

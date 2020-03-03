@@ -3,7 +3,7 @@ import axios from "axios";
 // const baseUrl = 'http://15.164.138.118:3000';
 const devUrl = "http://localhost:3000";
 
-async function addMember(form) {
+async function createMember(form) {
   try {
     const response = await axios.post(`${devUrl}/api/member/create`, form);
     return response;
@@ -12,7 +12,7 @@ async function addMember(form) {
   }
 }
 
-async function selectMember() {
+async function getMember() {
   try {
     const response = await axios.get(`${devUrl}/api/member/list`);
     return response.data;
@@ -52,8 +52,8 @@ async function updateMember(formData) {
 }
 
 export {
-  addMember,
-  selectMember,
+  createMember,
+  getMember,
   deleteMember,
   detailsMember,
   updateMember

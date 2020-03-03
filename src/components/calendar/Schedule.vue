@@ -1,11 +1,11 @@
 <template>
-  <v-card class="calendar__event" color="grey lighten-4" flat>
+  <v-card class="calendar__schedule" color="grey lighten-4" flat>
     <v-toolbar color="grey lighten-4" flat tile height="40px">
       <v-spacer />
       <v-btn icon small class="mx-1" @click="openUpdateModal()">
         <v-icon small class="toolbar__icon">fas fa-edit</v-icon>
       </v-btn>
-      <v-btn icon small class="mx-1" @click="deleteEvent()">
+      <v-btn icon small class="mx-1" @click="deleteSchedule()">
         <v-icon small class="toolbar__icon">fas fa-trash-alt</v-icon>
       </v-btn>
       <v-btn icon small class="mx-1" @click="close()">
@@ -16,19 +16,19 @@
       <div class="item__container">
         <div class="row">
           <div class="col-2 align-self-center">
-            <v-avatar size="20" :color="selectedEvent.color" />
+            <v-avatar size="20" :color="selectedSchedule.color" />
           </div>
           <div class="col-10 text-left">
             <div class="row">
               <div class="col-12 py-0">
-                <span class="schedule__title" v-html="selectedEvent.name" />
+                <span class="schedule__title" v-html="selectedSchedule.name" />
               </div>
             </div>
             <div class="row">
               <div class="col-12 py-0">
-                <span class="schedule__start" v-html="selectedEvent.start" />
+                <span class="schedule__start" v-html="selectedSchedule.start" />
                 ~
-                <span class="schedule__end" v-html="selectedEvent.end" />
+                <span class="schedule__end" v-html="selectedSchedule.end" />
               </div>
             </div>
           </div>
@@ -42,12 +42,12 @@
           <div class="col-10 text-left">
             <div class="row">
               <div class="col-12 py-0">
-                <span class="schedule__stadium_name" v-html="selectedEvent.stadium_name" />
+                <span class="schedule__stadium_name" v-html="selectedSchedule.stadium_name" />
               </div>
             </div>
             <div class="row">
               <div class="col-12 py-0">
-                <span class="schedule__address" v-html="selectedEvent.address" />
+                <span class="schedule__address" v-html="selectedSchedule.address" />
               </div>
             </div>
           </div>
@@ -61,14 +61,14 @@
           <div class="col-10 text-left">
             <div class="row">
               <div class="col-12 py-0">
-                <span class="schedule__attendance" v-html="`참석자 ${selectedEvent.attendCount} 명`" />
+                <span class="schedule__attend" v-html="`참석자 ${selectedSchedule.attendCount} 명`" />
               </div>
             </div>
             <div class="row">
               <div class="col-12 py-0">
                 <span
-                  class="attendance__member"
-                  v-for="(item, idx) in selectedEvent.memeber_name_list"
+                  class="attend__member"
+                  v-for="(item, idx) in selectedSchedule.memeber_name_list"
                   :key="idx"
                 >{{ item }},</span>
               </div>
@@ -82,24 +82,27 @@
 
 <script>
 import { createNamespacedHelpers } from "vuex";
-const { mapMutations, mapActions } = createNamespacedHelpers("calendar");
+const {
+  mapMutations: calendarMapMutations,
+  mapActions: calendarMapActions
+} = createNamespacedHelpers("calendar");
 
 export default {
-  props: ["selectedEvent"],
+  props: ["selectedSchedule"],
   methods: {
-    ...mapMutations(["SET_FULL_EVENT_MODAL"]),
-    ...mapActions(["delete_event"]),
+    ...calendarMapMutations(["SET_FULL_SCHEDULE_MODAL"]),
+    ...calendarMapActions(["delete_schedule"]),
     openUpdateModal() {
-      this.SET_FULL_EVENT_MODAL(true);
+      this.SET_FULL_SCHEDULE_MODAL(true);
     },
-    deleteEvent() {
+    deleteSchedule() {
       if (confirm("정말로 삭제하시겠습니까")) {
-        this.delete_event({ schedule_id: this.selectedEvent.id });
+        this.delete_schedule({ schedule_id: this.selectedSchedule.id });
         this.close();
       }
     },
     close() {
-      // 상위 컴포넌트의 calendar 에서 event close 함수 사용
+      // 상위 컴포넌트의 calendar 에서 schedule close 함수 사용
       this.$emit("close");
     }
   }
@@ -107,7 +110,7 @@ export default {
 </script>
 
 <style lang="scss">
-.calendar__event {
+.calendar__schedule {
   width: 400px;
 }
 </style>

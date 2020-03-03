@@ -22,8 +22,10 @@
 
 <script>
 import { createNamespacedHelpers } from "vuex";
-const { mapState, mapMutations } = createNamespacedHelpers("member");
-
+const {
+  mapState: memberMapState,
+  mapMutations: memberMapMutations
+} = createNamespacedHelpers("member");
 export default {
   data: () => ({
     model: null,
@@ -31,7 +33,7 @@ export default {
     isLoading: false
   }),
   computed: {
-    ...mapState(["memberList", "searchResult"])
+    ...memberMapState(["memberList", "searchResult"])
   },
   watch: {
     search(val) {
@@ -39,7 +41,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["SET_SEARCH_RESULT"]),
+    ...memberMapMutations(["SET_SEARCH_RESULT"]),
     searchList(val) {
       if (val !== "" && val.length !== 0) {
         const result = this.memberList.filter(item => {

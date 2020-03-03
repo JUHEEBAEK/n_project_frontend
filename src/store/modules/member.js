@@ -1,7 +1,7 @@
 import * as constants from "../constants";
 import {
-  addMember,
-  selectMember,
+  createMember,
+  getMember,
   deleteMember,
   updateMember,
   detailsMember
@@ -24,8 +24,7 @@ const mutations = {
     state.memberList = memberList;
     state.searchResult = memberList;
   },
-  [constants.DELETE_MEMBER](state, memberId) {
-  },
+  [constants.DELETE_MEMBER](state, memberId) {},
   [constants.DETAILS_MEMBER](state, memberProfile) {
     state.profile = memberProfile;
   },
@@ -38,7 +37,7 @@ const mutations = {
 const actions = {
   async add_member(context, form) {
     try {
-      const response = await addMember(form);
+      const response = await createMember(form);
       return response.data;
     } catch (e) {
       console.log(e);
@@ -48,7 +47,7 @@ const actions = {
     commit
   }) {
     try {
-      const response = await selectMember();
+      const response = await getMember();
       commit("SELECT_MEMBER", response);
       return response;
     } catch (e) {

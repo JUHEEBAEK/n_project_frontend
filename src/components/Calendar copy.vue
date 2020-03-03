@@ -18,11 +18,11 @@
           ref="calendar"
           v-model="focus"
           color="primary"
-          :events="events"
-          :event-color="getEventColor"
+          :events="schedules"
+          :event-color="getScheduleColor"
           :now="today"
           type="month"
-          @click:event="showEvent"
+          @click:event="showSchedule"
           @change="updateRange"
         ></v-calendar>
         <v-menu
@@ -32,15 +32,15 @@
           offset-x
         >
           <v-card color="grey lighten-4" min-width="350px" flat>
-            <v-toolbar :color="selectedEvent.color" dark>
+            <v-toolbar :color="selectedSchedule.color" dark>
               <v-btn icon>
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
-              <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
+              <v-toolbar-title v-html="selectedSchedule.name"></v-toolbar-title>
               <v-spacer></v-spacer>
             </v-toolbar>
             <v-card-text>
-              <span v-html="selectedEvent.details"></span>
+              <span v-html="selectedSchedule.details"></span>
             </v-card-text>
             <v-card-actions>
               <v-btn text color="secondary" @click.stop="cancelButton">Cancel</v-btn>
@@ -54,7 +54,10 @@
 
 <script>
 import { createNamespacedHelpers } from "vuex";
-const { mapMutations, mapState } = createNamespacedHelpers("common");
+const {
+  mapState: commonMapState,
+  mapMutations: commonMapMutations
+} = createNamespacedHelpers("common");
 
 export default {
   data: () => ({
@@ -62,10 +65,10 @@ export default {
     today: new Date().toISOString().substr(0, 10),
     start: null,
     end: null,
-    selectedEvent: {},
+    selectedSchedule: {},
     selectedElement: null,
     selectedOpen: false,
-    events: [
+    schedules: [
       {
         name: "훈련 + 자체 경기 우면 다목적 구장",
         start: "2020-01-04 15:00",
@@ -116,7 +119,7 @@ export default {
     ]
   }),
   computed: {
-    ...mapState(["modal"]),
+    ...commonMapState(["modal"]),
     title() {
       const { start, end } = this;
       if (!start || !end) {
@@ -138,10 +141,10 @@ export default {
     this.$refs.calendar.checkChange();
   },
   methods: {
-    ...mapMutations(["SET_MODAL"]),
+    ...commonMapMutations(["SET_MODAL"]),
 
-    getEventColor(event) {
-      return event.color;
+    getScheduleColor(schedule) {
+      return schedule.color;
     },
     setToday() {
       this.focus = this.today;
@@ -155,10 +158,10 @@ export default {
     cancelButton() {
       this.SET_MODAL(false);
     },
-    showEvent({ nativeEvent, event }) {
+    showSchedule({ nativeSchedule, schedule }) {
       const open = () => {
-        this.selectedEvent = event;
-        this.selectedElement = nativeEvent.target;
+        this.selectedSchedule = schedule;
+        this.selectedElement = nativeSchedule.target;
         setTimeout(() => (this.selectedOpen = true), 10);
       };
 
@@ -169,7 +172,7 @@ export default {
         open();
       }
 
-      nativeEvent.stopPropagation();
+      nativeSchedule.stopPropagation();
     },
     updateRange({ start, end }) {
       this.start = start;

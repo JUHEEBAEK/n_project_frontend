@@ -86,9 +86,11 @@
 <script>
 import moment from "moment";
 import { createNamespacedHelpers } from "vuex";
-const { mapState, mapActions, mapMutations } = createNamespacedHelpers(
-  "member"
-);
+
+const {
+  mapState: memberMapState,
+  mapActions: memberMapActions
+} = createNamespacedHelpers("member");
 
 export default {
   data: () => ({
@@ -97,14 +99,14 @@ export default {
     imageUrl: ""
   }),
   computed: {
-    ...mapState(["profile"])
+    ...memberMapState(["profile"])
   },
   created() {
     this.date = moment(this.profile.join_date).format("YYYY-MM-DD");
     this.imageUrl = require(`../../assets/bgImage/${this.profile["bg_image"]}`);
   },
   methods: {
-    ...mapActions(["delete_member", "update_member"]),
+    ...memberMapActions(["delete_member", "update_member"]),
     updateMember(profile) {
       profile.join_date = moment(this.profile.join_date).format("YYYY-MM-DD");
       let formData = { member_id: profile.id, member: profile };
