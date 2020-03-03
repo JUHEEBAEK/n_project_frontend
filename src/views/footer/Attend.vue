@@ -235,7 +235,8 @@ export default {
     },
 
     setFormatMemberList: async function(countMember) {
-      this.memberList = await getMember();
+      const response = await getMember();
+      this.memberList = response.data;
     },
     setAttendList(attendList) {
       console.log("attendList", attendList);

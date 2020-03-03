@@ -15,7 +15,7 @@ async function createMember(form) {
 async function getMember() {
   try {
     const response = await axios.get(`${devUrl}/api/member/list`);
-    return response.data;
+    return response;
   } catch (e) {
     console.log(e);
   }
