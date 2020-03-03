@@ -124,11 +124,7 @@
 </template>
 
 <script>
-import stringAttendance from "../../assets/value/Attendance.json";
-
 import moment from "moment";
-import { getEventList, countThreeMonths } from "../../api/attendance.js";
-import { selectMember } from "../../api/member.js";
 import { createNamespacedHelpers } from "vuex";
 const { mapState, mapActions } = createNamespacedHelpers("attend");
 const { mapMutations: commonapMutaions } = createNamespacedHelpers("common");
@@ -200,7 +196,7 @@ export default {
     },
     setAttendMember: function() {
       console.log("setAttendMember");
-      this.attendMember = stringAttendance.member;
+      // this.attendMember = stringAttendance.member;
     },
     showSetting() {
       console.log("show");
