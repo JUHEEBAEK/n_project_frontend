@@ -21,7 +21,7 @@
               height="40"
               width="80"
               @click="toggle"
-              @click.native="setDate(item)"
+              @click.native="setScheduleInfo(item)"
             >
               <v-row class="fill-height" align="center" justify="center">
                 <v-scale-transition>
@@ -38,8 +38,12 @@
 
 <script>
 import moment from "moment";
+import { createNamespacedHelpers } from "vuex";
+const { mapActions: attendMapActions } = createNamespacedHelpers("attend");
 
 export default {
+  async created() {},
+  data: () => ({}),
   props: {
     scheduleList: {
       type: Array,
@@ -56,6 +60,23 @@ export default {
     setMonth: {
       type: String,
       default: null
+    }
+  },
+  watch: {
+    scheduleIndex: async function(val) {
+      if (val) {
+        this.$emit("setDate", this.scheduleList[this.scheduleIndex]);
+        // 출석률 가져오기
+        await this.get_attend_rate(this.scheduleList[this.scheduleIndex].date);
+        // 그중에 출석한 사람들 업데이트 해주기
+        await this.get_attend(this.scheduleList[this.scheduleIndex].id);
+      }
+    }
+  },
+  methods: {
+    ...attendMapActions(["get_attend_rate", "get_attend"]),
+    setScheduleInfo(item) {
+      this.$emit("setDate", item);
     }
   }
 };

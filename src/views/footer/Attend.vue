@@ -4,102 +4,96 @@
     <core-navigation></core-navigation>
     <div>
       <v-sheet elevation="8">
-        <schedule-date-list :scheduleList="scheduleList" :scheduleIndex="scheduleIndex"></schedule-date-list>
-        <v-expand-transition>
-          <v-sheet color="grey lighten-4" height="400" tile>
-            <v-row class="fill-height" align="center" justify="center">
-              <v-col cols="12" sm="12" md="12" lg="3">
-                <v-card :loading="loading" class="mx-auto">
-                  <v-card-title class="schedule__title">{{ scheduleName }}</v-card-title>
-                  <v-card-text>
-                    <div
-                      class="my-3 subtitle-1 schedule__time"
-                    >{{ scheduleStart }} - {{ scheduleEnd }}</div>
-                  </v-card-text>
-
-                  <v-divider class="mx-4"></v-divider>
-
-                  <v-card-text class="schedule__stadium">{{ scheduleStadium }}</v-card-text>
-                  <v-card-text class="grey--text">{{ scheduleAddress }}</v-card-text>
-                </v-card>
-              </v-col>
-              <v-col cols="12" sm="12" md="12" lg="8">
-                <v-card outlined class="pa-3">
-                  <v-row wrap justify="center">
-                    <v-col cols="1" align-self="center">
-                      <v-img src="../../assets/sun.png" contain width="30" height="30" />
-                    </v-col>
-                    <v-col cols="9">
-                      <div class="text-left">
-                        <v-chip
-                          v-for="member in good_attend"
-                          dark
-                          label
-                          :outlined="member.attend ? 'outlined' : ''"
-                          :class="
-                            member.attend
-                              ? 'chip__member'
-                              : 'chip__member opacity-4'
-                          "
-                          :color="member.attend ? 'tertiary' : 'muji'"
-                          :key="member.name"
-                          @click="isAttend(member)"
-                        >{{ member.name }}</v-chip>
-                      </div>
-                    </v-col>
-                  </v-row>
-                  <v-row wrap justify="center">
-                    <v-col cols="1" align-self="center">
-                      <v-img src="../../assets/rainy.png" contain width="30" height="30" />
-                    </v-col>
-                    <v-col cols="9">
-                      <div class="text-left">
-                        <v-chip
-                          v-for="member in so_so_attend"
-                          dark
-                          label
-                          :outlined="member.attend ? 'outlined' : ''"
-                          :class="
-                            member.attend
-                              ? 'chip__member'
-                              : 'chip__member opacity-4'
-                          "
-                          :color="member.attend ? 'tertiary' : 'muji'"
-                          :key="member.name"
-                          @click="isAttend(member)"
-                        >{{ member.name }}</v-chip>
-                      </div>
-                    </v-col>
-                  </v-row>
-                  <v-row wrap justify="center">
-                    <v-col cols="1" align-self="center">
-                      <v-img src="../../assets/cemetery.png" contain width="30" height="30" />
-                    </v-col>
-                    <v-col cols="9">
-                      <div class="text-left">
-                        <v-chip
-                          v-for="member in ghost_attend"
-                          dark
-                          label
-                          :outlined="member.attend ? 'outlined' : ''"
-                          :class="
-                            member.attend
-                              ? 'chip__member'
-                              : 'chip__member opacity-4'
-                          "
-                          :color="member.attend ? 'tertiary' : 'muji'"
-                          :key="member.name"
-                          @click="isAttend(member)"
-                        >{{ member.name }}</v-chip>
-                      </div>
-                    </v-col>
-                  </v-row>
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-sheet>
-        </v-expand-transition>
+        <schedule-date-list
+          :scheduleList="scheduleList"
+          :scheduleIndex="initIndex"
+          :setYear="setYear"
+          :setMonth="setMonth"
+          @setDate="setDate"
+        ></schedule-date-list>
       </v-sheet>
+      <v-expand-transition>
+        <v-sheet color="grey lighten-4" height="400" tile>
+          <v-row class="fill-height" align="center" justify="center">
+            <v-col cols="12" sm="12" md="12" lg="3">
+              <schedule-info-card :scheduleInfo="scheduleInfo"></schedule-info-card>
+            </v-col>
+            <v-col cols="12" sm="12" md="12" lg="8">
+              <v-card outlined class="pa-3">
+                <v-row wrap justify="center">
+                  <v-col cols="1" align-self="center">
+                    <v-img src="../../assets/sun.png" contain width="30" height="30" />
+                  </v-col>
+                  <v-col cols="9">
+                    <div class="text-left">
+                      <v-chip
+                        v-for="member in good_attend"
+                        dark
+                        label
+                        :outlined="member.attend ? 'outlined' : ''"
+                        :class="
+                            member.attend
+                              ? 'chip__member'
+                              : 'chip__member opacity-4'
+                          "
+                        :color="member.attend ? 'tertiary' : 'muji'"
+                        :key="member.name"
+                        @click="isAttend(member)"
+                      >{{ member.name }}</v-chip>
+                    </div>
+                  </v-col>
+                </v-row>
+                <v-row wrap justify="center">
+                  <v-col cols="1" align-self="center">
+                    <v-img src="../../assets/rainy.png" contain width="30" height="30" />
+                  </v-col>
+                  <v-col cols="9">
+                    <div class="text-left">
+                      <v-chip
+                        v-for="member in so_so_attend"
+                        dark
+                        label
+                        :outlined="member.attend ? 'outlined' : ''"
+                        :class="
+                            member.attend
+                              ? 'chip__member'
+                              : 'chip__member opacity-4'
+                          "
+                        :color="member.attend ? 'tertiary' : 'muji'"
+                        :key="member.name"
+                        @click="isAttend(member)"
+                      >{{ member.name }}</v-chip>
+                    </div>
+                  </v-col>
+                </v-row>
+                <v-row wrap justify="center">
+                  <v-col cols="1" align-self="center">
+                    <v-img src="../../assets/cemetery.png" contain width="30" height="30" />
+                  </v-col>
+                  <v-col cols="9">
+                    <div class="text-left">
+                      <v-chip
+                        v-for="member in ghost_attend"
+                        dark
+                        label
+                        :outlined="member.attend ? 'outlined' : ''"
+                        :class="
+                            member.attend
+                              ? 'chip__member'
+                              : 'chip__member opacity-4'
+                          "
+                        :color="member.attend ? 'tertiary' : 'muji'"
+                        :key="member.name"
+                        @click="isAttend(member)"
+                      >{{ member.name }}</v-chip>
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-sheet>
+      </v-expand-transition>
     </div>
   </div>
 </template>
@@ -119,7 +113,7 @@ export default {
   async created() {
     this.scheduleList = await getScheduleList();
 
-    this.activeSchedule();
+    await this.activeSchedule();
 
     let date = moment(this.today).format("YYYYMM");
     let beforeDate = moment(this.today)
@@ -133,41 +127,19 @@ export default {
   data: () => ({
     memberList: [],
     countMonthList: [],
-    scheduleIndex: null,
+    initIndex: null,
     setYear: moment().format("YYYY"),
     setMonth: moment().format("MMMM"),
     today: moment().format("YYYY-MM-DD"),
     scheduleList: [],
-    scheduleLength: 0,
-    scheduleName: null,
-    scheduleStart: null,
-    scheduleEnd: null,
-    scheduleStadium: null,
-    scheduleAddress: null,
-
+    scheduleInfo: {},
     requesting: false
   }),
   computed: {
     ...attendMapState(["good_attend", "so_so_attend", "ghost_attend"])
   },
-  watch: {
-    scheduleIndex: async function(val) {
-      if (val) {
-        this.setDate(this.scheduleList[this.scheduleIndex]);
-        // 출석률 가져오기
-        await this.get_attend_rate(this.scheduleList[this.scheduleIndex].date);
-        // 그중에 출석한 사람들 업데이트 해주기
-        await this.get_attend(this.scheduleList[this.scheduleIndex].id);
-      }
-    }
-  },
   methods: {
-    ...attendMapActions([
-      "get_attend_rate",
-      "get_attend",
-      "add_attend",
-      "delete_attend"
-    ]),
+    ...attendMapActions(["add_attend", "delete_attend"]),
     async isAttend(item) {
       console.log("this is clicked", item);
       this.requesting = true;
@@ -175,7 +147,7 @@ export default {
       let success_in_query = false;
       let form = {
         member_id: item.id,
-        schedule_id: this.scheduleList[this.scheduleIndex].id
+        schedule_id: this.scheduleList[this.initIndex].id
       };
       if (item.attend) {
         // delete api
