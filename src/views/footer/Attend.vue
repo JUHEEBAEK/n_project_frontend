@@ -38,18 +38,19 @@
 
 <script>
 import moment from "moment";
-import { getScheduleList, countThreeMonths } from "../../api/attend.js";
 import { getMember } from "../../api/member.js";
 import { createNamespacedHelpers } from "vuex";
+const { mapActions: attendMapActions } = createNamespacedHelpers("attend");
+const { mapActions: memberMapActions } = createNamespacedHelpers("member");
 const {
-  mapState: attendMapState,
-  mapActions: attendMapActions
-} = createNamespacedHelpers("attend");
+  mapState: scheduleMapState,
+  mapActions: scheduleMapActions
+} = createNamespacedHelpers("calendar");
 
 export default {
   name: "Attend.vue",
   async created() {
-    this.scheduleList = await getScheduleList();
+    this.scheduleList = await this.select_schedule();
 
     await this.activeSchedule();
 
@@ -59,19 +60,16 @@ export default {
       .format("YYYYMM");
 
     const formData = { standard_date: date, before_date: beforeDate };
-
-    this.countMonthList = await countThreeMonths(formData);
   },
   data: () => ({
     memberList: [],
     cardInfoLoading: false,
-    countMonthList: [],
     initIndex: null,
     setYear: moment().format("YYYY"),
     setMonth: moment().format("MMMM"),
     setDay: moment().format("DD"),
     today: moment().format("YYYY-MM-DD"),
-    scheduleList: [],
+    // scheduleList: [],
     scheduleInfo: {},
     scheduleName: null,
     scheduleStart: moment().format("hh:mm"),
@@ -81,10 +79,12 @@ export default {
     requesting: false
   }),
   computed: {
-    ...attendMapState(["good_attend", "so_so_attend", "ghost_attend"])
+    ...scheduleMapState(["scheduleList"])
   },
   methods: {
     ...attendMapActions(["add_attend", "delete_attend"]),
+    ...scheduleMapActions(["select_schedule"]),
+    ...memberMapActions(["select_member"]),
     async isAttend(item) {
       console.log("this is clicked", item);
       this.requesting = true;
