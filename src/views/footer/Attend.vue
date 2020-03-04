@@ -137,7 +137,6 @@
 <script>
 import moment from "moment";
 import { getScheduleList, countThreeMonths } from "../../api/attend.js";
-import { getMember } from "../../api/member.js";
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: attendMapState,
@@ -234,10 +233,6 @@ export default {
       this.setDate(this.scheduleList[this.scheduleIndex]);
     },
 
-    setFormatMemberList: async function(countMember) {
-      const response = await getMember();
-      this.memberList = response.data;
-    },
     setAttendList(attendList) {
       console.log("attendList", attendList);
     },
