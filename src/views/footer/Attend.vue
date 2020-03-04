@@ -14,7 +14,7 @@
         ></schedule-date-list>
       </v-sheet>
       <v-expand-transition>
-        <v-sheet color="grey lighten-4" height="400" tile>
+        <v-sheet color="grey lighten-4" height="300" tile>
           <v-row class="fill-height" align="center" justify="center">
             <v-col cols="12" sm="12" md="12" lg="3">
               <schedule-info-card

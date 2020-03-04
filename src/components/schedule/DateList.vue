@@ -75,8 +75,8 @@ export default {
 
   watch: {
     scheduleIndex: async function(val) {
-      console.log("scheduleIndex", val);
       if (val) {
+        console.log("scheduleIndex", val);
         this.$emit("setDate", this.scheduleList[this.scheduleIndex]);
         // 출석률 가져오기
         await this.get_attend_rate(this.scheduleList[this.scheduleIndex].date);
