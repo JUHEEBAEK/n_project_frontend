@@ -27,77 +27,7 @@
               ></schedule-info-card>
             </v-col>
             <v-col cols="12" sm="12" md="12" lg="8">
-              <v-card outlined class="pa-3">
-                <v-row wrap justify="center">
-                  <v-col cols="1" align-self="center">
-                    <v-img src="../../assets/sun.png" contain width="30" height="30" />
-                  </v-col>
-                  <v-col cols="9">
-                    <div class="text-left">
-                      <v-chip
-                        v-for="member in good_attend"
-                        dark
-                        label
-                        :outlined="member.attend ? 'outlined' : ''"
-                        :class="
-                            member.attend
-                              ? 'chip__member'
-                              : 'chip__member opacity-4'
-                          "
-                        :color="member.attend ? 'tertiary' : 'muji'"
-                        :key="member.name"
-                        @click="isAttend(member)"
-                      >{{ member.name }}</v-chip>
-                    </div>
-                  </v-col>
-                </v-row>
-                <v-row wrap justify="center">
-                  <v-col cols="1" align-self="center">
-                    <v-img src="../../assets/rainy.png" contain width="30" height="30" />
-                  </v-col>
-                  <v-col cols="9">
-                    <div class="text-left">
-                      <v-chip
-                        v-for="member in so_so_attend"
-                        dark
-                        label
-                        :outlined="member.attend ? 'outlined' : ''"
-                        :class="
-                            member.attend
-                              ? 'chip__member'
-                              : 'chip__member opacity-4'
-                          "
-                        :color="member.attend ? 'tertiary' : 'muji'"
-                        :key="member.name"
-                        @click="isAttend(member)"
-                      >{{ member.name }}</v-chip>
-                    </div>
-                  </v-col>
-                </v-row>
-                <v-row wrap justify="center">
-                  <v-col cols="1" align-self="center">
-                    <v-img src="../../assets/cemetery.png" contain width="30" height="30" />
-                  </v-col>
-                  <v-col cols="9">
-                    <div class="text-left">
-                      <v-chip
-                        v-for="member in ghost_attend"
-                        dark
-                        label
-                        :outlined="member.attend ? 'outlined' : ''"
-                        :class="
-                            member.attend
-                              ? 'chip__member'
-                              : 'chip__member opacity-4'
-                          "
-                        :color="member.attend ? 'tertiary' : 'muji'"
-                        :key="member.name"
-                        @click="isAttend(member)"
-                      >{{ member.name }}</v-chip>
-                    </div>
-                  </v-col>
-                </v-row>
-              </v-card>
+              <member-rating-list @isAttend="isAttend"></member-rating-list>
             </v-col>
           </v-row>
         </v-sheet>
