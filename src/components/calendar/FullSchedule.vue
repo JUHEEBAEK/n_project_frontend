@@ -273,7 +273,7 @@ export default {
 
 <style>
 .schedule__title {
-  font-size: 28px;
+  font-size: 24px;
   line-height: 28px;
 }
 

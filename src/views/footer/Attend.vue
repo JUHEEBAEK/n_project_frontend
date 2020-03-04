@@ -9,6 +9,7 @@
           :scheduleIndex="initIndex"
           :setYear="setYear"
           :setMonth="setMonth"
+          :setDay="setDay"
           @setDate="setDate"
         ></schedule-date-list>
       </v-sheet>
@@ -16,7 +17,14 @@
         <v-sheet color="grey lighten-4" height="400" tile>
           <v-row class="fill-height" align="center" justify="center">
             <v-col cols="12" sm="12" md="12" lg="3">
-              <schedule-info-card :scheduleInfo="scheduleInfo"></schedule-info-card>
+              <schedule-info-card
+                :cardInfoLoading="cardInfoLoading"
+                :scheduleName="scheduleName"
+                :scheduleStart="scheduleStart"
+                :scheduleEnd="scheduleEnd"
+                :scheduleStadium="scheduleStadium"
+                :scheduleAddress="scheduleAddress"
+              ></schedule-info-card>
             </v-col>
             <v-col cols="12" sm="12" md="12" lg="8">
               <v-card outlined class="pa-3">
@@ -126,13 +134,20 @@ export default {
   },
   data: () => ({
     memberList: [],
+    cardInfoLoading: false,
     countMonthList: [],
     initIndex: null,
     setYear: moment().format("YYYY"),
     setMonth: moment().format("MMMM"),
+    setDay: moment().format("DD"),
     today: moment().format("YYYY-MM-DD"),
     scheduleList: [],
     scheduleInfo: {},
+    scheduleName: null,
+    scheduleStart: null,
+    scheduleEnd: null,
+    scheduleStadium: null,
+    scheduleAddress: null,
     requesting: false
   }),
   computed: {
@@ -166,14 +181,19 @@ export default {
     },
 
     setDate(item) {
+      this.cardInfoLoading = true;
+
       this.setYear = moment(item.date).format("YYYY");
       this.setMonth = moment(item.date).format("MMMM");
+      this.setDay = moment(item.date).format("DD");
 
-      this.scheduleInfo.name = item.name;
-      this.scheduleInfo.start = item.start;
-      this.scheduleInfo.end = item.end;
-      this.scheduleInfo.address = item.address;
-      this.scheduleInfo.stadium = item.stadium_name;
+      this.scheduleName = item.name;
+      this.scheduleStart = item.start;
+      this.scheduleEnd = item.end;
+      this.scheduleAddress = item.address;
+      this.scheduleStadium = item.stadium_name;
+
+      this.cardInfoLoading = false;
     },
 
     setFormatMemberList: async function(countMember) {
