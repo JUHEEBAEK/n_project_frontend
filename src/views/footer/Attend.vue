@@ -164,27 +164,25 @@ export default {
 
       this.requesting = false;
     },
-    // 제일 최근의 스케줄을 선택해주는 함수.
-    activeSchedule: async function() {
-      this.scheduleIndex = this.scheduleList.length - 1;
-      this.setDate(this.scheduleList[this.scheduleIndex]);
-    },
+
     setDate(item) {
       this.setYear = moment(item.date).format("YYYY");
       this.setMonth = moment(item.date).format("MMMM");
 
-      this.scheduleName = item.name;
-      this.scheduleStart = item.start;
-      this.scheduleEnd = item.end;
-      this.scheduleAddress = item.address;
-      this.scheduleStadium = item.stadium_name;
+      this.scheduleInfo.name = item.name;
+      this.scheduleInfo.start = item.start;
+      this.scheduleInfo.end = item.end;
+      this.scheduleInfo.address = item.address;
+      this.scheduleInfo.stadium = item.stadium_name;
     },
 
     setFormatMemberList: async function(countMember) {
       this.memberList = await getMember();
     },
-    setAttendList(attendList) {
-      console.log("attendList", attendList);
+    // 제일 최근의 스케줄을 선택해주는 함수.
+    activeSchedule: async function() {
+      this.initIndex = this.scheduleList.length - 1;
+      this.setDate(this.scheduleList[this.initIndex]);
     }
   }
 };
