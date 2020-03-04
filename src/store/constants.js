@@ -16,3 +16,5 @@ export const UPDATE_MEMBER = "UPDATE_MEMBER";
 export const DETAILS_MEMBER = "DETAILS_MEMBER";
 
 export const SELECT_STADIUM = "SELECT_STADIUM";
+
+export const get_schedule_info = "GET_SCHEDULE_INFO"

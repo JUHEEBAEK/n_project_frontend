@@ -5,7 +5,8 @@ import {
   createSchedule,
   getScheduleList,
   deleteSchedule,
-  updateSchedule
+  updateSchedule,
+  getInfo
 } from "../../api/schedule.js";
 import {
   attendList
@@ -14,11 +15,10 @@ import {
 import moment from "moment";
 import * as constants from "../constants";
 const state = {
-  // navigation 의 상태 (들어가 있는지 나와있는지)
   newScheduleBox: false,
   fullScheduleDialog: false,
   scheduleList: [],
-  scheduleList: []
+  scheduleInfo: {}
 };
 
 const mutations = {
@@ -90,7 +90,10 @@ const mutations = {
     item["memeber_name_list"] = memeber_name_list;
 
     state.scheduleList[index] = item;
-  }
+  },
+  [constants.get_schedule_info](state, scheduleInfo) {
+    state.scheduleInfo = scheduleInfo;
+  },
 };
 
 const actions = {
@@ -106,6 +109,15 @@ const actions = {
     try {
       const response = await getScheduleList();
       context.commit("SET_SCHEDULE_LIST", response.data);
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async get_schedule_info(context, id) {
+    try {
+      const response = await getInfo(id);
+      context.commit("GET_SCHEDULE_INFO", response.data);
       return response.data;
     } catch (e) {
       console.log(e);

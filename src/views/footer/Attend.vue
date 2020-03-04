@@ -49,20 +49,8 @@ const {
 export default {
   name: "Attend.vue",
   async created() {
-    const response = await getScheduleList();
-    this.scheduleList = response.data;
     this.scheduleList = await this.select_schedule();
-
     await this.activeSchedule();
-
-    let date = moment(this.today).format("YYYYMM");
-    let beforeDate = moment(this.today)
-      .subtract(3, "months")
-      .format("YYYYMM");
-
-    const formData = { standard_date: date, before_date: beforeDate };
-    const response_count = await this.get_attend_rate(formData);
-    this.countMonthList = response_count.data;
   },
   data: () => ({
     memberList: [],
@@ -86,7 +74,7 @@ export default {
     ...scheduleMapState(["scheduleList"])
   },
   methods: {
-    ...attendMapActions(["add_attend", "delete_attend", get_attend_rate]),
+    ...attendMapActions(["add_attend", "delete_attend", "get_attend_rate"]),
     ...scheduleMapActions(["select_schedule"]),
     ...memberMapActions(["select_member"]),
     async isAttend(item) {
@@ -113,7 +101,6 @@ export default {
 
       this.requesting = false;
     },
-
     setDate(item) {
       this.cardInfoLoading = true;
 

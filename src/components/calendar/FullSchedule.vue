@@ -169,9 +169,10 @@ const {
   mapMutations: calendarMapMutations,
   mapActions: calendarMapActions
 } = createNamespacedHelpers("calendar");
-
-import { getStadiumList } from "../../api/stadium.js";
-import { getInfo } from "../../api/schedule.js";
+const {
+  mapState: stadiumMapState,
+  mapActions: stadiumMapActions
+} = createNamespacedHelpers("stadium");
 
 export default {
   async created() {
@@ -180,7 +181,6 @@ export default {
   },
   props: ["scheduleId"],
   data: () => ({
-    scheduleInfo: {},
     menu_date: false,
     menu_start: false,
     menu_end: false,
@@ -192,27 +192,28 @@ export default {
     address: "",
     type: null,
     color: null,
-    stadiumList: [],
     typeList: stringSchedules.typeList
   }),
   computed: {
-    ...calendarMapState(["fullScheduleDialog"])
+    ...calendarMapState(["fullScheduleDialog", "scheduleInfo"]),
+    ...stadiumMapState(["stadiumList"])
   },
   methods: {
     ...calendarMapMutations(["SET_FULL_SCHEDULE_MODAL"]),
-    ...calendarMapActions(["update_schedule"]),
+    ...calendarMapActions(["update_schedule", "get_schedule_info"]),
+    ...stadiumMapActions(["select_stadium"]),
     close() {
       this.SET_FULL_SCHEDULE_MODAL(!this.fullScheduleDialog);
       this.$emit("closeEcent");
     },
     getScheduleInfo: async function(id) {
-      let response = await getInfo(id);
-      this.scheduleInfo = response.data;
+      this.scheduleInfo = await this.get_schedule_info(id);
+      console.log(this.scheduleInfo);
+      // this.scheduleInfo = response.data;
       await this.setScheduleInfo(this.scheduleInfo);
     },
     getStadiumList: async function() {
-      const response = await getStadiumList();
-      this.stadiumList = response.data;
+      await this.select_stadium();
     },
     save() {
       // value 포맷 맞추기 날짜, 없을 때
