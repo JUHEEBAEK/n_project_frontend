@@ -16,7 +16,7 @@
             v-slot:default="{ active, toggle }"
           >
             <v-card
-              class="date__card ma-1"
+              class="date__card ma-2"
               :class="{ active: active}"
               height="70"
               width="50"
@@ -120,7 +120,7 @@ export default {
       .date__day {
         font-size: 20px;
         font-weight: 600;
-        color: black;
+        color: #34558b;
       }
       &.active {
         background-color: #34558b;

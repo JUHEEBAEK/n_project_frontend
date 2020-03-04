@@ -1,14 +1,14 @@
 <template>
-  <v-card :loading="cardInfoLoading" class="mx-auto">
+  <v-card clsss="schedule__card" shaped :loading="cardInfoLoading">
     <v-card-title class="schedule__title">{{ scheduleName }}</v-card-title>
     <v-card-text>
-      <div class="my-3 subtitle-1 schedule__time">{{ scheduleStart }} - {{ scheduleEnd }}</div>
+      <div class="schedule__time my-3 subtitle-1">{{ scheduleStart }} - {{ scheduleEnd }}</div>
     </v-card-text>
 
     <v-divider class="mx-4"></v-divider>
 
     <v-card-text class="schedule__stadium">{{ scheduleStadium }}</v-card-text>
-    <v-card-text class="grey--text">{{ scheduleAddress }}</v-card-text>
+    <v-card-text class="schedule__address grey--text">{{ scheduleAddress }}</v-card-text>
   </v-card>
 </template>
 
@@ -44,5 +44,22 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+.schedule__card {
+  font-size: 18px;
+  color: #666;
+
+  .schedule__title {
+    font-size: 24px;
+    font-weight: 600;
+    color: black;
+  }
+  .schedule__time {
+    font-size: 20px;
+  }
+  .schedule__stadium {
+    text-align: left;
+    color: black;
+  }
+}
 </style>

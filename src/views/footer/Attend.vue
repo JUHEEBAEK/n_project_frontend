@@ -144,7 +144,7 @@ export default {
     scheduleList: [],
     scheduleInfo: {},
     scheduleName: null,
-    scheduleStart: null,
+    scheduleStart: moment().format("hh:mm"),
     scheduleEnd: null,
     scheduleStadium: null,
     scheduleAddress: null,
