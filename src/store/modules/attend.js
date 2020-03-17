@@ -7,12 +7,15 @@ import {
 import moment from "moment";
 
 const state = {
-    attend: [{
-        id: null,
-        name: null,
-        attend: false
+    attend: {
+        "member_id": "is_attend_boolean"
+    },
+    good_attend: [{
+        "attend": false,
+        "count": 18,
+        "id": 6,
+        "name": "이종은",
     }],
-    good_attend: [],
     so_so_attend: [],
     ghost_attend: [],
 };
@@ -29,9 +32,9 @@ const mutations = {
             result_dictionary[item.member_id] = true
         }
         state.attend = result_dictionary;
+
     },
     UPDATE_ATTEND(state) {
-        // state.attend
         for (let i in state.good_attend) {
             let item = state.good_attend[i]
             if (state.attend[item.id]) {
