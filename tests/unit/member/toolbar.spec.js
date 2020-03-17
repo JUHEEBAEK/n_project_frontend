@@ -5,7 +5,8 @@ describe('Toolbar', () => {
   test('count all member', () => {
     const wrapper = mount(Toolbar);
     console.log(wrapper);
-    expect(wrapper.find('[v-toolbar-title]').text()).toEqual('총 57 명');
+    expect(wrapper.classes()).toContain('member__count')
+    expect(wrapper.classes('member__count')).toBe(true)
   });
 });
 

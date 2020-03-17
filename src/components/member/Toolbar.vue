@@ -1,8 +1,10 @@
 <template>
   <div>
-    <v-card class="mx-auto">
+    <v-card class="mx-auto member__header">
       <v-app-bar flat>
-        <v-toolbar-title class="grey--text">총 {{ searchResult.length }} 명</v-toolbar-title>
+        <v-toolbar-title class="member__count grey--text"
+          >총 {{ searchResult.length }} 명</v-toolbar-title
+        >
         <v-spacer />
 
         <v-text-field
@@ -12,7 +14,14 @@
           prepend-icon="fas fa-search"
           single-line
         />
-        <v-btn class="mx-2" fab dark small color="primary" @click="moveMemverAdd()">
+        <v-btn
+          class="mx-2"
+          fab
+          dark
+          small
+          color="primary"
+          @click="moveMemverAdd()"
+        >
           <v-icon dark>fas fa-plus</v-icon>
         </v-btn>
       </v-app-bar>
