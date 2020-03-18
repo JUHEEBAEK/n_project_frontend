@@ -9,7 +9,7 @@
     </v-row>
     <v-row dense>
       <v-col cols="12" class="schedule__list">
-        <v-slide-group v-model="scheduleIndex" show-arrows center-active>
+        <v-slide-group v-model="slide_index" show-arrows center-active>
           <v-slide-item
             v-for="item in scheduleList"
             :key="item.id"
@@ -17,7 +17,7 @@
           >
             <v-card
               class="date__card ma-2"
-              :class="{ active: active}"
+              :class="{ active: active }"
               height="70"
               width="50"
               @click="toggle"
@@ -27,7 +27,7 @@
                 <v-scale-transition>
                   <div>
                     <p class="date__Mon my-2">{{ item.date | setMomentMonth }}</p>
-                    <p class="date__day mb-0">{{ item.date.substr(8,2) }}</p>
+                    <p class="date__day mb-0">{{ item.date.substr(8, 2) }}</p>
                   </div>
                 </v-scale-transition>
               </v-row>
@@ -47,7 +47,8 @@ const { mapActions: attendMapActions } = createNamespacedHelpers("attend");
 export default {
   async created() {},
   data: () => ({
-    month: null
+    month: null,
+    slide_index: null
   }),
   props: {
     scheduleList: {
@@ -74,14 +75,19 @@ export default {
   },
 
   watch: {
-    scheduleIndex: async function(val) {
+    scheduleIndex: function(val) {
+      this.slide_index = this.scheduleIndex;
+      console.log("Slide Index Changed", this.slide_index);
+    },
+    slide_index: async function(val) {
       if (val) {
-        console.log("scheduleIndex", val);
-        this.$emit("setDate", this.scheduleList[this.scheduleIndex]);
+        console.log("slide_index", val);
+        let selected_schedule = this.scheduleList[this.slide_index];
+        this.$emit("setDate", selected_schedule);
         // 출석률 가져오기
-        await this.get_attend_rate(this.scheduleList[this.scheduleIndex].date);
+        await this.get_attend_rate(selected_schedule.date);
         // 그중에 출석한 사람들 업데이트 해주기
-        await this.get_attend(this.scheduleList[this.scheduleIndex].id);
+        await this.get_attend(selected_schedule.id);
       }
     }
   },
