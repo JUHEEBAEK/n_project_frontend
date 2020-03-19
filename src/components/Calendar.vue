@@ -46,7 +46,7 @@
                 </template>
 
                 <calendar-schedule :selectedSchedule="schedule" @close="close(schedule)"></calendar-schedule>
-                <calendar-fullSchedule :scheduleId="schedule.id" @closeEcent="close(schedule)"></calendar-fullSchedule>
+                <calendar-fullSchedule :scheduleId="schedule.id" @closeEvent="close(schedule)"></calendar-fullSchedule>
               </v-menu>
             </template>
 

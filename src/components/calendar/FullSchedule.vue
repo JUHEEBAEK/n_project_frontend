@@ -204,7 +204,7 @@ export default {
     ...stadiumMapActions(["select_stadium"]),
     close() {
       this.SET_FULL_SCHEDULE_MODAL(!this.fullScheduleDialog);
-      this.$emit("closeEcent");
+      this.$emit("closeEvent");
     },
     getScheduleInfo: async function(id) {
       this.scheduleInfo = await this.get_schedule_info(id);
