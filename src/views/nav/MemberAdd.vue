@@ -2,7 +2,7 @@
   <div>
     <core-Back :tableHeader="title" />
     <v-card class="card__addForm pa-4">
-      <v-form class="form">
+      <v-form ref="formMemberAdd" class="form">
         <v-row class="bg__primary py-10" justify="center">
           <v-col cols="12">
             <v-img
@@ -15,7 +15,13 @@
         </v-row>
         <v-row>
           <v-col cols="12" class="py-2">
-            <v-text-field v-model="name" label="이름" hide-details outlined />
+            <v-text-field
+              v-model="name"
+              label="이름"
+              hide-details
+              outlined
+              :rules="[v => !!v || '입력해주십시오.']"
+            />
           </v-col>
           <v-col cols="12" class="py-2">
             <v-text-field v-model="nickName" label="닉네임" hide-details outlined />
@@ -164,18 +170,20 @@ export default {
   methods: {
     ...memberMapActions(["add_member"]),
     submit() {
-      let _srcData = {};
-      _srcData["name"] = this.name;
-      _srcData["nick_name"] = this.nickName;
-      _srcData["join_date"] = this.date;
-      _srcData["uniform_number"] = this.uniform_number;
-      _srcData["inflow_route"] = this.route;
+      if (this.$refs.formMemberAdd.validate()) {
+        let _srcData = {};
+        _srcData["name"] = this.name;
+        _srcData["nick_name"] = this.nickName;
+        _srcData["join_date"] = this.date;
+        _srcData["uniform_number"] = this.uniform_number;
+        _srcData["inflow_route"] = this.route;
 
-      this.add_member(_srcData).then(() => {
-        this.setSnackBar(this.snackBarSuccess, "정상적으로 추가되었습니다");
-      });
+        this.add_member(_srcData).then(() => {
+          this.setSnackBar(this.snackBarSuccess, "정상적으로 추가되었습니다");
+        });
 
-      this.clear();
+        this.clear();
+      }
     },
     clear() {
       //this.$v.$reset()
