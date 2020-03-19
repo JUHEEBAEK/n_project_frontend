@@ -1,5 +1,7 @@
 <template>
   <v-app id="app">
+    <core-Toolbar></core-Toolbar>
+    <core-navigation></core-navigation>
     <core-View></core-View>
     <core-footer></core-footer>
   </v-app>

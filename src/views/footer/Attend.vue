@@ -50,6 +50,7 @@ export default {
   name: "Attend.vue",
   async created() {
     this.scheduleList = await this.select_schedule();
+    console.log(this.scheduleList);
     await this.activeSchedule();
   },
   data: () => ({
