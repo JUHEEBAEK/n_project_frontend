@@ -266,6 +266,11 @@ export default {
         });
       }
     }
+  },
+  watch: {
+    newScheduleBox(val) {
+      this.initDialog();
+    }
   }
 };
 </script>
