@@ -63,7 +63,7 @@
               label="등번호"
               hide-details
               outlined
-              :items="uniform_numberList"
+              :items="uniform_number_not_used_list"
             />
           </v-col>
         </v-row>
@@ -82,7 +82,10 @@
 <script>
 import util from "../../mixin/util.js";
 import { createNamespacedHelpers } from "vuex";
-const { mapActions: memberMapActions } = createNamespacedHelpers("member");
+const {
+  mapState: memberMapState,
+  mapActions: memberMapActions
+} = createNamespacedHelpers("member");
 
 export default {
   name: "Add",
@@ -94,81 +97,30 @@ export default {
     name: "",
     nickName: "",
     route: null,
-    uniform_number: "",
-    uniform_numberList: []
+    uniform_number: ""
   }),
-  created() {
-    this.uniform_numberList = [
-      2,
-      21,
-      25,
-      26,
-      27,
-      28,
-      30,
-      31,
-      32,
-      34,
-      35,
-      36,
-      38,
-      39,
-      40,
-      41,
-      42,
-      43,
-      44,
-      45,
-      46,
-      47,
-      48,
-      49,
-      50,
-      51,
-      52,
-      54,
-      56,
-      57,
-      58,
-      59,
-      60,
-      61,
-      62,
-      63,
-      64,
-      65,
-      66,
-      67,
-      68,
-      69,
-      70,
-      72,
-      73,
-      74,
-      75,
-      76,
-      78,
-      79,
-      80,
-      81,
-      82,
-      84,
-      85,
-      86,
-      87,
-      89,
-      90,
-      91,
-      92,
-      93,
-      95,
-      96,
-      97,
-      98
-    ];
+  computed: {
+    ...memberMapState(["searchResult"]),
+    uniform_number_not_used_list() {
+      let number_list_1to99 = [];
+      for (let i = 1; i < 100; i++) {
+        number_list_1to99.push(i);
+      }
+      for (let i in this.searchResult) {
+        let id_used = Number(this.searchResult[i]["uniform_number"]);
+        let idx = number_list_1to99.indexOf(id_used);
+        if (idx > -1) number_list_1to99.splice(idx, 1);
+      }
+
+      return number_list_1to99;
+    }
+  },
+  created() {},
+  async mounted() {
+    this.select_member();
   },
   methods: {
-    ...memberMapActions(["add_member"]),
+    ...memberMapActions(["add_member", "select_member"]),
     submit() {
       if (this.$refs.formMemberAdd.validate()) {
         let _srcData = {};
