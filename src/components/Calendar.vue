@@ -132,8 +132,6 @@ export default {
     },
     close(schedule) {
       schedule.open = false;
-      // 이벤트 닫힐 때 입력했던 값 초기화
-      this.initDialog();
     }
   },
   mounted() {

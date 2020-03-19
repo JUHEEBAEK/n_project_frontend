@@ -204,6 +204,7 @@ export default {
     ...stadiumMapActions(["select_stadium"]),
     close() {
       this.SET_FULL_SCHEDULE_MODAL(!this.fullScheduleDialog);
+      this.getScheduleInfo(this.scheduleId); // 수정 내용 초기화
       this.$emit("closeEvent");
     },
     getScheduleInfo: async function(id) {
