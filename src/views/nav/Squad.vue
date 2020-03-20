@@ -57,21 +57,14 @@
         <v-btn icon @click="showSetting">
           <v-icon large>fas fa-cog</v-icon>
         </v-btn>
+        <!-- <v-autocomplete
+            v-model="weight"
+            label="weight (kg)*"
+            :items="weightList"
+            :rules="emptyCheckRules"
+            autocomplete="off"
+        ></v-autocomplete>-->
       </v-card-actions>
-      <v-card-text>
-        <v-row wrap justify="center">
-          <v-col cols="12">
-            <v-chip
-              v-for="member in attendMember"
-              dark
-              label
-              class="chip__member mx-1"
-              color="grey lighten-1"
-              :key="member.name"
-            >{{ member.name }}</v-chip>
-          </v-col>
-        </v-row>
-      </v-card-text>
       <v-divider></v-divider>
       <v-card-text>
         <v-row wrap justify="center">
@@ -79,28 +72,36 @@
             <v-chip
               v-for="member in attendMember"
               dark
+              outlined
               label
               class="chip__member mx-1"
-              color="grey lighten-1"
-              :key="member.name"
-            >{{ member.name }}</v-chip>
+              color="grey"
+              :key="member"
+            >{{ member }}</v-chip>
           </v-col>
         </v-row>
       </v-card-text>
       <v-divider></v-divider>
       <v-card-text>
         <div>
-          <v-btn class="tab__team ma-1" fab small outlined color="blue-grey darken-1"></v-btn>
-          <v-btn class="tab__team ma-1" fab small outlined color="blue-grey lighten-3"></v-btn>
+          <v-btn
+            v-for="n in setting.teamCount"
+            :key="n"
+            class="tab__team ma-1"
+            fab
+            small
+            outlined
+            :color="colorIndex[n]"
+          ></v-btn>
         </div>
-        <div>6 Vs 6</div>
-        <div>깍두기 없음</div>
+        <div>{{ setting.minCount }} VS {{ setting.minCount }}</div>
+        <div v-if="setting.isJoker">깍두기 있음</div>
       </v-card-text>
       <v-card-actions class="justify-end">
         <v-btn click="save" color="primary">저장</v-btn>
       </v-card-actions>
     </v-card>
-    <squad-setting></squad-setting>
+    <squad-setting @divideTeamSetting="divideTeamSetting"></squad-setting>
   </div>
 </template>
 
@@ -108,7 +109,10 @@
 import moment from "moment";
 import { createNamespacedHelpers } from "vuex";
 const { mapState, mapActions } = createNamespacedHelpers("attend");
-const { mapMutations: commonapMutaions } = createNamespacedHelpers("common");
+const {
+  mapState: commonState,
+  mapMutations: commonapMutaions
+} = createNamespacedHelpers("common");
 const {
   mapState: scheduleMapState,
   mapActions: scheduleMapActions
@@ -135,10 +139,12 @@ export default {
     scheduleEnd: null,
     scheduleStadium: null,
     attendMember: [],
+    setting: {},
     quarterList: []
   }),
   computed: {
-    ...mapState(["attendance"])
+    ...mapState(["attendance"]),
+    ...commonState(["colorIndex"])
   },
   watch: {
     scheduleIndex: async function(val) {
@@ -180,13 +186,15 @@ export default {
       this.scheduleEnd = item.end;
       this.scheduleAddress = item.address;
       this.scheduleStadium = item.stadium_name;
+      this.setAttendMember(item.attend_list);
     },
-    setAttendMember: function() {
-      console.log("setAttendMember");
-      // this.attendMember = stringAttendance.member;
+    setAttendMember: function(arr) {
+      this.attendMember = arr;
+    },
+    divideTeamSetting(setting) {
+      this.setting = setting;
     },
     showSetting() {
-      console.log("show");
       this.setSetting(!this.$store.state.common.setting);
     }
   }

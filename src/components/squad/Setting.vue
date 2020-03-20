@@ -19,7 +19,14 @@
               class="group__item"
               v-slot:default="{ active, toggle }"
             >
-              <v-btn :color="active ? 'primary' : ''" fab elevation="0" x-small @click="toggle">
+              <v-btn
+                :color="active ? 'primary' : ''"
+                fab
+                elevation="0"
+                x-small
+                @click="toggle"
+                @click.native="setTeamCount(item)"
+              >
                 <v-scroll-y-transition>
                   <div
                     v-if="active"
@@ -53,7 +60,14 @@
               class="group__item"
               v-slot:default="{ active, toggle }"
             >
-              <v-btn :color="active ? 'primary' : ''" fab elevation="0" x-small @click="toggle">
+              <v-btn
+                :color="active ? 'primary' : ''"
+                fab
+                elevation="0"
+                x-small
+                @click="toggle"
+                @click.native="setMinCount(item)"
+              >
                 <v-scroll-y-transition>
                   <div
                     v-if="active"
@@ -83,7 +97,7 @@
     </v-list>
     <v-list>
       <v-list-item class="float-right">
-        <v-btn color="primary">저장</v-btn>
+        <v-btn color="primary" @click="save">저장</v-btn>
       </v-list-item>
     </v-list>
   </v-navigation-drawer>
@@ -97,7 +111,9 @@ export default {
   data: () => ({
     attendTeamCount: [2, 3, 4, 5],
     maxPlayerCount: [4, 5, 6, 7],
-    isJoker: false
+    isJoker: false,
+    teamCount: 2,
+    minCount: 5
   }),
   computed: {
     ...mapState(["setting"]),
@@ -122,8 +138,23 @@ export default {
       let length = this.maxPlayerCount.length;
       this.maxPlayerCount.push(length + 4);
     },
-    toggle(val) {
-      console.log(val);
+    setMinCount(count) {
+      this.minCount = count;
+    },
+    setTeamCount(count) {
+      this.teamCount = count;
+    },
+    addMember(item) {
+      console.log(item);
+    },
+    save() {
+      console.log("save");
+      let setting = {
+        teamCount: this.teamCount,
+        minCount: this.minCount,
+        isJoker: this.isJoker
+      };
+      this.$emit("divideTeamSetting", setting);
     }
   }
 };
