@@ -2,7 +2,7 @@
   <v-navigation-drawer v-model="setting" right app clipped>
     <v-list>
       <v-list-item>
-        <v-list-item-content class="float-left">
+        <v-list-item-content class="float-left px-2">
           <v-list-item-title class="title text-left">참석자</v-list-item-title>
           <v-list-item-title class="title text-right">총 14명</v-list-item-title>
         </v-list-item-content>
@@ -14,12 +14,19 @@
           <v-list-item-title class="title text-left">팀 수</v-list-item-title>
           <v-item-group>
             <v-item
-              v-for="item in attendCount"
+              v-for="item in attendTeamCount"
               :key="item"
               class="group__item"
               v-slot:default="{ active, toggle }"
             >
-              <v-btn :color="active ? 'primary' : ''" fab elevation="0" x-small @click="toggle">
+              <v-btn
+                :color="active ? 'primary' : ''"
+                fab
+                elevation="0"
+                x-small
+                @click="toggle"
+                @click.native="setTeamCount(item)"
+              >
                 <v-scroll-y-transition>
                   <div
                     v-if="active"
@@ -29,8 +36,14 @@
                 </v-scroll-y-transition>
               </v-btn>
             </v-item>
-            <v-item class="group__item" v-slot:default="{ active, toggle }">
-              <v-btn :color="active ? 'primary' : ''" fab elevation="0" x-small @click="toggle">+</v-btn>
+            <v-item class="group__item">
+              <v-btn
+                :color="active ? 'primary' : ''"
+                fab
+                elevation="0"
+                x-small
+                @click="addTeamCount"
+              >+</v-btn>
             </v-item>
           </v-item-group>
         </v-list-item-content>
@@ -47,7 +60,14 @@
               class="group__item"
               v-slot:default="{ active, toggle }"
             >
-              <v-btn :color="active ? 'primary' : ''" fab elevation="0" x-small @click="toggle">
+              <v-btn
+                :color="active ? 'primary' : ''"
+                fab
+                elevation="0"
+                x-small
+                @click="toggle"
+                @click.native="setMinCount(item)"
+              >
                 <v-scroll-y-transition>
                   <div
                     v-if="active"
@@ -57,8 +77,14 @@
                 </v-scroll-y-transition>
               </v-btn>
             </v-item>
-            <v-item class="group__item" v-slot:default="{ active, toggle }">
-              <v-btn :color="active ? 'primary' : ''" fab elevation="0" x-small @click="toggle">+</v-btn>
+            <v-item class="group__item">
+              <v-btn
+                :color="active ? 'primary' : ''"
+                fab
+                elevation="0"
+                x-small
+                @click="addMinCount"
+              >+</v-btn>
             </v-item>
           </v-item-group>
         </v-list-item-content>
@@ -71,7 +97,7 @@
     </v-list>
     <v-list>
       <v-list-item class="float-right">
-        <v-btn color="primary">저장</v-btn>
+        <v-btn color="primary" @click="save">저장</v-btn>
       </v-list-item>
     </v-list>
   </v-navigation-drawer>
@@ -83,9 +109,11 @@ const { mapState, mapMutations } = createNamespacedHelpers("common");
 
 export default {
   data: () => ({
-    attendCount: [2, 3, 4, 5],
+    attendTeamCount: [2, 3, 4, 5],
     maxPlayerCount: [4, 5, 6, 7],
-    isJoker: false
+    isJoker: false,
+    teamCount: 2,
+    minCount: 5
   }),
   computed: {
     ...mapState(["setting"]),
@@ -99,7 +127,35 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["setSetting"])
+    ...mapMutations(["setSetting"]),
+    addTeamCount() {
+      console.log("add Team");
+      let length = this.attendTeamCount.length;
+      this.attendTeamCount.push(length + 2);
+    },
+    addMinCount() {
+      console.log("add player");
+      let length = this.maxPlayerCount.length;
+      this.maxPlayerCount.push(length + 4);
+    },
+    setMinCount(count) {
+      this.minCount = count;
+    },
+    setTeamCount(count) {
+      this.teamCount = count;
+    },
+    addMember(item) {
+      console.log(item);
+    },
+    save() {
+      console.log("save");
+      let setting = {
+        teamCount: this.teamCount,
+        minCount: this.minCount,
+        isJoker: this.isJoker
+      };
+      this.$emit("divideTeamSetting", setting);
+    }
   }
 };
 </script>

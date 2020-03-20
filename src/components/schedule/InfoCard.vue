@@ -6,7 +6,6 @@
     </v-card-text>
 
     <v-divider class="mx-2"></v-divider>
-
     <v-card-text class="schedule__stadium">{{ scheduleStadium }}</v-card-text>
     <v-card-text class="schedule__address grey--text">{{ scheduleAddress }}</v-card-text>
   </v-card>

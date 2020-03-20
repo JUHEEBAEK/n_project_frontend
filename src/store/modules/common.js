@@ -7,7 +7,8 @@ const state = {
   drawer: false,
   setting: false,
   snackBar: false,
-  alert: false
+  alert: false,
+  colorIndex: ["#000","#ccda11", "#da8c11", "#118eda", "#da1175", "#11da76", "#8f11da"]
 };
 
 const getters = {
