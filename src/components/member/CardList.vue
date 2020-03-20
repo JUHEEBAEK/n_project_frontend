@@ -61,9 +61,12 @@ export default {
       console.log(member_id);
     },
 
-    deleteMember(member_id) {
+    async deleteMember(member_id) {
       let formData = { data: { member_id } };
-      this.delete_member(formData);
+      if (confirm("정말 정말로 삭제하시겠습니까??")) {
+        await this.delete_member(formData);
+        this.select_member();
+      }
     },
 
     moveDetails(item) {

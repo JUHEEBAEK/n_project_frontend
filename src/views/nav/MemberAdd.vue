@@ -2,7 +2,7 @@
   <div>
     <core-Back :tableHeader="title" />
     <v-card class="card__addForm pa-4">
-      <v-form class="form">
+      <v-form ref="formMemberAdd" class="form">
         <v-row class="bg__primary py-10" justify="center">
           <v-col cols="12">
             <v-img
@@ -15,7 +15,13 @@
         </v-row>
         <v-row>
           <v-col cols="12" class="py-2">
-            <v-text-field v-model="name" label="이름" hide-details outlined />
+            <v-text-field
+              v-model="name"
+              label="이름"
+              hide-details
+              outlined
+              :rules="[v => !!v || '입력해주십시오.']"
+            />
           </v-col>
           <v-col cols="12" class="py-2">
             <v-text-field v-model="nickName" label="닉네임" hide-details outlined />
@@ -57,7 +63,7 @@
               label="등번호"
               hide-details
               outlined
-              :items="uniform_numberList"
+              :items="uniform_number_not_used_list"
             />
           </v-col>
         </v-row>
@@ -76,7 +82,10 @@
 <script>
 import util from "../../mixin/util.js";
 import { createNamespacedHelpers } from "vuex";
-const { mapActions: memberMapActions } = createNamespacedHelpers("member");
+const {
+  mapState: memberMapState,
+  mapActions: memberMapActions
+} = createNamespacedHelpers("member");
 
 export default {
   name: "Add",
@@ -88,94 +97,45 @@ export default {
     name: "",
     nickName: "",
     route: null,
-    uniform_number: "",
-    uniform_numberList: []
+    uniform_number: ""
   }),
-  created() {
-    this.uniform_numberList = [
-      2,
-      21,
-      25,
-      26,
-      27,
-      28,
-      30,
-      31,
-      32,
-      34,
-      35,
-      36,
-      38,
-      39,
-      40,
-      41,
-      42,
-      43,
-      44,
-      45,
-      46,
-      47,
-      48,
-      49,
-      50,
-      51,
-      52,
-      54,
-      56,
-      57,
-      58,
-      59,
-      60,
-      61,
-      62,
-      63,
-      64,
-      65,
-      66,
-      67,
-      68,
-      69,
-      70,
-      72,
-      73,
-      74,
-      75,
-      76,
-      78,
-      79,
-      80,
-      81,
-      82,
-      84,
-      85,
-      86,
-      87,
-      89,
-      90,
-      91,
-      92,
-      93,
-      95,
-      96,
-      97,
-      98
-    ];
+  computed: {
+    ...memberMapState(["searchResult"]),
+    uniform_number_not_used_list() {
+      let number_list_1to99 = [];
+      for (let i = 1; i < 100; i++) {
+        number_list_1to99.push(i);
+      }
+      for (let i in this.searchResult) {
+        let id_used = Number(this.searchResult[i]["uniform_number"]);
+        let idx = number_list_1to99.indexOf(id_used);
+        if (idx > -1) number_list_1to99.splice(idx, 1);
+      }
+
+      return number_list_1to99;
+    }
+  },
+  created() {},
+  async mounted() {
+    this.select_member();
   },
   methods: {
-    ...memberMapActions(["add_member"]),
+    ...memberMapActions(["add_member", "select_member"]),
     submit() {
-      let _srcData = {};
-      _srcData["name"] = this.name;
-      _srcData["nick_name"] = this.nickName;
-      _srcData["join_date"] = this.date;
-      _srcData["uniform_number"] = this.uniform_number;
-      _srcData["inflow_route"] = this.route;
+      if (this.$refs.formMemberAdd.validate()) {
+        let _srcData = {};
+        _srcData["name"] = this.name;
+        _srcData["nick_name"] = this.nickName;
+        _srcData["join_date"] = this.date;
+        _srcData["uniform_number"] = this.uniform_number;
+        _srcData["inflow_route"] = this.route;
 
-      this.add_member(_srcData).then(() => {
-        this.setSnackBar(this.snackBarSuccess, "정상적으로 추가되었습니다");
-      });
+        this.add_member(_srcData).then(() => {
+          this.setSnackBar(this.snackBarSuccess, "정상적으로 추가되었습니다");
+        });
 
-      this.clear();
+        this.clear();
+      }
     },
     clear() {
       //this.$v.$reset()
