@@ -15,7 +15,7 @@
       </div>
       <v-expand-transition>
         <v-row class="fill-height" align="center" justify="center">
-          <v-col cols="12" sm="12" md="5" lg="3">
+          <v-col cols="12" sm="12" md="5">
             <schedule-info-card
               :cardInfoLoading="loading"
               :scheduleName="scheduleName"
@@ -25,7 +25,7 @@
               :scheduleAddress="scheduleAddress"
             ></schedule-info-card>
           </v-col>
-          <v-col cols="12" sm="12" md="7" lg="9">
+          <v-col cols="12" sm="12" md="7">
             <v-card class="py-2">
               <v-card-title>쿼터 선택</v-card-title>
               <v-card-text>
@@ -51,22 +51,116 @@
         </v-row>
       </v-expand-transition>
     </v-sheet>
-    <v-card outlined class="pa-3">
+    <v-card outlined>
       <v-card-actions class="setting__actions">
-        <v-btn class="mx-3" dark color="primary" outlined large>팀나누기</v-btn>
-        <v-btn icon @click="showSetting">
-          <v-icon large>fas fa-cog</v-icon>
-        </v-btn>
-        <!-- <v-autocomplete
-            v-model="weight"
-            label="weight (kg)*"
-            :items="weightList"
-            :rules="emptyCheckRules"
-            autocomplete="off"
-        ></v-autocomplete>-->
+        <v-list-item>
+          <v-list-item-actions class="px-0">
+            <v-btn dark color="primary" outlined large>팀나누기</v-btn>
+          </v-list-item-actions>
+
+          <v-list-item-content></v-list-item-content>
+
+          <v-list-item-icon>참석자 {{ count }} 명</v-list-item-icon>
+        </v-list-item>
       </v-card-actions>
+      <v-card-text class>
+        <v-form refs="form">
+          <v-row justify="start">
+            <v-col cols="12" md="6" align-self="center">
+              <v-list-item two-line>
+                <v-list-item-content class="text-left">
+                  <v-list-item-title class="pb-4">팀 수</v-list-item-title>
+                  <v-list-item-subtitle>
+                    <v-item-group>
+                      <v-item
+                        v-for="item in attendTeamCount"
+                        :key="item"
+                        class="group__item"
+                        v-slot:default="{ active, toggle }"
+                      >
+                        <v-btn
+                          :color="active ? 'primary' : ''"
+                          fab
+                          elevation="0"
+                          x-small
+                          @click="toggle"
+                          @click.native="setTeamCount(item)"
+                        >
+                          <v-scroll-y-transition>
+                            <div
+                              v-if="acitve"
+                              class="flex-grow-1 text-center list__item white--text"
+                            >{{ item }}</div>
+                            <div v-else class="flex-grow-1 text-center list__item">{{ item }}</div>
+                          </v-scroll-y-transition>
+                        </v-btn>
+                      </v-item>
+                      <v-item class="group__item">
+                        <v-btn
+                          :color="active ? 'primary' : ''"
+                          fab
+                          elevation="0"
+                          x-small
+                          @click="addTeamCount"
+                        >+</v-btn>
+                      </v-item>
+                    </v-item-group>
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+            <v-col cols="12" md="6" lg="6" align-self="center">
+              <v-list-item two-line>
+                <v-list-item-content class="text-left">
+                  <v-list-item-title>깍두기 여부</v-list-item-title>
+                  <v-list-item-subtitle>
+                    <v-checkbox
+                      v-model="isJoker"
+                      class="mx-2"
+                      color="primary"
+                      label=" 깍두기 있음"
+                      @change="setJoker"
+                    ></v-checkbox>
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+          </v-row>
+        </v-form>
+      </v-card-text>
       <v-divider></v-divider>
       <v-card-text>
+        <div>
+          <v-btn
+            v-for="n in teamCount"
+            :key="n"
+            class="tab__team ma-1"
+            fab
+            small
+            outlined
+            :color="colorIndex[n]"
+            @click="clickTeam(n)"
+          >{{n}}</v-btn>
+          <v-btn
+            v-for="n in teamJoker"
+            :key="n"
+            class="tab__team ma-1"
+            fab
+            small
+            outlined
+            :color="colorIndex[0]"
+            @click="clickTeam('J')"
+          >{{n}}</v-btn>
+        </div>
+        <div v-if="isJoker">깍두기 있음</div>
+      </v-card-text>
+      <v-card-text>
+        <v-row>
+          <v-col>
+            <span v-if="selectedTeam" class="title">{{ selectedTeam }} 팀의 팀원을 선택하시오</span>
+            <span v-if="selectedJoker" class="title">조커를 선택하시오</span>
+          </v-col>
+        </v-row>
         <v-row wrap justify="center">
           <v-col cols="12">
             <v-chip
@@ -75,33 +169,21 @@
               outlined
               label
               class="chip__member mx-1"
-              color="grey"
+              :color="member.color"
               :key="member"
-            >{{ member }}</v-chip>
+              @click="clickMember(member)"
+            >
+              <!--  -->
+              {{ member.name }}
+            </v-chip>
           </v-col>
         </v-row>
-      </v-card-text>
-      <v-divider></v-divider>
-      <v-card-text>
-        <div>
-          <v-btn
-            v-for="n in setting.teamCount"
-            :key="n"
-            class="tab__team ma-1"
-            fab
-            small
-            outlined
-            :color="colorIndex[n]"
-          ></v-btn>
-        </div>
-        <div>{{ setting.minCount }} VS {{ setting.minCount }}</div>
-        <div v-if="setting.isJoker">깍두기 있음</div>
       </v-card-text>
       <v-card-actions class="justify-end">
         <v-btn click="save" color="primary">저장</v-btn>
       </v-card-actions>
     </v-card>
-    <squad-setting @divideTeamSetting="divideTeamSetting"></squad-setting>
+    <util-snack-bar :purpose="snackBarPurpose" :message="snackBarMessage" />
   </div>
 </template>
 
@@ -117,7 +199,11 @@ const {
   mapState: scheduleMapState,
   mapActions: scheduleMapActions
 } = createNamespacedHelpers("calendar");
+
 import dummy from "../../assets/value/dummy.json";
+
+import regex from "../../mixin/regex.js";
+import util from "../../mixin/util.js";
 
 export default {
   name: "Attendance.vue",
@@ -125,22 +211,30 @@ export default {
     this.scheduleList = dummy.scheduleList;
     this.activeSchedule();
     this.activeQuarter();
+    this.count = 8;
 
     this.setAttendMember();
   },
+  mixins: [util, regex],
   data: () => ({
+    attendMember: [],
+    attendTeamCount: [2, 3, 4, 5],
+    isJoker: false,
+    minCount: null,
     quarterIndex: 0,
+    quarterList: [],
+    scheduleEnd: null,
     scheduleIndex: null,
-    setYear: moment().format("YYYY"),
-    setMonth: moment().format("MMMM"),
     scheduleList: [],
     scheduleName: null,
-    scheduleStart: null,
-    scheduleEnd: null,
     scheduleStadium: null,
-    attendMember: [],
-    setting: {},
-    quarterList: []
+    scheduleStart: null,
+    selectedJoker: false,
+    selectedTeam: null,
+    setMonth: moment().format("MMMM"),
+    setYear: moment().format("YYYY"),
+    teamCount: null,
+    teamJoker: []
   }),
   computed: {
     ...mapState(["attendance"]),
@@ -154,15 +248,24 @@ export default {
       }
     }
   },
-
   methods: {
     ...mapActions(["get_attendance"]),
-    ...commonapMutaions(["setSetting"]),
     addQuarter() {
       let idx = this.quarterList.length + 1;
       let item = "Q" + idx;
       this.quarterList.push(item);
       this.activeQuarter();
+    },
+    addTeamCount() {
+      let length = this.attendTeamCount.length;
+      if (length < 9) {
+        this.attendTeamCount.push(length + 2);
+      } else {
+        this.setSnackBar(
+          this.snackBarFail,
+          "더 이상 팀 수를 늘릴 수 없습니다."
+        );
+      }
     },
     activeQuarter() {
       if (this.quarterList.length > 0) {
@@ -173,6 +276,39 @@ export default {
     activeSchedule: async function() {
       this.scheduleIndex = this.scheduleList.length - 1;
       this.setDate(this.scheduleList[this.scheduleIndex]);
+    },
+    clickMember: function(value) {
+      if (this.selectedTeam && !this.isJocker) {
+        value.teamNumber = this.selectedTeam;
+      } else {
+        //조커가 클릭된 상태일 경우
+        this.removeJocekr();
+        value.teamNumber = 0;
+      }
+      value.color = this.colorIndex[value.teamNumber];
+    },
+    removeJocekr: function() {
+      this.attendMember.map(item => {
+        if (item.teamNumber === 0) {
+          // teamNumber, color를 초기화
+          item.teamNumber = null;
+          item.color = "grey";
+        }
+      });
+    },
+
+    jockerIsBlack: function() {
+      return this.isJocker;
+    },
+    clickTeam: function(value) {
+      if (value !== "J") {
+        this.selectedTeam = value;
+        this.selectedJoker = false;
+      } else {
+        this.selectedTeam = null;
+        this.isJoker = true;
+        this.selectedJoker = true;
+      }
     },
     save() {
       console.log("저장");
@@ -188,14 +324,18 @@ export default {
       this.scheduleStadium = item.stadium_name;
       this.setAttendMember(item.attend_list);
     },
+    setJoker: function(isJoker) {
+      if (isJoker) {
+        this.teamJoker.push("J");
+      } else {
+        this.teamJoker = [];
+      }
+    },
+    setTeamCount(count) {
+      this.teamCount = Number(count);
+    },
     setAttendMember: function(arr) {
       this.attendMember = arr;
-    },
-    divideTeamSetting(setting) {
-      this.setting = setting;
-    },
-    showSetting() {
-      this.setSetting(!this.$store.state.common.setting);
     }
   }
 };
@@ -242,4 +382,10 @@ export default {
 .tab__team {
   border: solid 5px;
 }
+.group__item {
+  margin: 0 5px;
+}
+/* .jocker {
+  background: black;
+} */
 </style>
