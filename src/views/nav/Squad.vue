@@ -63,62 +63,70 @@
           <v-list-item-icon>참석자 {{ count }} 명</v-list-item-icon>
         </v-list-item>
       </v-card-actions>
-      <v-card-text class="pa-0">
-        <v-row dense>
-          <v-col cols="12" md="6" align-self="center">
-            <v-list-item two-line>
-              <v-list-item-content class="text-left">
-                <v-list-item-title class="pb-4">팀 수</v-list-item-title>
-                <v-list-item-subtitle>
-                  <v-item-group>
-                    <v-item
-                      v-for="item in attendTeamCount"
-                      :key="item"
-                      class="group__item"
-                      v-slot:default="{ active, toggle }"
-                    >
-                      <v-btn
-                        :color="active ? 'primary' : ''"
-                        fab
-                        elevation="0"
-                        x-small
-                        @click="toggle"
-                        @click.native="setTeamCount(item)"
+      <v-card-text class>
+        <v-form refs="form">
+          <v-row justify="start">
+            <v-col cols="12" md="6" align-self="center">
+              <v-list-item two-line>
+                <v-list-item-content class="text-left">
+                  <v-list-item-title class="pb-4">팀 수</v-list-item-title>
+                  <v-list-item-subtitle>
+                    <v-item-group>
+                      <v-item
+                        v-for="item in attendTeamCount"
+                        :key="item"
+                        class="group__item"
+                        v-slot:default="{ active, toggle }"
                       >
-                        <v-scroll-y-transition>
-                          <div
-                            v-if="acitve"
-                            class="flex-grow-1 text-center list__item white--text"
-                          >{{ item }}</div>
-                          <div v-else class="flex-grow-1 text-center list__item">{{ item }}</div>
-                        </v-scroll-y-transition>
-                      </v-btn>
-                    </v-item>
-                    <v-item class="group__item">
-                      <v-btn
-                        :color="active ? 'primary' : ''"
-                        fab
-                        elevation="0"
-                        x-small
-                        @click="addTeamCount"
-                      >+</v-btn>
-                    </v-item>
-                  </v-item-group>
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-col>
-          <v-col cols="12" md="6" align-self="center">
-            <v-list-item two-line>
-              <v-list-item-content class="text-left mx-2">
-                <v-list-item-title>깍두기 여부</v-list-item-title>
-                <v-list-item-subtitle>
-                  <v-checkbox v-model="isJoker" color="primary" label=" 깍두기 있음"></v-checkbox>
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-col>
-        </v-row>
+                        <v-btn
+                          :color="active ? 'primary' : ''"
+                          fab
+                          elevation="0"
+                          x-small
+                          @click="toggle"
+                          @click.native="setTeamCount(item)"
+                        >
+                          <v-scroll-y-transition>
+                            <div
+                              v-if="acitve"
+                              class="flex-grow-1 text-center list__item white--text"
+                            >{{ item }}</div>
+                            <div v-else class="flex-grow-1 text-center list__item">{{ item }}</div>
+                          </v-scroll-y-transition>
+                        </v-btn>
+                      </v-item>
+                      <v-item class="group__item">
+                        <v-btn
+                          :color="active ? 'primary' : ''"
+                          fab
+                          elevation="0"
+                          x-small
+                          @click="addTeamCount"
+                        >+</v-btn>
+                      </v-item>
+                    </v-item-group>
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+            <v-col cols="12" md="6" lg="6" align-self="center">
+              <v-list-item two-line>
+                <v-list-item-content class="text-left">
+                  <v-list-item-title>깍두기 여부</v-list-item-title>
+                  <v-list-item-subtitle>
+                    <v-checkbox
+                      v-model="isJoker"
+                      class="mx-2"
+                      color="primary"
+                      label=" 깍두기 있음"
+                      @change="setJoker"
+                    ></v-checkbox>
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+          </v-row>
+        </v-form>
       </v-card-text>
       <v-divider></v-divider>
       <v-card-text>
@@ -133,14 +141,24 @@
             :color="colorIndex[n]"
             @click="clickTeam(n)"
           >{{n}}</v-btn>
+          <v-btn
+            v-for="n in teamJoker"
+            :key="n"
+            class="tab__team ma-1"
+            fab
+            small
+            outlined
+            :color="colorIndex[0]"
+            @click="clickTeam('J')"
+          >{{n}}</v-btn>
         </div>
-        <!-- <div>{{ minCount }} VS {{ minCount }}</div> -->
         <div v-if="isJoker">깍두기 있음</div>
       </v-card-text>
       <v-card-text>
         <v-row>
           <v-col>
             <span v-if="selectedTeam" class="title">{{ selectedTeam }} 팀의 팀원을 선택하시오</span>
+            <span v-if="selectedJoker" class="title">조커를 선택하시오</span>
           </v-col>
         </v-row>
         <v-row wrap justify="center">
@@ -154,7 +172,10 @@
               :color="member.color"
               :key="member"
               @click="clickMember(member)"
-            >{{ member.name }}</v-chip>
+            >
+              <!--  -->
+              {{ member.name }}
+            </v-chip>
           </v-col>
         </v-row>
       </v-card-text>
@@ -196,22 +217,24 @@ export default {
   },
   mixins: [util, regex],
   data: () => ({
+    attendMember: [],
     attendTeamCount: [2, 3, 4, 5],
-    teamCount: null,
-    minCount: null,
     isJoker: false,
-    selectedTeam: null,
+    minCount: null,
     quarterIndex: 0,
+    quarterList: [],
+    scheduleEnd: null,
     scheduleIndex: null,
-    setYear: moment().format("YYYY"),
-    setMonth: moment().format("MMMM"),
     scheduleList: [],
     scheduleName: null,
-    scheduleStart: null,
-    scheduleEnd: null,
     scheduleStadium: null,
-    attendMember: [],
-    quarterList: []
+    scheduleStart: null,
+    selectedJoker: false,
+    selectedTeam: null,
+    setMonth: moment().format("MMMM"),
+    setYear: moment().format("YYYY"),
+    teamCount: null,
+    teamJoker: []
   }),
   computed: {
     ...mapState(["attendance"]),
@@ -255,13 +278,37 @@ export default {
       this.setDate(this.scheduleList[this.scheduleIndex]);
     },
     clickMember: function(value) {
-      if (this.selectedTeam) {
+      if (this.selectedTeam && !this.isJocker) {
         value.teamNumber = this.selectedTeam;
-        value.color = this.colorIndex[value.teamNumber];
+      } else {
+        //조커가 클릭된 상태일 경우
+        this.removeJocekr();
+        value.teamNumber = 0;
       }
+      value.color = this.colorIndex[value.teamNumber];
+    },
+    removeJocekr: function() {
+      this.attendMember.map(item => {
+        if (item.teamNumber === 0) {
+          // teamNumber, color를 초기화
+          item.teamNumber = null;
+          item.color = "grey";
+        }
+      });
+    },
+
+    jockerIsBlack: function() {
+      return this.isJocker;
     },
     clickTeam: function(value) {
-      this.selectedTeam = value;
+      if (value !== "J") {
+        this.selectedTeam = value;
+        this.selectedJoker = false;
+      } else {
+        this.selectedTeam = null;
+        this.isJoker = true;
+        this.selectedJoker = true;
+      }
     },
     save() {
       console.log("저장");
@@ -276,6 +323,13 @@ export default {
       this.scheduleAddress = item.address;
       this.scheduleStadium = item.stadium_name;
       this.setAttendMember(item.attend_list);
+    },
+    setJoker: function(isJoker) {
+      if (isJoker) {
+        this.teamJoker.push("J");
+      } else {
+        this.teamJoker = [];
+      }
     },
     setTeamCount(count) {
       this.teamCount = Number(count);
@@ -331,4 +385,7 @@ export default {
 .group__item {
   margin: 0 5px;
 }
+/* .jocker {
+  background: black;
+} */
 </style>
