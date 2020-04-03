@@ -42,8 +42,8 @@ import { createNamespacedHelpers } from "vuex";
 const { mapActions: attendMapActions } = createNamespacedHelpers("attend");
 const { mapActions: memberMapActions } = createNamespacedHelpers("member");
 const {
-  mapState: scheduleMapState,
-  mapActions: scheduleMapActions
+  mapState: calendarMapState,
+  mapActions: calendarMapActions
 } = createNamespacedHelpers("calendar");
 
 export default {
@@ -72,11 +72,11 @@ export default {
     requesting: false
   }),
   computed: {
-    ...scheduleMapState(["scheduleList"])
+    ...calendarMapState(["scheduleList"])
   },
   methods: {
     ...attendMapActions(["add_attend", "delete_attend", "get_attend_rate"]),
-    ...scheduleMapActions(["select_schedule"]),
+    ...calendarMapActions(["select_schedule"]),
     ...memberMapActions(["select_member"]),
     async isAttend(item) {
       console.log("this is clicked", item);
