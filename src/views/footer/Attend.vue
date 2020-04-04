@@ -10,7 +10,7 @@
           :setYear="setYear"
           :setMonth="setMonth"
           :setDay="setDay"
-          @setDate="setDate"
+          @changeDate="changeDate"
         ></schedule-date-list>
       </v-sheet>
       <v-expand-transition>
@@ -102,7 +102,7 @@ export default {
 
       this.requesting = false;
     },
-    setDate(item) {
+    changeDate(item) {
       this.cardInfoLoading = true;
 
       this.setYear = moment(item.date).format("YYYY");
@@ -124,7 +124,7 @@ export default {
     // 제일 최근의 스케줄을 선택해주는 함수.
     activeSchedule: async function() {
       this.initIndex = this.scheduleList.length - 1;
-      this.setDate(this.scheduleList[this.initIndex]);
+      this.changeDate(this.scheduleList[this.initIndex]);
     }
   }
 };

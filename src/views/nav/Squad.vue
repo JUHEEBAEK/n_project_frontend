@@ -9,7 +9,7 @@
             :setYear="setYear"
             :setMonth="setMonth"
             :setDay="setDay"
-            @setDate="setDate"
+            @changeDate="setDate"
           ></schedule-date-list>
         </v-sheet>
       </div>
@@ -334,7 +334,7 @@ export default {
     },
     setTeamCount(count) {
       this.teamCount = Number(count);
-    } 
+    }
   }
 };
 </script>

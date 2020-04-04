@@ -83,7 +83,7 @@ export default {
       if (val) {
         console.log("slide_index", val);
         let selected_schedule = this.scheduleList[this.slide_index];
-        this.$emit("setDate", selected_schedule);
+        this.$emit("changeDate", selected_schedule);
         // 출석률 가져오기
         await this.get_attend_rate(selected_schedule.date);
         // 그중에 출석한 사람들 업데이트 해주기
@@ -94,7 +94,7 @@ export default {
   methods: {
     ...attendMapActions(["get_attend_rate", "get_attend"]),
     setScheduleInfo(item) {
-      this.$emit("setDate", item);
+      this.$emit("changeDate", item);
     }
   }
 };
