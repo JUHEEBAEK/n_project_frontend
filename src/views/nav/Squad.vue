@@ -9,7 +9,7 @@
             :setYear="setYear"
             :setMonth="setMonth"
             :setDay="setDay"
-            @changeDate="setDate"
+            @changeDate="setScheduleData"
           ></schedule-date-list>
         </v-sheet>
       </div>
@@ -207,8 +207,8 @@ export default {
   name: "Attendance.vue",
   async created() {
     this.scheduleList = await this.select_schedule();
-    console.log("this.scheduleList", this.scheduleList);
-    await this.activeSchedule();
+    // 가장 최신걸 선택
+    this.scheduleIndex = this.scheduleList.length - 1;
     this.activeQuarter();
   },
   mixins: [util, regex],
@@ -241,7 +241,7 @@ export default {
   watch: {
     scheduleIndex: async function(val) {
       if (val) {
-        this.setDate(this.scheduleList[this.scheduleIndex]);
+        this.setScheduleData(this.scheduleList[this.scheduleIndex]);
         // 그중에 출석한 사람들 업데이트 해주기
       }
     }
@@ -271,12 +271,7 @@ export default {
         this.quarterIndex = this.quarterList.length;
       }
     },
-    // 제일 최근의 스케줄을 선택해주는 함수.
-    activeSchedule: async function() {
-      this.scheduleIndex = this.scheduleList.length - 1;
-      console.log("Schedule First Index", this.scheduleIndex);
-      this.setDate(this.scheduleList[this.scheduleIndex]);
-    },
+
     clickMember: function(value) {
       if (this.selectedTeam && !this.isJocker) {
         value.teamNumber = this.selectedTeam;
@@ -313,17 +308,18 @@ export default {
     save() {
       console.log("저장");
     },
-    setDate(item) {
-      this.setYear = moment(item.date).format("YYYY");
-      this.setMonth = moment(item.date).format("MMMM");
-      this.setDay = moment(item.date).format("DD");
+    setScheduleData(selected_schedule) {
 
-      this.scheduleName = item.name;
-      this.scheduleStart = item.start;
-      this.scheduleEnd = item.end;
-      this.scheduleAddress = item.address;
-      this.scheduleStadium = item.stadium_name;
-      this.attendMember = item.attend_list;
+      this.setYear = moment(selected_schedule.date).format("YYYY");
+      this.setMonth = moment(selected_schedule.date).format("MMMM");
+      this.setDay = moment(selected_schedule.date).format("DD");
+
+      this.scheduleName = selected_schedule.name;
+      this.scheduleStart = selected_schedule.start;
+      this.scheduleEnd = selected_schedule.end;
+      this.scheduleAddress = selected_schedule.address;
+      this.scheduleStadium = selected_schedule.stadium_name;
+      this.attendMember = selected_schedule.attend_list;
     },
     setJoker: function(isJoker) {
       if (isJoker) {
