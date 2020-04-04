@@ -213,7 +213,7 @@ export default {
   },
   mixins: [util, regex],
   data: () => ({
-    attendMember: [],
+    attendMember: [{ name: "김철", id: "2" }],
     attendTeamCount: [2, 3, 4, 5],
     memberCount: 0, // 참석자 수 세는 용도
     isJoker: false,
@@ -247,7 +247,7 @@ export default {
     }
   },
   methods: {
-    ...calendarMapActions(["select_schedule"]),
+    ...calendarMapActions(["select_schedule", "load_member"]),
     ...mapActions(["get_attendance"]),
     addQuarter() {
       let idx = this.quarterList.length + 1;
@@ -308,7 +308,13 @@ export default {
     save() {
       console.log("저장");
     },
-    setScheduleData(selected_schedule) {
+    async setScheduleData(selected_schedule) {
+      // 업데이트 받기
+      console.log("setScheduleData", selected_schedule);
+      await this.load_member(selected_schedule.id);
+      // let updated_schedule = this.scheduleList[this.scheduleIndex];
+      // console.log("compare");
+      // console.log(selected_schedule, updated_schedule);
 
       this.setYear = moment(selected_schedule.date).format("YYYY");
       this.setMonth = moment(selected_schedule.date).format("MMMM");
@@ -319,7 +325,18 @@ export default {
       this.scheduleEnd = selected_schedule.end;
       this.scheduleAddress = selected_schedule.address;
       this.scheduleStadium = selected_schedule.stadium_name;
-      this.attendMember = selected_schedule.attend_list;
+      let attend_list = [];
+      for (let i in selected_schedule.member_id_list) {
+        let attend_member = {
+          name: selected_schedule.memeber_name_list[i],
+          id: selected_schedule.member_id_list[i]
+        };
+        attend_list.push(attend_member);
+      }
+      selected_schedule["attend_list"] = attend_list;
+      // this.attendMember = attend_list;
+      console.log(this.scheduleList);
+      console.log(this.attendMember);
     },
     setJoker: function(isJoker) {
       if (isJoker) {
