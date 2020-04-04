@@ -210,8 +210,6 @@ export default {
     console.log("this.scheduleList", this.scheduleList);
     await this.activeSchedule();
     this.activeQuarter();
-
-    this.setAttendMember();
   },
   mixins: [util, regex],
   data: () => ({
@@ -325,7 +323,7 @@ export default {
       this.scheduleEnd = item.end;
       this.scheduleAddress = item.address;
       this.scheduleStadium = item.stadium_name;
-      this.setAttendMember(item.attend_list);
+      this.attendMember = item.attend_list;
     },
     setJoker: function(isJoker) {
       if (isJoker) {
@@ -336,10 +334,7 @@ export default {
     },
     setTeamCount(count) {
       this.teamCount = Number(count);
-    },
-    setAttendMember: function(arr) {
-      this.attendMember = arr;
-    }
+    } 
   }
 };
 </script>
