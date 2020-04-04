@@ -5,7 +5,7 @@
         <v-sheet elevation="8">
           <schedule-date-list
             :scheduleList="scheduleList"
-            :scheduleIndex="initIndex"
+            :scheduleIndex="scheduleIndex"
             :setYear="setYear"
             :setMonth="setMonth"
             :setDay="setDay"
@@ -196,8 +196,8 @@ const {
   mapMutations: commonapMutaions
 } = createNamespacedHelpers("common");
 const {
-  mapState: scheduleMapState,
-  mapActions: scheduleMapActions
+  mapState: calendarMapState,
+  mapActions: calendarMapActions
 } = createNamespacedHelpers("calendar");
 
 import dummy from "../../assets/value/dummy.json";
@@ -208,8 +208,9 @@ import util from "../../mixin/util.js";
 export default {
   name: "Attendance.vue",
   async created() {
-    this.scheduleList = dummy.scheduleList;
-    this.activeSchedule();
+    this.scheduleList = await this.select_schedule();
+    console.log("this.scheduleList", this.scheduleList);
+    await this.activeSchedule();
     this.activeQuarter();
     this.count = 8;
 
@@ -233,6 +234,7 @@ export default {
     selectedTeam: null,
     setMonth: moment().format("MMMM"),
     setYear: moment().format("YYYY"),
+    setDay: moment().format("DD"),
     teamCount: null,
     teamJoker: []
   }),
@@ -249,6 +251,7 @@ export default {
     }
   },
   methods: {
+    ...calendarMapActions(["select_schedule"]),
     ...mapActions(["get_attendance"]),
     addQuarter() {
       let idx = this.quarterList.length + 1;
@@ -275,6 +278,7 @@ export default {
     // 제일 최근의 스케줄을 선택해주는 함수.
     activeSchedule: async function() {
       this.scheduleIndex = this.scheduleList.length - 1;
+      console.log("Schedule First Index", this.scheduleIndex);
       this.setDate(this.scheduleList[this.scheduleIndex]);
     },
     clickMember: function(value) {
@@ -316,6 +320,7 @@ export default {
     setDate(item) {
       this.setYear = moment(item.date).format("YYYY");
       this.setMonth = moment(item.date).format("MMMM");
+      this.setDay = moment(item.date).format("DD");
 
       this.scheduleName = item.name;
       this.scheduleStart = item.start;
