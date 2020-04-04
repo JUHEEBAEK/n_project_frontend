@@ -213,7 +213,7 @@ export default {
   },
   mixins: [util, regex],
   data: () => ({
-    attendMember: [{ name: "김철", id: "2" }],
+    attendMember: [],
     attendTeamCount: [2, 3, 4, 5],
     memberCount: 0, // 참석자 수 세는 용도
     isJoker: false,
@@ -326,17 +326,18 @@ export default {
       this.scheduleAddress = selected_schedule.address;
       this.scheduleStadium = selected_schedule.stadium_name;
       let attend_list = [];
+
       for (let i in selected_schedule.member_id_list) {
         let attend_member = {
           name: selected_schedule.memeber_name_list[i],
-          id: selected_schedule.member_id_list[i]
+          id: selected_schedule.member_id_list[i],
+          color: "grey",
+          teamNumber: null
         };
         attend_list.push(attend_member);
       }
-      selected_schedule["attend_list"] = attend_list;
-      // this.attendMember = attend_list;
-      console.log(this.scheduleList);
-      console.log(this.attendMember);
+
+      this.attendMember = attend_list;
     },
     setJoker: function(isJoker) {
       if (isJoker) {
