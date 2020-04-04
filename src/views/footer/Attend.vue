@@ -75,7 +75,12 @@ export default {
     ...calendarMapState(["scheduleList"])
   },
   methods: {
-    ...attendMapActions(["add_attend", "delete_attend", "get_attend_rate"]),
+    ...attendMapActions([
+      "add_attend",
+      "delete_attend",
+      "get_attend_rate",
+      "get_attend"
+    ]),
     ...calendarMapActions(["select_schedule"]),
     ...memberMapActions(["select_member"]),
     async isAttend(item) {
@@ -102,7 +107,7 @@ export default {
 
       this.requesting = false;
     },
-    changeDate(item) {
+    async changeDate(item) {
       this.cardInfoLoading = true;
 
       this.setYear = moment(item.date).format("YYYY");
@@ -116,6 +121,10 @@ export default {
       this.scheduleStadium = item.stadium_name;
 
       this.cardInfoLoading = false;
+      // 출석률 가져오기
+      await this.get_attend_rate(item.date);
+      // 그중에 출석한 사람들 업데이트 해주기
+      await this.get_attend(item.id);
     },
 
     setFormatMemberList: async function(countMember) {
