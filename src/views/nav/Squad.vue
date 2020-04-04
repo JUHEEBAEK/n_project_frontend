@@ -223,7 +223,7 @@ export default {
     isJoker: false,
     minCount: null,
     quarterIndex: 0,
-    quarterList: [],
+    quarterList: ["Q1"],
     scheduleEnd: null,
     scheduleIndex: null,
     scheduleList: [],
