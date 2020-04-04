@@ -63,10 +63,10 @@ const mutations = {
       return false;
     }
     let memeber_name_list = [];
-    let memeber_id_list = [];
+    let member_id_list = [];
     let member_count = memberList.length;
     for (let i in memberList) {
-      memeber_id_list.push(memberList[i]["member_id"]);
+      member_id_list.push(memberList[i]["member_id"]);
       memeber_name_list.push(memberList[i]["name"]);
     }
 
@@ -86,7 +86,7 @@ const mutations = {
     }
     let item = state.scheduleList[index];
     item["attendCount"] = member_count;
-    item["memeber_id_list"] = memeber_id_list;
+    item["member_id_list"] = member_id_list;
     item["memeber_name_list"] = memeber_name_list;
 
     state.scheduleList[index] = item;
