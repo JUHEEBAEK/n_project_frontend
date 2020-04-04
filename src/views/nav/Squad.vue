@@ -60,7 +60,7 @@
 
           <v-list-item-content></v-list-item-content>
 
-          <v-list-item-icon>참석자 {{ count }} 명</v-list-item-icon>
+          <v-list-item-icon>참석자 {{ memberCount }} 명</v-list-item-icon>
         </v-list-item>
       </v-card-actions>
       <v-card-text class>
@@ -212,7 +212,6 @@ export default {
     console.log("this.scheduleList", this.scheduleList);
     await this.activeSchedule();
     this.activeQuarter();
-    this.count = 8;
 
     this.setAttendMember();
   },
@@ -220,6 +219,7 @@ export default {
   data: () => ({
     attendMember: [],
     attendTeamCount: [2, 3, 4, 5],
+    memberCount: 0, // 참석자 수 세는 용도
     isJoker: false,
     minCount: null,
     quarterIndex: 0,
