@@ -200,8 +200,6 @@ const {
   mapActions: calendarMapActions
 } = createNamespacedHelpers("calendar");
 
-import dummy from "../../assets/value/dummy.json";
-
 import regex from "../../mixin/regex.js";
 import util from "../../mixin/util.js";
 
