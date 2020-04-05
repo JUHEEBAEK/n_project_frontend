@@ -27,24 +27,10 @@
           </v-col>
           <v-col cols="12" sm="12" md="7">
             <v-card class="py-2">
-              <v-card-title>쿼터 선택</v-card-title>
+              <v-card-title>팀 나눔 목록</v-card-title>
               <v-card-text>
-                <v-slide-group v-model="quarterIndex">
-                  <v-slide-item
-                    v-for="quarter in quarterList"
-                    :key="quarter"
-                    v-slot:default="{ active, toggle }"
-                  >
-                    <v-chip
-                      :color="active ? 'primary' : 'grey lighten-1'"
-                      class="mx-2"
-                      @click="toggle"
-                      dark
-                      label
-                    >{{ quarter }}</v-chip>
-                  </v-slide-item>
-                  <v-chip class="mx-2 px-5" dark color="tertiary" label @click="addQuarter">+</v-chip>
-                </v-slide-group>
+                <v-select v-model="temaSplitSelcted" :items="teamSplitList" />
+                <v-btn dark color="red" outlined large>선택한 팀 목록 삭제</v-btn>
               </v-card-text>
             </v-card>
           </v-col>
@@ -232,7 +218,9 @@ export default {
     setYear: moment().format("YYYY"),
     setDay: moment().format("DD"),
     teamCount: null,
-    teamJoker: []
+    teamJoker: [],
+    teamSplitList: [1, 2, 3, 4, 5],
+    temaSplitSelcted: 1
   }),
   computed: {
     ...mapState(["attendance"]),
@@ -249,11 +237,8 @@ export default {
   methods: {
     ...calendarMapActions(["select_schedule", "load_member"]),
     ...mapActions(["get_attendance"]),
-    addQuarter() {
-      let idx = this.quarterList.length + 1;
-      let item = "Q" + idx;
-      this.quarterList.push(item);
-      this.activeQuarter();
+    teamSplit_chnaged() {
+      // 업데이트 필요
     },
     addTeamCount() {
       let length = this.attendTeamCount.length;
