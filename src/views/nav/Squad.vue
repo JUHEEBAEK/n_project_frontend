@@ -25,150 +25,13 @@
               :scheduleAddress="scheduleAddress"
             ></schedule-info-card>
           </v-col>
-          <v-col cols="12" sm="12" md="7">
-            <v-card class="py-2">
-              <v-card-title>팀 나눔 목록</v-card-title>
-              <v-card-text>
-                <v-select v-model="temaSplitSelcted" :items="teamSplitList" />
-                <v-btn dark color="red" outlined large>선택한 팀 목록 삭제</v-btn>
-              </v-card-text>
-            </v-card>
+          <v-col cols="12" sm="12" md="7"> 
+            <squad-team-split-list />
           </v-col>
         </v-row>
       </v-expand-transition>
     </v-sheet>
-    <v-card outlined>
-      <v-card-actions class="setting__actions">
-        <v-list-item>
-          <v-list-item-actions class="px-0">
-            <v-btn dark color="primary" outlined large>팀나누기</v-btn>
-          </v-list-item-actions>
-
-          <v-list-item-content></v-list-item-content>
-
-          <v-list-item-icon>참석자 {{ memberCount }} 명</v-list-item-icon>
-        </v-list-item>
-      </v-card-actions>
-      <v-card-text class>
-        <v-form refs="form">
-          <v-row justify="start">
-            <v-col cols="12" md="6" align-self="center">
-              <v-list-item two-line>
-                <v-list-item-content class="text-left">
-                  <v-list-item-title class="pb-4">팀 수</v-list-item-title>
-                  <v-list-item-subtitle>
-                    <v-item-group>
-                      <v-item
-                        v-for="item in attendTeamCount"
-                        :key="item"
-                        class="group__item"
-                        v-slot:default="{ active, toggle }"
-                      >
-                        <v-btn
-                          :color="active ? 'primary' : ''"
-                          fab
-                          elevation="0"
-                          x-small
-                          @click="toggle"
-                          @click.native="setTeamCount(item)"
-                        >
-                          <v-scroll-y-transition>
-                            <div
-                              v-if="acitve"
-                              class="flex-grow-1 text-center list__item white--text"
-                            >{{ item }}</div>
-                            <div v-else class="flex-grow-1 text-center list__item">{{ item }}</div>
-                          </v-scroll-y-transition>
-                        </v-btn>
-                      </v-item>
-                      <v-item class="group__item">
-                        <v-btn
-                          :color="active ? 'primary' : ''"
-                          fab
-                          elevation="0"
-                          x-small
-                          @click="addTeamCount"
-                        >+</v-btn>
-                      </v-item>
-                    </v-item-group>
-                  </v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-            <v-col cols="12" md="6" lg="6" align-self="center">
-              <v-list-item two-line>
-                <v-list-item-content class="text-left">
-                  <v-list-item-title>깍두기 여부</v-list-item-title>
-                  <v-list-item-subtitle>
-                    <v-checkbox
-                      v-model="isJoker"
-                      class="mx-2"
-                      color="primary"
-                      label=" 깍두기 있음"
-                      @change="setJoker"
-                    ></v-checkbox>
-                  </v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-          </v-row>
-        </v-form>
-      </v-card-text>
-      <v-divider></v-divider>
-      <v-card-text>
-        <div>
-          <v-btn
-            v-for="n in teamCount"
-            :key="n"
-            class="tab__team ma-1"
-            fab
-            small
-            outlined
-            :color="colorIndex[n]"
-            @click="clickTeam(n)"
-          >{{n}}</v-btn>
-          <v-btn
-            v-for="n in teamJoker"
-            :key="n"
-            class="tab__team ma-1"
-            fab
-            small
-            outlined
-            :color="colorIndex[0]"
-            @click="clickTeam('J')"
-          >{{n}}</v-btn>
-        </div>
-        <div v-if="isJoker">깍두기 있음</div>
-      </v-card-text>
-      <v-card-text>
-        <v-row>
-          <v-col>
-            <span v-if="selectedTeam" class="title">{{ selectedTeam }} 팀의 팀원을 선택하시오</span>
-            <span v-if="selectedJoker" class="title">조커를 선택하시오</span>
-          </v-col>
-        </v-row>
-        <v-row wrap justify="center">
-          <v-col cols="12">
-            <v-chip
-              v-for="member in attendMember"
-              dark
-              outlined
-              label
-              class="chip__member mx-1"
-              :color="member.color"
-              :key="member"
-              @click="clickMember(member)"
-            >
-              <!--  -->
-              {{ member.name }}
-            </v-chip>
-          </v-col>
-        </v-row>
-      </v-card-text>
-      <v-card-actions class="justify-end">
-        <v-btn click="save" color="primary">저장</v-btn>
-      </v-card-actions>
-    </v-card>
+    <squad-team-split />
     <util-snack-bar :purpose="snackBarPurpose" :message="snackBarMessage" />
   </div>
 </template>
@@ -183,6 +46,7 @@ const {
 } = createNamespacedHelpers("common");
 const {
   mapState: calendarMapState,
+  mapMutations: calendarMapMutations,
   mapActions: calendarMapActions
 } = createNamespacedHelpers("calendar");
 
@@ -199,10 +63,9 @@ export default {
   },
   mixins: [util, regex],
   data: () => ({
-    attendMember: [],
-    attendTeamCount: [2, 3, 4, 5],
+    
     memberCount: 0, // 참석자 수 세는 용도
-    isJoker: false,
+    
     minCount: null,
     quarterIndex: 0,
     quarterList: ["Q1"],
@@ -212,19 +75,15 @@ export default {
     scheduleName: null,
     scheduleStadium: null,
     scheduleStart: null,
-    selectedJoker: false,
-    selectedTeam: null,
     setMonth: moment().format("MMMM"),
     setYear: moment().format("YYYY"),
     setDay: moment().format("DD"),
-    teamCount: null,
-    teamJoker: [],
-    teamSplitList: [1, 2, 3, 4, 5],
-    temaSplitSelcted: 1
+    
+    
   }),
   computed: {
     ...mapState(["attendance"]),
-    ...commonState(["colorIndex"])
+    
   },
   watch: {
     scheduleIndex: async function(val) {
@@ -235,71 +94,22 @@ export default {
     }
   },
   methods: {
+    ...calendarMapMutations(["SET_ATTEND_MEMBER"]),
     ...calendarMapActions(["select_schedule", "load_member"]),
     ...mapActions(["get_attendance"]),
-    teamSplit_chnaged() {
-      // 업데이트 필요
-    },
-    addTeamCount() {
-      let length = this.attendTeamCount.length;
-      if (length < 9) {
-        this.attendTeamCount.push(length + 2);
-      } else {
-        this.setSnackBar(
-          this.snackBarFail,
-          "더 이상 팀 수를 늘릴 수 없습니다."
-        );
-      }
-    },
+
+    
     activeQuarter() {
       if (this.quarterList.length > 0) {
         this.quarterIndex = this.quarterList.length;
       }
     },
 
-    clickMember: function(value) {
-      if (this.selectedTeam && !this.isJocker) {
-        value.teamNumber = this.selectedTeam;
-      } else {
-        //조커가 클릭된 상태일 경우
-        this.removeJocekr();
-        value.teamNumber = 0;
-      }
-      value.color = this.colorIndex[value.teamNumber];
-    },
-    removeJocekr: function() {
-      this.attendMember.map(item => {
-        if (item.teamNumber === 0) {
-          // teamNumber, color를 초기화
-          item.teamNumber = null;
-          item.color = "grey";
-        }
-      });
-    },
-
-    jockerIsBlack: function() {
-      return this.isJocker;
-    },
-    clickTeam: function(value) {
-      if (value !== "J") {
-        this.selectedTeam = value;
-        this.selectedJoker = false;
-      } else {
-        this.selectedTeam = null;
-        this.isJoker = true;
-        this.selectedJoker = true;
-      }
-    },
-    save() {
-      console.log("저장");
-    },
+    
     async setScheduleData(selected_schedule) {
       // 업데이트 받기
       console.log("setScheduleData", selected_schedule);
       await this.load_member(selected_schedule.id);
-      // let updated_schedule = this.scheduleList[this.scheduleIndex];
-      // console.log("compare");
-      // console.log(selected_schedule, updated_schedule);
 
       this.setYear = moment(selected_schedule.date).format("YYYY");
       this.setMonth = moment(selected_schedule.date).format("MMMM");
@@ -310,8 +120,9 @@ export default {
       this.scheduleEnd = selected_schedule.end;
       this.scheduleAddress = selected_schedule.address;
       this.scheduleStadium = selected_schedule.stadium_name;
-      let attend_list = [];
+      let attend_member_list = [];
 
+      // 만약에 color나 teamNumber에 대한 정보가 있으면 그걸 불러오는게 좋을거 같은데
       for (let i in selected_schedule.member_id_list) {
         let attend_member = {
           name: selected_schedule.memeber_name_list[i],
@@ -319,21 +130,13 @@ export default {
           color: "grey",
           teamNumber: null
         };
-        attend_list.push(attend_member);
+        attend_member_list.push(attend_member);
       }
 
-      this.attendMember = attend_list;
+      this.SET_ATTEND_MEMBER(attend_member_list);
     },
-    setJoker: function(isJoker) {
-      if (isJoker) {
-        this.teamJoker.push("J");
-      } else {
-        this.teamJoker = [];
-      }
-    },
-    setTeamCount(count) {
-      this.teamCount = Number(count);
-    }
+    
+    
   }
 };
 </script>

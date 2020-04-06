@@ -18,7 +18,9 @@ const state = {
   newScheduleBox: false,
   fullScheduleDialog: false,
   scheduleList: [],
-  scheduleInfo: {}
+  scheduleInfo: {},
+  attend_member: [],
+  
 };
 
 const mutations = {
@@ -93,6 +95,9 @@ const mutations = {
   },
   [constants.get_schedule_info](state, scheduleInfo) {
     state.scheduleInfo = scheduleInfo;
+  },
+  SET_ATTEND_MEMBER(state, attend_member){
+    state.attend_member = attend_member;
   },
 };
 
