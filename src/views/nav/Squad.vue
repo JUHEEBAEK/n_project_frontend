@@ -59,16 +59,10 @@ export default {
     this.scheduleList = await this.select_schedule();
     // 가장 최신걸 선택
     this.scheduleIndex = this.scheduleList.length - 1;
-    this.activeQuarter();
   },
   mixins: [util, regex],
   data: () => ({
-    
-    memberCount: 0, // 참석자 수 세는 용도
-    
     minCount: null,
-    quarterIndex: 0,
-    quarterList: ["Q1"],
     scheduleEnd: null,
     scheduleIndex: null,
     scheduleList: [],
@@ -97,13 +91,6 @@ export default {
     ...calendarMapMutations(["SET_ATTEND_MEMBER"]),
     ...calendarMapActions(["select_schedule", "load_member"]),
     ...mapActions(["get_attendance"]),
-
-    
-    activeQuarter() {
-      if (this.quarterList.length > 0) {
-        this.quarterIndex = this.quarterList.length;
-      }
-    },
 
     
     async setScheduleData(selected_schedule) {
