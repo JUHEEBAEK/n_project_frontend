@@ -147,11 +147,17 @@ export default {
     isJoker: false,
     selectedJoker: false,
     selectedTeam: null,
-    teamJoker: []
+    teamJoker: [],
+    memberCount: 0,
   }),
   computed: {
     ...calendarMapState(["attendMember"]),
     ...commonState(["colorIndex"])
+  },
+  watch: {
+    attendMember(val){
+      this.memberCount = val.length;
+    },
   },
   methods: {
     
