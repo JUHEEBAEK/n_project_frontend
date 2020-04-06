@@ -20,7 +20,7 @@ const state = {
   scheduleList: [],
   scheduleInfo: {},
   attendMember: [],
-  
+  scheduleIndex: null,
 };
 
 const mutations = {
@@ -100,6 +100,9 @@ const mutations = {
     console.log("SET_ATTEND_MEMBER", attendMember)
     state.attendMember = attendMember;
   },
+  SET_SCHEDULE_INDEX(state, index){
+    state.scheduleIndex = index
+  }
 };
 
 const actions = {

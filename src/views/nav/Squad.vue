@@ -56,16 +56,14 @@ import util from "../../mixin/util.js";
 export default {
   name: "Attendance.vue",
   async created() {
-    this.scheduleList = await this.select_schedule();
+    await this.select_schedule();
     // 가장 최신걸 선택
-    this.scheduleIndex = this.scheduleList.length - 1;
+    this.SET_SCHEDULE_INDEX(this.scheduleList.length - 1);
   },
   mixins: [util, regex],
   data: () => ({
     minCount: null,
     scheduleEnd: null,
-    scheduleIndex: null,
-    scheduleList: [],
     scheduleName: null,
     scheduleStadium: null,
     scheduleStart: null,
@@ -77,6 +75,7 @@ export default {
   }),
   computed: {
     ...mapState(["attendance"]),
+    ...calendarMapState(["scheduleIndex", "scheduleList"]),
     
   },
   watch: {
@@ -88,7 +87,7 @@ export default {
     }
   },
   methods: {
-    ...calendarMapMutations(["SET_ATTEND_MEMBER"]),
+    ...calendarMapMutations(["SET_ATTEND_MEMBER", "SET_SCHEDULE_INDEX"]),
     ...calendarMapActions(["select_schedule", "load_member"]),
     ...mapActions(["get_attendance"]),
 

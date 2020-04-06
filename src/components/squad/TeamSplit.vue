@@ -151,7 +151,7 @@ export default {
     memberCount: 0,
   }),
   computed: {
-    ...calendarMapState(["attendMember"]),
+    ...calendarMapState(["attendMember", "scheduleIndex"]),
     ...commonState(["colorIndex"])
   },
   watch: {
