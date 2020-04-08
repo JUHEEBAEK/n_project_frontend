@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="dialog" v-if="type='position'" width="500">
+    <v-dialog v-model="dialog" v-if="type='position'" width="600">
       <v-card>
         <v-card-title>
           <v-toolbar flat>{{ selectPosition }} 선택</v-toolbar>
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import dialog from "../../mixin/dialog.js";
+import dialog from "../../../mixin/dialog.js";
 
 export default {
   mixins: [dialog],
@@ -49,7 +49,6 @@ export default {
       console.log("click");
       this.isActive = member.id;
       member.position = this.selectPosition;
-      console.log(member);
       this.$emit("savaPosition", member);
     }
   }

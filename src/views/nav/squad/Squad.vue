@@ -200,10 +200,10 @@ const {
   mapActions: scheduleMapActions
 } = createNamespacedHelpers("calendar");
 
-import dummy from "../../assets/value/dummy.json";
+import dummy from "../../../assets/value/dummy.json";
 
-import regex from "../../mixin/regex.js";
-import util from "../../mixin/util.js";
+import regex from "../../../mixin/regex.js";
+import util from "../../../mixin/util.js";
 
 export default {
   name: "Attendance.vue",

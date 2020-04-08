@@ -84,7 +84,7 @@
 
 <script>
 import moment from "moment";
-import util from "../../mixin/util.js";
+import util from "../../../mixin/util.js";
 
 import { createNamespacedHelpers } from "vuex";
 const {
@@ -128,7 +128,7 @@ export default {
 
     setMemberInfo(memberInfo) {
       this.date = moment(memberInfo.join_date).format("YYYY-MM-DD");
-      this.imageUrl = require(`../../assets/bgImage/${memberInfo["bg_image"]}`);
+      this.imageUrl = require(`../../../assets/bgImage/${memberInfo["bg_image"]}`);
     },
     updateMember(memberInfo) {
       memberInfo.join_date = moment(this.memberInfo.join_date).format(
@@ -150,7 +150,7 @@ export default {
       this.$router.go(-1);
     },
     changeImage(target) {
-      this.imageUrl = require(`../../assets/bgImage/${target}`);
+      this.imageUrl = require(`../../../assets/bgImage/${target}`);
     }
   }
 };
