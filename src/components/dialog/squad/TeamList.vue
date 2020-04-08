@@ -46,7 +46,6 @@ export default {
       this.dialog = false;
     },
     clickTeam(item) {
-      console.log("????/", item);
       this.$emit("saveTeam", item);
     }
   }
