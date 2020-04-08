@@ -23,11 +23,6 @@ export default new Router({
       name: "squad",
       component: () => import("../views/footer/Squad.vue")
     },
-    {
-      path: "/teamSetting",
-      name: "teamSetting",
-      component: () => import("../views/footer/TesmSetting.vue")
-    },
 
     // navigation view
     {
