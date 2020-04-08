@@ -13,7 +13,6 @@
           v-if="item"
           class="position__name"
           v-model="position[selectType][item]"
-          :rules="positionDuplicateRules"
           readonly
         ></v-text-field>
       </v-col>

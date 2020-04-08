@@ -6,6 +6,7 @@
           <squad-date-and-quarter></squad-date-and-quarter>
           <squad-team-list></squad-team-list>
           <squad-input-position></squad-input-position>
+
           <v-row>
             <v-col>
               <v-btn @click="save" color="primary">저장</v-btn>
