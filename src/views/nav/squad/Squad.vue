@@ -180,7 +180,7 @@
         </v-row>
       </v-card-text>
       <v-card-actions class="justify-end">
-        <v-btn click="save" color="primary">저장</v-btn>
+        <v-btn @click="save" color="primary">저장</v-btn>
       </v-card-actions>
     </v-card>
     <util-snack-bar :purpose="snackBarPurpose" :message="snackBarMessage" />
@@ -200,10 +200,10 @@ const {
   mapActions: scheduleMapActions
 } = createNamespacedHelpers("calendar");
 
-import dummy from "../../assets/value/dummy.json";
+import dummy from "../../../assets/value/dummy.json";
 
-import regex from "../../mixin/regex.js";
-import util from "../../mixin/util.js";
+import regex from "../../../mixin/regex.js";
+import util from "../../../mixin/util.js";
 
 export default {
   name: "Attendance.vue",
@@ -312,6 +312,9 @@ export default {
     },
     save() {
       console.log("저장");
+      this.$router.push({
+        name: "matchPrepare"
+      });
     },
     setDate(item) {
       this.setYear = moment(item.date).format("YYYY");

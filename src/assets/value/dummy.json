@@ -10,43 +10,56 @@
       "stadium_name": "풀굿 FC 풋살장(봉천)",
       "address": "서울 관악구 은천로 86 두산아파트",
       "attend_list": [{
-        "name": "이화인",
-        "id": 1
-      }, {
-        "name": "류새아라",
-        "id": null
-      }, {
-        "name": "조명선",
-        "id": 3
-      }, {
-        "name": "장한솔",
-        "id": 4
-      }, {
-        "name": "김민지",
-        "id": 5
-      }, {
-        "name": "백주희",
-        "id": 6
-      }, {
-        "name": "박아란",
-        "id": 7
-      }, {
-        "name": "김나경",
-        "id": 8
-      }, {
-        "name": "박채민",
-        "id": 9
-      }, {
-        "name": "최주희",
-        "id": 10
-      }, {
-        "name": "고지원",
-        "id": 11
-      }, {
-        "name": "박채민",
-        "id": 12
-      }]
-    }, {
+          "name": "이화인",
+          "id": 1
+        },
+        {
+          "name": "류새아라",
+          "id": null
+        },
+        {
+          "name": "조명선",
+          "id": 3
+        },
+        {
+          "name": "장한솔",
+          "id": 4
+        },
+        {
+          "name": "김민지",
+          "id": 5
+        },
+        {
+          "name": "백주희",
+          "id": 6
+        },
+        {
+          "name": "박아란",
+          "id": 7
+        },
+        {
+          "name": "김나경",
+          "id": 8
+        },
+        {
+          "name": "박채민",
+          "id": 9
+        },
+        {
+          "name": "최주희",
+          "id": 10
+        },
+        {
+          "name": "고지원",
+          "id": 11
+        },
+        {
+          "name": "박채민",
+          "id": 12
+        }
+      ]
+    },
+    {
       "id": null,
       "date": "2020-01-06",
       "type": "P",
@@ -57,31 +70,40 @@
       "stadium_name": "잠실 제 2구장",
       "address": "서울 송파구 올림픽로 25 잠실종합운동장 제2풋살장",
       "attend_list": [{
-        "name": "이화인",
-        "id": 1
-      }, {
-        "name": "류새아라",
-        "id": 2
-      }, {
-        "name": "조명선",
-        "id": 3
-      }, {
-        "name": "장한솔",
-        "id": 4
-      }, {
-        "name": "김민지",
-        "id": 5
-      }, {
-        "name": "백주희",
-        "id": 6
-      }, {
-        "name": "박아란",
-        "id": 7
-      }, {
-        "name": "김나경",
-        "id": 8
-      }]
-    }, {
+          "name": "이화인",
+          "id": 1
+        },
+        {
+          "name": "류새아라",
+          "id": 2
+        },
+        {
+          "name": "조명선",
+          "id": 3
+        },
+        {
+          "name": "장한솔",
+          "id": 4
+        },
+        {
+          "name": "김민지",
+          "id": 5
+        },
+        {
+          "name": "백주희",
+          "id": 6
+        },
+        {
+          "name": "박아란",
+          "id": 7
+        },
+        {
+          "name": "김나경",
+          "id": 8
+        }
+      ]
+    },
+    {
       "id": 3,
       "date": "2020-01-13",
       "type": "M",
@@ -92,34 +114,44 @@
       "stadium_name": "잠실 제 3구장",
       "address": "서울 송파구 올림픽로 25 잠실종합운동장 제3풋살장",
       "attend_list": [{
-        "name": "이화인",
-        "id": 1
-      }, {
-        "name": "류새아라",
-        "id": 2
-      }, {
-        "name": "조명선",
-        "id": 3
-      }, {
-        "name": "백주희",
-        "id": 6
-      }, {
-        "name": "박아란",
-        "id": 7
-      }, {
-        "name": "김나경",
-        "id": 8
-      }, {
-        "name": "최주희",
-        "id": 10
-      }, {
-        "name": "고지원",
-        "id": 11
-      }, {
-        "name": "박채민",
-        "id": 12
-      }]
-    }, {
+          "name": "이화인",
+          "id": 1
+        },
+        {
+          "name": "류새아라",
+          "id": 2
+        },
+        {
+          "name": "조명선",
+          "id": 3
+        },
+        {
+          "name": "백주희",
+          "id": 6
+        },
+        {
+          "name": "박아란",
+          "id": 7
+        },
+        {
+          "name": "김나경",
+          "id": 8
+        },
+        {
+          "name": "최주희",
+          "id": 10
+        },
+        {
+          "name": "고지원",
+          "id": 11
+        },
+        {
+          "name": "박채민",
+          "id": 12
+        }
+      ]
+    },
+    {
       "id": 4,
       "date": "2020-01-20",
       "type": "P",
@@ -130,27 +162,34 @@
       "stadium_name": "풀굿 FC 풋살장(봉천)",
       "address": "서울 관악구 은천로 86 두산아파트",
       "attend_list": [{
-        "name": "이화인",
-        "id": 1
-      }, {
-        "name": "류새아라",
-        "id": 2
-      }, {
-        "name": "조명선",
-        "id": 3
-      }, {
-        "name": "장한솔",
-        "id": 4
-      }, {
-        "name": "김민지",
-        "id": 5
-      }, {
-        "name": "백주희",
-        "id": 6
-      }, {
-        "name": "박아란",
-        "id": 7
-      }]
+          "name": "이화인",
+          "id": 1
+        },
+        {
+          "name": "류새아라",
+          "id": 2
+        },
+        {
+          "name": "조명선",
+          "id": 3
+        },
+        {
+          "name": "장한솔",
+          "id": 4
+        },
+        {
+          "name": "김민지",
+          "id": 5
+        },
+        {
+          "name": "백주희",
+          "id": 6
+        },
+        {
+          "name": "박아란",
+          "id": 7
+        }
+      ]
     },
     {
       "id": 5,
@@ -163,46 +202,287 @@
       "stadium_name": "로꼬아레나(구디)",
       "address": "서울 영등포구 시흥대로 675 삼성YJ그랜드빌딩 지하1층",
       "attend_list": [{
-        "name": "이화인",
-        "id": 1,
-        "color": "grey",
-        "teamNumber": null
-      }, {
-        "name": "류새아라",
-        "id": 2,
-        "color": "grey",
-        "teamNumber": null
-      }, {
-        "name": "조명선",
-        "id": 3,
-        "color": "grey",
-        "teamNumber": null
-      }, {
-        "name": "장한솔",
-        "id": 4,
-        "color": "grey",
-        "teamNumber": null
-      }, {
-        "name": "백주희",
-        "id": 6,
-        "color": "grey",
-        "teamNumber": null
-      }, {
-        "name": "박아란",
-        "id": 7,
-        "color": "grey",
-        "teamNumber": null
-      }, {
-        "name": "최주희",
-        "id": 10,
-        "color": "grey",
-        "teamNumber": null
-      }, {
-        "name": "이종은",
-        "id": 14,
-        "color": "grey",
-        "teamNumber": null
-      }]
+          "name": "이화인",
+          "id": 1,
+          "color": "grey",
+          "teamNumber": null
+        },
+        {
+          "name": "류새아라",
+          "id": 2,
+          "color": "grey",
+          "teamNumber": null
+        },
+        {
+          "name": "조명선",
+          "id": 3,
+          "color": "grey",
+          "teamNumber": null
+        },
+        {
+          "name": "장한솔",
+          "id": 4,
+          "color": "grey",
+          "teamNumber": null
+        },
+        {
+          "name": "백주희",
+          "id": 6,
+          "color": "grey",
+          "teamNumber": null
+        },
+        {
+          "name": "박아란",
+          "id": 7,
+          "color": "grey",
+          "teamNumber": null
+        },
+        {
+          "name": "최주희",
+          "id": 10,
+          "color": "grey",
+          "teamNumber": null
+        },
+        {
+          "name": "이종은",
+          "id": 14,
+          "color": "grey",
+          "teamNumber": null
+        }
+      ]
     }
-  ]
+  ],
+  "match_homeTeam": [{
+      "name": "이화인",
+      "id": 1,
+      "position": null,
+      "team": "A"
+    },
+    {
+      "name": "류새아라",
+      "id": 2,
+      "position": null,
+      "team": "A"
+    },
+    {
+      "name": "조명선",
+      "id": 3,
+      "position": null,
+      "team": "B"
+    },
+    {
+      "name": "장한솔",
+      "id": 4,
+      "position": null,
+      "team": "A"
+    },
+    {
+      "name": "백주희",
+      "id": 6,
+      "position": null,
+      "team": "A"
+    },
+    {
+      "name": "박아란",
+      "id": 7,
+      "position": null,
+      "team": "A"
+    },
+    {
+      "name": "박채민",
+      "id": 8,
+      "position": null,
+      "team": "B"
+    },
+    {
+      "name": "김나경",
+      "id": 9,
+      "position": null,
+      "team": "B"
+    },
+    {
+      "name": "최주희",
+      "id": 10,
+      "position": null,
+      "team": "B"
+    },
+    {
+      "name": "이종은",
+      "id": 14,
+      "position": null,
+      "team": "B"
+    }
+  ],
+
+  "firstDivideTeam": {
+    "A": {
+      "team": "A",
+      "items": [{
+          "name": "이화인",
+          "id": 1,
+          "position": null,
+          "team": "A"
+        },
+        {
+          "name": "류새아라",
+          "id": 2,
+          "position": null,
+          "team": "A"
+        },
+        {
+          "name": "백주희",
+          "id": 6,
+          "position": null,
+          "team": "A"
+        },
+        {
+          "name": "박채민",
+          "id": 8,
+          "position": null,
+          "team": "B"
+        },
+        {
+          "name": "박아란",
+          "id": 7,
+          "position": null,
+          "team": "A"
+        },
+        {
+          "name": "박소연",
+          "id": 11,
+          "position": null,
+          "team": "A"
+        }
+      ]
+    },
+    "B": {
+      "team": "B",
+      "items": [{
+          "name": "조명선",
+          "id": 3,
+          "position": null,
+          "team": "B"
+        },
+        {
+          "name": "장한솔",
+          "id": 4,
+          "position": null,
+          "team": "B"
+        },
+        {
+          "name": "김나경",
+          "id": 9,
+          "position": null,
+          "team": "B"
+        },
+        {
+          "name": "최주희",
+          "id": 10,
+          "position": null,
+          "team": "B"
+        },
+        {
+          "name": "이종은",
+          "id": 14,
+          "position": null,
+          "team": "B"
+        },
+        {
+          "name": "이선경",
+          "id": 12,
+          "position": null,
+          "team": "B"
+        }
+      ]
+    },
+    "C": {
+      "team": "C",
+      "items": [{
+          "name": "남영은",
+          "id": 17,
+          "position": null,
+          "team": "C"
+        },
+        {
+          "name": "김철",
+          "id": 18,
+          "position": null,
+          "team": "C"
+        },
+        {
+          "name": "오수영",
+          "id": 19,
+          "position": null,
+          "team": "C"
+        },
+        {
+          "name": "김상중",
+          "id": 20,
+          "position": null,
+          "team": "C"
+        },
+        {
+          "name": "정광근",
+          "id": 21,
+          "position": null,
+          "team": "C"
+        },
+        {
+          "name": "이준화",
+          "id": 22,
+          "position": null,
+          "team": "C"
+        },
+        {
+          "name": "이종현",
+          "id": 23,
+          "position": null,
+          "team": "C"
+        }
+      ]
+    }
+  },
+  "teamList": [{
+    "id": "1",
+    "date": "2020-04-05",
+    "number": 1,
+    "count": 2,
+    "memberList": ["주희", "화인", "종은"]
+  }, {
+    "id": "2",
+    "date": "2020-04-05",
+    "number": 2,
+    "count": 3,
+    "memberList": ["채민", "나경", "종은"]
+  }, {
+    "id": "3",
+    "date": "2020-04-05",
+    "number": 3,
+    "count": 3,
+    "memberList": ["나경", "화인", "주희", "종은", "아란"]
+  }, {
+    "id": "4",
+    "date": "2020-04-05",
+    "number": 4,
+    "count": 3,
+    "memberList": ["한솔", "화인", "주희", "아란", "채민", "소연"]
+  }, {
+    "id": "5",
+    "date": "2020-04-05",
+    "number": 5,
+    "count": 2,
+    "memberList": ["나경", "주희", "아란"]
+  }, {
+    "id": "6",
+    "date": "2020-04-05",
+    "number": 6,
+    "count": 3,
+    "memberList": ["나경", "채민", "채린", "종은"]
+  }, {
+    "id": "7",
+    "date": "2020-04-05",
+    "number": 7,
+    "count": 3,
+    "memberList": ["나경", "아라", "아란", "주희", "종은"]
+  }]
 }

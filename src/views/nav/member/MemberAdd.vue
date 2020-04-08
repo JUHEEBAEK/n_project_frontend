@@ -9,7 +9,7 @@
               width="80"
               height="80"
               class="img__top"
-              src="../../assets/linear/light/user.png"
+              src="../../../assets/linear/light/user.png"
             />
           </v-col>
         </v-row>
@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import util from "../../mixin/util.js";
+import util from "../../../mixin/util.js";
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: memberMapState,

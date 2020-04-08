@@ -32,18 +32,18 @@ export default new Router({
     // navigation view
     {
       path: "/member",
-      component: () => import("../views/nav/Member.vue"),
+      component: () => import("../views/nav/member/Member.vue"),
     },
     {
       name: "memberUpdatePage",
       path: "/member/:memberId",
-      component: () => import("../views/nav/Profile.vue"),
+      component: () => import("../views/nav/member/Profile.vue"),
       props: true
     },
     {
       path: "/memberAdd",
       name: "memberAdd",
-      component: () => import("../views/nav/MemberAdd.vue")
+      component: () => import("../views/nav/member/MemberAdd.vue")
     },
     {
       path: "/calendar",
@@ -53,9 +53,13 @@ export default new Router({
     {
       path: "/squad",
       name: "squadInput",
-      component: () => import("../views/nav/Squad.vue")
+      component: () => import("../views/nav/squad/Squad.vue")
     },
-    
+    {
+      path: "/matchPrepare",
+      name: "matchPrepare",
+      component: () => import("../views/nav/squad/MatchPrepare.vue")
+    },
     {
       path: "/testUi",
       component: () => import("../views/testui/testUi.vue")

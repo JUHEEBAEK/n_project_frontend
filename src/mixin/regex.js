@@ -3,18 +3,6 @@ const regex = {
   // 화살표 함수 사용 시 this.checkEmailValidate 의 this 가 무엇인지 생각해보면 알 수 있다.
   data() {
     return {
-      clubTeamNameRules: [
-        v => !!v || "name is required",
-        v => (v && v.length <= 25) || "Name must be less than 25 characters"
-      ],
-      // true 면 club Full Name 사용가능, false 면 사용 불가 ( 중복 된 클럽 Name )
-      clubFullNameValidate: true,
-      // club 의 full Name 의 경우에는 중복이 되면 안 된다
-      clubFullNameRules: [
-        v => !!v || "name is required",
-        v => (v && v.length <= 25) || "Name must be less than 25 characters",
-        v => this.checkClubNameValidate(v) || "club name duplicated"
-      ],
       /* true 면 start date 가 end date 보다 앞선 날짜인 상태 ( vice versa )
          dateDiffRules 와 함께 볼 것*/
       dateDiffValidate: true,
@@ -46,6 +34,16 @@ const regex = {
         v => !!v || "Identify password is required",
         v => this.checkPwdValidate(v) || "Password Incorrect"
       ],
+      mobileRules: [
+        v => /^\d{3}-\d{3,4}-\d{4}$/.test(v) || "ex) 010-1234-5678"
+      ],
+      nameRules: [
+        v => !!v || "name is required",
+        v => (v && v.length <= 50) || "Name must be less than 50 characters"
+      ],
+      positionDuplicateRules: [
+        v => this.checkedDuplicatePostion(v) || "This player is duplicated"
+      ],
       pwdRules: [
         v => !!v || "password is required"
         // ,
@@ -55,17 +53,14 @@ const regex = {
         //     v
         //   ) || "Invalid Password format"
       ],
-      mobileRules: [
-        v => /^\d{3}-\d{3,4}-\d{4}$/.test(v) || "ex) 010-1234-5678"
-      ],
-      nameRules: [
-        v => !!v || "name is required",
-        v => (v && v.length <= 50) || "Name must be less than 50 characters"
-      ],
       userTypeRules: [v => !!v || "Type is required"]
     };
   },
-
+  methods: {
+    checkedDuplicatePostion: function() {
+      //구현 필요 interface
+    },
+  }
 }
 
 export default regex;

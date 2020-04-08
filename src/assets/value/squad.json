@@ -1,0 +1,19 @@
+{
+  "teamListHeader": [{
+      "text": "날짜",
+      "value": "date"
+    },
+    {
+      "text": "번호",
+      "value": "number"
+    },
+    {
+      "text": "팀 수",
+      "value": "count"
+    },
+    {
+      "text": "A팀",
+      "value": "memberList"
+    }
+  ]
+}

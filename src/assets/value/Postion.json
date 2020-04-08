@@ -1,0 +1,36 @@
+{
+  "list": ["LW", "FW", "RW", "LCM", "CM", "RCM", "LCB", "CB", "RCB", "", "G", ""],
+  "benchList": ["bench1", "bench2", "bench3"],
+  "basicPostion": {
+    "Home": {
+      "LW": "",
+      "FW": "",
+      "RW": "",
+      "LCM": "",
+      "CM": "",
+      "RCM": "",
+      "LCB": "",
+      "CB": "",
+      "RCB": "",
+      "G": "",
+      "bench1": "",
+      "bench2": "",
+      "bench3": ""
+    },
+    "Away": {
+      "LW": "",
+      "FW": "",
+      "RW": "",
+      "LCM": "",
+      "CM": "",
+      "RCM": "",
+      "LCB": "",
+      "CB": "",
+      "RCB": "",
+      "G": "",
+      "bench1": "",
+      "bench2": "",
+      "bench3": ""
+    }
+  }
+}
