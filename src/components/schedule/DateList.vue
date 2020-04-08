@@ -42,21 +42,20 @@
 <script>
 import moment from "moment";
 import { createNamespacedHelpers } from "vuex";
+const {
+  mapState: calendarMapState,
+} = createNamespacedHelpers("calendar");
 
 export default {
-  async created() {},
-  data: () => ({
-    month: null,
-    slide_index: null
-  }),
+  filters: {
+    setMomentMonth: function(val) {
+      return moment(val).format("MMM");
+    }
+  },
   props: {
     scheduleList: {
       type: Array,
       default: null
-    },
-    scheduleIndex: {
-      type: Number,
-      default: 0
     },
     setYear: {
       type: Number,
@@ -67,12 +66,13 @@ export default {
       default: null
     }
   },
-  filters: {
-    setMomentMonth: function(val) {
-      return moment(val).format("MMM");
-    }
-  },
-
+  data: () => ({
+    month: null,
+    slide_index: null
+  }),
+  computed: {
+    ...calendarMapState(["scheduleIndex"]),    
+  },  
   watch: {
     scheduleIndex: function(val) {
       this.slide_index = this.scheduleIndex;
@@ -86,6 +86,10 @@ export default {
       }
     }
   },
+  async created() {
+    // 연동 필수
+    this.slide_index = this.scheduleIndex
+  },  
   methods: {
     setScheduleInfo(item) {
       this.$emit("changeDate", item);
