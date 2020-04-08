@@ -9,11 +9,22 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from "vuex";
+const {
+  mapState: squadState,
+  mapActions: squadActions,
+} = createNamespacedHelpers("squad");
 export default {
+  
   data: () => ({
-    teamSplitList: [1, 2, 3, 4, 5],
-    temaSplitSelcted: 1
   }),
+  
+  computed: {
+    ...squadState(["teamSplitList", "temaSplitSelcted"]),
+  },
+  async created() {
+    // teamSplitList를 초기화가 TeamSplit에서 호출이 되어야한다
+  },
   methods: {
     // 팀 Split이 몇개 있는지 받아야한다 props로 받는게 제일 좋을지도
     teamSplit_chnaged() {

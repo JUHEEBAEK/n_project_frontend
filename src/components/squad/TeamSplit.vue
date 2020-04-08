@@ -125,7 +125,7 @@
         </v-row>
       </v-card-text>
       <v-card-actions class="justify-end">
-        <v-btn click="save" color="primary">저장</v-btn>
+        <v-btn @click="save" color="primary">저장</v-btn>
       </v-card-actions>
     </v-card>
 </template>
@@ -140,6 +140,10 @@ const {
   mapMutations: calendarMapMutations,
   mapActions: calendarMapActions
 } = createNamespacedHelpers("calendar");
+const {
+  mapState: squadState,
+  mapActions: squadActions,
+} = createNamespacedHelpers("squad");
 export default {
   data:()=>({
     teamCount: 0,
@@ -151,8 +155,9 @@ export default {
     memberCount: 0,
   }),
   computed: {
-    ...calendarMapState(["attendMember", "scheduleIndex"]),
-    ...commonState(["colorIndex"])
+    ...calendarMapState(["attendMember", "scheduleIndex", "scheduleList"]),
+    ...commonState(["colorIndex"]),
+    ...squadState(["temaSplitSelcted"]),
   },
   watch: {
     attendMember(val){
@@ -160,7 +165,8 @@ export default {
     },
   },
   methods: {
-    
+    ...squadActions(["saveTeamSplit"]),
+    ...calendarMapMutations(["FILL_TEAM_NUMBER"]),
     setTeamCount(count) {
       this.teamCount = Number(count);
     },
@@ -216,19 +222,17 @@ export default {
         this.selectedJoker = true;
       }
     },
-      save() {
+    save() {
       console.log("저장");
-      // Plan A
-      // 1. 기존에 있던 sqaud를 가져온다
-      // 2. 없으면 추가하고 많으면 없앤다
+      this.FILL_TEAM_NUMBER();
 
-      // 3. squadmember에서 attend변경이 될 때 영향을 받지 않아서
-      // 새로 추가되거나 없어지는 사람들은 정리를 해줘야한다.
-      // 3. squadmember들은 그냥 싹 없데이트 해주면 된다
-
-      // Plan B
-      // 1. 기존에 있던 squad가 있으면 없애버린다
-      // 2. 그리고 새로 커밋을 다 해버린다
+      let payload = {
+        "team_split_index": this.temaSplitSelcted,
+        "selected_schedule_id": this.scheduleList[this.scheduleIndex].id,
+        "team_split_data": this.attendMember        
+      }
+      this.saveTeamSplit(payload)
+      
     },
   }    
 };

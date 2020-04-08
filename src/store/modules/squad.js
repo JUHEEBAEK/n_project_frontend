@@ -1,8 +1,19 @@
+import {
+    createTeamSplit,
+    getTeamSplitList,
+    getInfo,
+    deleteTeamSplit,
+    updateTeamSplit,
+    bulkCreateOrUpdate
+  } from "../../api/teamSplit.js";
+
 const state = {
     team_division: {
         teams: [],
         jocker_player: null
-    }
+    },
+    teamSplitList: [1, 2, 3, 4, 5],
+    temaSplitSelcted: 1,
 };
 
 const mutations = {
@@ -48,10 +59,24 @@ const mutations = {
             return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
         }
     },
+    
 };
 
 const actions = {
-
+    async saveTeamSplit(context, payload){
+        console.log('saveTeamSplit Action', payload);
+        try {
+            const response = await bulkCreateOrUpdate(payload);
+            return response.data;
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    async getTeamList(context, payload){
+        // payload에는 schedule_id가 있으면 될듯하다
+        console.log("getTeamList", payload)
+    },
+    
 };
 
 export default {

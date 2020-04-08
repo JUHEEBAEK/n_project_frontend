@@ -102,6 +102,16 @@ const mutations = {
   },
   SET_SCHEDULE_INDEX(state, index){
     state.scheduleIndex = index
+  },
+  FILL_TEAM_NUMBER(state){
+     // null 인 teamnumber을 -1로 바꿈
+     // 더 좋은 함수명이 있으면 고쳐야됨 
+    for (let i in state.attendMember){
+      let member = state.attendMember[i]
+      if (member["teamNumber"] == null){
+        state.attendMember[i] = -1
+      }
+    }
   }
 };
 
