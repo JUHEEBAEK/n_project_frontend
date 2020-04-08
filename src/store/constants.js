@@ -18,3 +18,12 @@ export const DETAILS_MEMBER = "DETAILS_MEMBER";
 export const SELECT_STADIUM = "SELECT_STADIUM";
 
 export const get_schedule_info = "GET_SCHEDULE_INFO"
+
+// prepareMatch 부분
+export const setDate = "SET_DATE";
+export const setHomeTeam = "SET_HOME_TEAM";
+export const setAwayTeam = "SET_AWAY_TEAM";
+export const setIsHome = "SET_IS_HOME";
+export const setType = "SET_TYPE";
+
+

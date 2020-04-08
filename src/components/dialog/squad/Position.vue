@@ -46,7 +46,6 @@ export default {
   }),
   methods: {
     clickMember(member) {
-      console.log("click");
       this.isActive = member.id;
       member.position = this.selectPosition;
       this.$emit("savaPosition", member);
