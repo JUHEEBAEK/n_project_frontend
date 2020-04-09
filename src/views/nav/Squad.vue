@@ -42,13 +42,16 @@ import { createNamespacedHelpers } from "vuex";
 const { mapState, mapActions } = createNamespacedHelpers("attend");
 const {
   mapState: commonState,
-  mapMutations: commonapMutaions
+  mapMutations: commonMapMutaions
 } = createNamespacedHelpers("common");
 const {
   mapState: calendarMapState,
   mapMutations: calendarMapMutations,
   mapActions: calendarMapActions
 } = createNamespacedHelpers("calendar");
+const {
+  mapActions: squadActions
+} = createNamespacedHelpers("squad");
 
 import regex from "../../mixin/regex.js";
 import util from "../../mixin/util.js";
@@ -78,25 +81,25 @@ export default {
     ...calendarMapState(["scheduleIndex", "scheduleList"]),
     
   },
-  watch: {
-    scheduleIndex: async function(val) {
-      if (val) {
-        this.setScheduleData(this.scheduleList[this.scheduleIndex]);
-        // 그중에 출석한 사람들 업데이트 해주기
-      }
-    }
-  },
+ 
   methods: {
     ...calendarMapMutations(["SET_ATTEND_MEMBER", "SET_SCHEDULE_INDEX"]),
     ...calendarMapActions(["select_schedule", "load_member"]),
     ...mapActions(["get_attendance"]),
-
+    ...squadActions(['getSplitTeamListWithSchedule']),
     
+
     async setScheduleData(selected_schedule) {
-      // 업데이트 받기
-      console.log("setScheduleData", selected_schedule);
+      if (this.scheduleIndex == -1) return;
+      
+      // db에서 불러오는 부분
+      await this.getSplitTeamListWithSchedule(selected_schedule.id);
       await this.load_member(selected_schedule.id);
 
+      this.setLocalVariable(selected_schedule)
+    },
+
+    setLocalVariable(selected_schedule){
       this.setYear = moment(selected_schedule.date).format("YYYY");
       this.setMonth = moment(selected_schedule.date).format("MMMM");
       this.setDay = moment(selected_schedule.date).format("DD");
@@ -107,7 +110,6 @@ export default {
       this.scheduleAddress = selected_schedule.address;
       this.scheduleStadium = selected_schedule.stadium_name;
       let attend_member_list = [];
-
       // 만약에 color나 teamNumber에 대한 정보가 있으면 그걸 불러오는게 좋을거 같은데
       for (let i in selected_schedule.member_id_list) {
         let attend_member = {
@@ -118,9 +120,8 @@ export default {
         };
         attend_member_list.push(attend_member);
       }
-
       this.SET_ATTEND_MEMBER(attend_member_list);
-    },
+    }
     
     
   }
