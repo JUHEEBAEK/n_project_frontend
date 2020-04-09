@@ -122,7 +122,7 @@ export default {
         let member_id = selected_schedule.member_id_list[i]
         let color = "grey"
         let teamNumber = null
-        if (splitTeamInfo[member_id]){
+        if (splitTeamInfo && splitTeamInfo[member_id]){
             teamNumber = splitTeamInfo[member_id]["team_number"]
             color = this.colorIndex[teamNumber]
         }
