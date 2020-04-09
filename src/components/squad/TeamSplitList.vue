@@ -1,9 +1,10 @@
 <template>
   <v-card class="py-2">
-    <v-card-title>팀 나눔 목록</v-card-title>
+    <v-card-title>팀 나누기 목록</v-card-title>
     <v-card-text>
       <v-select v-model="temaSplitSelcted" :items="teamSplitList" />
-      <v-btn dark color="red" outlined large>선택한 팀 목록 삭제</v-btn>
+      <v-btn dark color="blue" @click="makeNewSplitTeam" outlined large>새로운 팀 나누기 </v-btn>
+      <v-btn dark color="red" outlined large>선택한 팀 나누기 삭제</v-btn>
     </v-card-text>
   </v-card>
 </template>
@@ -12,8 +13,12 @@
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: squadState,
+  mapMutations: squadMutations,
   mapActions: squadActions,
 } = createNamespacedHelpers("squad");
+const {
+  mapMutations: calendarMutations,
+} = createNamespacedHelpers("calendar");
 export default {
   
   data: () => ({
@@ -22,17 +27,16 @@ export default {
   computed: {
     ...squadState(["teamSplitList", "temaSplitSelcted"]),
   },
-  async created() {
-    // teamSplitList를 초기화가 TeamSplit에서 호출이 되어야한다
-  },
   methods: {
-    // 팀 Split이 몇개 있는지 받아야한다 props로 받는게 제일 좋을지도
-    teamSplit_chnaged() {
-      // 선택된 팀 index가 바뀌면
-      // db에 있는지 확인하고 있으면 불러준다
-      // 없으면 default를 세팅해준다
+    ...squadMutations(["MAKE_NEW_TEAM_SPLIT"]),
+    ...calendarMutations(["INITIALIZE_ATTEND_MEMBER"]),
+    makeNewSplitTeam(){
+      this.MAKE_NEW_TEAM_SPLIT()
+      this.INITIALIZE_ATTEND_MEMBER()
+    },
     }
-  }
+  },
+  
 };
 </script>
 

@@ -62,6 +62,22 @@ const mutations = {
             return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
         }
     },
+    MAKE_NEW_TEAM_SPLIT(state){
+        let new_index = 0
+        for (let i = 1; i <= 10; i++){
+            if (state.splitTeam && state.splitTeam[i]){
+                continue
+            }else{
+                new_index = i
+                break
+            }
+        }
+        if (new_index !=0){
+            state.teamSplitList.push(new_index)
+            state.teamSplitList.sort()
+            state.temaSplitSelcted = new_index
+        }
+    },
     SET_SPLIT_TEAM(state, splitTeamList){
         state.splitTeam = {}
         // team_split_index 별로 나눈다음에
@@ -78,12 +94,15 @@ const mutations = {
     SET_TEAM_SPLIT_LIST(state){
         if (state.splitTeam){
             state.teamSplitList = Object.keys(state.splitTeam)
-        }
-        
+        }else{
+            state.teamSplitList = [1]
+        }        
     },
     SET_TEAM_SPLIT_SELECTED(state){
         if (state.teamSplitList) {
             state.temaSplitSelcted = state.teamSplitList[0]
+        }else{
+            state.temaSplitSelcted = 1
         }
     }
 };

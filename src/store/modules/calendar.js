@@ -100,6 +100,12 @@ const mutations = {
     console.log("SET_ATTEND_MEMBER", attendMember)
     state.attendMember = attendMember;
   },
+  INITIALIZE_ATTEND_MEMBER(state){
+    for (let i in state.attendMember){
+      state.attendMember[i].color = "grey"
+      state.attendMember[i].teamNumber = null
+    }
+  },
   SET_SCHEDULE_INDEX(state, index){
     state.scheduleIndex = index
   },
