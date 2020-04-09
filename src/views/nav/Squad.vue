@@ -50,6 +50,7 @@ const {
   mapActions: calendarMapActions
 } = createNamespacedHelpers("calendar");
 const {
+  mapState: squadState,
   mapActions: squadActions
 } = createNamespacedHelpers("squad");
 
@@ -79,6 +80,8 @@ export default {
   computed: {
     ...mapState(["attendance"]),
     ...calendarMapState(["scheduleIndex", "scheduleList"]),
+    ...squadState(['splitTeam', 'temaSplitSelcted']),
+    ...commonState(['colorIndex']),
     
   },
  
@@ -111,13 +114,26 @@ export default {
       this.scheduleStadium = selected_schedule.stadium_name;
       let attend_member_list = [];
       // 만약에 color나 teamNumber에 대한 정보가 있으면 그걸 불러오는게 좋을거 같은데
+      let splitTeamInfo = this.splitTeam[this.temaSplitSelcted]
+      
       for (let i in selected_schedule.member_id_list) {
+        
+        let member_name = selected_schedule.memeber_name_list[i]
+        let member_id = selected_schedule.member_id_list[i]
+        let color = "grey"
+        let teamNumber = null
+        if (splitTeamInfo[member_id]){
+            teamNumber = splitTeamInfo[member_id]["team_number"]
+            color = this.colorIndex[teamNumber]
+        }
+
         let attend_member = {
-          name: selected_schedule.memeber_name_list[i],
-          id: selected_schedule.member_id_list[i],
-          color: "grey",
-          teamNumber: null
+          name: member_name,
+          id: member_id,
+          color: color,
+          teamNumber: teamNumber
         };
+        console.log(attend_member)
         attend_member_list.push(attend_member);
       }
       this.SET_ATTEND_MEMBER(attend_member_list);
