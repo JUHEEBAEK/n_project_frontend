@@ -100,6 +100,31 @@ const mutations = {
     console.log("SET_ATTEND_MEMBER", attendMember)
     state.attendMember = attendMember;
   },
+  CHANGED_TEAM_OF_ATTEND_MEMEBER(state, team_division){
+    // colorIndex를 common에서 가져오는게 좋다
+    let colorIndex = ["#000","#ccda11", "#da8c11", "#118eda", "#da1175", "#11da76", "#8f11da"]
+    let search_index = {}
+    for (let i in state.attendMember){
+      search_index[state.attendMember[i].id] = Number(i)
+    }
+    for (let i in team_division.teams){
+      let new_team_number = Number(i) + 1
+      for (let j in team_division.teams[i]){
+        let member_id = team_division.teams[i][j]
+        let member_index = search_index[member_id]
+        console.log(member_id, member_index, new_team_number)
+        state.attendMember[member_index].teamNumber = new_team_number
+        state.attendMember[member_index].color = colorIndex[new_team_number]
+      }
+    }
+    if (team_division.jocker_player){
+      let new_team_number = 0
+      let member_id = team_division.jocker_player
+      let member_index = search_index[member_id]
+      state.attendMember[member_index].teamNumber = new_team_number
+      state.attendMember[member_index].color = colorIndex[new_team_number]
+    }
+  },
   INITIALIZE_ATTEND_MEMBER(state){
     for (let i in state.attendMember){
       state.attendMember[i].color = "grey"
@@ -118,7 +143,8 @@ const mutations = {
         state.attendMember[i] = -1
       }
     }
-  }
+  },
+  
 };
 
 const actions = {

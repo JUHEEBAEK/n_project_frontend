@@ -3,7 +3,7 @@
       <v-card-actions class="setting__actions">
         <v-list-item>
           <v-list-item-actions class="px-0">
-            <v-btn dark color="primary" outlined large>팀나누기</v-btn>
+            <v-btn dark color="primary" outlined large @click="autoTeamSplit">팀나누기</v-btn>
           </v-list-item-actions>
 
           <v-list-item-content></v-list-item-content>
@@ -142,6 +142,7 @@ const {
 } = createNamespacedHelpers("calendar");
 const {
   mapState: squadState,
+  mapMutations: squadMapMutations,
   mapActions: squadActions,
 } = createNamespacedHelpers("squad");
 export default {
@@ -157,7 +158,7 @@ export default {
   computed: {
     ...calendarMapState(["attendMember", "scheduleIndex", "scheduleList"]),
     ...commonState(["colorIndex"]),
-    ...squadState(["temaSplitSelcted"]),
+    ...squadState(["temaSplitSelcted", "team_division"]),
   },
   watch: {
     attendMember(val){
@@ -166,7 +167,23 @@ export default {
   },
   methods: {
     ...squadActions(["saveTeamSplit"]),
-    ...calendarMapMutations(["FILL_TEAM_NUMBER"]),
+    ...squadMapMutations(["divide_member_into_team"]),
+    ...calendarMapMutations(["FILL_TEAM_NUMBER", "CHANGED_TEAM_OF_ATTEND_MEMEBER"]),
+    autoTeamSplit(){
+      let attend_member_id_list = []
+      for (let i in this.attendMember){
+        attend_member_id_list.push(Number(this.attendMember[i]["id"]))
+      }
+      
+      let number_team = this.temaSplitSelcted
+      let jocker_exist = jocker_exist
+      this.divide_member_into_team({
+        "attend_member_id_list": attend_member_id_list,
+        "number_team": this.teamCount,
+        "jocker_exist":jocker_exist
+      })
+      this.CHANGED_TEAM_OF_ATTEND_MEMEBER(this.team_division)
+    },
     setTeamCount(count) {
       this.teamCount = Number(count);
     },
