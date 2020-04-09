@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row justify="center">
-      <v-col cols="12" lg="8" class="py-0" align-self="center">
+      <v-col cols="12" lg="10" class="py-0" align-self="center">
         <v-divider />
         <v-sheet v-if="divideTeam !== null">
           <v-slide-group show-arrows>
