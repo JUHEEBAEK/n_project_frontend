@@ -20,13 +20,14 @@
                 <v-list-item-content class="text-left">
                   <v-list-item-title class="pb-4">팀 수</v-list-item-title>
                   <v-list-item-subtitle>
-                    <v-item-group>
+                    <v-item-group mandatory>
                       <v-item
                         v-for="item in attendTeamCount"
                         :key="item"
                         class="group__item"
                         v-slot:default="{ active, toggle }"
                       >
+                      
                         <v-btn
                           :color="active ? 'primary' : ''"
                           fab
@@ -148,7 +149,7 @@ const {
 } = createNamespacedHelpers("squad");
 export default {
   data:()=>({
-    teamCount: 0,
+    teamCount: 2,
     attendTeamCount: [2, 3, 4, 5],
     isJoker: false,
     selectedJoker: false,
