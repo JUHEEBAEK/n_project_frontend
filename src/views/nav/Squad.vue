@@ -61,11 +61,7 @@ import util from "../../mixin/util.js";
 
 export default {
   name: "Attendance.vue",
-  async created() {
-    await this.select_schedule();
-    // 가장 최신걸 선택
-    this.SET_SCHEDULE_INDEX(this.scheduleList.length - 1);
-  },
+  
   mixins: [util, regex],
   data: () => ({
     minCount: null,
@@ -76,7 +72,8 @@ export default {
     setMonth: moment().format("MMMM"),
     setYear: moment().format("YYYY"),
     setDay: moment().format("DD"),
-    
+    memeber_name_list: [],
+    member_id_list: [],
     
   }),
   computed: {
@@ -85,6 +82,17 @@ export default {
     ...squadState(['splitTeam', 'temaSplitSelcted']),
     ...commonState(['colorIndex']),
     
+  },
+  watch: {
+    temaSplitSelcted(val){
+      this.update_attendMember();
+    }
+   
+ },
+  async created() {
+    await this.select_schedule();
+    // 가장 최신걸 선택
+    this.SET_SCHEDULE_INDEX(this.scheduleList.length - 1);
   },
  
   methods: {
@@ -102,6 +110,7 @@ export default {
       await this.load_member(selected_schedule.id);
 
       this.setLocalVariable(selected_schedule)
+      this.update_attendMember()
     },
 
     setLocalVariable(selected_schedule){
@@ -114,14 +123,18 @@ export default {
       this.scheduleEnd = selected_schedule.end;
       this.scheduleAddress = selected_schedule.address;
       this.scheduleStadium = selected_schedule.stadium_name;
+      this.memeber_name_list = selected_schedule.memeber_name_list
+      this.member_id_list = selected_schedule.member_id_list
+    },
+    update_attendMember(){
       let attend_member_list = [];
       // 만약에 color나 teamNumber에 대한 정보가 있으면 그걸 불러오는게 좋을거 같은데
       let splitTeamInfo = this.splitTeam[this.temaSplitSelcted]
       
-      for (let i in selected_schedule.member_id_list) {
+      for (let i in this.memeber_name_list) {
         
-        let member_name = selected_schedule.memeber_name_list[i]
-        let member_id = selected_schedule.member_id_list[i]
+        let member_name = this.memeber_name_list[i]
+        let member_id = this.member_id_list[i]
         let color = "grey"
         let teamNumber = null
         if (splitTeamInfo && splitTeamInfo[member_id]){
@@ -135,11 +148,11 @@ export default {
           color: color,
           teamNumber: teamNumber
         };
-        console.log(attend_member)
+        
         attend_member_list.push(attend_member);
       }
       this.SET_ATTEND_MEMBER(attend_member_list);
-    }
+    },
     
     
   }

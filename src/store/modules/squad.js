@@ -82,6 +82,9 @@ const mutations = {
         }else{
             state.temaSplitSelcted = 1
         }
+    },
+    SET_TEAM_INDEX_CHANGED(state, temaSplitSelcted){
+        state.temaSplitSelcted = temaSplitSelcted
     }
 };
 
