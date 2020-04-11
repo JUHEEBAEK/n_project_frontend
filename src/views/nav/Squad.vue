@@ -1,5 +1,7 @@
 <template>
   <div>
+    <core-Toolbar />
+    <core-navigation />
     <v-sheet elevation="8">
       <div>
         <v-sheet elevation="8">
