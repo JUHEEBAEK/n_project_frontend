@@ -79,12 +79,12 @@ export default {
   computed: {
     ...mapState(["attendance"]),
     ...calendarMapState(["scheduleIndex", "scheduleList"]),
-    ...squadState(['splitTeam', 'temaSplitSelcted']),
+    ...squadState(['splitTeam', 'temaSplitSelected']),
     ...commonState(['colorIndex']),
     
   },
   watch: {
-    temaSplitSelcted(val){
+    temaSplitSelected(val){
       this.update_attendMember();
     }
    
@@ -129,7 +129,7 @@ export default {
     update_attendMember(){
       let attend_member_list = [];
       // 만약에 color나 teamNumber에 대한 정보가 있으면 그걸 불러오는게 좋을거 같은데
-      let splitTeamInfo = this.splitTeam[this.temaSplitSelcted]
+      let splitTeamInfo = this.splitTeam[this.temaSplitSelected]
       
       for (let i in this.memeber_name_list) {
         

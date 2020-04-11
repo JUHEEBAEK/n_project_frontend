@@ -15,7 +15,7 @@ const state = {
         jocker_player: null
     },
     teamSplitList: [1, 2, 3, 4, 5, 6],
-    temaSplitSelcted: 1,
+    temaSplitSelected: 1,
     splitTeam: {},
 };
 
@@ -78,13 +78,13 @@ const mutations = {
     },
     SET_TEAM_SPLIT_SELECTED(state){
         if (state.teamSplitList) {
-            state.temaSplitSelcted = state.teamSplitList[0]
+            state.temaSplitSelected = state.teamSplitList[0]
         }else{
-            state.temaSplitSelcted = 1
+            state.temaSplitSelected = 1
         }
     },
-    SET_TEAM_INDEX_CHANGED(state, temaSplitSelcted){
-        state.temaSplitSelcted = temaSplitSelcted
+    SET_TEAM_INDEX_CHANGED(state, temaSplitSelected){
+        state.temaSplitSelected = temaSplitSelected
     }
 };
 

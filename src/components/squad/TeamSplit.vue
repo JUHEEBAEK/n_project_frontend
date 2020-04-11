@@ -159,7 +159,7 @@ export default {
   computed: {
     ...calendarState(["attendMember", "scheduleIndex", "scheduleList"]),
     ...commonState(["colorIndex"]),
-    ...squadState(["temaSplitSelcted", "team_division"]),
+    ...squadState(["temaSplitSelected", "team_division"]),
   },
   watch: {
     attendMember(val){
@@ -176,7 +176,7 @@ export default {
         attend_member_id_list.push(Number(this.attendMember[i]["id"]))
       }
       
-      let number_team = this.temaSplitSelcted
+      let number_team = this.temaSplitSelected
       let jocker_exist = this.isJoker
       
       this.divide_member_into_team({
@@ -246,7 +246,7 @@ export default {
       this.FILL_TEAM_NUMBER();
 
       let payload = {
-        "team_split_index": this.temaSplitSelcted,
+        "team_split_index": this.temaSplitSelected,
         "selected_schedule_id": this.scheduleList[this.scheduleIndex].id,
         "team_split_data": this.attendMember        
       }
