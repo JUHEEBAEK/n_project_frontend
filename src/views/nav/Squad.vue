@@ -44,7 +44,7 @@ import { createNamespacedHelpers } from "vuex";
 const { mapState, mapActions } = createNamespacedHelpers("attend");
 const {
   mapState: commonState,
-  mapMutations: commonMapMutaions
+  mapMutations: commonMutaions
 } = createNamespacedHelpers("common");
 const {
   mapState: calendarMapState,

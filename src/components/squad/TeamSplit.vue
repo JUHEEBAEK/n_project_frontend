@@ -4,6 +4,7 @@
         <v-list-item>
           <v-list-item-actions class="px-0">
             <v-btn dark color="primary" outlined large @click="autoTeamSplit">팀나누기</v-btn>
+            <v-btn dark color="blue" @click="INITIALIZE_ATTEND_MEMBER" outlined large> 초기화 </v-btn>
           </v-list-item-actions>
 
           <v-list-item-content></v-list-item-content>
@@ -136,13 +137,13 @@ const {
   mapState: commonState,
 } = createNamespacedHelpers("common");
 const {
-  mapState: calendarMapState,
-  mapMutations: calendarMapMutations,
-  mapActions: calendarMapActions
+  mapState: calendarState,
+  mapMutations: calendarMutations,
+  mapActions: calendarActions
 } = createNamespacedHelpers("calendar");
 const {
   mapState: squadState,
-  mapMutations: squadMapMutations,
+  mapMutations: squadMutations,
   mapActions: squadActions,
 } = createNamespacedHelpers("squad");
 export default {
@@ -156,7 +157,7 @@ export default {
     memberCount: 0,
   }),
   computed: {
-    ...calendarMapState(["attendMember", "scheduleIndex", "scheduleList"]),
+    ...calendarState(["attendMember", "scheduleIndex", "scheduleList"]),
     ...commonState(["colorIndex"]),
     ...squadState(["temaSplitSelcted", "team_division"]),
   },
@@ -167,8 +168,8 @@ export default {
   },
   methods: {
     ...squadActions(["saveTeamSplit"]),
-    ...squadMapMutations(["divide_member_into_team"]),
-    ...calendarMapMutations(["FILL_TEAM_NUMBER", "CHANGED_TEAM_OF_ATTEND_MEMEBER"]),
+    ...squadMutations(["divide_member_into_team"]),
+    ...calendarMutations(["FILL_TEAM_NUMBER", "CHANGED_TEAM_OF_ATTEND_MEMEBER", "INITIALIZE_ATTEND_MEMBER"]),
     autoTeamSplit(){
       let attend_member_id_list = []
       for (let i in this.attendMember){
