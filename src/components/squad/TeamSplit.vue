@@ -176,7 +176,8 @@ export default {
       }
       
       let number_team = this.temaSplitSelcted
-      let jocker_exist = jocker_exist
+      let jocker_exist = this.isJoker
+      
       this.divide_member_into_team({
         "attend_member_id_list": attend_member_id_list,
         "number_team": this.teamCount,
