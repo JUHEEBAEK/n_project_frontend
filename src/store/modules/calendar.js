@@ -112,7 +112,6 @@ const mutations = {
       for (let j in team_division.teams[i]){
         let member_id = team_division.teams[i][j]
         let member_index = search_index[member_id]
-        console.log(member_id, member_index, new_team_number)
         state.attendMember[member_index].teamNumber = new_team_number
         state.attendMember[member_index].color = colorIndex[new_team_number]
       }
