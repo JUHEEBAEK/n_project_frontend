@@ -18,7 +18,9 @@ const state = {
   newScheduleBox: false,
   fullScheduleDialog: false,
   scheduleList: [],
-  scheduleInfo: {}
+  scheduleInfo: {},
+  attendMember: [],
+  scheduleIndex: null,
 };
 
 const mutations = {
@@ -63,10 +65,10 @@ const mutations = {
       return false;
     }
     let memeber_name_list = [];
-    let memeber_id_list = [];
+    let member_id_list = [];
     let member_count = memberList.length;
     for (let i in memberList) {
-      memeber_id_list.push(memberList[i]["member_id"]);
+      member_id_list.push(memberList[i]["member_id"]);
       memeber_name_list.push(memberList[i]["name"]);
     }
 
@@ -86,7 +88,7 @@ const mutations = {
     }
     let item = state.scheduleList[index];
     item["attendCount"] = member_count;
-    item["memeber_id_list"] = memeber_id_list;
+    item["member_id_list"] = member_id_list;
     item["memeber_name_list"] = memeber_name_list;
 
     state.scheduleList[index] = item;
@@ -94,6 +96,54 @@ const mutations = {
   [constants.get_schedule_info](state, scheduleInfo) {
     state.scheduleInfo = scheduleInfo;
   },
+  SET_ATTEND_MEMBER(state, attendMember){
+    console.log("SET_ATTEND_MEMBER", attendMember)
+    state.attendMember = attendMember;
+  },
+  CHANGED_TEAM_OF_ATTEND_MEMEBER(state, team_division){
+    // colorIndex를 common에서 가져오는게 좋다
+    let colorIndex = ["#000","#ccda11", "#da8c11", "#118eda", "#da1175", "#11da76", "#8f11da"]
+    let search_index = {}
+    for (let i in state.attendMember){
+      search_index[state.attendMember[i].id] = Number(i)
+    }
+    for (let i in team_division.teams){
+      let new_team_number = Number(i) + 1
+      for (let j in team_division.teams[i]){
+        let member_id = team_division.teams[i][j]
+        let member_index = search_index[member_id]
+        state.attendMember[member_index].teamNumber = new_team_number
+        state.attendMember[member_index].color = colorIndex[new_team_number]
+      }
+    }
+    if (team_division.jocker_player){
+      let new_team_number = 0
+      let member_id = team_division.jocker_player
+      let member_index = search_index[member_id]
+      state.attendMember[member_index].teamNumber = new_team_number
+      state.attendMember[member_index].color = colorIndex[new_team_number]
+    }
+  },
+  INITIALIZE_ATTEND_MEMBER(state){
+    for (let i in state.attendMember){
+      state.attendMember[i].color = "grey"
+      state.attendMember[i].teamNumber = null
+    }
+  },
+  SET_SCHEDULE_INDEX(state, index){
+    state.scheduleIndex = index
+  },
+  FILL_TEAM_NUMBER(state){
+     // null 인 teamnumber을 -1로 바꿈
+     // 더 좋은 함수명이 있으면 고쳐야됨 
+    for (let i in state.attendMember){
+      let member = state.attendMember[i]
+      if (member["teamNumber"] == null){
+        state.attendMember[i] = -1
+      }
+    }
+  },
+  
 };
 
 const actions = {

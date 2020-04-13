@@ -10,7 +10,7 @@
           :setYear="setYear"
           :setMonth="setMonth"
           :setDay="setDay"
-          @setDate="setDate"
+          @changeDate="changeDate"
         ></schedule-date-list>
       </v-sheet>
       <v-expand-transition>
@@ -42,8 +42,8 @@ import { createNamespacedHelpers } from "vuex";
 const { mapActions: attendMapActions } = createNamespacedHelpers("attend");
 const { mapActions: memberMapActions } = createNamespacedHelpers("member");
 const {
-  mapState: scheduleMapState,
-  mapActions: scheduleMapActions
+  mapState: calendarMapState,
+  mapActions: calendarMapActions
 } = createNamespacedHelpers("calendar");
 
 export default {
@@ -72,11 +72,16 @@ export default {
     requesting: false
   }),
   computed: {
-    ...scheduleMapState(["scheduleList"])
+    ...calendarMapState(["scheduleList"])
   },
   methods: {
-    ...attendMapActions(["add_attend", "delete_attend", "get_attend_rate"]),
-    ...scheduleMapActions(["select_schedule"]),
+    ...attendMapActions([
+      "add_attend",
+      "delete_attend",
+      "get_attend_rate",
+      "get_attend"
+    ]),
+    ...calendarMapActions(["select_schedule"]),
     ...memberMapActions(["select_member"]),
     async isAttend(item) {
       console.log("this is clicked", item);
@@ -102,7 +107,7 @@ export default {
 
       this.requesting = false;
     },
-    setDate(item) {
+    async changeDate(item) {
       this.cardInfoLoading = true;
 
       this.setYear = moment(item.date).format("YYYY");
@@ -116,6 +121,10 @@ export default {
       this.scheduleStadium = item.stadium_name;
 
       this.cardInfoLoading = false;
+      // 출석률 가져오기
+      await this.get_attend_rate(item.date);
+      // 그중에 출석한 사람들 업데이트 해주기
+      await this.get_attend(item.id);
     },
 
     setFormatMemberList: async function(countMember) {
@@ -124,7 +133,7 @@ export default {
     // 제일 최근의 스케줄을 선택해주는 함수.
     activeSchedule: async function() {
       this.initIndex = this.scheduleList.length - 1;
-      this.setDate(this.scheduleList[this.initIndex]);
+      this.changeDate(this.scheduleList[this.initIndex]);
     }
   }
 };

@@ -42,22 +42,20 @@
 <script>
 import moment from "moment";
 import { createNamespacedHelpers } from "vuex";
-const { mapActions: attendMapActions } = createNamespacedHelpers("attend");
+const {
+  mapState: calendarMapState,
+} = createNamespacedHelpers("calendar");
 
 export default {
-  async created() {},
-  data: () => ({
-    month: null,
-    slide_index: null
-  }),
+  filters: {
+    setMomentMonth: function(val) {
+      return moment(val).format("MMM");
+    }
+  },
   props: {
     scheduleList: {
       type: Array,
       default: null
-    },
-    scheduleIndex: {
-      type: Number,
-      default: 0
     },
     setYear: {
       type: Number,
@@ -68,12 +66,13 @@ export default {
       default: null
     }
   },
-  filters: {
-    setMomentMonth: function(val) {
-      return moment(val).format("MMM");
-    }
-  },
-
+  data: () => ({
+    month: null,
+    slide_index: null
+  }),
+  computed: {
+    ...calendarMapState(["scheduleIndex"]),    
+  },  
   watch: {
     scheduleIndex: function(val) {
       this.slide_index = this.scheduleIndex;
@@ -83,18 +82,17 @@ export default {
       if (val) {
         console.log("slide_index", val);
         let selected_schedule = this.scheduleList[this.slide_index];
-        this.$emit("setDate", selected_schedule);
-        // 출석률 가져오기
-        await this.get_attend_rate(selected_schedule.date);
-        // 그중에 출석한 사람들 업데이트 해주기
-        await this.get_attend(selected_schedule.id);
+        this.$emit("changeDate", selected_schedule);
       }
     }
   },
+  async created() {
+    // 연동 필수
+    this.slide_index = this.scheduleIndex
+  },  
   methods: {
-    ...attendMapActions(["get_attend_rate", "get_attend"]),
     setScheduleInfo(item) {
-      this.$emit("setDate", item);
+      this.$emit("changeDate", item);
     }
   }
 };

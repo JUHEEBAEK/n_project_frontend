@@ -1,8 +1,22 @@
+import {
+    createTeamSplit,
+    getTeamSplitList,
+    getSplitTeamListWithSchedule,
+    getInfo,
+    deleteTeamSplit,
+    updateTeamSplit,
+    bulkCreateOrUpdate,
+
+  } from "../../api/teamSplit.js";
+
 const state = {
     team_division: {
         teams: [],
         jocker_player: null
-    }
+    },
+    teamSplitList: [1, 2, 3, 4, 5, 6],
+    temaSplitSelected: 1,
+    splitTeam: {},
 };
 
 const mutations = {
@@ -48,10 +62,65 @@ const mutations = {
             return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
         }
     },
+    
+    SET_SPLIT_TEAM(state, splitTeamList){
+        state.splitTeam = {}
+        // team_split_index 별로 나눈다음에
+        // member id를 키 값으로 다시 저장
+        for (let i in splitTeamList){
+            let splitTeamItem = splitTeamList[i]
+            if (!state.splitTeam[splitTeamItem.team_split_index]){
+                state.splitTeam[splitTeamItem.team_split_index] = {}
+            }
+            state.splitTeam[splitTeamItem.team_split_index][splitTeamItem.member_id] = splitTeamItem
+        }
+        console.log("SET_SPLIT_TEAM", state.splitTeam)
+    },
+    SET_TEAM_SPLIT_SELECTED(state){
+        if (state.teamSplitList) {
+            state.temaSplitSelected = state.teamSplitList[0]
+        }else{
+            state.temaSplitSelected = 1
+        }
+    },
+    SET_TEAM_INDEX_CHANGED(state, temaSplitSelected){
+        state.temaSplitSelected = temaSplitSelected
+    }
 };
 
 const actions = {
-
+    async saveTeamSplit(context, payload){
+        console.log('saveTeamSplit Action', payload);
+        try {
+            const response = await bulkCreateOrUpdate(payload);
+            return response.data;
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    async getTeamList(context, payload){
+        // payload에는 schedule_id가 있으면 될듯하다
+        console.log("getTeamList", payload)
+    },
+    async getSplitTeamListWithSchedule(context, schedule_id){
+        try {
+            const response = await getSplitTeamListWithSchedule(schedule_id);
+            console.log("getSplitTeamListWithSchedule", response.data)
+            context.commit("SET_SPLIT_TEAM", response.data)
+            context.commit("SET_TEAM_SPLIT_SELECTED")
+            
+            return response.data;
+            // 아래 dict의 List가 온다
+            // {id: 31
+            // team_split_index: 1
+            // schedule_id: 223
+            // member_id: 3
+            // team_number: 1}
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    
 };
 
 export default {
