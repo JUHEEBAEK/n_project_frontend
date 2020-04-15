@@ -6,6 +6,7 @@ import moment from "moment";
 const state = {
   date: moment().format("YYYY-MM-DD"),
   quarterList: ["Q1", "Q2", "Q3", "Q4", "Q5", "Q6"],
+  quarterIndex: 0,
   isHome: true,
   selectType: "Home",
   homeTeam: {},
@@ -23,6 +24,7 @@ const mutations = {
   [constants.setAwayTeam]: set("awayTeam"),
   [constants.setIsHome]: set("isHome"),
   [constants.setType]: set("selectType"),
+  [constants.quarterIndex]: set("quarterIndex"),
   
 };
 
