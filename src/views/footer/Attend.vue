@@ -5,11 +5,6 @@
     <div>
       <v-sheet elevation="8">
         <schedule-date-list
-          :scheduleList="scheduleList"
-          :scheduleIndex="initIndex"
-          :setYear="setYear"
-          :setMonth="setMonth"
-          :setDay="setDay"
           @changeDate="changeDate"
         ></schedule-date-list>
       </v-sheet>
@@ -48,21 +43,12 @@ const {
 
 export default {
   name: "Attend.vue",
-  async created() {
-    this.scheduleList = await this.select_schedule();
-    console.log(this.scheduleList);
-    await this.activeSchedule();
-  },
   data: () => ({
     memberList: [],
     countMonthList: [],
     cardInfoLoading: false,
     initIndex: null,
-    setYear: moment().format("YYYY"),
-    setMonth: moment().format("MMMM"),
-    setDay: moment().format("DD"),
     today: moment().format("YYYY-MM-DD"),
-    // scheduleList: [],
     scheduleInfo: {},
     scheduleName: null,
     scheduleStart: moment().format("hh:mm"),
@@ -110,10 +96,6 @@ export default {
     async changeDate(item) {
       this.cardInfoLoading = true;
 
-      this.setYear = moment(item.date).format("YYYY");
-      this.setMonth = moment(item.date).format("MMMM");
-      this.setDay = moment(item.date).format("DD");
-
       this.scheduleName = item.name;
       this.scheduleStart = item.start;
       this.scheduleEnd = item.end;
@@ -130,11 +112,6 @@ export default {
     setFormatMemberList: async function(countMember) {
       this.memberList = await getMember();
     },
-    // 제일 최근의 스케줄을 선택해주는 함수.
-    activeSchedule: async function() {
-      this.initIndex = this.scheduleList.length - 1;
-      this.changeDate(this.scheduleList[this.initIndex]);
-    }
   }
 };
 </script>

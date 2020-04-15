@@ -6,11 +6,6 @@
       <div>
         <v-sheet elevation="8">
           <schedule-date-list
-            :scheduleList="scheduleList"
-            :scheduleIndex="scheduleIndex"
-            :setYear="setYear"
-            :setMonth="setMonth"
-            :setDay="setDay"
             @changeDate="setScheduleData"
           ></schedule-date-list>
         </v-sheet>
@@ -69,9 +64,6 @@ export default {
     scheduleName: null,
     scheduleStadium: null,
     scheduleStart: null,
-    setMonth: moment().format("MMMM"),
-    setYear: moment().format("YYYY"),
-    setDay: moment().format("DD"),
     memeber_name_list: [],
     member_id_list: [],
     
@@ -89,15 +81,10 @@ export default {
     }
    
  },
-  async created() {
-    await this.select_schedule();
-    // 가장 최신걸 선택
-    this.SET_SCHEDULE_INDEX(this.scheduleList.length - 1);
-  },
- 
+  async created() {},
   methods: {
-    ...calendarMapMutations(["SET_ATTEND_MEMBER", "SET_SCHEDULE_INDEX"]),
-    ...calendarMapActions(["select_schedule", "load_member"]),
+    ...calendarMapMutations(["SET_ATTEND_MEMBER"]),
+    ...calendarMapActions(["load_member"]),
     ...mapActions(["get_attendance"]),
     ...squadActions(['getSplitTeamListWithSchedule']),
     
@@ -114,9 +101,6 @@ export default {
     },
 
     setLocalVariable(selected_schedule){
-      this.setYear = moment(selected_schedule.date).format("YYYY");
-      this.setMonth = moment(selected_schedule.date).format("MMMM");
-      this.setDay = moment(selected_schedule.date).format("DD");
 
       this.scheduleName = selected_schedule.name;
       this.scheduleStart = selected_schedule.start;
