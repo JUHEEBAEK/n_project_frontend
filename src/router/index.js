@@ -56,6 +56,11 @@ export default new Router({
       component: () => import("../views/nav/squad/MatchPrepare.vue")
     },
     {
+      path: "/matchInput",
+      name: "matchInput",
+      component: () => import("../views/nav/match/MatchInput.vue")
+    },
+    {
       path: "/testUi",
       component: () => import("../views/testui/testUi.vue")
     },
