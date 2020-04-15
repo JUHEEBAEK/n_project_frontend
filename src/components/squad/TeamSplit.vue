@@ -170,7 +170,7 @@ export default {
   methods: {
     ...squadActions(["saveTeamSplit"]),
     ...squadMutations(["divide_member_into_team"]),
-    ...calendarMutations(["FILL_TEAM_NUMBER", "CHANGED_TEAM_OF_ATTEND_MEMEBER", "INITIALIZE_ATTEND_MEMBER"]),
+    ...calendarMutations(["FILL_TEAM_NUMBER", "CHANGED_TEAM_OF_ATTEND_member", "INITIALIZE_ATTEND_MEMBER"]),
     autoTeamSplit(){
       let attend_member_id_list = []
       for (let i in this.attendMember){
@@ -185,7 +185,7 @@ export default {
         "number_team": this.teamCount,
         "jocker_exist":jocker_exist
       })
-      this.CHANGED_TEAM_OF_ATTEND_MEMEBER(this.team_division)
+      this.CHANGED_TEAM_OF_ATTEND_member(this.team_division)
     },
     setTeamCount(count) {
       this.teamCount = Number(count);

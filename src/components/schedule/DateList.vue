@@ -44,6 +44,8 @@ import moment from "moment";
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: calendarMapState,
+  mapMutations: calendarMapMutations,
+    mapActions: calendarMapActions
 } = createNamespacedHelpers("calendar");
 
 export default {
@@ -52,26 +54,15 @@ export default {
       return moment(val).format("MMM");
     }
   },
-  props: {
-    scheduleList: {
-      type: Array,
-      default: null
-    },
-    setYear: {
-      type: Number,
-      default: null
-    },
-    setMonth: {
-      type: String,
-      default: null
-    }
-  },
   data: () => ({
     month: null,
-    slide_index: null
+    slide_index: null,
+    setMonth: moment().format("MMMM"),
+    setYear: moment().format("YYYY"),
+    setDay: moment().format("DD"),
   }),
   computed: {
-    ...calendarMapState(["scheduleIndex"]),    
+    ...calendarMapState(["scheduleIndex", "scheduleList"]),    
   },  
   watch: {
     scheduleIndex: function(val) {
@@ -82,18 +73,30 @@ export default {
       if (val) {
         console.log("slide_index", val);
         let selected_schedule = this.scheduleList[this.slide_index];
+        this.setDateString(selected_schedule)
         this.$emit("changeDate", selected_schedule);
       }
     }
   },
   async created() {
+    await this.select_schedule();
+    // 가장 최신걸 선택
+    this.SET_SCHEDULE_INDEX(this.scheduleList.length - 1);
     // 연동 필수
     this.slide_index = this.scheduleIndex
   },  
   methods: {
+    ...calendarMapMutations(["SET_SCHEDULE_INDEX"]),
+    ...calendarMapActions(["select_schedule", "load_member"]),
     setScheduleInfo(item) {
       this.$emit("changeDate", item);
-    }
+    },
+    setDateString(selected_schedule){
+      this.setYear = moment(selected_schedule.date).format("YYYY");
+      this.setMonth = moment(selected_schedule.date).format("MMMM");
+      this.setDay = moment(selected_schedule.date).format("DD");
+    },
+
   }
 };
 </script>

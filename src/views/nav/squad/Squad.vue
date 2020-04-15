@@ -6,11 +6,6 @@
       <div>
         <v-sheet elevation="8">
           <schedule-date-list
-            :scheduleList="scheduleList"
-            :scheduleIndex="scheduleIndex"
-            :setYear="setYear"
-            :setMonth="setMonth"
-            :setDay="setDay"
             @changeDate="setScheduleData"
           ></schedule-date-list>
         </v-sheet>
@@ -69,10 +64,7 @@ export default {
     scheduleName: null,
     scheduleStadium: null,
     scheduleStart: null,
-    setMonth: moment().format("MMMM"),
-    setYear: moment().format("YYYY"),
-    setDay: moment().format("DD"),
-    memeber_name_list: [],
+    member_name_list: [],
     member_id_list: [],
     
   }),
@@ -89,15 +81,10 @@ export default {
     }
    
  },
-  async created() {
-    await this.select_schedule();
-    // 가장 최신걸 선택
-    this.SET_SCHEDULE_INDEX(this.scheduleList.length - 1);
-  },
- 
+  async created() {},
   methods: {
-    ...calendarMapMutations(["SET_ATTEND_MEMBER", "SET_SCHEDULE_INDEX"]),
-    ...calendarMapActions(["select_schedule", "load_member"]),
+    ...calendarMapMutations(["SET_ATTEND_MEMBER"]),
+    ...calendarMapActions(["load_member"]),
     ...mapActions(["get_attendance"]),
     ...squadActions(['getSplitTeamListWithSchedule']),
     
@@ -114,16 +101,13 @@ export default {
     },
 
     setLocalVariable(selected_schedule){
-      this.setYear = moment(selected_schedule.date).format("YYYY");
-      this.setMonth = moment(selected_schedule.date).format("MMMM");
-      this.setDay = moment(selected_schedule.date).format("DD");
 
       this.scheduleName = selected_schedule.name;
       this.scheduleStart = selected_schedule.start;
       this.scheduleEnd = selected_schedule.end;
       this.scheduleAddress = selected_schedule.address;
       this.scheduleStadium = selected_schedule.stadium_name;
-      this.memeber_name_list = selected_schedule.memeber_name_list
+      this.member_name_list = selected_schedule.member_name_list
       this.member_id_list = selected_schedule.member_id_list
     },
     update_attendMember(){
@@ -131,9 +115,9 @@ export default {
       // 만약에 color나 teamNumber에 대한 정보가 있으면 그걸 불러오는게 좋을거 같은데
       let splitTeamInfo = this.splitTeam[this.temaSplitSelected]
       
-      for (let i in this.memeber_name_list) {
+      for (let i in this.member_name_list) {
         
-        let member_name = this.memeber_name_list[i]
+        let member_name = this.member_name_list[i]
         let member_id = this.member_id_list[i]
         let color = "grey"
         let teamNumber = null
