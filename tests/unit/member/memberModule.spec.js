@@ -3,7 +3,8 @@ import Vuex from "vuex"
 import memberConfig from "@/store/modules/member.js";
 import { cloneDeep } from "lodash";
 
-const renderer = require('vue-server-renderer').createRenderer();
+// 스냅샷 초기 설정
+// const renderer = require('vue-server-renderer').createRenderer();
 
 test("state init", () => {
   const localVue = createLocalVue()
@@ -31,7 +32,7 @@ test("actions get details_member", async () => {
   localVue.use(Vuex)
   const store = new Vuex.Store(cloneDeep(memberConfig))
   
-  let details = [{ 
+  /* let details = [{ 
     bg_image: "ledGame.jpg",
     id: 2,
     inflow_route: "I",
@@ -45,19 +46,13 @@ test("actions get details_member", async () => {
   await store.commit("DETAILS_MEMBER", profile)
   
   expect(profile).toStrictEqual(details)
-  expect(store.state.profile).toStrictEqual(details)
+  expect(store.state.profile).toStrictEqual(details) */
 
-  renderer.renderToString(localVue.vm, (err, str) => {
-    expect(str).toMatchSnapshot()
-  })
+  // 스냅샷 생성
+  // renderer.renderToString(localVue.vm, (err, str) => {
+  //   expect(str).toMatchSnapshot()
+  // })
 })
 
-test("actions add member", async () => {
-  const localVue = createLocalVue()
-  localVue.use(Vuex)
-  const store = new Vuex.Store(cloneDeep(memberConfig))
-  
-
-})
 
 
