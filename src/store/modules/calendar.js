@@ -33,7 +33,7 @@ const mutations = {
 
       // id가 없는 경우 전부 추가 (member id와 name는 list형태로 집어넣는다)
       item["member_id_list"] = [];
-      item["memeber_name_list"] = [];
+      item["member_name_list"] = [];
 
       // name이 없는 경우, 임의로 만들어서 넣어준다
       if (item["name"] == null) {
@@ -64,12 +64,12 @@ const mutations = {
     if (memberList.length == 0) {
       return false;
     }
-    let memeber_name_list = [];
+    let member_name_list = [];
     let member_id_list = [];
     let member_count = memberList.length;
     for (let i in memberList) {
       member_id_list.push(memberList[i]["member_id"]);
-      memeber_name_list.push(memberList[i]["name"]);
+      member_name_list.push(memberList[i]["name"]);
     }
 
     let schedule_id = memberList[0]["schedule_id"];
@@ -89,7 +89,7 @@ const mutations = {
     let item = state.scheduleList[index];
     item["attendCount"] = member_count;
     item["member_id_list"] = member_id_list;
-    item["memeber_name_list"] = memeber_name_list;
+    item["member_name_list"] = member_name_list;
 
     state.scheduleList[index] = item;
   },
@@ -100,7 +100,7 @@ const mutations = {
     console.log("SET_ATTEND_MEMBER", attendMember)
     state.attendMember = attendMember;
   },
-  CHANGED_TEAM_OF_ATTEND_MEMEBER(state, team_division){
+  CHANGED_TEAM_OF_ATTEND_member(state, team_division){
     // colorIndex를 common에서 가져오는게 좋다
     let colorIndex = ["#000","#ccda11", "#da8c11", "#118eda", "#da1175", "#11da76", "#8f11da"]
     let search_index = {}

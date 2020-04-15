@@ -64,7 +64,7 @@ export default {
     scheduleName: null,
     scheduleStadium: null,
     scheduleStart: null,
-    memeber_name_list: [],
+    member_name_list: [],
     member_id_list: [],
     
   }),
@@ -107,7 +107,7 @@ export default {
       this.scheduleEnd = selected_schedule.end;
       this.scheduleAddress = selected_schedule.address;
       this.scheduleStadium = selected_schedule.stadium_name;
-      this.memeber_name_list = selected_schedule.memeber_name_list
+      this.member_name_list = selected_schedule.member_name_list
       this.member_id_list = selected_schedule.member_id_list
     },
     update_attendMember(){
@@ -115,9 +115,9 @@ export default {
       // 만약에 color나 teamNumber에 대한 정보가 있으면 그걸 불러오는게 좋을거 같은데
       let splitTeamInfo = this.splitTeam[this.temaSplitSelected]
       
-      for (let i in this.memeber_name_list) {
+      for (let i in this.member_name_list) {
         
-        let member_name = this.memeber_name_list[i]
+        let member_name = this.member_name_list[i]
         let member_id = this.member_id_list[i]
         let color = "grey"
         let teamNumber = null

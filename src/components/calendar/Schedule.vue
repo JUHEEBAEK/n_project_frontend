@@ -68,7 +68,7 @@
               <div class="col-12 py-0">
                 <span
                   class="attend__member"
-                  v-for="(item, idx) in selectedSchedule.memeber_name_list"
+                  v-for="(item, idx) in selectedSchedule.member_name_list"
                   :key="idx"
                 >{{ item }},</span>
               </div>
