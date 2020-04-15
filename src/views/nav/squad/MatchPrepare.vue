@@ -6,7 +6,8 @@
       <v-col cols="12" lg="8" md="9" sm="12" xs="12">
         <v-contatner fluid>
           <v-form ref="form">
-            <squad-date-and-quarter></squad-date-and-quarter>
+            <schedule-date-list></schedule-date-list>
+            <squad-quarter></squad-quarter>
             <squad-team-list></squad-team-list>
             <squad-input-position></squad-input-position>
             <v-row>
