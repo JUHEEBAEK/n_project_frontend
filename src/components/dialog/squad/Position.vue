@@ -8,7 +8,7 @@
 
         <v-card-text class="member__list">
           <v-btn
-            v-for="member in selectTeam.items"
+            v-for="member in selectTeam.members"
             :key="member.id"
             class="button__item"
             :class="{active:member.id == isActive}"

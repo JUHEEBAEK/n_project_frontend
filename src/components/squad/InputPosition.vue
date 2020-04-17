@@ -77,7 +77,7 @@ export default {
       } else {
         this.selectTeam = this.awayTeam;
       }
-      if (this.homeTeam.team && this.awayTeam.team) {
+      if (this.homeTeam && this.awayTeam) {
         this.setDialogAndType({ dialog: true, type: "position" });
       }
     },
