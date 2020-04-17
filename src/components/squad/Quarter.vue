@@ -19,7 +19,7 @@
                 <v-row class="fill-height" align="center" justify="center">
                   <v-scale-transition>
                     <div>
-                      <p class="date__Mon my-2"> {{item}}</p>
+                      <p class="date__Mon my-2"> Q{{item}}</p>
                     </div>
                   </v-scale-transition>
                 </v-row>
@@ -53,17 +53,13 @@ export default {
       },
     }
   },
-  mounted() {
-    // 가장 처음에 아무거나 하나 선택되어 있게 할 것
-    
-  },
-
   methods: {
     ...mapMutations(["SET_DATE", "QAURTER_INDEX"]),
     setQuaterInfo(){
       console.log('setQuarterInfo')
       //쿼터 정보를 불러온다
-      
+      let selectedQuarter = this.quarterList[this.quarterIndex]
+      this.$emit("changeQarter", selectedQuarter);
     },
   }
 };
