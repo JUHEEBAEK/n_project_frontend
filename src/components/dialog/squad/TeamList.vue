@@ -11,11 +11,10 @@
         <v-card-text class="team__list">
           <v-data-table
             class="teamlist--table elevation-1"
-            :headers="teamHeader"
-            :items="teams"
+            :headers="headerOfSplitTeam"
+            :items="summarySplitTeamList"
             :footer-props="teamPaging"
-            :sort-by="['number']"
-            hide-default-header
+            :sort-by="['number']"            
             hide-default-footer
             @click:row="clickTeam"
           ></v-data-table>
@@ -30,17 +29,18 @@
 
 <script>
 import squad from "../../../assets/value/squad.json";
-import dummy from "../../../assets/value/dummy.json";
-
 import dialog from "../../../mixin/dialog.js";
+import { createNamespacedHelpers } from "vuex";
+const { mapState: prepareMatchMapState, mapMutations:prepareMatchMapMutations } = createNamespacedHelpers("prepareMatch");
 
 export default {
   mixins: [dialog],
   data: () => ({
-    teamHeader: squad.teamListHeader,
-    teams: dummy.teamList,
     teamPaging: { "items-per-page-options": [10000] }
   }),
+  computed: {
+    ...prepareMatchMapState(["summarySplitTeamList","headerOfSplitTeam"])
+  },
   methods: {
     closeDialog() {
       this.dialog = false;
