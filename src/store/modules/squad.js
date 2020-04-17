@@ -74,7 +74,6 @@ const mutations = {
             }
             state.splitTeam[splitTeamItem.team_split_index][splitTeamItem.member_id] = splitTeamItem
         }
-        console.log("SET_SPLIT_TEAM", state.splitTeam)
     },
     SET_TEAM_SPLIT_SELECTED(state){
         if (state.teamSplitList) {
