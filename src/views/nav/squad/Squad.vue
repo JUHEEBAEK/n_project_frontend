@@ -77,7 +77,7 @@ export default {
   },
   watch: {
     temaSplitSelected(val){
-      this.update_attendMember();
+      this.update_attendMember_color_teamNumber();
     }
    
  },
@@ -97,7 +97,7 @@ export default {
       await this.load_member(selected_schedule.id);
 
       this.setLocalVariable(selected_schedule)
-      this.update_attendMember()
+      this.update_attendMember_color_teamNumber()
     },
 
     setLocalVariable(selected_schedule){
@@ -110,7 +110,7 @@ export default {
       this.member_name_list = selected_schedule.member_name_list
       this.member_id_list = selected_schedule.member_id_list
     },
-    update_attendMember(){
+    update_attendMember_color_teamNumber(){
       let attend_member_list = [];
       // 만약에 color나 teamNumber에 대한 정보가 있으면 그걸 불러오는게 좋을거 같은데
       let splitTeamInfo = this.splitTeam[this.temaSplitSelected]
