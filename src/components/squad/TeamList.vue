@@ -3,17 +3,17 @@
     <v-row justify="center">
       <v-col cols="12" lg="10" class="py-0" align-self="center">
         <v-divider />
-        <v-sheet v-if="divideTeam !== null">
+        <v-sheet v-if="selectedSplitedTeam !== null">
           <v-slide-group show-arrows>
-            <v-slide-item v-for="item in divideTeam" :key="item.team" v-slot:default="{ toggle }">
-              <v-card class="team__box" @click.native="clickTeam(item.team)" @click="toggle">
-                <v-card-title>{{item.team}}</v-card-title>
+            <v-slide-item v-for="(teamDict, index) in selectedSplitedTeam" :key="index" v-slot:default="{ toggle }">
+              <v-card class="team__box" @click.native="set_home_away_team(teamDict)" @click="toggle">
+                <v-card-title>{{teamDict.teamNumber}}</v-card-title>
                 <v-card-text class="member__box">
                   <span
-                    v-for="data in item.items"
-                    :key="data.id"
+                    v-for="member in teamDict.members"
+                    :key="member.id"
                     class="team__member"
-                  >{{ data.name }}</span>
+                  >{{ member.name }}</span>
                 </v-card-text>
               </v-card>
             </v-slide-item>
@@ -48,11 +48,11 @@
         <div class="selectTeam__box">
           <div class="team__home">
             <v-card color="grey lighten-2" width="150" height="150">
-              <v-card-title class="justify-center">{{homeTeam.team}}</v-card-title>
+              <v-card-title class="justify-center">{{homeTeam.teamNumber}}</v-card-title>
               <v-card-text class="member__box justify-center">
                 <span
-                  v-for="member in homeTeam.items"
-                  :key="member.id"
+                  v-for="(member, index) in homeTeam.members"
+                  :key="index"
                   class="team__member"
                 >{{ member.name }}</span>
               </v-card-text>
@@ -63,11 +63,11 @@
           </div>
           <div class="team__away">
             <v-card color="grey lighten-2" width="150" height="150">
-              <v-card-title class="justify-center">{{awayTeam.team}}</v-card-title>
+              <v-card-title class="justify-center">{{awayTeam.teamNumber}}</v-card-title>
               <v-card-text class="member__box justify-center">
                 <span
-                  v-for="member in awayTeam.items"
-                  :key="member.id"
+                  v-for="(member, index) in awayTeam.members"
+                  :key="index"
                   class="team__member"
                 >{{ member.name }}</span>
               </v-card-text>
@@ -84,16 +84,14 @@
 import dialog from "../../mixin/dialog.js";
 import dummy from "../../assets/value/dummy.json";
 import { createNamespacedHelpers } from "vuex";
-const { mapState, mapMutations } = createNamespacedHelpers("prepareMatch");
+const { mapState, mapMutations, mapActions } = createNamespacedHelpers("prepareMatch");
 
 export default {
   mixins: [dialog],
-  created() {},
   data: () => ({
-    divideTeam: null
   }),
   computed: {
-    ...mapState(["isHome", "teamList", "homeTeam", "awayTeam"]),
+    ...mapState(["isHome", "teamList", "homeTeam", "awayTeam", "splitTeamList","selectedSplitedTeam"]),
     setStatus() {
       if (this.isHome) {
         this.SET_TYPE("Home");
@@ -117,10 +115,11 @@ export default {
       "SET_HOME_TEAM",
       "SET_AWAY_TEAM",
       "SET_IS_HOME",
-      "SET_TYPE"
+      "SET_TYPE",
+      "SET_SELECTED_SPLIT_TEAM"
     ]),
-    clickTeam(value) {
-      let selectedTeam = this.divideTeam[value];
+    ...mapActions(["setSelectedSplitedTeam"]),
+    set_home_away_team(selectedTeam) {
       let targetTeam = null;
       let oppositeTeam = null;
 
@@ -140,7 +139,7 @@ export default {
         targetTeam = oppositeTeam;
         oppositeTeam = tmp;
       } else {
-        targetTeam = this.divideTeam[value];
+        targetTeam = selectedTeam;
       }
 
       if (this.isHome) {
@@ -155,12 +154,12 @@ export default {
       this.setDialogAndType({ dialog: true, type: "teamList" });
     },
     removeTeam() {
-      this.divideTeam = null;
       this.SET_HOME_TEAM("");
       this.SET_AWAY_TEAM("");
+      this.SET_SELECTED_SPLIT_TEAM(null);     
     },
-    saveTeam(item) {
-      this.divideTeam = dummy.firstDivideTeam;
+    saveTeam(team) {
+      this.setSelectedSplitedTeam(team.splitTeamIndex);
       this.setDialogAndType({ dialog: false, type: null });
     }
   }
