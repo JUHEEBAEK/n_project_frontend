@@ -322,50 +322,44 @@
   ],
 
   "firstDivideTeam": {
-    "A": {
-      "team": "A",
-      "items": [
+    "1": {  
+      "teamNumber": "1",
+      "members": [
         {
           "name": "이화인",
           "id": 1,
-          "position": null,
-          "team": "A"
+          "position": null
         },
         {
           "name": "류새아라",
           "id": 2,
-          "position": null,
-          "team": "A"
+          "position": null
         },
         {
           "name": "백주희",
           "id": 6,
-          "position": null,
-          "team": "A"
+          "position": null
         },
         {
           "name": "박채민",
           "id": 8,
-          "position": null,
-          "team": "B"
+          "position": null
         },
         {
           "name": "박아란",
           "id": 7,
-          "position": null,
-          "team": "A"
+          "position": null
         },
         {
           "name": "박소연",
           "id": 11,
-          "position": null,
-          "team": "A"
+          "position": null
         }
       ]
     },
-    "B": {
-      "team": "B",
-      "items": [
+    "2": {
+      "teamNumber": "2",
+      "members": [
         {
           "name": "조명선",
           "id": 3,
@@ -404,14 +398,13 @@
         }
       ]
     },
-    "C": {
-      "team": "C",
-      "items": [
+    "3": {
+      "teamNumber": "3",
+      "members": [
         {
           "name": "남영은",
           "id": 17,
-          "position": null,
-          "team": "C"
+          "position": null
         },
         {
           "name": "김철",
