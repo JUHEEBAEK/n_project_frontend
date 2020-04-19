@@ -6,6 +6,9 @@ import moment from "moment";
 import {
   searchWithScheduleIdAndQuarter
 } from "../../api/game.js";
+import {
+  createSquad
+} from "../../api/squad.js";
 
 const state = {
   date: moment().format("YYYY-MM-DD"),
@@ -156,7 +159,6 @@ const actions = {
     context.commit("PARSE_SELECTED_SPLIT_TEAM", payload)
   },
   async checkGameAlreadyExist(context, form){
-    
     try {
       const response = await searchWithScheduleIdAndQuarter(form);
       console.log("checkGameAlreadyExist", response.data)
@@ -165,13 +167,24 @@ const actions = {
       }else{
         return false
       }
-      
     } catch (e) {
       console.log(e);
     }
-
+  },
+  async createSquad(context, form){
+    try {
+      const response = await createSquad(form);
+      console.log("createSquad", response.data)
+      if (response.data.length > 0){
+        return true
+      }else{
+        return false
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
-
+  
 };
 
 

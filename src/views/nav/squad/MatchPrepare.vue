@@ -51,9 +51,18 @@ export default {
   methods: {
     ...squadActions(['getSplitTeamListWithSchedule']),
     ...calendarMapActions(["load_member"]),
-    // ...calendarMapMutations(["GET_CURRENT_SCHEDULE_ID"])
-    ...prepareMatchActions(["setSplitTeamList","setSummarySplitTeamList","checkGameAlreadyExist"]),
+    ...prepareMatchActions(["setSplitTeamList","setSummarySplitTeamList","checkGameAlreadyExist",
+                            "createSquad"]),
     async save() {
+      // 확인해야하는 것
+      // 1. this.homeTeam과 away팀이 있어야됨
+      // 2. 각 선수가 모두 포지션이 있어야됨
+      // 둘다 채워야하나??
+      if (!this.homeTeam || !this.awayTeam) {
+        console.log('home팀 away팀 둘다 채워주세요')
+        return;
+      }
+
       console.log("SAVE");
       console.log(this.homeTeam)
       console.log(this.awayTeam)      
@@ -62,25 +71,39 @@ export default {
       // 스케쥴 id와 쿼터를 찍기 state
       console.log("GET_CURRENT_SCHEDULE_ID", this.current_schedule_id)
       console.log("currentQuarter", this.currentQuarter)
-      let _srcData = {};
-      _srcData["schedule_id"] = this.current_schedule_id;
-      _srcData["quarter"] = this.currentQuarter;
-      let checkGameAlreadyExist =  await this.checkGameAlreadyExist(_srcData)
+      let formSearchGame = {};
+      formSearchGame["schedule_id"] = this.current_schedule_id;
+      formSearchGame["quarter"] = this.currentQuarter;
+      let checkGameAlreadyExist =  await this.checkGameAlreadyExist(formSearchGame)
       // 해당 스케쥴, 쿼터에 해당하는 게임이 있는지 확인 Action
       if (checkGameAlreadyExist){
         console.log("game Exist")
-      }else{
-        console.log("game Not Exist")
-      }
-
-      // 게임이 없다면
-      // 1. 스쿼드를 만들기
-      // 2. 게임을 만들기 게임에다 등록할 때 0대0무승부로 등록해두기 
-
-      // 게임이 있다면
+        // 게임이 있다면
       // 0. 스쿼드 id가져오기
       // 1. 기존 스쿼드 멤버들을 없애기
       // 2. 스쿼드멤버를 다시 넣기
+      }else{
+        console.log("game Not Exist")
+        // 게임이 없다면
+        // 1. 스쿼드를 만들기
+        // 스쿼드 만들려면 스케쥴 id랑 팀 넘버 필요함
+        // this.current_schedule_id, this.homeTeam["teamNumber"], this.awayTeam["teamNumber"]
+        let formHomeSquad = {}
+        formHomeSquad["schedule_id"] = this.current_schedule_id
+        formHomeSquad["team_number"] = this.homeTeam["teamNumber"]
+        let formAwaySquad = {}
+        formAwaySquad["schedule_id"] = this.current_schedule_id
+        formAwaySquad["team_number"] = this.awayTeam["teamNumber"]
+        await this.createSquad(formHomeSquad)
+        await this.createSquad(formAwaySquad)
+        // 2. 스쿼드멤버 추가하기
+        // 3. 게임을 만들기 
+        //    등록할 때 0대0 무승부로 등록해두기 
+      }
+
+      
+
+      
 
       if (this.$refs.form.validate()) {
         //home과 away를 return 할 것
