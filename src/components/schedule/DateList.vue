@@ -56,19 +56,22 @@ export default {
   },
   data: () => ({
     month: null,
-    slide_index: null,
     setMonth: moment().format("MMMM"),
     setYear: moment().format("YYYY"),
     setDay: moment().format("DD"),
   }),
   computed: {
     ...calendarMapState(["scheduleIndex", "scheduleList"]),    
+    slide_index: {
+      get: function(){
+        return this.scheduleIndex
+      },
+      set: function(new_value){
+        this.SET_SCHEDULE_INDEX(new_value)
+      },
+    }
   },  
   watch: {
-    scheduleIndex: function(val) {
-      this.slide_index = this.scheduleIndex;
-      console.log("Slide Index Changed", this.slide_index);
-    },
     slide_index: async function(val) {
       if (val) {
         console.log("slide_index", val);
@@ -81,9 +84,7 @@ export default {
   async created() {
     await this.select_schedule();
     // 가장 최신걸 선택
-    this.SET_SCHEDULE_INDEX(this.scheduleList.length - 1);
-    // 연동 필수
-    this.slide_index = this.scheduleIndex
+    this.slide_index = (this.scheduleList.length - 1);
   },  
   methods: {
     ...calendarMapMutations(["SET_SCHEDULE_INDEX"]),
