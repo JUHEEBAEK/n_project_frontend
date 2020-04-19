@@ -23,6 +23,12 @@ const state = {
   scheduleIndex: null,
 };
 
+const getters = {
+  current_schedule_id(state){
+    return state.scheduleList[state.scheduleIndex].id
+  }
+}
+
 const mutations = {
   [constants.setNewScheduleModal]: set("newScheduleBox"),
   [constants.setFullScheduleModal]: set("fullScheduleDialog"),
@@ -143,7 +149,6 @@ const mutations = {
       }
     }
   },
-  
 };
 
 const actions = {
@@ -199,11 +204,13 @@ const actions = {
     } catch (e) {
       console.log(e);
     }
-  }
+  },
+  
 };
 
 export default {
   state,
+  getters,
   mutations,
   actions
 };

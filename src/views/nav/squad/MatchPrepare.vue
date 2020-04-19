@@ -27,6 +27,7 @@
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: calendarMapState,
+  mapGetters: calendarMapGetters,
   mapMutations: calendarMapMutations,
   mapActions: calendarMapActions
 } = createNamespacedHelpers("calendar");
@@ -37,18 +38,52 @@ const {
 
 const {
   mapState: prepareMatchState,
+  mapGetters: prepareMatchGetters,
   mapActions: prepareMatchActions
 } = createNamespacedHelpers("prepareMatch");
 
 export default {
-  
+  computed: {
+    ...prepareMatchState(["selectedSplitedTeam", "homeTeam", "awayTeam"]),
+    ...prepareMatchGetters(["currentQuarter"]),
+    ...calendarMapGetters(["current_schedule_id"])
+  },
   methods: {
     ...squadActions(['getSplitTeamListWithSchedule']),
     ...calendarMapActions(["load_member"]),
-    ...prepareMatchActions(["setSplitTeamList","setSummarySplitTeamList"]),
-    save() {
+    // ...calendarMapMutations(["GET_CURRENT_SCHEDULE_ID"])
+    ...prepareMatchActions(["setSplitTeamList","setSummarySplitTeamList","checkGameAlreadyExist"]),
+    async save() {
       console.log("SAVE");
+      console.log(this.homeTeam)
+      console.log(this.awayTeam)      
+      
+
+      // 스케쥴 id와 쿼터를 찍기 state
+      console.log("GET_CURRENT_SCHEDULE_ID", this.current_schedule_id)
+      console.log("currentQuarter", this.currentQuarter)
+      let _srcData = {};
+      _srcData["schedule_id"] = this.current_schedule_id;
+      _srcData["quarter"] = this.currentQuarter;
+      let checkGameAlreadyExist =  await this.checkGameAlreadyExist(_srcData)
+      // 해당 스케쥴, 쿼터에 해당하는 게임이 있는지 확인 Action
+      if (checkGameAlreadyExist){
+        console.log("game Exist")
+      }else{
+        console.log("game Not Exist")
+      }
+
+      // 게임이 없다면
+      // 1. 스쿼드를 만들기
+      // 2. 게임을 만들기 게임에다 등록할 때 0대0무승부로 등록해두기 
+
+      // 게임이 있다면
+      // 0. 스쿼드 id가져오기
+      // 1. 기존 스쿼드 멤버들을 없애기
+      // 2. 스쿼드멤버를 다시 넣기
+
       if (this.$refs.form.validate()) {
+        //home과 away를 return 할 것
       }
     },
     async setScheduleData(selected_schedule) {

@@ -3,6 +3,10 @@ import * as constants from "../constants";
 
 import moment from "moment";
 
+import {
+  searchWithScheduleIdAndQuarter
+} from "../../api/game.js";
+
 const state = {
   date: moment().format("YYYY-MM-DD"),
   quarterList: [1,2,3,4,5,6],
@@ -48,7 +52,9 @@ const state = {
 };
 
 const getters = {
-
+  currentQuarter(state){
+    return state.quarterList[state.quarterIndex]
+  }
 };
 
 const mutations = {
@@ -148,6 +154,21 @@ const actions = {
     }
     
     context.commit("PARSE_SELECTED_SPLIT_TEAM", payload)
+  },
+  async checkGameAlreadyExist(context, form){
+    
+    try {
+      const response = await searchWithScheduleIdAndQuarter(form);
+      console.log("checkGameAlreadyExist", response.data)
+      if (response.data.length > 0){
+        return true
+      }else{
+        return false
+      }
+      
+    } catch (e) {
+      console.log(e);
+    }
 
   }
 
