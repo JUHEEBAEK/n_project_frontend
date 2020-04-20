@@ -4,11 +4,15 @@ import * as constants from "../constants";
 import moment from "moment";
 
 import {
-  searchWithScheduleIdAndQuarter
+  searchWithScheduleIdAndQuarter,
+  createGame,
 } from "../../api/game.js";
 import {
   createSquad
 } from "../../api/squad.js";
+import {
+  createMultipleMemberSquad
+} from "../../api/memberSquad.js";
 
 const state = {
   date: moment().format("YYYY-MM-DD"),
@@ -183,8 +187,31 @@ const actions = {
     } catch (e) {
       console.log(e);
     }
-  }
-  
+  },
+  async createMultipleMemberSquad(context, {squad_id, memberData}){
+    try {
+      let memberSquadformArray = []
+      for (let i in memberData.members){
+        let member = memberData.members[i]
+        memberSquadformArray.push([squad_id, member.member_id, member.position])
+      }
+      const response = await createMultipleMemberSquad(memberSquadformArray);
+      console.log("createMemberSquad", response)
+      return true
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async createGame(context, gameForm){
+    try {
+      
+      const response = await createGame(gameForm);
+      console.log("createGame", response)
+      return true
+    } catch (e) {
+      console.log(e);
+    }
+  },
 };
 
 
