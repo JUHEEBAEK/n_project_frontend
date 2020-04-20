@@ -178,9 +178,9 @@ const actions = {
   async createSquad(context, form){
     try {
       const response = await createSquad(form);
-      console.log("createSquad", response.data)
-      if (response.data.length > 0){
-        return true
+      console.log("createSquad", response)
+      if (response.data){
+        return response.data.insertId
       }else{
         return false
       }
