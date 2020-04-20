@@ -84,4 +84,43 @@ function check_all_member_exist({
   });
 
   expect(all_member_id_list).toStrictEqual(copy_input_member_list);
-}
+};
+
+test("Get Data from TeamSplit_DB and Save state.teamSplit", async () => {
+  // 환경세팅
+  const localVue = createLocalVue();
+  localVue.use(Vuex);
+  const store = new Vuex.Store(cloneDeep(storeConfig));
+
+  let schedule_id = 223
+  
+  await store.dispatch('getSplitTeamListWithSchedule',schedule_id);
+  
+  check_splitTeam_property(store.state.splitTeam)
+  
+  //가장 처음꺼를 선택한다 
+  expect(store.state.temaSplitSelected).toEqual(1);
+});
+
+function check_splitTeam_property(splitTeam){
+  // 1. dict형태 key가 split_team_index를 의미한다
+  // 2. 그 다음 안에는 member_id를 키로 하는 member정보가 있다
+  // 3. id(splitTeam id), team_split_index, schedule_id, team_number, member_name
+  for(var team_split_index in splitTeam){
+    let member_dict = splitTeam[team_split_index]
+    for (var member_id in member_dict){
+      let member = member_dict[member_id]
+      expect(member).toHaveProperty("id")
+      expect(member).toHaveProperty("team_split_index")
+      expect(member).toHaveProperty("schedule_id")
+      expect(member).toHaveProperty("member_id")
+      expect(member).toHaveProperty("team_number")
+      expect(member).toHaveProperty("name")
+      expect(member).toHaveProperty("uniform_number")
+
+      expect(member["team_split_index"]).toEqual(Number(team_split_index))
+      expect(member["member_id"]).toEqual(Number(member_id))
+    } 
+  }
+};
+
