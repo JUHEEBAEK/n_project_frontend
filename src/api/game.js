@@ -57,10 +57,20 @@ async function getGameList() {
     }
 }
 
+async function updateGame(formData) {
+    try {
+      const response = await axios.put(`${devUrl}/api/game/update`, formData);
+      return response;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
 export {
     getinfoGame,
     createGame,
     deleteGame,
     getGameList,
     searchWithScheduleIdAndQuarter,
+    updateGame,
 };

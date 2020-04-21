@@ -6,12 +6,14 @@ import moment from "moment";
 import {
   searchWithScheduleIdAndQuarter,
   createGame,
+  updateGame,
 } from "../../api/game.js";
 import {
-  createSquad
+  createSquad,
 } from "../../api/squad.js";
 import {
-  createMultipleMemberSquad
+  createMultipleMemberSquad,
+  deleteMemberSquad,
 } from "../../api/memberSquad.js";
 
 const state = {
@@ -128,7 +130,6 @@ const mutations = {
     
     for (var member_id in selected_team_member_dict){
       let member = selected_team_member_dict[member_id]
-      console.log(member)
       member["position"] = null
 
       let team_number = member["team_number"]
@@ -166,8 +167,8 @@ const actions = {
     try {
       const response = await searchWithScheduleIdAndQuarter(form);
       console.log("checkGameAlreadyExist", response.data)
-      if (response.data.length > 0){
-        return true
+      if (response.data){
+        return response.data[0]
       }else{
         return false
       }
@@ -204,7 +205,6 @@ const actions = {
   },
   async createGame(context, gameForm){
     try {
-      
       const response = await createGame(gameForm);
       console.log("createGame", response)
       return true
@@ -212,6 +212,24 @@ const actions = {
       console.log(e);
     }
   },
+  async updateGame(context, gameUpdateForm){
+    try {
+      const response = await updateGame(gameUpdateForm);
+      console.log("updateGame", response)
+      return true
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async deleteMemberSquad(context, deleteMemberSquadForm){
+    try {
+      const response = await deleteMemberSquad(deleteMemberSquadForm);
+      console.log("deleteMemberSquad", response)
+      return true
+    } catch (e) {
+      console.log(e);
+    }
+  }
 };
 
 

@@ -52,7 +52,8 @@ export default {
     ...squadActions(['getSplitTeamListWithSchedule']),
     ...calendarMapActions(["load_member"]),
     ...prepareMatchActions(["setSplitTeamList","setSummarySplitTeamList","checkGameAlreadyExist",
-                            "createSquad", "createMultipleMemberSquad", "createGame"]),
+                            "createSquad", "createMultipleMemberSquad", "createGame", "deleteMemberSquad",
+                            "updateGame"]),
     async save() {
       // 확인해야하는 것
       // 1. this.homeTeam과 away팀이 있어야됨
@@ -82,14 +83,46 @@ export default {
       let formSearchGame = {};
       formSearchGame["schedule_id"] = this.current_schedule_id;
       formSearchGame["quarter"] = this.currentQuarter;
-      let checkGameAlreadyExist =  await this.checkGameAlreadyExist(formSearchGame)
+      let searchedGame =  await this.checkGameAlreadyExist(formSearchGame)
       // 해당 스케쥴, 쿼터에 해당하는 게임이 있는지 확인 Action
-      if (checkGameAlreadyExist){
-      //   console.log("game Exist")
-      //   // 게임이 있다면
-      // // 0. 스쿼드 id가져오기
-      // // 1. 기존 스쿼드 멤버들을 없애기
-      // // 2. 스쿼드멤버를 다시 넣기
+      if (searchedGame){
+
+        // 게임이 있다면
+        // 0. 스쿼드 id가져오기
+        let homeSquadId = searchedGame["home_squad_id"]
+        let awaySquadId = searchedGame["away_sqaud_id"]
+        
+        // 1. 기존 스쿼드 멤버들을 없애기
+        let deleteMemberSquadForm = {}
+        deleteMemberSquadForm["squad_id"] = homeSquadId
+        await this.deleteMemberSquad(deleteMemberSquadForm)
+        if (awaySquadId){ // 기존 away가 존재할 경우
+          deleteMemberSquadForm["squad_id"] = awaySquadId
+          await this.deleteMemberSquad(deleteMemberSquadForm)
+        }
+        // 2. 스쿼드멤버를 넣기
+        await this.createMultipleMemberSquad({"squad_id": homeSquadId, "memberData": this.homeTeam})
+        if (awayExist){
+          if (awaySquadId){
+            await this.createMultipleMemberSquad({"squad_id": awaySquadId, "memberData": this.awayTeam})
+          }else{
+            // awaySqaud 만들기
+            let formAwaySquad = {}
+            formAwaySquad["schedule_id"] = this.current_schedule_id
+            formAwaySquad["team_number"] = this.awayTeam["teamNumber"]
+            awaySquadId = await this.createSquad(formAwaySquad)
+            
+            // member 추가하기
+            await this.createMultipleMemberSquad({"squad_id": awaySquadId, "memberData": this.awayTeam})
+
+            // game에 away_squad_id update하기
+            let gameUpdateForm = {
+              "game_id": searchedGame["id"],
+              "game": {"away_squad_id": awaySquadId}
+            }
+            this.updateGame(gameUpdateForm);
+          }
+        }
       }else{      
         console.log("game Not Exist")
         // 게임이 없다면
@@ -99,12 +132,11 @@ export default {
         formHomeSquad["schedule_id"] = this.current_schedule_id
         formHomeSquad["team_number"] = this.homeTeam["teamNumber"]
         
+        let formAwaySquad = {}
         if (awayExist){
-          let formAwaySquad = {}
           formAwaySquad["schedule_id"] = this.current_schedule_id
           formAwaySquad["team_number"] = this.awayTeam["teamNumber"]
         }
-        
 
         // 만들어진 스쿼드 id를 가져오기
         let homeSquadId = await this.createSquad(formHomeSquad)
@@ -112,7 +144,7 @@ export default {
         if (awayExist){
           awaySquadId = await this.createSquad(formAwaySquad) 
         }
-        // 2. 스쿼드멤버 추가하기
+        // 2. 스쿼드멤버를 넣기
         await this.createMultipleMemberSquad({"squad_id": homeSquadId, "memberData": this.homeTeam})
         if (awayExist){
           await this.createMultipleMemberSquad({"squad_id": awaySquadId, "memberData": this.awayTeam})
@@ -130,15 +162,7 @@ export default {
         gameForm["result"] = 'D'
         await this.createGame(gameForm)
         console.log("저장 끝")
-        //다음으로 넘어가는거 자동으로갈까??
-
       }
-
-      
-
-      
-
-      
     },
     async setScheduleData(selected_schedule) {
       if (this.scheduleIndex == -1) return;
