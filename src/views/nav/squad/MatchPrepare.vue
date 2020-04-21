@@ -162,6 +162,10 @@ export default {
         gameForm["result"] = 'D'
         await this.createGame(gameForm)
         console.log("저장 끝")
+        this.$router.push({
+          name: "matchInput",
+          params: { "schedule_id": this.current_schedule_id, "quarter": this.currentQuarter }
+        });
       }
     },
     async setScheduleData(selected_schedule) {
