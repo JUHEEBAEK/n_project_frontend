@@ -242,7 +242,7 @@ export default {
         this.selectedJoker = true;
       }
     },
-    save() {
+    async save() {
       console.log("저장");
       this.FILL_TEAM_NUMBER();
 
@@ -251,8 +251,12 @@ export default {
         "selected_schedule_id": this.scheduleList[this.scheduleIndex].id,
         "team_split_data": this.attendMember        
       }
-      this.saveTeamSplit(payload)
+      await this.saveTeamSplit(payload)
       
+      this.$router.push({
+        name: "matchPrepare",
+        params: { "schedule_id": this.scheduleList[this.scheduleIndex].id, "scheduleIndex": this.scheduleIndex }
+      });
     },
   }    
 };
