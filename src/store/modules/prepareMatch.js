@@ -5,7 +5,7 @@ import moment from "moment";
 
 const state = {
   date: moment().format("YYYY-MM-DD"),
-  quarterList: ["Q1", "Q2", "Q3", "Q4", "Q5", "Q6"],
+  quarterList: ["Q1", "Q2", "Q3", "Q4", "Q5", "Q6","Q7","Q8","Q9","Q10"],
   quarterIndex: 0,
   isHome: true,
   selectType: "Home",
