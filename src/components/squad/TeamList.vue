@@ -20,7 +20,7 @@
               </template>
               <template v-else>
                 <v-card  class="team__box">
-                  <v-card-title>{{teamDict.teamNumber}}</v-card-title>
+                  <v-card-title> 조커 </v-card-title>
                   <v-card-text class="member__box">
                     <span
                       v-for="member in teamDict.members"
