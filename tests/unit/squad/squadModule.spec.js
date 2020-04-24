@@ -99,7 +99,7 @@ test("Get Data from TeamSplit_DB and Save state.teamSplit", async () => {
   check_splitTeam_property(store.state.splitTeam)
   
   //가장 처음꺼를 선택한다 
-  expect(store.state.temaSplitSelected).toEqual(1);
+  expect(store.state.teamSplitSelected).toEqual(1);
 });
 
 function check_splitTeam_property(splitTeam){
