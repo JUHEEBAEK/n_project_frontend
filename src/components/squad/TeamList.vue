@@ -6,16 +6,30 @@
         <v-sheet v-if="selectedSplitedTeam !== null">
           <v-slide-group show-arrows>
             <v-slide-item v-for="(teamDict, index) in selectedSplitedTeam" :key="index" v-slot:default="{ toggle }">
-              <v-card class="team__box" @click.native="set_home_away_team(teamDict)" @click="toggle">
-                <v-card-title>{{teamDict.teamNumber}}</v-card-title>
-                <v-card-text class="member__box">
-                  <span
-                    v-for="member in teamDict.members"
-                    :key="member.id"
-                    class="team__member"
-                  >{{ member.name }}</span>
-                </v-card-text>
-              </v-card>
+              <template v-if="teamDict.teamNumber != 0">
+                <v-card  class="team__box" @click.native="set_home_away_team(teamDict)" @click="toggle">
+                  <v-card-title>{{teamDict.teamNumber}}</v-card-title>
+                  <v-card-text class="member__box">
+                    <span
+                      v-for="member in teamDict.members"
+                      :key="member.id"
+                      class="team__member"
+                    >{{ member.name }}</span>
+                  </v-card-text>
+                </v-card>
+              </template>
+              <template v-else>
+                <v-card  class="team__box">
+                  <v-card-title>{{teamDict.teamNumber}}</v-card-title>
+                  <v-card-text class="member__box">
+                    <span
+                      v-for="member in teamDict.members"
+                      :key="member.id"
+                      class="team__member"
+                    >{{ member.name }}</span>
+                  </v-card-text>
+                </v-card>
+              </template>
             </v-slide-item>
             <v-slide-item class="align-self-center">
               <v-btn color="primary" small icon @click="removeTeam">
