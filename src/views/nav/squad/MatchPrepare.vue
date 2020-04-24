@@ -57,7 +57,7 @@ export default {
     let params = this.$route.params
     if (Object.keys(params).length){
       this.SET_SCHEDULE_INDEX(params["scheduleIndex"])
-      //  params["team_split_index"] <-- 이거를 잘 넘겨야됨
+      this.setSelectedSplitedTeam(params["team_split_index"])
     }else{
       this.CHOOSE_LATEST_SCHEDULE()
     }
@@ -68,7 +68,7 @@ export default {
     ...calendarMapMutations(["CHOOSE_LATEST_SCHEDULE", "SET_SCHEDULE_INDEX"]),
     ...prepareMatchActions(["setSplitTeamList","setSummarySplitTeamList","checkGameAlreadyExist",
                             "createSquad", "createMultipleMemberSquad", "createGame", "deleteMemberSquad",
-                            "updateGame"]),
+                            "updateGame", "setSelectedSplitedTeam"]),
     async save() {
       // 확인해야하는 것
       // 1. this.homeTeam과 away팀이 있어야됨
