@@ -86,7 +86,7 @@ export default {
     this.CHOOSE_LATEST_SCHEDULE();
   },
   methods: {
-    ...calendarMapMutations(["SET_ATTEND_MEMBER"]),
+    ...calendarMapMutations(["SET_ATTEND_MEMBER", "CHOOSE_LATEST_SCHEDULE"]),
     ...calendarMapActions(["select_schedule", "load_member"]),
     ...mapActions(["get_attendance"]),
     ...squadActions(['getSplitTeamListWithSchedule']),

@@ -255,7 +255,8 @@ export default {
       
       this.$router.push({
         name: "matchPrepare",
-        params: { "schedule_id": this.scheduleList[this.scheduleIndex].id, "scheduleIndex": this.scheduleIndex }
+        params: { "schedule_id": this.scheduleList[this.scheduleIndex].id, "scheduleIndex": this.scheduleIndex,
+                  "team_split_index": this.teamSplitSelected }
       });
     },
   }    

@@ -33,16 +33,20 @@ const {
 } = createNamespacedHelpers("calendar");
 const {
   mapState: squadState,
+  mapMutations: squadMutations,
   mapActions: squadActions
 } = createNamespacedHelpers("squad");
 
 const {
   mapState: prepareMatchState,
   mapGetters: prepareMatchGetters,
+  mapMutations: prepareMatchMutations,
   mapActions: prepareMatchActions
 } = createNamespacedHelpers("prepareMatch");
 
 export default {
+  data: () => ({
+  }),
   computed: {
     ...prepareMatchState(["selectedSplitedTeam", "homeTeam", "awayTeam"]),
     ...prepareMatchGetters(["currentQuarter"]),
@@ -50,10 +54,18 @@ export default {
   },
   async created() {
     await this.select_schedule();
+    let params = this.$route.params
+    if (Object.keys(params).length){
+      this.SET_SCHEDULE_INDEX(params["scheduleIndex"])
+      //  params["team_split_index"] <-- 이거를 잘 넘겨야됨
+    }else{
+      this.CHOOSE_LATEST_SCHEDULE()
+    }
   },
   methods: {
     ...squadActions(['getSplitTeamListWithSchedule']),
     ...calendarMapActions(["select_schedule", "load_member"]),    
+    ...calendarMapMutations(["CHOOSE_LATEST_SCHEDULE", "SET_SCHEDULE_INDEX"]),
     ...prepareMatchActions(["setSplitTeamList","setSummarySplitTeamList","checkGameAlreadyExist",
                             "createSquad", "createMultipleMemberSquad", "createGame", "deleteMemberSquad",
                             "updateGame"]),

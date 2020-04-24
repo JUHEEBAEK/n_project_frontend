@@ -149,6 +149,10 @@ const mutations = {
       }
     }
   },
+  CHOOSE_LATEST_SCHEDULE(state){
+    state.scheduleIndex = (state.scheduleList.length - 1);
+    console.log("CHOOSE_LATEST_SCHEDULE", state.slide_index)
+  }
 };
 
 const actions = {
