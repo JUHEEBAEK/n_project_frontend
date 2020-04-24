@@ -81,10 +81,13 @@ export default {
     }
    
  },
-  async created() {},
+  async created() {
+    await this.select_schedule();
+    this.CHOOSE_LATEST_SCHEDULE();
+  },
   methods: {
     ...calendarMapMutations(["SET_ATTEND_MEMBER"]),
-    ...calendarMapActions(["load_member"]),
+    ...calendarMapActions(["select_schedule", "load_member"]),
     ...mapActions(["get_attendance"]),
     ...squadActions(['getSplitTeamListWithSchedule']),
     

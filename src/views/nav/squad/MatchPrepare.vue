@@ -48,9 +48,12 @@ export default {
     ...prepareMatchGetters(["currentQuarter"]),
     ...calendarMapGetters(["current_schedule_id"])
   },
+  async created() {
+    await this.select_schedule();
+  },
   methods: {
     ...squadActions(['getSplitTeamListWithSchedule']),
-    ...calendarMapActions(["load_member"]),
+    ...calendarMapActions(["select_schedule", "load_member"]),    
     ...prepareMatchActions(["setSplitTeamList","setSummarySplitTeamList","checkGameAlreadyExist",
                             "createSquad", "createMultipleMemberSquad", "createGame", "deleteMemberSquad",
                             "updateGame"]),

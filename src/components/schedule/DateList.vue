@@ -82,9 +82,7 @@ export default {
     }
   },
   async created() {
-    await this.select_schedule();
-    // 가장 최신걸 선택
-    this.slide_index = (this.scheduleList.length - 1);
+    // await this.select_schedule(); <-- 이걸 제일 상위의 vue에서 한번만 불러주자
   },  
   methods: {
     ...calendarMapMutations(["SET_SCHEDULE_INDEX"]),
