@@ -82,7 +82,10 @@ export default {
     }
   },
   async created() {
-    // await this.select_schedule(); <-- 이걸 제일 상위의 vue에서 한번만 불러주자
+    if (this.slide_index){
+      let selected_schedule = this.scheduleList[this.slide_index];
+      this.$emit("changeDate", selected_schedule);
+    }
   },  
   methods: {
     ...calendarMapMutations(["SET_SCHEDULE_INDEX"]),
