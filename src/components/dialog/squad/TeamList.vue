@@ -16,6 +16,7 @@
             :footer-props="teamPaging"
             :sort-by="['number']"            
             hide-default-footer
+            disable-sort
             @click:row="clickTeam"
           ></v-data-table>
         </v-card-text>
