@@ -100,6 +100,7 @@ const mutations = {
         let member = first_team_dict[member_id]
         member_name_list.push(member.name)
         if (member_name_list.length == 3){
+          // 요약이므로 3명까지만 이름 보여주기 
           break
         }
       }
