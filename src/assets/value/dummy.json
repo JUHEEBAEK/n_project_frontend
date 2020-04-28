@@ -542,5 +542,104 @@
       "end": "21:00:00",
       "quarterCount": 3
     }
-  ]
+  ],
+  "homeTeamPlayers": [{
+      "name": "이화인",
+      "member_id": 1,
+      "position": null,
+      "team": "H"
+    },
+    {
+      "name": "류새아라",
+      "member_id": 2,
+      "position": null,
+      "team": "H"
+    },
+    {
+      "name": "백주희",
+      "member_id": 6,
+      "position": null,
+      "team": "H"
+    },
+    {
+      "name": "박채민",
+      "member_id": 8,
+      "position": null,
+      "team": "H"
+    },
+    {
+      "name": "박아란",
+      "member_id": 7,
+      "position": null,
+      "team": "H"
+    },
+    {
+      "name": "박소연",
+      "member_id": 11,
+      "position": null,
+      "team": "H"
+    }
+  ],
+  "awayTeamPlayers": [{
+      "name": "조명선",
+      "member_id": 3,
+      "position": null,
+      "team": "A"
+    },
+    {
+      "name": "장한솔",
+      "member_id": 4,
+      "position": null,
+      "team": "A"
+    },
+    {
+      "name": "김나경",
+      "member_id": 9,
+      "position": null,
+      "team": "A"
+    },
+    {
+      "name": "최주희",
+      "member_id": 10,
+      "position": null,
+      "team": "A"
+    },
+    {
+      "name": "이종은",
+      "member_id": 14,
+      "position": null,
+      "team": "A"
+    },
+    {
+      "name": "이선경",
+      "member_id": 12,
+      "position": null,
+      "team": "A"
+    }
+  ],
+  "gameEventList": [{
+    "event_id": 1,
+    "team_type": "H",
+    "event_type": "Goal",
+    "firstPlayer": "백주희",
+    "lastPlayer": "이화인"
+  }, {
+    "event_id": 2,
+    "team_type": "A",
+    "event_type": "Change",
+    "firstPlayer": "류새아라",
+    "lastPlayer": "이종은"
+  }, {
+    "event_id": 3,
+    "team_type": "A",
+    "event_type": "Goal",
+    "firstPlayer": "이종은",
+    "lastPlayer": "김나경"
+  }, {
+    "event_id": 4,
+    "team_type": "H",
+    "event_type": "Goal",
+    "firstPlayer": "이화인",
+    "lastPlayer": "백주희"
+  }]
 }

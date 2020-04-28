@@ -30,9 +30,7 @@
                 <v-row class="fill-height" align="center" justify="center">
                   <v-scale-transition>
                     <div>
-                      <p class="date__Mon my-2">
-                        {{ item.date | setMomentMonth }}
-                      </p>
+                      <p class="date__Mon my-2">{{ item.date | setMomentMonth }}</p>
                       <p class="date__day mb-0">{{ item.date.substr(8, 2) }}</p>
                     </div>
                   </v-scale-transition>
@@ -75,12 +73,7 @@
     <v-container>
       <v-row>
         <v-col cols="12" class="mx-2 py-1">
-          <v-switch
-            class="mt-0"
-            v-model="isGoal"
-            hide-details
-            :label="`Status: ${setStatus}`"
-          ></v-switch>
+          <v-switch class="mt-0" v-model="isGoal" hide-details :label="`Status: ${setStatus}`"></v-switch>
         </v-col>
       </v-row>
       <!-- 경기에 참여한 선수 그려주는 화면 -->
@@ -113,108 +106,111 @@
             </v-col>
           </v-row>
         </v-col>
-      </v-row> -->
+      </v-row>-->
 
       <v-row>
         <v-container>
           <v-row>
             <!--필드 그림:: 선수 선택 페이지 -->
-            <v-col cols="6">
+            <v-col cols="12" sm="6" xs="12">
               <v-row>
-                <v-col cols="10">
-                  <v-row class="position__field" justify="center">
-                    <v-col
-                      class="position__box position__box-home text-center px-0 pb-0"
-                      cols="4"
-                      align-self="center"
-                      v-for="item in positionHomeList"
-                      :key="item"
-                    >
-                      <span>{{ item }} </span>
-                    </v-col>
-                  </v-row>
+                <v-col cols="12" class="py-0">
+                  <div class="text__box">HOME</div>
+                  <v-card class="position__field" color="#81c784">
+                    <v-row justify="center">
+                      <v-col
+                        v-for="player in homePlayerList"
+                        :key="player"
+                        class="position__box position__box-home"
+                        cols="4"
+                        align-self="center"
+                      >
+                        <v-btn
+                          rounded
+                          small
+                          color="lime lighten-2"
+                          @click="clickPlayer(player)"
+                        >{{ player.name }}</v-btn>
+                      </v-col>
+                    </v-row>
+                  </v-card>
                 </v-col>
-                <v-col cols="2" align-self="center">
-                  <v-row class="position__bench" justify="center">
-                    <v-col
-                      class="position__box text-center px-0 pb-0"
-                      cols="12"
-                      align-self="center"
-                      v-for="item in benchList"
-                      :key="item"
-                    >
-                      <span>{{ item }} </span>
-                    </v-col>
-                  </v-row>
+              </v-row>
+              <v-row>
+                <v-col cols="12" class="py-0">
+                  <div class="text__box">AWAY</div>
+                  <v-card class="position__field" color="#81c784">
+                    <v-row justify="center">
+                      <v-col
+                        v-for="player in awayPlayerList"
+                        :key="player"
+                        class="position__box position__box-away"
+                        cols="4"
+                        align-self="center"
+                      >
+                        <v-btn
+                          rounded
+                          small
+                          color="lime lighten-2"
+                          @click="clickPlayer(player)"
+                        >{{ player.name }}</v-btn>
+                      </v-col>
+                    </v-row>
+                  </v-card>
                 </v-col>
               </v-row>
               <v-row class="pa-0" justify="end">
-                <v-col class="pa-0" cols="2">
-                  <v-btn> 어시 </v-btn>
+                <v-col cols="2" class="px-2">
+                  <p>상태</p>
+                  <span>{{ firstEventType }}</span>
                 </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="10">
-                  <v-row class="position__field" justify="center">
-                    <v-col
-                      class="position__box position__box-away text-center px-0 pb-0"
-                      cols="4"
-                      align-self="center"
-                      v-for="item in positionAwayList"
-                      :key="item"
-                    >
-                      <span>{{ item }} </span>
-                    </v-col>
-                  </v-row>
+                <v-col cols="2" class="px-2">
+                  <p>선수1</p>
+                  <span>{{ firstPlayer }}</span>
                 </v-col>
-                <v-col cols="2" align-self="center">
-                  <v-row class="position__bench" justify="center">
-                    <v-col
-                      class="position__box text-center px-0 pb-0"
-                      cols="12"
-                      align-self="center"
-                      v-for="item in benchList"
-                      :key="item"
-                    >
-                      <span>{{ item }} </span>
-                    </v-col>
-                  </v-row>
+                <v-col cols="2" class="px-2">
+                  <p>상태</p>
+                  <span>{{ lastEventType }}</span>
+                </v-col>
+                <v-col cols="2" class="px-2">
+                  <p>선수2</p>
+                  <span>{{ lastPlayer }}</span>
+                </v-col>
+                <v-col class="pa-0 d-flex flex-column align-center" cols="4" align-self="center">
+                  <v-btn class="my-1" x-small fab @click="init">
+                    <v-icon dark>fas fa-eraser</v-icon>
+                  </v-btn>
+                  <v-btn class="my-1" x-small fab color="primary" @click="clickSaveButton">
+                    <v-icon dark>fas fa-pencil-alt</v-icon>
+                  </v-btn>
                 </v-col>
               </v-row>
             </v-col>
             <!-- 경기 기록 페이지 -->
-            <v-col cols="6">
+            <v-col cols="12" sm="6" xs="12" class="py-0" align-self="center">
               <v-card class="match__report" color="grey lighten-2">
                 <v-card-text class="headline py-1">게임 기록</v-card-text>
-                <v-card-text>
+                <v-card-text class="pa-0">
                   <v-timeline>
                     <v-timeline-item
+                      v-for="event in eventList"
+                      :key="event"
                       small
                       fill-dot
-                      left
                       color="white"
-                      icon="fas fa-futbol"
+                      :right="event.team_type === 'H' ? true : false"
+                      :left="event.team_type === 'A' ? true : false"
+                      :icon="event.event_type === 'Goal' ? 'fas fa-futbol' : 'fas fa-exchange-alt'"
                       icon-color="black"
-                      >백주희 이화인
+                    >
+                      <span class="firstEvent">{{event.firstPlayer}}</span>
+                      <span class="lastEvent ma-1">{{event.lastPlayer}}</span>
+                      <span class="ma-1">
+                        <v-btn x-small icon @click="deleteButton">
+                          <v-icon dark>fas fa-times</v-icon>
+                        </v-btn>
+                      </span>
                     </v-timeline-item>
-                    <v-timeline-item
-                      small
-                      fill-dot
-                      right
-                      color="white"
-                      icon-color="black"
-                      icon="fas fa-exchange-alt fa-rotate-90"
-                      >류새아라 이종은</v-timeline-item
-                    >
-                    <v-timeline-item
-                      small
-                      fill-dot
-                      right
-                      color="white"
-                      icon-color="black"
-                      icon="fas fa-futbol"
-                      >이종은 김나경</v-timeline-item
-                    >
                   </v-timeline>
                 </v-card-text>
               </v-card>
@@ -235,7 +231,7 @@ export default {
   filters: {
     setMomentMonth: function(val) {
       return moment(val).format("MMM");
-    },
+    }
   },
   data: () => ({
     // 스케쥴 리스트 영역
@@ -247,24 +243,35 @@ export default {
     // 쿼터 리스트 영역
     quarterIndex: null,
     quarterCount: null,
+    buttonClickState: null,
     // 이벤트 기록 영역
     isGoal: true,
-    eventType: "Goal",
+    firstEventType: "Goal",
+    lastEventType: "Assist",
+    firstPlayer: null,
+    lastPlayer: null,
+    teamType: null,
     benchList: Position.benchList,
     positionHomeList: Position.homeList,
     positionAwayList: Position.awayList,
     position: Position.basicPostion,
+    homePlayerList: [],
+    awayPlayerList: [],
+    eventList: []
   }),
   computed: {
     setStatus() {
+      this.init();
       if (this.isGoal) {
-        this.eventType = "Goal";
-        return "Goal/Assign";
+        this.firstEventType = "Goal";
+        this.lastEventType = "Assist";
+        return "Goal/Assist";
       } else {
-        this.eventType = "Change";
+        this.firstEventType = "Out";
+        this.lastEventType = "In";
         return "Change Player";
       }
-    },
+    }
   },
   watch: {
     scheduleIndex: async function(val) {
@@ -277,23 +284,72 @@ export default {
     quarterCount: function() {
       this.quarterIndex =
         this.scheduleList[this.scheduleIndex]["quarterCount"] - 1;
-    },
+    }
   },
   async created() {
     await this.setScheduleList();
-    console.log(this.positionList);
-    console.log(this.position);
+    this.getHomeTeamPlayerList();
+    this.getAwayTeamPlayerList();
+    this.getEventList();
   },
   methods: {
+    init() {
+      this.firstPlayer = null;
+      this.lastPlayer = null;
+      this.teamType = null;
+    },
+    clickSaveButton() {
+      console.log(this.eventList);
+      this.eventList.push({
+        event_type: this.firstEventType,
+        firstPlayer: this.firstPlayer,
+        lastPlayer: this.lastPlayer,
+        teamType: this.teamType
+      });
+
+      this.init();
+    },
+    clickPlayer(val) {
+      console.log("clickPlayer", val);
+      if (this.teamType !== null && this.teamType !== val.team) {
+        alert("같은 팀을 선택해주세요.");
+        this.init();
+      } else if (this.firstPlayer !== null && this.firstPlayer === val.name) {
+        alert("같은 사람을 선택할 수 없습니다.");
+        this.init();
+      } else {
+        this.teamType = val.team;
+        if (this.firstPlayer === null) {
+          this.firstPlayer = val.name;
+        } else {
+          this.lastPlayer = val.name;
+        }
+      }
+    },
+    deleteButton: function() {},
+    getEventList: function() {
+      // TODO: 경기 이벤트 리스트 가져오는 API 호출
+      this.eventList = dummyData.gameEventList;
+      // console.log(this.eventList);
+    },
+    getHomeTeamPlayerList: function() {
+      // TODO: 홈팀 선수리스트 가져오는 API 호출
+      this.homePlayerList = dummyData.homeTeamPlayers;
+      // console.log(this.homePlayerList);
+    },
+    getAwayTeamPlayerList: function() {
+      // TODO: 어웨이팀 선수리스트 가져오는 API 호출
+      this.awayPlayerList = dummyData.awayTeamPlayers;
+      // console.log(this.awayPlayerList);
+    },
     setDateString(selected_schedule) {
       this.setYear = moment(selected_schedule.date).format("YYYY");
       this.setMonth = moment(selected_schedule.date).format("MMMM");
       this.setDay = moment(selected_schedule.date).format("DD");
     },
     setInfo(item) {
-      console.log("스케줄 정보 가져오기", item);
+      // TODO: 스케쥴 정보 선택 API 호출
       this.quarterCount = item.quarterCount;
-      // this.$emit("changeDate", item);
     },
     setScheduleList() {
       this.scheduleList = dummyData.MatchInput_scheduleList;
@@ -302,11 +358,10 @@ export default {
       // 쿼터 초기 세팅
       this.quarterCount = this.scheduleList[this.scheduleIndex]["quarterCount"];
     },
-
     setQuaterInfo(item) {
       console.log("quarterInfo 가져오기", item);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -376,19 +431,42 @@ export default {
     }
   }
 }
-
-.position__box {
-  border: solid 1px forestgreen;
-  height: 50px;
+.text__box {
+  position: absolute;
+  display: contents;
 }
 
 .position__field {
-  background: #a5d6a7;
+  padding: 20px 0;
+  //  background: #81c784;
+  .position__box {
+    // border: solid 1px #73b476;
+    height: 50px;
+
+    .position__content {
+      font-size: 12px;
+      font-weight: 800;
+      background: #c0e2c2;
+      width: 40px;
+      height: 40px;
+    }
+  }
 }
 .position__bench {
   background: #f1cd74;
   overflow-y: scroll;
   height: 200px;
+
+  .position__box {
+    // border: solid 1px #73b476;
+    height: 50px;
+
+    .position__content {
+      font-size: 12px;
+      font-weight: 800;
+      background: #c0e2c2;
+    }
+  }
 }
 
 .match__report {
