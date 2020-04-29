@@ -56,6 +56,11 @@ export default new Router({
       component: () => import("../views/nav/squad/MatchPrepare.vue")
     },
     {
+      path: "/ranking",
+      name: "ranking",
+      component: () => import("../views/footer/Ranking.vue")
+    },
+    {
       path: "/testUi",
       component: () => import("../views/testui/testUi.vue")
     },

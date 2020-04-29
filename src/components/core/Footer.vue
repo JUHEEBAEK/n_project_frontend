@@ -10,6 +10,7 @@
 <script>
 export default {
   name: "Footer.vue",
+  
   data: () => ({
     bottomNav: "CALENDAR",
     items: [
@@ -30,7 +31,7 @@ export default {
       },
       {
         title: "RANKING",
-        to: "",
+        to: "/ranking",
         icon: require("../../assets/linear/dark/006-podium.png")
       }
     ]
