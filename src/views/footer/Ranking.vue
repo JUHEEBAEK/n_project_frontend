@@ -42,7 +42,7 @@
 <script>
 
 import { createNamespacedHelpers } from "vuex";
-const { mapState: rankingMapState ,mapActions: rankingMapActions } = createNamespacedHelpers("ranking");
+const { mapState: rankingMapState, mapActions: rankingMapActions } = createNamespacedHelpers("ranking");
 
 export default {
   name: "TesmSetting",
@@ -56,9 +56,17 @@ export default {
     }
   },
   computed: {
-    ...rankingMapState(["rankingData"])
-    
+    ...rankingMapState(["rankingData"])  
   },
+  created() {
+    this.get_goal_ranking()
+    this.get_assist_ranking()
+    this.get_clean_sheet_ranking()
+  },
+  methods: {
+    ...rankingMapActions(["get_goal_ranking", "get_assist_ranking", "get_clean_sheet_ranking"])
+  },
+
 
 };
 </script>
