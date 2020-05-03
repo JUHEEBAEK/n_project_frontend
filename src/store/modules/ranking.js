@@ -1,3 +1,8 @@
+import {
+    getGoalRanking,
+    getAssistRanking,
+    getCleanSheetRanking,
+} from "../../api/ranking.js";
 
 const state = {
     rankingData: {
@@ -44,21 +49,50 @@ const state = {
           },
         ],
         
-      }
+    }
 
 }
 const mutations = {
+    SET_GOAL_RANKING_DATA(state, goalData){
+        state['GOAL'] = goalData
+    },
+    SET_ASSIST_RANKING_DATA(state, assistData){
+        state['ASSIST'] = goalData
+    },
+    SET_CLEAN_SHEET_RANKING_DATA(state, cleanSheetData){
+        state['CLEAN_SHEET'] = goalData
+    },
+
 }
 const actions = {
-    //받아오기
-    // 사람이름 기록 
-    // 쿼리 game report태이블의 event column이 goal일 경우
-    // assist과 goal을 기록해보자
 
-    // 그러면 어떻게 clean을 기록하는가
-    // game에서 0대 0을 기록한 게임을 제외하고 
-    // 먹은 점수가 0인 골키퍼 포지션 선수들을 모은다음에
-    // 누적값을 구한다
+    async get_goal_ranking(context){
+        try {
+            const response = await getGoalRanking();
+            context.commit("SET_GOAL_RANKING_DATA", response.data);
+            return response.data;
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    async get_assist_ranking(context){
+        try {
+            const response = await getAssistRanking();
+            context.commit("SET_ASSIST_RANKING_DATA", response.data);
+            return response.data;
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    async get_clean_sheet_ranking(context){
+        try {
+            const response = await getCleanSheetRanking();
+            context.commit("SET_CLEAN_SHEET_RANKING_DATA", response.data);
+            return response.data;
+        } catch (e) {
+            console.log(e);
+        }
+    },
 
 }
 
