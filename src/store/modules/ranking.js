@@ -15,7 +15,7 @@ const state = {
             score: 262,
           },
         ], 
-        'ASSIGN': [
+        'ASSIST': [
           {
             name: '탕수육',
             score: 45,

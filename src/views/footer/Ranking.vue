@@ -50,7 +50,7 @@ export default {
     return {
       tab: null,
       tabItems: [
-        'GOAL', 'ASSIGN', 'CLEAN SHEET',
+        'GOAL', 'ASSIST', 'CLEAN_SHEET',
       ],
       
     }
