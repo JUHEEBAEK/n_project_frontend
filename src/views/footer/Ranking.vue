@@ -30,7 +30,7 @@
             flat
           >
             <ranking-table
-              :tableData="dataDict[item]"
+              :tableData="rankingData[item]"
             ></ranking-table>
           </v-card>
         </v-tab-item>
@@ -40,6 +40,10 @@
 </template>
 
 <script>
+
+import { createNamespacedHelpers } from "vuex";
+const { mapState: rankingMapState ,mapActions: rankingMapActions } = createNamespacedHelpers("ranking");
+
 export default {
   name: "TesmSetting",
   data(){
@@ -48,53 +52,13 @@ export default {
       tabItems: [
         'GOAL', 'ASSIGN', 'CLEAN SHEET',
       ],
-      dataDict: {
-        'GOAL': [
-          {
-            name: 'Frozen Yogurt',
-            score: 159,
-          },
-          {
-            name: 'Ice cream sandwich',
-            score: 237,
-          },
-          {
-            name: 'Eclair',
-            score: 262,
-          },
-        ], 
-        'ASSIGN': [
-          {
-            name: '탕수육',
-            score: 45,
-          },
-          {
-            name: '치킨',
-            score: 22,
-          },
-          {
-            name: '피자',
-            score: 11,
-          },
-        ], 
-        'CLEAN SHEET': [
-          {
-            name: '상추',
-            score: 11159,
-          },
-          {
-            name: '배추',
-            score: 3237,
-          },
-          {
-            name: '김치',
-            score: 1262,
-          },
-        ],
-        
-      }
+      
     }
-  }
+  },
+  computed: {
+    ...rankingMapState(["rankingData"])
+    
+  },
 
 };
 </script>
