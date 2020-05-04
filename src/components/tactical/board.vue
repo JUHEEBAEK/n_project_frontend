@@ -149,6 +149,9 @@ data() {
         fabric.Image.fromURL('https://i.pinimg.com/originals/96/a9/b7/96a9b78792d5738596fe6c81790fcd4d.jpg',function(img) {
             _this.canvas.add(img).setActiveObject(img);
         })
+        fabric.Image.fromURL('https://pngimg.com/uploads/dog/dog_PNG50348.png',function(img) {
+            _this.canvas.add(img).setActiveObject(img);
+        })
     }
   },
     
