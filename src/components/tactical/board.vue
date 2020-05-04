@@ -1,12 +1,22 @@
 <template>
     <div>
         <h1> Fabric Example</h1>
-        <canvas ref="can" width="1000" height="1000"></canvas>
+        <div id="canvasWrapper"
+            tabIndex="1"
+            @keyup.8="deleteSelected()" 
+            @keyup.27="deleteSelected()"
+            @keyup.46="deleteSelected()"
+        >
+            <canvas id="canvas" ref="can" width="1500" height="1200" 
+            ></canvas>
+        </div>
         
         <v-btn @click="newRect"> Can Draw Rect</v-btn>
         <v-btn @click="saveAndErase()"> Save & Erase </v-btn>
         <v-btn @click="load()"> Load </v-btn>
         <v-btn @click="makeImage()"> CreateImage </v-btn>
+        <v-btn @click="deleteSelected()"> Delete </v-btn>
+        
     </div>
 </template>
 
@@ -14,51 +24,36 @@
 import { fabric } from 'fabric'
 export default {
 
-data() {
-    return {
-        canvas: null,
-        save_data: null,
-        isDrawingMode: false,
-        xfirstPoint: null,
-        yfirstPoint: null,
-    }
-},
+    data() {
+        return {
+            canvas: null,
+            save_data: null,
+            isDrawingMode: false,
+            xfirstPoint: null,
+            yfirstPoint: null,
+        }
+    },
   mounted() {
     const ref = this.$refs.can;
+
     this.canvas = new fabric.Canvas(ref);
-    const rect = new fabric.Rect({
-      fill: 'red',
-      width: 20,
-      height: 20
+    let _this = this;
+    // 축구공 이미지
+    fabric.Image.fromURL('https://cdn.pixabay.com/photo/2013/07/13/10/51/football-157930_1280.png', function(img) {
+        _this.canvas.add(img.set({ left: 300, top: 250 }).scale(0.035));
     });
-    this.canvas.add(rect);
-    var path = new fabric.Path('M 0 500 L 200 100 L 400 400', {
-            'fill': 'transparent',
-            'stroke': '#000',
-            'stroke-width': '1.5px',
-            'strokeDashArray': [10, 10],
+
+    // 선수이미지1
+    fabric.Image.fromURL('https://cdn.pixabay.com/photo/2012/04/14/15/12/soccer-34248_1280.png', function(img) {
+        _this.canvas.add(img.set({ left: 350, top: 350 }).scale(0.095));
     });
-    path.set({ left: 120, top: 120 }); 
-
-    this.canvas.add(path);
-    
-    
-    console.log('this.canvas to json')
-    console.log(this.canvas.toDatalessJSON(['id']));
-
-    var square = new fabric.Rect({ 
-            width: 100, 
-            height: 100, 
-            left: 100, 
-            top: 100, 
-            fill: '#000'
-        });
-
-    this.canvas.add(square); 
-    square.set('width', 200).set('height', 200);
 
   },
   methods: {
+      focusCanvas(){
+        console.log("focusing")
+        $('#can').focus();
+      },
     newRect(){
         let _this = this
         this.canvas.observe('mouse:down', function(e) { _this.mousedown(e); });
@@ -110,7 +105,7 @@ data() {
         this.canvas.setActiveObject(square); // focus 해주는 기능인듯
     },
 
-        /* Mouseup */
+    /* Mouseup */
     mouseup(e) {
         
         if(this.isDrawingMode) {
@@ -152,10 +147,37 @@ data() {
         fabric.Image.fromURL('https://pngimg.com/uploads/dog/dog_PNG50348.png',function(img) {
             _this.canvas.add(img).setActiveObject(img);
         })
+    },
+    deleteSelected(){
+        console.log('delete called')
+        var activeObject = this.canvas.getActiveObject()
+        
+        if (activeObject) {
+            if (confirm('Are you sure?')) {
+                this.canvas.remove(activeObject);
+            }
+        }
     }
+    
   },
     
 
 };
 
 </script> 
+
+<style scoped>
+    #canvas {
+        background-image: url( "https://cdn.pixabay.com/photo/2016/06/01/11/39/football-field-1428839_1280.png" );
+        background-size: cover;
+    }
+    #drawBtn {
+        width: 200px;
+        line-height: 30px;
+        background-color: #222222;
+        text-align: center;
+        color:#ffffff;
+        font-weight: bold;
+        list-style: none;
+    }
+</style>
