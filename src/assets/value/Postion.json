@@ -1,5 +1,7 @@
 {
   "list": ["LW", "FW", "RW", "LCM", "CM", "RCM", "LCB", "CB", "RCB", "", "G", ""],
+  "homeList": ["", "G", "", "LCB", "CB", "RCB", "LCM", "CM", "RCM", "LW", "FW", "RW"],
+  "awayList": ["LW", "FW", "RW", "LCM", "CM", "RCM", "LCB", "CB", "RCB", "", "G", ""],
   "benchList": ["bench1", "bench2", "bench3"],
   "basicPostion": {
     "Home": {
@@ -32,5 +34,8 @@
       "bench2": "",
       "bench3": ""
     }
+  },
+  "homePosition": {
+
   }
 }

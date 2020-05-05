@@ -37,7 +37,9 @@ export default {
       {
         title: "TEAM",
         to: "",
-        icon: require("../../assets/fsnnnn_emblem_official2.png")
+        // icon: require("../../assets/fsnnnn_emblem_official2.png")
+        icon:
+          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/fsnnnn_emblem_official2.png"
       },
       {
         title: "MEMBER",
@@ -53,6 +55,16 @@ export default {
         title: "SQUAD",
         to: "/squad",
         icon: require("../../assets/linear/dark/003-tshirt.png")
+      },
+      {
+        title: "MATCH PREPARE",
+        to: "/matchPrepare",
+        icon: require("../../assets/linear/dark/soccer.png")
+      },
+      {
+        title: "MATCH",
+        to: "/matchInput",
+        icon: require("../../assets/linear/dark/medical-history.png")
       }
       // {
       //   title: "STADIUM",

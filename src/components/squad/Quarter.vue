@@ -1,12 +1,21 @@
 <template>
-  <v-container class="schedule__container">
+  <v-container class="quarter__container">
     <v-row class="mx-2">
-      <v-col cols="12" class="schedule__list">
-          <v-slide-group v-model="slideIndex" show-arrows center-active>
-            <v-slide-item
-              v-for="item in quarterList"
-              :key="item"
-              v-slot:default="{ active, toggle }"
+      <v-col cols="12" class="quarter__list">
+        <v-slide-group v-model="slideIndex" show-arrows center-active>
+          <v-slide-item
+            v-for="item in quarterList"
+            class="my-2"
+            :key="item"
+            v-slot:default="{ active, toggle }"
+          >
+            <v-card
+              class="quarter__card"
+              :class="{ active: active }"
+              height="30"
+              width="50"
+              @click="toggle"
+              @click.native="setQuaterInfo(item)"
             >
               <v-card
                 class="date__card ma-2"
@@ -37,7 +46,6 @@ import { createNamespacedHelpers } from "vuex";
 const { mapState, mapMutations } = createNamespacedHelpers("prepareMatch");
 
 export default {
-  
   mixins: [regex],
   data: () => ({
     menu: false,
@@ -45,64 +53,47 @@ export default {
   computed: {
     ...mapState(["quarterList", "quarterIndex"]),
     slideIndex: {
-      get: function(){
-        return this.quarterIndex
+      get: function() {
+        return this.quarterIndex;
       },
-      set: function(new_value){
-        this.QAURTER_INDEX(new_value)
+      set: function(new_value) {
+        this.QAURTER_INDEX(new_value);
       },
-    }
+    },
+  },
+  mounted() {
+    // 가장 처음에 아무거나 하나 선택되어 있게 할 것
   },
   methods: {
     ...mapMutations(["SET_DATE", "QAURTER_INDEX"]),
-    setQuaterInfo(){
-      console.log('setQuarterInfo')
+    setQuaterInfo() {
+      console.log("setQuarterInfo");
       //쿼터 정보를 불러온다
       let selectedQuarter = this.quarterList[this.quarterIndex]
       this.$emit("changeQarter", selectedQuarter);
     },
-  }
+  },
 };
 </script>
 
-
 <style lang="scss">
-.schedule__container {
+.quarter__container {
   padding: 0;
-  .date__content {
-    font-size: 20px;
-    font-weight: 200;
-
-    .date__year {
-      font-size: 20px;
-      font-weight: 400;
-    }
-    .date__month {
-      font-size: 24px;
-      font-weight: 500;
-    }
-  }
-  .schedule__list {
-    .date__card {
+  .quarter__list {
+    .quarter__card {
+      margin: 0px 5px;
+      padding: 5px 0;
       background-color: #fafafa;
-      .date__Mon {
+      .quarter__text {
+        font-size: 14px;
         color: #666;
         font-weight: 500;
-      }
-      .date__day {
-        font-size: 20px;
-        font-weight: 600;
-        color: #34558b;
+        margin-bottom: 0;
       }
       &.active {
         background-color: #34558b;
-        .date__Mon {
+        .quarter__text {
           color: #ddd;
-        }
-        .date__day {
-          font-size: 20px;
-          font-weight: 600;
-          color: white;
         }
       }
     }

@@ -1,7 +1,7 @@
 <template>
   <v-container class="schedule__container">
     <v-row dense>
-      <v-col cols="12" xl="3" lg="4" md="6" sm="6" xs="12" class="date__content">
+      <v-col cols="12" xs="12" class="date__content">
         <span>SELECTED DATE</span> -
         <span class="date__month pr-2">{{ setMonth }}</span>
         <span class="date__year">{{ setYear }}</span>
@@ -107,6 +107,7 @@ export default {
 .schedule__container {
   padding: 0;
   .date__content {
+    text-align: left;
     font-size: 20px;
     font-weight: 200;
 
