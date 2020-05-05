@@ -60,9 +60,15 @@ export default new Router({
       component: () => import("../views/nav/Tactical.vue")
     },
     {
+      path: "/ranking",
+      name: "ranking",
+      component: () => import("../views/footer/Ranking.vue")
+    },
+    {
       path: "/matchInput",
       name: "matchInput",
       component: () => import("../views/nav/match/MatchInput.vue")
+
     },
     {
       path: "/testUi",
