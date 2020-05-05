@@ -187,7 +187,7 @@
               </v-row>
             </v-col>
             <!-- 경기 기록 페이지 -->
-            <v-col cols="12" sm="6" xs="12" class="py-0" align-self="center">
+            <v-col cols="12" sm="6" xs="12" class="py-0">
               <v-card class="match__report" color="grey lighten-2">
                 <v-card-text class="headline py-1">게임 기록</v-card-text>
                 <v-card-text class="pa-0">
@@ -195,18 +195,23 @@
                     <v-timeline-item
                       v-for="event in eventList"
                       :key="event"
+                      class
                       small
                       fill-dot
                       color="white"
-                      :right="event.team_type === 'H' ? true : false"
-                      :left="event.team_type === 'A' ? true : false"
-                      :icon="event.event_type === 'Goal' ? 'fas fa-futbol' : 'fas fa-exchange-alt'"
+                      :right="event.team_type === 'A' ? true : false"
+                      :left="event.team_type === 'H' ? true : false"
+                      :icon="
+                        event.event_type === 'Goal'
+                          ? 'fas fa-futbol'
+                          : 'fas fa-exchange-alt'
+                      "
                       icon-color="black"
                     >
-                      <span class="firstEvent">{{event.firstPlayer}}</span>
-                      <span class="lastEvent ma-1">{{event.lastPlayer}}</span>
+                      <span class="firstEvent">{{ event.firstPlayer }}</span>
+                      <span class="lastEvent ma-1">{{ event.lastPlayer }}</span>
                       <span class="ma-1">
-                        <v-btn x-small icon @click="deleteButton">
+                        <v-btn x-small icon @click="deleteButton(event)">
                           <v-icon dark>fas fa-times</v-icon>
                         </v-btn>
                       </span>
@@ -326,7 +331,13 @@ export default {
         }
       }
     },
-    deleteButton: function() {},
+    deleteButton: function(event) {
+      this.eventList.forEach((item, idx) => {
+        if (item.event_id === event.event_id) {
+          this.eventList.splice(idx, 1);
+        }
+      });
+    },
     getEventList: function() {
       // TODO: 경기 이벤트 리스트 가져오는 API 호출
       this.eventList = dummyData.gameEventList;
@@ -471,5 +482,8 @@ export default {
 
 .match__report {
   height: 450px;
+
+  .firstEvent {
+  }
 }
 </style>
