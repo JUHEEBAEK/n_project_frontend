@@ -50,10 +50,10 @@ export default {
 
   },
   methods: {
-      focusCanvas(){
-        console.log("focusing")
-        $('#can').focus();
-      },
+    focusCanvas(){
+    console.log("focusing")
+    $('#can').focus();
+    },
     newRect(){
         let _this = this
         this.canvas.observe('mouse:down', function(e) { _this.mousedown(e); });
@@ -84,7 +84,7 @@ export default {
 
     },
 
-        /* Mousemove */
+    /* Mousemove */
     mousemove(e) {
         if(!this.isDrawingMode) {
             return false;
