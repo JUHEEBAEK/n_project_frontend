@@ -125,12 +125,12 @@ export default {
     },
         
     saveAndErase(){
-        this.save_data = JSON.stringify(this.canvas.toDatalessJSON())
+        this.save_data = this.canvas.toDatalessJSON()
         this.canvas.remove(...this.canvas.getObjects());
     },
     load(){
         let _this = this
-        this.canvas.loadFromJSON(JSON.parse(this.save_data), function() {
+        this.canvas.loadFromJSON(this.save_data, function() {
                 _this.canvas.renderAll(); 
             },function(o,object){
                 console.log(o,object)
