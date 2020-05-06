@@ -11,7 +11,6 @@
             ></schedule-date-list>
             <squad-quarter></squad-quarter>
             <squad-team-list></squad-team-list>
-            <squad-quarter></squad-quarter>
             <squad-input-position></squad-input-position>
             <v-row>
               <v-col>

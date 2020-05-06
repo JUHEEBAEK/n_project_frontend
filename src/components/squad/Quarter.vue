@@ -17,25 +17,13 @@
               @click="toggle"
               @click.native="setQuaterInfo(item)"
             >
-              <v-card
-                class="date__card ma-2"
-                :class="{ active: active }"
-                height="70"
-                width="50"
-                @click="toggle"
-                @click.native="setQuaterInfo(item)"
-              >
-                <v-row class="fill-height" align="center" justify="center">
-                  <v-scale-transition>
-                    <div>
-                      <p class="date__Mon my-2"> Q{{item}}</p>
-                    </div>
-                  </v-scale-transition>
-                </v-row>
-              </v-card>
-            </v-slide-item>
-          </v-slide-group>
-        </v-col>
+              <v-scale-transition>
+                <p class="quarter__text">{{ item }}</p>
+              </v-scale-transition>
+            </v-card>
+          </v-slide-item>
+        </v-slide-group>
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -64,13 +52,12 @@ export default {
   mounted() {
     // 가장 처음에 아무거나 하나 선택되어 있게 할 것
   },
+
   methods: {
     ...mapMutations(["SET_DATE", "QAURTER_INDEX"]),
     setQuaterInfo() {
       console.log("setQuarterInfo");
       //쿼터 정보를 불러온다
-      let selectedQuarter = this.quarterList[this.quarterIndex]
-      this.$emit("changeQarter", selectedQuarter);
     },
   },
 };

@@ -3,111 +3,26 @@
     <core-Toolbar />
     <core-Navigation />
     <!-- 스케쥴 리스트 영역 -->
-    <v-container class="schedule__container">
-      <v-row dense>
-        <v-col cols="12" xs="12" class="date__content">
-          <span>SELECTED DATE</span> -
-          <span class="date__month pr-2">{{ setMonth }}</span>
-          <span class="date__year">{{ setYear }}</span>
-        </v-col>
-      </v-row>
-      <v-row dense>
-        <v-col cols="12" class="schedule__list">
-          <v-slide-group v-model="scheduleIndex" show-arrows center-active>
-            <v-slide-item
-              v-for="item in scheduleList"
-              :key="item.id"
-              v-slot:default="{ active, toggle }"
-            >
-              <v-card
-                class="date__card ma-2"
-                :class="{ active: active }"
-                height="70"
-                width="50"
-                @click="toggle"
-                @click.native="setInfo(item)"
-              >
-                <v-row class="fill-height" align="center" justify="center">
-                  <v-scale-transition>
-                    <div>
-                      <p class="date__Mon my-2">{{ item.date | setMomentMonth }}</p>
-                      <p class="date__day mb-0">{{ item.date.substr(8, 2) }}</p>
-                    </div>
-                  </v-scale-transition>
-                </v-row>
-              </v-card>
-            </v-slide-item>
-          </v-slide-group>
-        </v-col>
-      </v-row>
-    </v-container>
-    <!-- 쿼터 리스트 영역 -->
-    <v-container class="quarter__container">
-      <v-row class="mx-2">
-        <v-col cols="12" class="quarter__list">
-          <v-slide-group v-model="quarterIndex" show-arrows center-active>
-            <v-slide-item
-              v-for="item in quarterCount"
-              class="my-2"
-              :key="item"
-              v-slot:default="{ active, toggle }"
-            >
-              <v-card
-                class="quarter__card"
-                :class="{ active: active }"
-                height="30"
-                width="50"
-                @click="toggle"
-                @click.native="setQuaterInfo(item)"
-              >
-                <v-scale-transition>
-                  <p class="quarter__text">{{ item }}</p>
-                </v-scale-transition>
-              </v-card>
-            </v-slide-item>
-          </v-slide-group>
-        </v-col>
-      </v-row>
-    </v-container>
+    <v-contatner fluid>
+      <v-form ref="form">
+        <schedule-date-list @changeDate="setScheduleData"></schedule-date-list>
+        <!-- 쿼터 리스트 영역 -->
+        <squad-quarter></squad-quarter>
+      </v-form>
+    </v-contatner>
+
     <!-- 경기 기록 이벤트 타입 설정 부분 -->
     <v-container>
       <v-row>
         <v-col cols="12" class="mx-2 py-1">
-          <v-switch class="mt-0" v-model="isGoal" hide-details :label="`Status: ${setStatus}`"></v-switch>
+          <v-switch
+            class="mt-0"
+            v-model="isGoal"
+            hide-details
+            :label="`Status: ${setStatus}`"
+          ></v-switch>
         </v-col>
       </v-row>
-      <!-- 경기에 참여한 선수 그려주는 화면 -->
-      <!-- <v-row class="position__field" justify="center">
-        <v-col cols="12" lg="4" sm="12" xs="12">
-          <v-row>
-            <v-col
-              class="position__box position__box-home text-center px-0 pb-0"
-              cols="4"
-              align-self="center"
-              v-for="item in positionHomeList"
-              :key="item"
-            >
-              <span>{{ item }} </span>
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-      <v-row class="position__field" justify="center">
-        <v-col cols="4">
-          <v-row>
-            <v-col
-              class="position__box position__box-away text-center px-0 pb-0"
-              cols="4"
-              align-self="center"
-              v-for="item in positionAwayList"
-              :key="item"
-            >
-              <span>{{ item }} </span>
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>-->
-
       <v-row>
         <v-container>
           <v-row>
@@ -130,7 +45,8 @@
                           small
                           color="lime lighten-2"
                           @click="clickPlayer(player)"
-                        >{{ player.name }}</v-btn>
+                          >{{ player.name }}</v-btn
+                        >
                       </v-col>
                     </v-row>
                   </v-card>
@@ -153,7 +69,8 @@
                           small
                           color="lime lighten-2"
                           @click="clickPlayer(player)"
-                        >{{ player.name }}</v-btn>
+                          >{{ player.name }}</v-btn
+                        >
                       </v-col>
                     </v-row>
                   </v-card>
@@ -176,11 +93,21 @@
                   <p>선수2</p>
                   <span>{{ lastPlayer }}</span>
                 </v-col>
-                <v-col class="pa-0 d-flex flex-column align-center" cols="4" align-self="center">
+                <v-col
+                  class="pa-0 d-flex flex-column align-center"
+                  cols="4"
+                  align-self="center"
+                >
                   <v-btn class="my-1" x-small fab @click="init">
                     <v-icon dark>fas fa-eraser</v-icon>
                   </v-btn>
-                  <v-btn class="my-1" x-small fab color="primary" @click="clickSaveButton">
+                  <v-btn
+                    class="my-1"
+                    x-small
+                    fab
+                    color="primary"
+                    @click="clickSaveButton"
+                  >
                     <v-icon dark>fas fa-pencil-alt</v-icon>
                   </v-btn>
                 </v-col>
@@ -232,11 +159,24 @@ import moment from "moment";
 import dummyData from "../../../assets/value/dummy.json";
 import Position from "../../../assets/value/Postion.json";
 
+import { createNamespacedHelpers } from "vuex";
+const {
+  mapState: calendarMapState,
+  mapGetters: calendarMapGetters,
+  mapMutations: calendarMapMutations,
+  mapActions: calendarMapActions,
+} = createNamespacedHelpers("calendar");
+const {
+  mapState: squadState,
+  mapMutations: squadMutations,
+  mapActions: squadActions,
+} = createNamespacedHelpers("squad");
+
 export default {
   filters: {
     setMomentMonth: function(val) {
       return moment(val).format("MMM");
-    }
+    },
   },
   data: () => ({
     // 스케쥴 리스트 영역
@@ -262,7 +202,7 @@ export default {
     position: Position.basicPostion,
     homePlayerList: [],
     awayPlayerList: [],
-    eventList: []
+    eventList: [],
   }),
   computed: {
     setStatus() {
@@ -276,7 +216,7 @@ export default {
         this.lastEventType = "In";
         return "Change Player";
       }
-    }
+    },
   },
   watch: {
     scheduleIndex: async function(val) {
@@ -289,7 +229,7 @@ export default {
     quarterCount: function() {
       this.quarterIndex =
         this.scheduleList[this.scheduleIndex]["quarterCount"] - 1;
-    }
+    },
   },
   async created() {
     await this.setScheduleList();
@@ -298,6 +238,7 @@ export default {
     this.getEventList();
   },
   methods: {
+    ...squadActions(["getSplitTeamListWithSchedule"]),
     init() {
       this.firstPlayer = null;
       this.lastPlayer = null;
@@ -309,7 +250,7 @@ export default {
         event_type: this.firstEventType,
         firstPlayer: this.firstPlayer,
         lastPlayer: this.lastPlayer,
-        teamType: this.teamType
+        teamType: this.teamType,
       });
 
       this.init();
@@ -369,10 +310,10 @@ export default {
       // 쿼터 초기 세팅
       this.quarterCount = this.scheduleList[this.scheduleIndex]["quarterCount"];
     },
-    setQuaterInfo(item) {
-      console.log("quarterInfo 가져오기", item);
-    }
-  }
+    async setScheduleData(selected_schedule) {
+      if (this.scheduleIndex == -1) return;
+    },
+  },
 };
 </script>
 
