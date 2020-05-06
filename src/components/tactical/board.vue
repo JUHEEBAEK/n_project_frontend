@@ -16,6 +16,8 @@
         <v-btn @click="load()"> Load </v-btn>
         <v-btn @click="makeImage()"> CreateImage </v-btn>
         <v-btn @click="deleteSelected()"> Delete </v-btn>
+        <v-btn @click="doSomeAnimation()"> DoAnimation </v-btn>
+        
         
     </div>
 </template>
@@ -157,6 +159,17 @@ export default {
                 this.canvas.remove(activeObject);
             }
         }
+    },
+    doSomeAnimation(){
+        // 선택된 object를 오른쪽으로 이동시켜보자
+        var activeObject = this.canvas.getActiveObject()
+        activeObject.animate('left', activeObject.left<500 ? 700 : 100,{
+            duration: 1000,
+            onChange: this.canvas.renderAll.bind(this.canvas),
+            onComplete: function(){console.log("end")},
+            easing:fabric.util.ease["easeInOutCubic"]
+        })
+
     }
     
   },
