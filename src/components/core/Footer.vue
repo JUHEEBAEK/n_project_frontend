@@ -1,8 +1,12 @@
 <template>
-  <v-bottom-navigation color="light-blue darken-4" v-model="bottomNav" height="72">
+  <v-bottom-navigation
+    color="light-blue darken-4"
+    v-model="bottomNav"
+    height="72"
+  >
     <v-btn v-for="item in items" :key="item.title" :to="item.to">
       <span>{{ item.title }}</span>
-      <v-img :src="`../../${item.icon}`" class="footer__img" contain />
+      <v-img :src="`${item.icon}`" class="footer__img" contain />
     </v-btn>
   </v-bottom-navigation>
 </template>
@@ -10,32 +14,33 @@
 <script>
 export default {
   name: "Footer.vue",
-  
+
   data: () => ({
     bottomNav: "CALENDAR",
     items: [
       {
         title: "ATTEND",
         to: "/attend",
-        icon: require("../../assets/linear/dark/046-calendar.png")
+        icon: require("../../assets/linear/dark/calendar.png"),
       },
       {
         title: "SQUAD",
         to: "/squadView",
-        icon: require("../../assets/linear/dark/003-tshirt.png")
+        icon: require("../../assets/linear/dark/tshirt.png"),
       },
       {
         title: "REPORT",
         to: "",
-        icon: require("../../assets/linear/dark/037-scoreboard.png")
+        icon: require("../../assets/linear/dark/scoreboard.png"),
       },
       {
         title: "RANKING",
         to: "/ranking",
-        icon: require("../../assets/linear/dark/006-podium.png")
-      }
-    ]
-  })
+        icon:
+          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/podium.png",
+      },
+    ],
+  }),
 };
 </script>
 

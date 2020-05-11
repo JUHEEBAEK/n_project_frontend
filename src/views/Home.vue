@@ -9,8 +9,8 @@
 <script>
 export default {
   data: () => ({
-    message: "Vue"
-  })
+    message: "Wolrd!!",
+  }),
 };
 </script>
 

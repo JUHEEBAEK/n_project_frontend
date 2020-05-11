@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// const baseUrl = 'http://15.164.138.118:3000';
+// const baseUrl = 'http://	52.78.180.164:3000';
 const devUrl = "http://localhost:3000";
 
 

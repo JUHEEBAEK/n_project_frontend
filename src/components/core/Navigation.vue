@@ -10,7 +10,12 @@
     <v-divider />
     <v-list nav>
       <v-list-item-group color="primary">
-        <v-list-item class="nav__item" v-for="item in items" :key="item.title" :to="`${item.to}`">
+        <v-list-item
+          class="nav__item"
+          v-for="item in items"
+          :key="item.title"
+          :to="`${item.to}`"
+        >
           <v-list-item-icon>
             <v-img :src="item.icon" contain width="24" />
           </v-list-item-icon>
@@ -28,7 +33,7 @@
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: commonMapState,
-  mapMutations: commonMapMutations
+  mapMutations: commonMapMutations,
 } = createNamespacedHelpers("common");
 
 export default {
@@ -37,35 +42,34 @@ export default {
       {
         title: "TEAM",
         to: "",
-        // icon: require("../../assets/fsnnnn_emblem_official2.png")
         icon:
-          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/fsnnnn_emblem_official2.png"
+          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/fsnnnn_emblem_official2.png",
       },
       {
         title: "MEMBER",
         to: "/member",
-        icon: require("../../assets/linear/dark/team.png")
+        icon: require("../../assets/linear/dark/team.png"),
       },
       {
         title: "CALENDAR",
         to: "/calendar",
-        icon: require("../../assets/linear/dark/deadline.png")
+        icon: require("../../assets/linear/dark/deadline.png"),
       },
       {
         title: "SQUAD",
         to: "/squad",
-        icon: require("../../assets/linear/dark/003-tshirt.png")
+        icon: require("../../assets/linear/dark/tshirt.png"),
       },
       {
         title: "MATCH PREPARE",
         to: "/matchPrepare",
-        icon: require("../../assets/linear/dark/soccer.png")
+        icon: require("../../assets/linear/dark/soccer.png"),
       },
       {
         title: "MATCH",
         to: "/matchInput",
-        icon: require("../../assets/linear/dark/medical-history.png")
-      }
+        icon: require("../../assets/linear/dark/medical-history.png"),
+      },
       // {
       //   title: "STADIUM",
       //   to: "",
@@ -78,7 +82,7 @@ export default {
       // },
       /* 임시로 추가 */
       // { title: "Spinner", to: "spinner" }
-    ]
+    ],
   }),
   computed: {
     ...commonMapState(["drawer"]),
@@ -88,14 +92,14 @@ export default {
       },
       set(val) {
         this.setDrawer(val);
-      }
-    }
+      },
+    },
   },
   mounted() {},
 
   methods: {
-    ...commonMapMutations(["setDrawer"])
-  }
+    ...commonMapMutations(["setDrawer"]),
+  },
 };
 </script>
 <style scoped>
