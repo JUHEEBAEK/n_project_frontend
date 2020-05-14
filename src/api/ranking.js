@@ -9,7 +9,7 @@ export const getGoalRanking = async() => {
     }
 };
 
-export const assistRanking = async() => {
+export const getAssistRanking = async() => {
     try {
         const response = await generalReq("post", "/api/ranking/assistRanking/");
         return response;

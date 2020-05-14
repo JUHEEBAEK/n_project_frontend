@@ -10,7 +10,12 @@
     <v-divider />
     <v-list nav>
       <v-list-item-group color="primary">
-        <v-list-item class="nav__item" v-for="item in items" :key="item.title" :to="`${item.to}`">
+        <v-list-item
+          class="nav__item"
+          v-for="item in items"
+          :key="item.title"
+          :to="`${item.to}`"
+        >
           <v-list-item-icon>
             <v-img :src="item.icon" contain width="24" />
           </v-list-item-icon>
@@ -28,7 +33,7 @@
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: commonMapState,
-  mapMutations: commonMapMutations
+  mapMutations: commonMapMutations,
 } = createNamespacedHelpers("common");
 
 export default {
@@ -38,38 +43,38 @@ export default {
         title: "TEAM",
         to: "",
         icon:
-          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/fsnnnn_emblem_official2.png"
+          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/fsnnnn_emblem_official2.png",
       },
       {
         title: "MEMBER",
         to: "/member",
         icon:
-          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/team.png"
+          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/team.png",
       },
       {
         title: "CALENDAR",
         to: "/calendar",
         icon:
-          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/deadline.png"
+          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/deadline.png",
       },
       {
         title: "SQUAD",
         to: "/squad",
         icon:
-          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/003-tshirt.png"
+          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/003-tshirt.png",
       },
       {
         title: "MATCH PREPARE",
         to: "/matchPrepare",
         icon:
-          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/soccer.png"
+          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/soccer.png",
       },
       {
         title: "MATCH",
         to: "/matchInput",
         icon:
-          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/medical-history.png"
-      }
+          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/medical-history.png",
+      },
       // {
       //   title: "STADIUM",
       //   to: "",
@@ -82,7 +87,7 @@ export default {
       // },
       /* 임시로 추가 */
       // { title: "Spinner", to: "spinner" }
-    ]
+    ],
   }),
   computed: {
     ...commonMapState(["drawer"]),
@@ -92,14 +97,14 @@ export default {
       },
       set(val) {
         this.setDrawer(val);
-      }
-    }
+      },
+    },
   },
   mounted() {},
 
   methods: {
-    ...commonMapMutations(["setDrawer"])
-  }
+    ...commonMapMutations(["setDrawer"]),
+  },
 };
 </script>
 <style scoped>
