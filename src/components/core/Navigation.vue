@@ -37,34 +37,38 @@ export default {
       {
         title: "TEAM",
         to: "",
-        // icon: require("../../assets/fsnnnn_emblem_official2.png")
         icon:
           "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/fsnnnn_emblem_official2.png"
       },
       {
         title: "MEMBER",
         to: "/member",
-        icon: require("../../assets/linear/dark/team.png")
+        icon:
+          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/team.png"
       },
       {
         title: "CALENDAR",
         to: "/calendar",
-        icon: require("../../assets/linear/dark/deadline.png")
+        icon:
+          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/deadline.png"
       },
       {
         title: "SQUAD",
         to: "/squad",
-        icon: require("../../assets/linear/dark/003-tshirt.png")
+        icon:
+          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/003-tshirt.png"
       },
       {
         title: "MATCH PREPARE",
         to: "/matchPrepare",
-        icon: require("../../assets/linear/dark/soccer.png")
+        icon:
+          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/soccer.png"
       },
       {
         title: "MATCH",
         to: "/matchInput",
-        icon: require("../../assets/linear/dark/medical-history.png")
+        icon:
+          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/medical-history.png"
       }
       // {
       //   title: "STADIUM",

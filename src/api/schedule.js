@@ -1,60 +1,47 @@
-import axios from "axios";
+import { generalReq } from "./index.js";
 
-// const baseUrl = 'http://15.164.138.118:3000';
-const devUrl = "http://localhost:3000";
-
-async function createSchedule(form) {
+export const getScheduleList = async() => {
   try {
-    const response = await axios.post(`${devUrl}/api/schedule/create`, form);
+    const response = await generalReq("get", "/api/schedule/list");
     return response;
   } catch (e) {
-    console.log(e);
+      console.log(e);
   }
-}
+};
 
-async function getScheduleList() {
+export const createSchedule = async(form) => {
   try {
-    const response = await axios.get(`${devUrl}/api/schedule/list`);
+    const response = await generalReq("post", "/api/schedule/create", form);
     return response;
   } catch (e) {
-    console.log(e);
+      console.log(e);
   }
-}
+};
 
-async function getInfo(schduleId) {
+export const getInfo = async(schduleId) => {
   try {
-    const response = await axios.get(`${devUrl}/api/schedule/getInfo/${schduleId}`);
-
+    const response = await generalReq("get", "/api/schedule/getInfo", schduleId);
     return response;
   } catch (e) {
-    console.log(e);
+      console.log(e);
   }
-}
+};
 
-async function deleteSchedule(schedule_id_form) {
+export const deleteSchedule = async(schedule_id_form) => {
   try {
-    const response = await axios.delete(`${devUrl}/api/schedule/delete`, {
-      data: schedule_id_form
-    });
+    let data = { data: schedule_id_form}
+    const response = await generalReq("delete", "/api/schedule/delete", data);
     return response;
   } catch (e) {
-    console.log(e);
+      console.log(e);
   }
-}
+};
 
-async function updateSchedule(formData) {
+export const updateSchedule = async(formData) => {
   try {
-    const response = await axios.put(`${devUrl}/api/schedule/update`, formData)
+    const response = await generalReq("put", "/api/schedule/update", formData);
     return response;
   } catch (e) {
-    console.log(e);
+      console.log(e);
   }
-}
-
-export {
-  createSchedule,
-  getScheduleList,
-  getInfo,
-  deleteSchedule,
-  updateSchedule
 };

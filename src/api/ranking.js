@@ -1,37 +1,28 @@
-import axios from "axios";
+import { generalReq } from "./index.js";
 
-// const baseUrl = 'http://15.164.138.118:3000';
-const devUrl = "http://localhost:3000";
+export const getGoalRanking = async() => {
+    try {
+        const response = await generalReq("post", "/api/ranking/goalRanking/");
+        return response;
+    } catch (e) {
+        console.log(e);
+    }
+};
 
-async function getGoalRanking(form) {
-  try {
-    const response = await axios.post(`${devUrl}/api/ranking/goalRanking`, form);
-    return response;
-  } catch (e) {
-    console.log(e);
-  }
-}
+export const assistRanking = async() => {
+    try {
+        const response = await generalReq("post", "/api/ranking/assistRanking/");
+        return response;
+    } catch (e) {
+        console.log(e);
+    }
+};
 
-async function getAssistRanking() {
-  try {
-    const response = await axios.get(`${devUrl}/api/ranking/assistRanking`);
-    return response;
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-async function getCleanSheetRanking(formData) {
-  try {
-    const response = await axios.put(`${devUrl}/api/ranking/cleanSheetRanking`, formData);
-    return response;
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-export {
-    getGoalRanking,
-    getAssistRanking,
-    getCleanSheetRanking,
+export const getCleanSheetRanking = async() => {
+    try {
+        const response = await generalReq("put", "/api/ranking/cleanSheetRanking/", formData);
+        return response;
+    } catch (e) {
+        console.log(e);
+    }
 };
