@@ -1,17 +1,10 @@
-import axios from "axios";
+import { generalReq } from "./index.js";
 
-// const baseUrl = 'http://15.164.138.118:3000';
-const devUrl = "http://localhost:3000";
-
-async function getStadiumList() {
+export const getStadiumList = async() => {
   try {
-    const response = await axios.get(`${devUrl}/api/stadium/list`);;
-    return response;
+      const response = await generalReq("get", "/api/stadium/list");
+      return response;
   } catch (e) {
-    console.log(e);
+      console.log(e);
   }
-}
-
-export {
-  getStadiumList
 };

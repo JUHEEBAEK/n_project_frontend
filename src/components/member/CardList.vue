@@ -15,7 +15,7 @@
             class="white--text align-end"
             aspect-ratio="2"
             cover
-            :src="require(`../../assets/bgImage/${item.bg_image}`)"
+            :src="`https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/bgImage/${item.bg_image}`"
           />
           <v-card-text class="text--primary pa-1">
             <div class="text text__title">{{ item.name }}</div>

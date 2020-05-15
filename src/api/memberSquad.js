@@ -1,66 +1,47 @@
-import axios from "axios";
+import { generalReq } from "./index.js";
 
-// const baseUrl = 'http://15.164.138.118:3000';
-const devUrl = "http://localhost:3000";
-
-
-async function getinfoMemberSquad(id) {
+export const getinfoMemberSquad = async(id) => {
     try {
-        const response = await axios.get(`${devUrl}/api/memberSquad/getinfo/${id}`);
+        const response = await generalReq("get", "/api/memberSquad/getinfo/" + id);
         return response;
     } catch (e) {
         console.log(e);
     }
-}
-async function createMemberSquad(form) {
-    try {
-        const response = await axios.post(
-            `${devUrl}/api/memberSquad/create`,
-            form
-        );
-        return response;
-    } catch (e) {
-        console.log(e);
-    }
-}
-async function createMultipleMemberSquad(form) {
-    try {
-        const response = await axios.post(
-            `${devUrl}/api/memberSquad/createMultiple`,
-            form
-        );
-        return response;
-    } catch (e) {
-        console.log(e);
-    }
-}
+};
 
-async function deleteMemberSquad(form) {
+export const createMemberSquad = async(form) => {
     try {
-        const response = await axios.delete(
-            `${devUrl}/api/memberSquad/delete`, {
-                data: form
-            }
-        );
+        const response = await generalReq("post", "/api/memberSquad/create", form);
         return response;
     } catch (e) {
         console.log(e);
     }
-}
+};
 
-async function getMemberSquadList() {
+export const createMultipleMemberSquad = async(form) => {
     try {
-        const response = await axios.get(`${devUrl}/api/memberSquad/list`);
+        const response = await generalReq("post", "/api/memberSquad/createMultiple", form);
         return response;
     } catch (e) {
         console.log(e);
     }
-}
+};
 
-export {
-    getinfoMemberSquad,
-    createMemberSquad,
-    deleteMemberSquad,
-    getMemberSquadList,
-    createMultipleMemberSquad,
+export const deleteMemberSquad = async(form) => {
+    try {
+        let data = { data: form}
+        const response = await generalReq("delete", "/api/memberSquad/delete", data);
+        return response;
+    } catch (e) {
+        console.log(e);
+    }
+};
+
+export const getMemberSquadList = async() => {
+    try {
+        const response = await generalReq("get", "/api/memberSquad/getinfo/list");
+        return response;
+    } catch (e) {
+        console.log(e);
+    }
 };

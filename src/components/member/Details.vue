@@ -103,7 +103,7 @@ export default {
   },
   created() {
     this.date = moment(this.profile.join_date).format("YYYY-MM-DD");
-    this.imageUrl = require(`../../assets/bgImage/${this.profile["bg_image"]}`);
+    this.imageUrl = `https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/bgImage/${this.profile["bg_image"]}`;
   },
   methods: {
     ...memberMapActions(["delete_member", "update_member"]),
@@ -123,7 +123,7 @@ export default {
       this.$router.go(-1);
     },
     changeImage(target) {
-      this.imageUrl = require(`../../assets/bgImage/${target}`);
+      this.imageUrl = `"https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/bgImage/${target}`;
     }
   }
 };
