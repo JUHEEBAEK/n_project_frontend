@@ -11,12 +11,7 @@
       </v-app-bar>
 
       <v-card-text class="text--primary">
-        <v-text-field
-          v-model="profile.name"
-          filled
-          label="NAME"
-          prepend-icon="fas fa-user"
-        />
+        <v-text-field v-model="profile.name" filled label="NAME" prepend-icon="fas fa-user" />
         <v-text-field
           v-model="profile.uniform_number"
           filled
@@ -50,11 +45,7 @@
           </template>
           <v-date-picker v-model="date" @input="menu = false" />
         </v-menu>
-        <v-radio-group
-          v-model="profile.inflow_route"
-          row
-          prepend-icon="fas fa-paper-plane"
-        >
+        <v-radio-group v-model="profile.inflow_route" row prepend-icon="fas fa-paper-plane">
           <v-radio label="인스타" value="I" />
           <v-radio label="블로그" value="B" />
           <v-radio label="기타" value="O" />
@@ -81,14 +72,10 @@
       <v-card-actions class="justify-center">
         <v-row>
           <v-col cols="6">
-            <v-btn color="primary" block text @click="updateMember(profile)"
-              >UPDATE</v-btn
-            >
+            <v-btn color="primary" block text @click="updateMember(profile)">UPDATE</v-btn>
           </v-col>
           <v-col cols="6">
-            <v-btn color="red" block text @click="deleteMember(profile.id)"
-              >DELETE</v-btn
-            >
+            <v-btn color="red" block text @click="deleteMember(profile.id)">DELETE</v-btn>
           </v-col>
         </v-row>
       </v-card-actions>
@@ -102,17 +89,17 @@ import { createNamespacedHelpers } from "vuex";
 
 const {
   mapState: memberMapState,
-  mapActions: memberMapActions,
+  mapActions: memberMapActions
 } = createNamespacedHelpers("member");
 
 export default {
   data: () => ({
     menu: false,
     date: "",
-    imageUrl: "",
+    imageUrl: ""
   }),
   computed: {
-    ...memberMapState(["profile"]),
+    ...memberMapState(["profile"])
   },
   created() {
     this.date = moment(this.profile.join_date).format("YYYY-MM-DD");
@@ -137,7 +124,7 @@ export default {
     },
     changeImage(target) {
       this.imageUrl = `"https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/bgImage/${target}`;
-    },
-  },
+    }
+  }
 };
 </script>
