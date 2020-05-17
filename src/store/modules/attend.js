@@ -103,7 +103,8 @@ const actions = {
         commit
     }, schedule_id) {
         const response = await attendList(schedule_id);
-        commit("SET_ATTEND", response.data);
+        console.log("response : ", response);
+        commit("SET_ATTEND", response);
         commit("UPDATE_ATTEND");
     },
     async get_attend_rate({
@@ -119,11 +120,12 @@ const actions = {
             before_date: beforeDate
         };
         const response = await countThreeMonths(formData);
-        commit("SET_COUNT_THREE_MONTHS", response.data);
+        commit("SET_COUNT_THREE_MONTHS", response);
     },
     async add_attend(context, payload) {
         let response = await createAttend(payload);
-        console.log('add_attend', response.data)
+        console.log("??????");
+        console.log('add_attend', response)
         if (response) {
             return true
         } else {
@@ -132,7 +134,7 @@ const actions = {
     },
     async delete_attend(context, payload) {
         let response = await deleteAttend(payload);
-        console.log('delte_attend', response.data)
+        console.log('delte_attend', response)
         if (response) {
             return true
         } else {

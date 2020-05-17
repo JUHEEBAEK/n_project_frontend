@@ -16,6 +16,7 @@ import VueMoment from "./plugins/moment";
 Vue.config.productionTip = false;
 Vue.use(VueMoment);
 Vue.use(VueCookies);
+Vue.prototype.$imgBaseUrl = "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/"
 
 const ignoreWarnMessage =
   "The .native modifier for v-on is only valid on components but it was used on <div>.";

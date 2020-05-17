@@ -17,7 +17,7 @@
           :to="`${item.to}`"
         >
           <v-list-item-icon>
-            <v-img :src="item.icon" contain width="24" />
+            <v-img :src="$imgBaseUrl + item.icon" contain width="24" />
           </v-list-item-icon>
 
           <v-list-item-content>
@@ -42,33 +42,31 @@ export default {
       {
         title: "TEAM",
         to: "",
-        icon:
-          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/fsnnnn_emblem_official2.png",
+        icon: "fsnnnn_emblem_official2.png",
       },
       {
         title: "MEMBER",
         to: "/member",
-        icon: require("../../assets/linear/dark/team.png"),
+        icon: "team.png",
       },
       {
         title: "CALENDAR",
-        to: "/calendar",
-        icon: require("../../assets/linear/dark/deadline.png"),
+        icon: "deadline.png",
       },
       {
         title: "SQUAD",
         to: "/squad",
-        icon: require("../../assets/linear/dark/tshirt.png"),
+        icon: "003-tshirt.png",
       },
       {
         title: "MATCH PREPARE",
         to: "/matchPrepare",
-        icon: require("../../assets/linear/dark/soccer.png"),
+        icon: "soccer.png",
       },
       {
         title: "MATCH",
         to: "/matchInput",
-        icon: require("../../assets/linear/dark/medical-history.png"),
+        icon: "medical-history.png",
       },
       // {
       //   title: "STADIUM",

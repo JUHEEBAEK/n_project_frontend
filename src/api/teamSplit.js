@@ -1,79 +1,72 @@
-import axios from "axios";
+import { generalReq } from "./index.js";
 
+<<<<<<< HEAD
 // const baseUrl = 'http://	52.78.180.164:3000';
 const devUrl = "http://localhost:3000";
 
 async function createTeamSplit(form) {
+=======
+export const getTeamSplitList = async() => {
+>>>>>>> develop
   try {
-    const response = await axios.post(`${devUrl}/api/teamSplit/create`, form);
-    return response;
+      const response = await generalReq("get", "/api/teamSplit/list");
+      return response;
   } catch (e) {
-    console.log(e);
+      console.log(e);
   }
-}
+};
 
-async function getTeamSplitList() {
+export const createTeamSplit = async(form) => {
   try {
-    const response = await axios.get(`${devUrl}/api/teamSplit/list`);
-    return response;
+      const response = await generalReq("post", "/api/teamSplit/create", form);
+      return response;
   } catch (e) {
-    console.log(e);
+      console.log(e);
   }
-}
-async function getSplitTeamListWithSchedule(scheduleId) {
-  try {
-    const response = await axios.get(`${devUrl}/api/teamSplit/getSplitTeamListWithSchedule/${scheduleId}`);
-    return response;
-  } catch (e) {
-    console.log(e);
-  }
-}
-  
-async function getInfo(teamSplitId) {
-  try {
-    const response = await axios.get(`${devUrl}/api/teamSplit/getInfo/${teamSplitId}`);
+};
 
-    return response;
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-async function deleteTeamSplit(teamSplit_id_form) {
+export const getSplitTeamListWithSchedule = async(scheduleId) => {
   try {
-    const response = await axios.delete(`${devUrl}/api/teamSplit/delete`, {
-      data: teamSplit_id_form
-    });
-    return response;
+      const response = await generalReq("get", "/api/teamSplit/getSplitTeamListWithSchedule/" + scheduleId);
+      return response;
   } catch (e) {
-    console.log(e);
+      console.log(e);
   }
-}
+};
 
-async function updateTeamSplit(formData) {
+export const getInfo = async(teamSplitId) => {
   try {
-    const response = await axios.put(`${devUrl}/api/teamSplit/update`, formData)
-    return response;
+      const response = await generalReq("get", "/api/teamSplit/getInfo/" + teamSplitId);
+      return response;
   } catch (e) {
-    console.log(e);
+      console.log(e);
   }
-}
+};
 
-async function bulkCreateOrUpdate(formData){
+export const deleteTeamSplit = async(teamSplit_id_form) => {
   try {
-    const response = await axios.post(`${devUrl}/api/teamSplit/bulkCreateOrUpdate`, formData)
+    let data = { data: teamSplit_id_form }
+    const response = await generalReq("delete", "/api/teamSplit/delete", data);
     return response;
   } catch (e) {
-    console.log(e);
+      console.log(e);
   }
-}
+};
 
-export {
-  createTeamSplit,
-  getTeamSplitList,
-  getSplitTeamListWithSchedule,
-  getInfo,
-  deleteTeamSplit,
-  updateTeamSplit,
-  bulkCreateOrUpdate
+export const updateTeamSplit = async(formData) => {
+  try {
+    const response = await generalReq("put", "/api/teamSplit/update", formData);
+    return response;
+  } catch (e) {
+      console.log(e);
+  }
+};
+
+export const bulkCreateOrUpdate = async(formData) => {
+  try {
+    const response = await generalReq("post", "/api/teamSplit/bulkCreateOrUpdate", formData);
+    return response;
+  } catch (e) {
+      console.log(e);
+  }
 };

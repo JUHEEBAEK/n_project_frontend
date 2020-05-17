@@ -21,23 +21,42 @@ export default {
       {
         title: "ATTEND",
         to: "/attend",
+<<<<<<< HEAD
         icon: require("../../assets/linear/dark/calendar.png"),
+=======
+        icon:
+          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/046-calendar.png",
+>>>>>>> develop
       },
       {
         title: "SQUAD",
         to: "/squadView",
+<<<<<<< HEAD
         icon: require("../../assets/linear/dark/tshirt.png"),
+=======
+        icon:
+          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/003-tshirt.png",
+>>>>>>> develop
       },
       {
         title: "REPORT",
         to: "",
+<<<<<<< HEAD
         icon: require("../../assets/linear/dark/scoreboard.png"),
+=======
+        icon:
+          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/037-scoreboard.png",
+>>>>>>> develop
       },
       {
         title: "RANKING",
         to: "/ranking",
         icon:
+<<<<<<< HEAD
           "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/podium.png",
+=======
+          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/006-podium.png",
+>>>>>>> develop
       },
     ],
   }),

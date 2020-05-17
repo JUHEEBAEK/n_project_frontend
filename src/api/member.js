@@ -1,60 +1,26 @@
-import axios from "axios";
+import { generalReq } from "./index.js";
 
+<<<<<<< HEAD
 // const baseUrl = 'http://	52.78.180.164:3000';
 const devUrl = "http://localhost:3000";
+=======
+export const createMember = async(form) => {
+  return await generalReq("post", "/api/member/create", form);
+};
+>>>>>>> develop
 
-async function createMember(form) {
-  try {
-    const response = await axios.post(`${devUrl}/api/member/create`, form);
-    return response;
-  } catch (e) {
-    console.log(e);
-  }
-}
+export const getMember = async() => {
+  return await generalReq("get", "/api/member/list");
+};
 
-async function getMember() {
-  try {
-    const response = await axios.get(`${devUrl}/api/member/list`);
-    return response;
-  } catch (e) {
-    console.log(e);
-  }
-}
+export const detailsMember = async(id) => {
+  return await generalReq("get", "/api/member/" + id);
+};
 
-async function detailsMember(id) {
-  try {
-    const response = await axios.get(`${devUrl}/api/member/${id}`);
-    return response;
-  } catch (e) {
-    console.log(e);
-  }
-}
+export const deleteMember = async(member_id) => {
+  return await generalReq("get", "/api/member/delete", member_id);
+};
 
-async function deleteMember(member_id) {
-  try {
-    const response = await axios.delete(
-      `${devUrl}/api/member/delete`,
-      member_id
-    );
-    return response;
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-async function updateMember(formData) {
-  try {
-    const response = await axios.put(`${devUrl}/api/member/update`, formData);
-    return response;
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-export {
-  createMember,
-  getMember,
-  deleteMember,
-  detailsMember,
-  updateMember
+export const updateMember = async(formData) => {
+  return await generalReq("get", "/api/member/update", formData);
 };

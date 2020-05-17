@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "serve": "vue-cli-service serve --mode development",
+    "serve:prod": "vue-cli-service serve --mode production",
+    "build:dev": "vue-cli-service build --mode development --dist",
+    "build:prod": "vue-cli-service build --mode production --dist",
+    "prebuild": "rm -rf dist",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
     "start": "vue-cli-service serve",

@@ -114,10 +114,11 @@ const routes = [{
   {
     path: "*",
     name: "notFound",
+    
     redirect: {
       name: "home"
-    }
-    // component: () => import("../views/NotFound.vue")
+    },
+    component: () => import("../views/Home.vue")
   }
 ]
 

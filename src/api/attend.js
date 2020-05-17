@@ -1,64 +1,26 @@
-import axios from "axios";
+import { generalReq } from "./index.js";
 
-// const baseUrl = 'http://15.164.138.118:3000';
-const devUrl = "http://localhost:3000";
-
-async function attendList(id) {
+export const attendList = async(id) => {
     try {
-        const response = await axios.get(`${devUrl}/api/attend/getattendList/${id}`);
+        const response = await generalReq("get", "/api/attend/getAttendList/" + id);
         return response;
     } catch (e) {
         console.log(e);
     }
-}
+};
 
-async function createAttend(form) {
-    try {
-        const response = await axios.post(
-            `${devUrl}/api/attend/create`,
-            form
-        );
-        return response;
-    } catch (e) {
-        console.log(e);
-    }
-}
+export const createAttend = async(form) => {
+    return await generalReq("post", "/api/attend/create", form);
+};
 
-async function deleteAttend(form) {
-    try {
-        const response = await axios.delete(
-            `${devUrl}/api/attend/delete`, {
-                data: form
-            }
-        );
-        return response;
-    } catch (e) {
-        console.log(e);
-    }
-}
+export const deleteAttend = async(form) => {
+    return await generalReq("delete", "/api/attend/delete", form);
+};
 
-async function getScheduleList() {
-    try {
-        const response = await axios.get(`${devUrl}/api/schedule/list`);
-        return response;
-    } catch (e) {
-        console.log(e);
-    }
-}
+export const getScheduleList = async() => {
+    return await generalReq("get", "/api/schedule/list");
+};
 
-async function countThreeMonths(form) {
-    try {
-        const response = await axios.post(`${devUrl}/api/attend/count/threeMonths`, form);
-        return response;
-    } catch (e) {
-        console.log(e);
-    }
-}
-
-export {
-    attendList,
-    createAttend,
-    deleteAttend,
-    getScheduleList,
-    countThreeMonths
+export const countThreeMonths = async(form) => {
+    return await generalReq("get", "/api/attend/count/threeMonths", form);
 };
