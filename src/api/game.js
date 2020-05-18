@@ -1,76 +1,55 @@
-import axios from "axios";
+import { generalReq } from "./index.js";
 
-// const baseUrl = 'http://	52.78.180.164:3000';
-const devUrl = "http://localhost:3000";
-
-async function getinfoGame(id) {
+export const getinfoGame = async(id) => {
     try {
-        const response = await axios.get(`${devUrl}/api/game/getinfo/${id}`);
+        const response = await generalReq("get", "/api/game/getinfo/" + id);
         return response;
     } catch (e) {
         console.log(e);
     }
-}
-async function searchWithScheduleIdAndQuarter(form){
+};
+
+export const searchWithScheduleIdAndQuarter = async(form) => {
     try {
-        const response = await axios.post(
-            `${devUrl}/api/game/searchWithScheduleIdAndQuarter`,
-            form
-        );
+        const response = await generalReq("post", "/api/game/searchWithScheduleIdAndQuarter", form);
         return response;
     } catch (e) {
         console.log(e);
     }
-}
+};
 
-async function createGame(form) {
+export const createGame = async(form) => {
     try {
-        const response = await axios.post(
-            `${devUrl}/api/game/create`,
-            form
-        );
+        const response = await generalReq("post", "/api/game/create", form);
         return response;
     } catch (e) {
         console.log(e);
     }
-}
+};
 
-async function deleteGame(form) {
+export const deleteGame = async(form) => {
     try {
-        const response = await axios.delete(
-            `${devUrl}/api/game/delete`, {
-                data: form
-            }
-        );
+        const response = await generalReq("delete", "/api/game/delete", form);
         return response;
     } catch (e) {
         console.log(e);
     }
-}
+};
 
-async function getGameList() {
+export const getGameList = async() => {
     try {
-        const response = await axios.get(`${devUrl}/api/game/list`);
+        const response = await generalReq("get", "/api/game/list");
         return response;
     } catch (e) {
         console.log(e);
     }
-}
+};
 
-async function updateGame(formData) {
+export const updateGame = async(formData) => {
     try {
-      const response = await axios.put(`${devUrl}/api/game/update`, formData);
-      return response;
+        const response = await generalReq("put", "/api/game/update", formData);
+        return response;
     } catch (e) {
-      console.log(e);
+        console.log(e);
     }
-  }
-
-export {
-    getinfoGame,
-    createGame,
-    deleteGame,
-    getGameList,
-    searchWithScheduleIdAndQuarter,
-    updateGame,
 };

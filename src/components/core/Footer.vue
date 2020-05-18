@@ -6,7 +6,7 @@
   >
     <v-btn v-for="item in items" :key="item.title" :to="item.to">
       <span>{{ item.title }}</span>
-      <v-img :src="`${item.icon}`" class="footer__img" contain />
+      <v-img :src="$imgBaseUrl + item.icon" class="footer__img" contain />
     </v-btn>
   </v-bottom-navigation>
 </template>
@@ -21,42 +21,22 @@ export default {
       {
         title: "ATTEND",
         to: "/attend",
-<<<<<<< HEAD
-        icon: require("../../assets/linear/dark/calendar.png"),
-=======
-        icon:
-          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/046-calendar.png",
->>>>>>> develop
+        icon: "046-calendar.png",
       },
       {
         title: "SQUAD",
         to: "/squadView",
-<<<<<<< HEAD
-        icon: require("../../assets/linear/dark/tshirt.png"),
-=======
-        icon:
-          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/003-tshirt.png",
->>>>>>> develop
+        icon: "003-tshirt.png",
       },
       {
         title: "REPORT",
         to: "",
-<<<<<<< HEAD
-        icon: require("../../assets/linear/dark/scoreboard.png"),
-=======
-        icon:
-          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/037-scoreboard.png",
->>>>>>> develop
+        icon: "037-scoreboard.png",
       },
       {
         title: "RANKING",
         to: "/ranking",
-        icon:
-<<<<<<< HEAD
-          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/podium.png",
-=======
-          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/006-podium.png",
->>>>>>> develop
+        icon: "006-podium.png",
       },
     ],
   }),

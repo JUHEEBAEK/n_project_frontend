@@ -1,9 +1,5 @@
 import { generalReq } from "./index.js";
 
-<<<<<<< HEAD
-// const baseUrl = 'http://	52.78.180.164:3000';
-const devUrl = "http://localhost:3000";
-=======
 export const getGoalRanking = async() => {
     try {
         const response = await generalReq("post", "/api/ranking/goalRanking/");
@@ -12,7 +8,6 @@ export const getGoalRanking = async() => {
         console.log(e);
     }
 };
->>>>>>> develop
 
 export const getAssistRanking = async() => {
     try {

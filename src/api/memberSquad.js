@@ -1,14 +1,6 @@
 import { generalReq } from "./index.js";
 
-<<<<<<< HEAD
-// const baseUrl = 'http://	52.78.180.164:3000';
-const devUrl = "http://localhost:3000";
-
-
-async function getinfoMemberSquad(id) {
-=======
 export const getinfoMemberSquad = async(id) => {
->>>>>>> develop
     try {
         const response = await generalReq("get", "/api/memberSquad/getinfo/" + id);
         return response;

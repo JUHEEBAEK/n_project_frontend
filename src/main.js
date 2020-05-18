@@ -33,30 +33,5 @@ new Vue({
   router,
   store,
   vuetify,
-  async created() {
-    // Cookie 에 저장되어 있는 JWT 가 있는 경우 && LocalStorage 가 존재하는 경우
-    // LocalStorage 의 정보를 참고해서 Vuex 정보를 셋팅해준다.
-    if (getToken()) {
-      let payload = getTokenPayload(getToken());
-      // payload 및 LocalStorage 에 필요한 항목들이 정상적으로 들어가 있는 경우
-      if (
-        payload.idfAdmin &&
-        payload.email &&
-        payload.name &&
-        payload.authority &&
-        payload.exp
-      ) {
-        store.commit("account/login");
-      }
-      // payload || LocalStorage 에 필요한 속성들이 없는 경우 : 변질되었다고 판단
-      else {
-        console.error(LOG, "payload || LocalStorage changed error");
-      }
-    }
-    // 토큰 or localStorage 가 없는 경우
-    else {
-      console.error(LOG, "token || LocalStorage not exist error");
-    }
-  },
   render: h => h(App)
 }).$mount("#app");
