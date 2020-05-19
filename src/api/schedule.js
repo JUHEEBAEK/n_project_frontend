@@ -20,7 +20,7 @@ export const createSchedule = async(form) => {
 
 export const getInfo = async(schduleId) => {
   try {
-    const response = await generalReq("get", "/api/schedule/getInfo", schduleId);
+    const response = await generalReq("get", "/api/schedule/getInfo/"+ schduleId);
     return response;
   } catch (e) {
       console.log(e);
