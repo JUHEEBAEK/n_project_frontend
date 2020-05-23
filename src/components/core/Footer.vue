@@ -6,7 +6,7 @@
   >
     <v-btn v-for="item in items" :key="item.title" :to="item.to">
       <span>{{ item.title }}</span>
-      <v-img :src="`${item.icon}`" class="footer__img" contain />
+      <v-img :src="$imgBaseUrl + item.icon" class="footer__img" contain />
     </v-btn>
   </v-bottom-navigation>
 </template>
@@ -21,26 +21,22 @@ export default {
       {
         title: "ATTEND",
         to: "/attend",
-        icon:
-          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/046-calendar.png",
+        icon: "046-calendar.png",
       },
       {
         title: "SQUAD",
         to: "/squadView",
-        icon:
-          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/003-tshirt.png",
+        icon: "003-tshirt.png",
       },
       {
         title: "REPORT",
         to: "",
-        icon:
-          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/037-scoreboard.png",
+        icon: "037-scoreboard.png",
       },
       {
         title: "RANKING",
         to: "/ranking",
-        icon:
-          "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/006-podium.png",
+        icon: "006-podium.png",
       },
     ],
   }),

@@ -27,6 +27,7 @@ const mutations = {
   [constants.DELETE_MEMBER](state, memberId) {},
   [constants.DETAILS_MEMBER](state, memberProfile) {
     state.profile = memberProfile;
+    console.log("mutations", state.profile);
   },
   [constants.UPDATE_MEMBER](state, memberProfile) {
     state.res = memberProfile;
@@ -38,7 +39,7 @@ const actions = {
   async add_member(context, form) {
     try {
       const response = await createMember(form);
-      return response.data;
+      return response;
     } catch (e) {
       console.log(e);
     }
@@ -48,7 +49,7 @@ const actions = {
   }) {
     try {
       const response = await getMember();
-      commit("SELECT_MEMBER", response.data);
+      commit("SELECT_MEMBER", response);
       return response;
     } catch (e) {
       console.log(e);
@@ -60,8 +61,8 @@ const actions = {
   }, payload) {
     try {
       const response = await deleteMember(payload);
-      commit("DELETE_MEMBER", response.data);
-      return response.data;
+      commit("DELETE_MEMBER", response);
+      return response;
     } catch (e) {
       console.log(e);
     }
@@ -72,6 +73,8 @@ const actions = {
   }, payload) {
     try {
       const response = await detailsMember(payload);
+      console.log("DETAILS_MEMBER", response.data[0]);
+      commit("DETAILS_MEMBER", response.data[0]);
       return response.data;
     } catch (e) {
       console.log(e);
@@ -83,8 +86,8 @@ const actions = {
   }, payload) {
     try {
       const response = await updateMember(payload);
-      commit("UPDATE_MEMBER", response.data);
-      return response.data;
+      commit("UPDATE_MEMBER", response);
+      return response;
     } catch (e) {
       console.log(e);
     }

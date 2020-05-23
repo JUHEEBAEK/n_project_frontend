@@ -1,15 +1,25 @@
 import { generalReq } from "./index.js";
 
 export const createMember = async(form) => {
-  return await generalReq("post", "/api/member/create", form);
+  try {
+    const response = await generalReq("get", "/api/member/create", form);
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 export const getMember = async() => {
-  return await generalReq("get", "/api/member/list");
+  const response = await generalReq("get", "/api/member/list");
+  console.log("getMember", response);
+  return response.data;
+  
 };
 
 export const detailsMember = async(id) => {
-  return await generalReq("get", "/api/member/" + id);
+  const response = await generalReq("get", "/api/member/" + id);
+  console.log(response);
+  return response;
 };
 
 export const deleteMember = async(member_id) => {
