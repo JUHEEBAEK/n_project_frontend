@@ -51,6 +51,7 @@ export default {
       },
       {
         title: "CALENDAR",
+        to: "/calendar",
         icon: "deadline.png",
       },
       {
