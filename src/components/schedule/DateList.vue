@@ -26,7 +26,9 @@
               <v-row class="fill-height" align="center" justify="center">
                 <v-scale-transition>
                   <div>
-                    <p class="date__Mon my-2">{{ item.date | setMomentMonth }}</p>
+                    <p class="date__Mon my-2">
+                      {{ item.date | setMomentMonth }}
+                    </p>
                     <p class="date__day mb-0">{{ item.date.substr(8, 2) }}</p>
                   </div>
                 </v-scale-transition>
@@ -45,61 +47,58 @@ import { createNamespacedHelpers } from "vuex";
 const {
   mapState: calendarMapState,
   mapMutations: calendarMapMutations,
-    mapActions: calendarMapActions
+  mapActions: calendarMapActions,
 } = createNamespacedHelpers("calendar");
 
 export default {
   filters: {
     setMomentMonth: function(val) {
       return moment(val).format("MMM");
-    }
+    },
   },
   data: () => ({
     month: null,
+    slide_index: null,
     setMonth: moment().format("MMMM"),
     setYear: moment().format("YYYY"),
     setDay: moment().format("DD"),
   }),
   computed: {
-    ...calendarMapState(["scheduleIndex", "scheduleList"]),    
-    slide_index: {
-      get: function(){
-        return this.scheduleIndex
-      },
-      set: function(new_value){
-        this.SET_SCHEDULE_INDEX(new_value)
-      },
-    }
-  },  
+    ...calendarMapState(["scheduleIndex", "scheduleList"]),
+  },
   watch: {
+    scheduleIndex: function(val) {
+      this.slide_index = this.scheduleIndex;
+      console.log("Slide Index Changed", this.slide_index);
+    },
     slide_index: async function(val) {
       if (val) {
         console.log("slide_index", val);
         let selected_schedule = this.scheduleList[this.slide_index];
-        this.setDateString(selected_schedule)
+        this.setDateString(selected_schedule);
         this.$emit("changeDate", selected_schedule);
       }
-    }
+    },
   },
   async created() {
-    if (this.slide_index){
-      let selected_schedule = this.scheduleList[this.slide_index];
-      this.$emit("changeDate", selected_schedule);
-    }
-  },  
+    await this.select_schedule();
+    // 가장 최신걸 선택
+    this.SET_SCHEDULE_INDEX(this.scheduleList.length - 1);
+    // 연동 필수
+    this.slide_index = this.scheduleIndex;
+  },
   methods: {
     ...calendarMapMutations(["SET_SCHEDULE_INDEX"]),
     ...calendarMapActions(["select_schedule", "load_member"]),
     setScheduleInfo(item) {
       this.$emit("changeDate", item);
     },
-    setDateString(selected_schedule){
+    setDateString(selected_schedule) {
       this.setYear = moment(selected_schedule.date).format("YYYY");
       this.setMonth = moment(selected_schedule.date).format("MMMM");
       this.setDay = moment(selected_schedule.date).format("DD");
     },
-
-  }
+  },
 };
 </script>
 

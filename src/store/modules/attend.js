@@ -66,6 +66,7 @@ const mutations = {
     },
 
     SET_COUNT_THREE_MONTHS(state, countMonthList) {
+        console.log(countMonthList);
 
         // good so_so ghost 3가지로 분류한다
         let good_list = [];
@@ -120,11 +121,10 @@ const actions = {
             before_date: beforeDate
         };
         const response = await countThreeMonths(formData);
-        commit("SET_COUNT_THREE_MONTHS", response);
+        commit("SET_COUNT_THREE_MONTHS", response.data);
     },
     async add_attend(context, payload) {
         let response = await createAttend(payload);
-        console.log("??????");
         console.log('add_attend', response)
         if (response) {
             return true

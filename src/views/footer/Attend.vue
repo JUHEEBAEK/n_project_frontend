@@ -4,9 +4,7 @@
     <core-navigation></core-navigation>
     <div>
       <v-sheet elevation="8">
-        <schedule-date-list
-          @changeDate="changeDate"
-        ></schedule-date-list>
+        <schedule-date-list @changeDate="changeDate"></schedule-date-list>
       </v-sheet>
       <v-expand-transition>
         <v-sheet color="grey lighten-4" height="300" tile>
@@ -38,7 +36,7 @@ const { mapActions: attendMapActions } = createNamespacedHelpers("attend");
 const { mapActions: memberMapActions } = createNamespacedHelpers("member");
 const {
   mapState: calendarMapState,
-  mapActions: calendarMapActions
+  mapActions: calendarMapActions,
 } = createNamespacedHelpers("calendar");
 
 export default {
@@ -47,7 +45,6 @@ export default {
     memberList: [],
     countMonthList: [],
     cardInfoLoading: false,
-    initIndex: null,
     today: moment().format("YYYY-MM-DD"),
     scheduleInfo: {},
     scheduleName: null,
@@ -55,17 +52,17 @@ export default {
     scheduleEnd: null,
     scheduleStadium: null,
     scheduleAddress: null,
-    requesting: false
+    requesting: false,
   }),
   computed: {
-    ...calendarMapState(["scheduleList"])
+    ...calendarMapState(["scheduleList", "scheduleIndex"]),
   },
   methods: {
     ...attendMapActions([
       "add_attend",
       "delete_attend",
       "get_attend_rate",
-      "get_attend"
+      "get_attend",
     ]),
     ...calendarMapActions(["select_schedule"]),
     ...memberMapActions(["select_member"]),
@@ -76,8 +73,9 @@ export default {
       let success_in_query = false;
       let form = {
         member_id: item.id,
-        schedule_id: this.scheduleList[this.initIndex].id
+        schedule_id: this.scheduleList[this.scheduleIndex].id,
       };
+      console.log(form);
       if (item.attend) {
         // delete api
         success_in_query = await this.delete_attend(form);
@@ -112,7 +110,7 @@ export default {
     setFormatMemberList: async function(countMember) {
       this.memberList = await getMember();
     },
-  }
+  },
 };
 </script>
 
