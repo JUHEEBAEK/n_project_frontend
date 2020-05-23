@@ -19,7 +19,7 @@ export async function generalReq(method, url, data) {
     });
     return res;
   } catch (err) {
-      console.err(err);
+      console.log(err);
     return err;
   }
 }
