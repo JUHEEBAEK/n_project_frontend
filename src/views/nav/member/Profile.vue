@@ -1,5 +1,7 @@
 <template>
   <div>
+    <core-Toolbar />
+    <core-Navigation />
     <v-card>
       <v-app-bar dark height="360" prominent>
         <template v-slot:img="{ props }">

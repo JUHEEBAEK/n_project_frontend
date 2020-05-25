@@ -83,7 +83,7 @@ export default {
         // insert api
         success_in_query = await this.add_attend(form);
       }
-
+      console.log("result", success_in_query);
       // attend를 없애기 만약 콜백에 문제가 없는 경우에 로컬 변경
       if (success_in_query) {
         item.attend = !item.attend;
