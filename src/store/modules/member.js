@@ -61,6 +61,7 @@ const actions = {
   }, payload) {
     try {
       const response = await deleteMember(payload);
+      console.log(response);
       commit("DELETE_MEMBER", response);
       return response;
     } catch (e) {
@@ -73,8 +74,7 @@ const actions = {
   }, payload) {
     try {
       const response = await detailsMember(payload);
-      console.log("DETAILS_MEMBER", response.data[0]);
-      commit("DETAILS_MEMBER", response.data[0]);
+      commit("DETAILS_MEMBER", response.data);
       return response.data;
     } catch (e) {
       console.log(e);
@@ -86,6 +86,7 @@ const actions = {
   }, payload) {
     try {
       const response = await updateMember(payload);
+      console.log("update", response);
       commit("UPDATE_MEMBER", response);
       return response;
     } catch (e) {

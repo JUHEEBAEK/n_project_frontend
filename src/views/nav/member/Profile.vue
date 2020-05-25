@@ -140,6 +140,7 @@ export default {
 
       this.setSnackBar(this.snackBarSuccess, "정상적으로 수정되었습니다");
       this.update_member(formData);
+      this.$router.go(-1);
     },
     deleteMember(memberId) {
       let formData = { data: { memberId } };
