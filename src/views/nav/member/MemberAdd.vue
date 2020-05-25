@@ -1,5 +1,7 @@
 <template>
   <div>
+    <core-Toolbar />
+    <core-Navigation />
     <core-Back :tableHeader="title" />
     <v-card class="card__addForm pa-4">
       <v-form ref="formMemberAdd" class="form">
