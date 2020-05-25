@@ -1,31 +1,20 @@
 <template>
   <div>
-    <v-card class="mx-auto member__header">
-      <v-app-bar flat>
-        <v-toolbar-title class="member__count grey--text"
-          >총 {{ searchResult.length }} 명</v-toolbar-title
-        >
-        <v-spacer />
+    <v-app-bar flat color="white">
+      <v-toolbar-title class="member__count grey--text">총 {{ searchResult.length }} 명</v-toolbar-title>
+      <v-spacer />
 
-        <v-text-field
-          v-model="search"
-          hide-details
-          placeholder="이름으로 검색"
-          prepend-icon="fas fa-search"
-          single-line
-        />
-        <v-btn
-          class="mx-2"
-          fab
-          dark
-          small
-          color="primary"
-          @click="moveMemverAdd()"
-        >
-          <v-icon dark>fas fa-plus</v-icon>
-        </v-btn>
-      </v-app-bar>
-    </v-card>
+      <v-text-field
+        v-model="search"
+        hide-details
+        placeholder="이름으로 검색"
+        prepend-icon="fas fa-search"
+        single-line
+      />
+      <v-btn class="mx-2" fab dark small color="primary" @click="moveMemverAdd()">
+        <v-icon dark>fas fa-plus</v-icon>
+      </v-btn>
+    </v-app-bar>
   </div>
 </template>
 

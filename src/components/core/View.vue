@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-content class="mx-1">
     <v-fade-transition mode="out-in">
       <router-view />
     </v-fade-transition>
