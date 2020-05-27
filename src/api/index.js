@@ -15,7 +15,7 @@ export async function generalReq(method, url, data) {
     const res = await axios({
       method,
       url,
-      data 
+      data : data
     });
     return res;
   } catch (err) {

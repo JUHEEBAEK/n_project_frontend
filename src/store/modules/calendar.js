@@ -176,6 +176,7 @@ const actions = {
   async get_schedule_info(context, id) {
     try {
       const response = await getInfo(id);
+      console.log("response", response);
       context.commit("GET_SCHEDULE_INFO", response.data);
       return response.data;
     } catch (e) {

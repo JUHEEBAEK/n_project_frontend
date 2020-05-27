@@ -15,11 +15,11 @@
                 <v-icon>fas fa-times</v-icon>
               </v-btn>
               <v-text-field
-                ref="name"
+                ref="title"
                 dense
                 hide-details
                 height="48"
-                v-model="name"
+                v-model="title"
                 placeholder="제목 및 시간 추가"
               />
               <v-btn color="primary" dark class="ma-2" @click="save()">Save</v-btn>
@@ -180,11 +180,22 @@ export default {
     await this.getScheduleInfo(this.scheduleId);
   },
   props: ["scheduleId"],
+  watch: {
+    title() {
+      return `[ ${this.name_type} ] ${this.name_place} ${this.start_time} ~ ${this.end_time}`;
+    }
+    // type() {
+    //   console.log("???", this.type);
+    //   this.title = `[ ${this.name_type} ] `;
+    // }
+  },
   data: () => ({
     menu_date: false,
     menu_start: false,
     menu_end: false,
-    name: "",
+    name_type: "",
+    name_place: "",
+    title: "",
     date: null,
     start_time: null,
     end_time: null,
@@ -208,9 +219,9 @@ export default {
       this.$emit("closeEvent");
     },
     getScheduleInfo: async function(id) {
+      console.log("getScheduleInfo", id);
       this.scheduleInfo = await this.get_schedule_info(id);
       console.log(this.scheduleInfo);
-      // this.scheduleInfo = response.data;
       await this.setScheduleInfo(this.scheduleInfo);
     },
     getStadiumList: async function() {
@@ -222,7 +233,7 @@ export default {
       var start_time = this.$refs.start_time.value;
       var end_time = this.$refs.end_time.value;
       var stadium_id = this.$refs.stadium.value;
-      var name = this.$refs.name.value;
+      var name = this.$refs.title.value;
       var type = this.$refs.type.value;
 
       var scheduleFormData = {
@@ -242,34 +253,46 @@ export default {
       this.close();
     },
     setAddress(value) {
+      console.log("set", this.stadiumList[value - 1]);
+      this.name_place = this.stadiumList[value - 1].name;
       this.stadiumList.forEach(item => {
         if (item.id === value) {
           this.address = item.address;
         }
       });
+      this.title = `[ ${this.name_type} ] ${this.name_place} ${this.start_time} ~ ${this.end_time}`;
     },
     setColor(type) {
       if (type === "T") {
         this.color = "rgb(142, 36, 170)";
+        this.name_type = "훈련";
       } else if (type === "P") {
         this.color = "rgb(51, 182, 121)";
+        this.name_type = "자체 경기";
       } else if (type === "L") {
         this.color = "rgb(246, 191, 38)";
+        this.name_type = "리그";
       } else if (type === "M") {
         this.color = "rgb(121, 134, 203)";
+        this.name_type = "친선경기";
       } else if (type === "C") {
         this.color = "rgb(230, 124, 115)";
+        this.name_type = "대회";
       }
+      this.title = `[ ${this.name_type} ] ${this.name_place} ${this.start_time} ~ ${this.end_time}`;
     },
     setScheduleInfo(info) {
-      this.name = info.name;
+      console.log("infoooooo", info);
+      this.title = info.title;
       this.date = info.date;
       this.start_time = info.start_time;
       this.end_time = info.end_time;
       this.stadium = info.stadium_id;
+      this.name_place = info.place;
       this.address = info.address;
       this.type = info.type;
       this.setColor(this.type);
+      console.log("title", this.title);
     }
   }
 };
