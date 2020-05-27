@@ -45,8 +45,10 @@
             </v-col>
             <v-col cols="1" class="schedule__time">
               <v-menu
+                ref="menu_start"
                 v-model="menu_start"
                 :nudge-right="40"
+                :close-on-content-click="false"
                 transition="scale-transition"
                 max-width="240px"
                 min-width="240px"
@@ -64,18 +66,22 @@
                   />
                 </template>
                 <v-time-picker
+                  ref="startTimePicker"
                   v-if="menu_start"
                   v-model="start_time"
                   format="24hr"
                   full-width
                   @click:minute="$refs.menu_start.save(start_time)"
+                  @change="changeStartTime"
                 />
               </v-menu>
             </v-col>
             <v-col cols="1">
               <v-menu
+                ref="menu_end"
                 v-model="menu_end"
                 :nudge-right="40"
+                :close-on-content-click="false"
                 transition="scale-transition"
                 max-width="240px"
                 min-width="240px"
@@ -93,12 +99,13 @@
                   />
                 </template>
                 <v-time-picker
-                  v-if="menu_end"
+                  ref="endTimePicker"
                   v-model="end_time"
                   format="24hr"
                   :min="start_time"
                   full-width
                   @click:minute="$refs.menu_end.save(end_time)"
+                  @change="changeEndTime"
                 />
               </v-menu>
             </v-col>
@@ -180,21 +187,15 @@ export default {
     await this.getScheduleInfo(this.scheduleId);
   },
   props: ["scheduleId"],
-  watch: {
-    title() {
-      return `[ ${this.name_type} ] ${this.name_place} ${this.start_time} ~ ${this.end_time}`;
-    }
-    // type() {
-    //   console.log("???", this.type);
-    //   this.title = `[ ${this.name_type} ] `;
-    // }
-  },
+  watch: {},
   data: () => ({
     menu_date: false,
     menu_start: false,
     menu_end: false,
     name_type: "",
     name_place: "",
+    name_start_time: "",
+    name_end_time: "",
     title: "",
     date: null,
     start_time: null,
@@ -213,15 +214,21 @@ export default {
     ...calendarMapMutations(["SET_FULL_SCHEDULE_MODAL"]),
     ...calendarMapActions(["update_schedule", "get_schedule_info"]),
     ...stadiumMapActions(["select_stadium"]),
+    changeStartTime: function(time) {
+      this.$refs.menu_start.save(time);
+      this.title = `[${this.name_type}] ${this.name_place} ${this.start_time} ~ ${this.end_time}`;
+    },
+    changeEndTime: function(time) {
+      this.$refs.menu_end.save(time);
+      this.title = `[${this.name_type}] ${this.name_place} ${this.start_time} ~ ${this.end_time}`;
+    },
     close() {
       this.SET_FULL_SCHEDULE_MODAL(!this.fullScheduleDialog);
       this.getScheduleInfo(this.scheduleId); // 수정 내용 초기화
       this.$emit("closeEvent");
     },
     getScheduleInfo: async function(id) {
-      console.log("getScheduleInfo", id);
       this.scheduleInfo = await this.get_schedule_info(id);
-      console.log(this.scheduleInfo);
       await this.setScheduleInfo(this.scheduleInfo);
     },
     getStadiumList: async function() {
@@ -253,14 +260,13 @@ export default {
       this.close();
     },
     setAddress(value) {
-      console.log("set", this.stadiumList[value - 1]);
       this.name_place = this.stadiumList[value - 1].name;
       this.stadiumList.forEach(item => {
         if (item.id === value) {
           this.address = item.address;
         }
       });
-      this.title = `[ ${this.name_type} ] ${this.name_place} ${this.start_time} ~ ${this.end_time}`;
+      this.title = `[${this.name_type}] ${this.name_place} ${this.start_time} ~ ${this.end_time}`;
     },
     setColor(type) {
       if (type === "T") {
@@ -279,20 +285,17 @@ export default {
         this.color = "rgb(230, 124, 115)";
         this.name_type = "대회";
       }
-      this.title = `[ ${this.name_type} ] ${this.name_place} ${this.start_time} ~ ${this.end_time}`;
+      this.title = `[${this.name_type}] ${this.name_place} ${this.start_time} ~ ${this.end_time}`;
     },
     setScheduleInfo(info) {
-      console.log("infoooooo", info);
-      this.title = info.title;
       this.date = info.date;
       this.start_time = info.start_time;
       this.end_time = info.end_time;
       this.stadium = info.stadium_id;
-      this.name_place = info.place;
+      this.name_place = info.nick_name;
       this.address = info.address;
       this.type = info.type;
       this.setColor(this.type);
-      console.log("title", this.title);
     }
   }
 };

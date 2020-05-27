@@ -10,12 +10,7 @@ const state = {
     attend: {
         "member_id": "is_attend_boolean"
     },
-    good_attend: [{
-        "attend": false,
-        "count": 18,
-        "id": 6,
-        "name": "이종은",
-    }],
+    good_attend: [],
     so_so_attend: [],
     ghost_attend: [],
 };
@@ -66,8 +61,6 @@ const mutations = {
     },
 
     SET_COUNT_THREE_MONTHS(state, countMonthList) {
-        console.log(countMonthList);
-
         // good so_so ghost 3가지로 분류한다
         let good_list = [];
         let so_so_list = [];
@@ -95,7 +88,7 @@ const mutations = {
         state.good_attend = good_list;
         state.so_so_attend = so_so_list;
         state.ghost_attend = ghost_list;
-
+        console.log("6", state.ghost_attend);
     }
 };
 
@@ -104,14 +97,12 @@ const actions = {
         commit
     }, schedule_id) {
         const response = await attendList(schedule_id);
-        console.log("response : ", response);
-        commit("SET_ATTEND", response);
+        commit("SET_ATTEND", response.data);
         commit("UPDATE_ATTEND");
     },
     async get_attend_rate({
         commit
     }, schedule_date) {
-
         let date = moment(schedule_date, 'YYYY-MM-DD').format("YYYYMM");
         let beforeDate = moment(schedule_date, 'YYYY-MM-DD')
             .subtract(3, "months")

@@ -36,7 +36,7 @@ const { mapActions: attendMapActions } = createNamespacedHelpers("attend");
 const { mapActions: memberMapActions } = createNamespacedHelpers("member");
 const {
   mapState: calendarMapState,
-  mapActions: calendarMapActions,
+  mapActions: calendarMapActions
 } = createNamespacedHelpers("calendar");
 
 export default {
@@ -52,17 +52,17 @@ export default {
     scheduleEnd: null,
     scheduleStadium: null,
     scheduleAddress: null,
-    requesting: false,
+    requesting: false
   }),
   computed: {
-    ...calendarMapState(["scheduleList", "scheduleIndex"]),
+    ...calendarMapState(["scheduleList", "scheduleIndex"])
   },
   methods: {
     ...attendMapActions([
       "add_attend",
       "delete_attend",
       "get_attend_rate",
-      "get_attend",
+      "get_attend"
     ]),
     ...calendarMapActions(["select_schedule"]),
     ...memberMapActions(["select_member"]),
@@ -73,9 +73,8 @@ export default {
       let success_in_query = false;
       let form = {
         member_id: item.id,
-        schedule_id: this.scheduleList[this.scheduleIndex].id,
+        schedule_id: this.scheduleList[this.scheduleIndex].id
       };
-      console.log(form);
       if (item.attend) {
         // delete api
         success_in_query = await this.delete_attend(form);
@@ -92,6 +91,7 @@ export default {
       this.requesting = false;
     },
     async changeDate(item) {
+      console.log("changeDate: ", item);
       this.cardInfoLoading = true;
 
       this.scheduleName = item.name;
@@ -102,15 +102,17 @@ export default {
 
       this.cardInfoLoading = false;
       // 출석률 가져오기
+      console.log("!1 ");
       await this.get_attend_rate(item.date);
+      console.log("!2 ");
       // 그중에 출석한 사람들 업데이트 해주기
       await this.get_attend(item.id);
+      console.log("!3 ");
     },
-
     setFormatMemberList: async function(countMember) {
       this.memberList = await getMember();
-    },
-  },
+    }
+  }
 };
 </script>
 
