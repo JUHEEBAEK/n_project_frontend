@@ -15,11 +15,11 @@
                 <v-icon>fas fa-times</v-icon>
               </v-btn>
               <v-text-field
-                ref="name"
+                ref="title"
                 dense
                 hide-details
                 height="48"
-                v-model="name"
+                v-model="title"
                 placeholder="제목 및 시간 추가"
               />
               <v-btn color="primary" dark class="ma-2" @click="save()">Save</v-btn>
@@ -45,8 +45,10 @@
             </v-col>
             <v-col cols="1" class="schedule__time">
               <v-menu
+                ref="menu_start"
                 v-model="menu_start"
                 :nudge-right="40"
+                :close-on-content-click="false"
                 transition="scale-transition"
                 max-width="240px"
                 min-width="240px"
@@ -64,18 +66,22 @@
                   />
                 </template>
                 <v-time-picker
+                  ref="startTimePicker"
                   v-if="menu_start"
                   v-model="start_time"
                   format="24hr"
                   full-width
                   @click:minute="$refs.menu_start.save(start_time)"
+                  @change="changeStartTime"
                 />
               </v-menu>
             </v-col>
             <v-col cols="1">
               <v-menu
+                ref="menu_end"
                 v-model="menu_end"
                 :nudge-right="40"
+                :close-on-content-click="false"
                 transition="scale-transition"
                 max-width="240px"
                 min-width="240px"
@@ -93,12 +99,13 @@
                   />
                 </template>
                 <v-time-picker
-                  v-if="menu_end"
+                  ref="endTimePicker"
                   v-model="end_time"
                   format="24hr"
                   :min="start_time"
                   full-width
                   @click:minute="$refs.menu_end.save(end_time)"
+                  @change="changeEndTime"
                 />
               </v-menu>
             </v-col>
@@ -180,11 +187,16 @@ export default {
     await this.getScheduleInfo(this.scheduleId);
   },
   props: ["scheduleId"],
+  watch: {},
   data: () => ({
     menu_date: false,
     menu_start: false,
     menu_end: false,
-    name: "",
+    name_type: "",
+    name_place: "",
+    name_start_time: "",
+    name_end_time: "",
+    title: "",
     date: null,
     start_time: null,
     end_time: null,
@@ -202,6 +214,14 @@ export default {
     ...calendarMapMutations(["SET_FULL_SCHEDULE_MODAL"]),
     ...calendarMapActions(["update_schedule", "get_schedule_info"]),
     ...stadiumMapActions(["select_stadium"]),
+    changeStartTime: function(time) {
+      this.$refs.menu_start.save(time);
+      this.title = `[${this.name_type}] ${this.name_place} ${this.start_time} ~ ${this.end_time}`;
+    },
+    changeEndTime: function(time) {
+      this.$refs.menu_end.save(time);
+      this.title = `[${this.name_type}] ${this.name_place} ${this.start_time} ~ ${this.end_time}`;
+    },
     close() {
       this.SET_FULL_SCHEDULE_MODAL(!this.fullScheduleDialog);
       this.getScheduleInfo(this.scheduleId); // 수정 내용 초기화
@@ -209,8 +229,6 @@ export default {
     },
     getScheduleInfo: async function(id) {
       this.scheduleInfo = await this.get_schedule_info(id);
-      console.log(this.scheduleInfo);
-      // this.scheduleInfo = response.data;
       await this.setScheduleInfo(this.scheduleInfo);
     },
     getStadiumList: async function() {
@@ -222,7 +240,7 @@ export default {
       var start_time = this.$refs.start_time.value;
       var end_time = this.$refs.end_time.value;
       var stadium_id = this.$refs.stadium.value;
-      var name = this.$refs.name.value;
+      var name = this.$refs.title.value;
       var type = this.$refs.type.value;
 
       var scheduleFormData = {
@@ -242,31 +260,39 @@ export default {
       this.close();
     },
     setAddress(value) {
+      this.name_place = this.stadiumList[value - 1].name;
       this.stadiumList.forEach(item => {
         if (item.id === value) {
           this.address = item.address;
         }
       });
+      this.title = `[${this.name_type}] ${this.name_place} ${this.start_time} ~ ${this.end_time}`;
     },
     setColor(type) {
       if (type === "T") {
         this.color = "rgb(142, 36, 170)";
+        this.name_type = "훈련";
       } else if (type === "P") {
         this.color = "rgb(51, 182, 121)";
+        this.name_type = "자체 경기";
       } else if (type === "L") {
         this.color = "rgb(246, 191, 38)";
+        this.name_type = "리그";
       } else if (type === "M") {
         this.color = "rgb(121, 134, 203)";
+        this.name_type = "친선경기";
       } else if (type === "C") {
         this.color = "rgb(230, 124, 115)";
+        this.name_type = "대회";
       }
+      this.title = `[${this.name_type}] ${this.name_place} ${this.start_time} ~ ${this.end_time}`;
     },
     setScheduleInfo(info) {
-      this.name = info.name;
       this.date = info.date;
       this.start_time = info.start_time;
       this.end_time = info.end_time;
       this.stadium = info.stadium_id;
+      this.name_place = info.nick_name;
       this.address = info.address;
       this.type = info.type;
       this.setColor(this.type);

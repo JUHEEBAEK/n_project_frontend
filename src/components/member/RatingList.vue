@@ -8,12 +8,12 @@
         <div class="text-left">
           <v-chip
             v-for="member in good_attend"
+            :key="member.name"
             dark
             label
             :outlined="member.attend ? 'outlined' : ''"
             :class="member.attend ? 'chip__member' : 'chip__member opacity-4'"
             :color="member.attend ? 'tertiary' : 'muji'"
-            :key="member.name"
             @click="clickMember(member)"
           >{{ member.name }}</v-chip>
         </div>
@@ -27,12 +27,12 @@
         <div class="text-left">
           <v-chip
             v-for="member in so_so_attend"
+            :key="member.name"
             dark
             label
             :outlined="member.attend ? 'outlined' : ''"
             :class="member.attend ? 'chip__member': 'chip__member opacity-4'"
             :color="member.attend ? 'tertiary' : 'muji'"
-            :key="member.name"
             @click="clickMember(member)"
           >{{ member.name }}</v-chip>
         </div>
@@ -65,6 +65,9 @@ import { createNamespacedHelpers } from "vuex";
 const { mapState: attendMapState } = createNamespacedHelpers("attend");
 
 export default {
+  created() {
+    console.log("created Member rating list", this.ghost_attend);
+  },
   computed: {
     ...attendMapState(["good_attend", "so_so_attend", "ghost_attend"])
   },

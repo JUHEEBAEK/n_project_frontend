@@ -151,7 +151,6 @@ const mutations = {
   },
   CHOOSE_LATEST_SCHEDULE(state){
     state.scheduleIndex = (state.scheduleList.length - 1);
-    console.log("CHOOSE_LATEST_SCHEDULE", state.slide_index)
   }
 };
 
@@ -202,7 +201,7 @@ const actions = {
     dispatch
   }, update_form) {
     try {
-      const reponse = await updateSchedule(update_form);
+      const response = await updateSchedule(update_form);
       dispatch("select_schedule");
       return response.data;
     } catch (e) {
