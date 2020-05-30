@@ -1,0 +1,94 @@
+.event__container {
+  overflow: hidden;
+  min-height: 700px;
+
+  .event__main {
+    .home__container {
+      padding-top: 10px;
+
+      .home__header {
+        padding: 8px;
+      }
+
+      .home__content {
+        background-color: #b1deb3;
+      }
+    }
+
+    .away__container {
+      padding-top: 10px;
+
+      .away__header {
+        padding: 8px;
+      }
+
+      .away__content {
+        background-color: #b1deb3;
+      }
+    }
+
+    .input__container {
+      .label__container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 16px;
+
+        .label__text {
+          font-weight: 800;
+          font-size: 14px;
+        }
+      }
+
+      .data__container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 16px;
+
+        .data__text {
+          font-weight: 700;
+
+          &.fixed__type {
+            color: #34558b;
+          }
+        }
+      }
+
+    }
+
+  }
+
+}
+
+.report__container {
+  height: 100%;
+
+  .report__header {
+    background-color: #fff;
+    padding: 18px 16px 8px 16px;
+    font-size: 1.5rem !important;
+    font-weight: 400;
+    line-height: 2rem;
+  }
+
+  .report__content {
+    height: 100%;
+
+    .report__timeline {
+      background-color: #cfead0;
+      padding: 0;
+      // overflow-y: scroll;
+      // max-height: 400px;
+
+      .report__item {
+        align-items: center;
+      }
+    }
+
+  }
+
+
+
+
+}

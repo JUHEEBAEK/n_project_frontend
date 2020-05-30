@@ -66,7 +66,7 @@ export default {
     ]),
     ...calendarMapActions(["select_schedule"]),
     ...memberMapActions(["select_member"]),
-    async isAttend(item) {
+    isAttend: async function(item) {
       console.log("this is clicked", item);
       this.requesting = true;
 
@@ -90,7 +90,7 @@ export default {
 
       this.requesting = false;
     },
-    async changeDate(item) {
+    changeDate: async function(item) {
       console.log("changeDate: ", item);
       this.cardInfoLoading = true;
 
