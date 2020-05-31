@@ -13,6 +13,7 @@
           v-if="item"
           class="position__name"
           v-model="position[selectType][item]"
+          clearable
           readonly
         ></v-text-field>
       </v-col>
@@ -30,6 +31,7 @@
           v-if="item"
           class="position__name"
           v-model="position[selectType][item]"
+          clearable
           readonly
         ></v-text-field>
       </v-col>
