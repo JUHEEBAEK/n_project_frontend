@@ -125,9 +125,14 @@
             >{{ member.name }}</v-chip>
           </v-col>
         </v-row>
+        <v-row>
+          <v-col cols="12">
+            <v-btn @click="save" color="primary">저장</v-btn>
+          </v-col>
+        </v-row>
       </v-card-text>
       <v-card-actions class="justify-end">
-        <v-btn @click="save" color="primary">저장</v-btn>
+        <v-btn color="white" text></v-btn>
       </v-card-actions>
     </v-card>
 </template>
