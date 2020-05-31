@@ -7,8 +7,8 @@
       <v-col cols="11">
         <div class="text-left">
           <v-chip
-            v-for="member in good_attend"
-            :key="member.name"
+            v-for="member, index in good_attend"
+            :key="index"
             dark
             label
             :outlined="member.attend ? 'outlined' : ''"
@@ -26,8 +26,8 @@
       <v-col cols="11">
         <div class="text-left">
           <v-chip
-            v-for="member in so_so_attend"
-            :key="member.name"
+            v-for="member, index in so_so_attend"
+            :key="index"
             dark
             label
             :outlined="member.attend ? 'outlined' : ''"
@@ -45,13 +45,13 @@
       <v-col cols="11">
         <div class="text-left">
           <v-chip
-            v-for="member in ghost_attend"
+            v-for="member, index in ghost_attend"
             dark
             label
             :outlined="member.attend ? 'outlined' : ''"
             :class="member.attend ? 'chip__member' : 'chip__member opacity-4'"
             :color="member.attend ? 'tertiary' : 'muji'"
-            :key="member.name"
+            :key="index"
             @click="clickMember(member)"
           >{{ member.name }}</v-chip>
         </div>

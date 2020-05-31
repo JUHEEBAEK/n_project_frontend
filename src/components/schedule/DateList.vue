@@ -11,8 +11,8 @@
       <v-col cols="12" class="schedule__list">
         <v-slide-group v-model="slide_index" show-arrows center-active>
           <v-slide-item
-            v-for="item in scheduleList"
-            :key="item.id"
+            v-for="item, index in scheduleList"
+            :key="index"
             v-slot:default="{ active, toggle }"
           >
             <v-card
