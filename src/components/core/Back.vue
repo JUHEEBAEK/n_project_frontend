@@ -10,11 +10,19 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "back",
   props: ["tableHeader"],
+  computed: {
+    ...mapGetters("common", {
+      fullScreen: "fullScreen"
+    })
+  },
   methods: {
     backPage() {
+      this.$store.commit("common/setFullScreen", false);
       this.$router.go(-1);
     }
   }

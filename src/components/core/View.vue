@@ -1,8 +1,8 @@
 <template>
-  <v-content class="mx-1">
-    <v-fade-transition mode="out-in">
-      <router-view />
-    </v-fade-transition>
+  <v-content>
+    <v-container fluid fill-height class="main__container">
+      <router-view class="main__router-view"></router-view>
+    </v-container>
   </v-content>
 </template>
 
@@ -10,4 +10,4 @@
 export default {};
 </script>
 
-<style scoped></style>
+<style scoped lang="scss" src="../../styles/components/core/view.scss"></style>

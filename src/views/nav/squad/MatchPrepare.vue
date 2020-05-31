@@ -1,27 +1,19 @@
 <template>
-  <div>
-    <core-Toolbar />
-    <core-Navigation />
-    <v-row class="match__container" justify="center">
-      <v-col cols="12" lg="8" md="9" sm="12" xs="12">
-        <v-contatner fluid>
-          <v-form ref="form">
-            <schedule-date-list
-              @changeDate="setScheduleData"
-            ></schedule-date-list>
-            <squad-quarter></squad-quarter>
-            <squad-team-list></squad-team-list>
-            <squad-input-position></squad-input-position>
-            <v-row>
-              <v-col>
-                <v-btn @click="save" color="primary">저장</v-btn>
-              </v-col>
-            </v-row>
-          </v-form>
-        </v-contatner>
-      </v-col>
+  <v-container class="match__container" fluid>
+    <v-row class justify="center">
+      <v-form ref="form">
+        <schedule-date-list @changeDate="setScheduleData"></schedule-date-list>
+        <squad-quarter></squad-quarter>
+        <squad-team-list></squad-team-list>
+        <squad-input-position></squad-input-position>
+        <v-row>
+          <v-col>
+            <v-btn @click="save" color="primary">저장</v-btn>
+          </v-col>
+        </v-row>
+      </v-form>
     </v-row>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -30,19 +22,19 @@ const {
   mapState: calendarMapState,
   mapGetters: calendarMapGetters,
   mapMutations: calendarMapMutations,
-  mapActions: calendarMapActions,
+  mapActions: calendarMapActions
 } = createNamespacedHelpers("calendar");
 const {
   mapState: squadState,
   mapMutations: squadMutations,
-  mapActions: squadActions,
+  mapActions: squadActions
 } = createNamespacedHelpers("squad");
 
 const {
   mapState: prepareMatchState,
   mapGetters: prepareMatchGetters,
   mapMutations: prepareMatchMutations,
-  mapActions: prepareMatchActions,
+  mapActions: prepareMatchActions
 } = createNamespacedHelpers("prepareMatch");
 
 export default {
@@ -50,7 +42,7 @@ export default {
   computed: {
     ...prepareMatchState(["selectedSplitedTeam", "homeTeam", "awayTeam"]),
     ...prepareMatchGetters(["currentQuarter"]),
-    ...calendarMapGetters(["current_schedule_id"]),
+    ...calendarMapGetters(["current_schedule_id"])
   },
   async created() {
     await this.select_schedule();
@@ -75,19 +67,21 @@ export default {
       "createGame",
       "deleteMemberSquad",
       "updateGame",
-      "setSelectedSplitedTeam",
+      "setSelectedSplitedTeam"
     ]),
     async save() {
       // 확인해야하는 것
       // 1. this.homeTeam과 away팀이 있어야됨
       // 2. 각 선수가 모두 포지션이 있어야됨
       // 둘다 채워야하나??
+      // TODO: 포지션은 필수가 아니다
       if (!this.homeTeam) {
         console.log("home팀 채워주세요");
         return;
         if (this.$refs.form.validate()) {
           //home과 away를 return 할 것
           // 여긴 뭐지??
+          // TODO: 포지션에 중복된 선수가 되있으면 안된다.
         }
       }
       if (this.awayTeam.members) {
@@ -126,13 +120,13 @@ export default {
         // 2. 스쿼드멤버를 넣기
         await this.createMultipleMemberSquad({
           squad_id: homeSquadId,
-          memberData: this.homeTeam,
+          memberData: this.homeTeam
         });
         if (awayExist) {
           if (awaySquadId) {
             await this.createMultipleMemberSquad({
               squad_id: awaySquadId,
-              memberData: this.awayTeam,
+              memberData: this.awayTeam
             });
           } else {
             // awaySqaud 만들기
@@ -144,13 +138,13 @@ export default {
             // member 추가하기
             await this.createMultipleMemberSquad({
               squad_id: awaySquadId,
-              memberData: this.awayTeam,
+              memberData: this.awayTeam
             });
 
             // game에 away_squad_id update하기
             let gameUpdateForm = {
               game_id: searchedGame["id"],
-              game: { away_squad_id: awaySquadId },
+              game: { away_squad_id: awaySquadId }
             };
             this.updateGame(gameUpdateForm);
           }
@@ -179,12 +173,12 @@ export default {
         // 2. 스쿼드멤버를 넣기
         await this.createMultipleMemberSquad({
           squad_id: homeSquadId,
-          memberData: this.homeTeam,
+          memberData: this.homeTeam
         });
         if (awayExist) {
           await this.createMultipleMemberSquad({
             squad_id: awaySquadId,
-            memberData: this.awayTeam,
+            memberData: this.awayTeam
           });
         }
         // 3. 게임을 만들기
@@ -204,8 +198,8 @@ export default {
           name: "matchInput",
           params: {
             schedule_id: this.current_schedule_id,
-            quarter: this.currentQuarter,
-          },
+            quarter: this.currentQuarter
+          }
         });
       }
     },
@@ -218,8 +212,8 @@ export default {
       // prepareMatch store에서 값 세팅
       await this.setSplitTeamList();
       await this.setSummarySplitTeamList();
-    },
-  },
+    }
+  }
 };
 </script>
 

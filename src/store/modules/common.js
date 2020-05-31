@@ -7,6 +7,9 @@ const state = {
   drawer: false,
   setting: false,
   snackBar: false,
+  /* 1. fullScreen : true ( AppBar 와 nav 가 없는 상태 )
+    2. fullScreen : null or false */
+    fullScreen: null,
   alert: false,
   colorIndex: ["#000","#ccda11", "#da8c11", "#118eda", "#da1175", "#11da76", "#8f11da"],
    // 1. dialog : true ( Dialog 이 열린 상태 )
@@ -37,6 +40,13 @@ const getters = {
     } else {
       return null;
     }
+  },
+  fullScreen(state) {
+    if (state.fullScreen) {
+      return state.fullScreen;
+    } else {
+      return null;
+    }
   }
 };
 
@@ -45,6 +55,9 @@ const mutations = {
   [constants.setSetting]: set("setting"),
   [constants.setSnackBar]: set("snackBar"),
   [constants.setAlert]: set("alert"),
+  setFullScreen(state, value) {
+    state.fullScreen = value;
+  },
   setDialog(state, value) {
     state.dialog = value;
   },
@@ -70,6 +83,9 @@ const actions = {
   },
   async setType({ commit }, value) {
     commit("setType", value);
+  },
+  async setFullScreen({ commit }, value) {
+    commit("setFullScreen", value);
   },
   // dialog 의 2가지 state 를 한 번에 변경하기 위한 함수
   async setDialogAndType({ commit }, value) {

@@ -1,7 +1,5 @@
 <template>
   <div>
-    <core-Toolbar />
-    <core-Navigation />
     <core-Back :tableHeader="title" />
     <v-card class="card__addForm pa-4">
       <v-form ref="formMemberAdd" class="form">
@@ -82,6 +80,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import util from "../../../mixin/util.js";
 import { createNamespacedHelpers } from "vuex";
 const {
@@ -102,6 +101,9 @@ export default {
     uniform_number: ""
   }),
   computed: {
+    ...mapGetters("common", {
+      fullScreen: "fullScreen"
+    }),
     ...memberMapState(["searchResult"]),
     uniform_number_not_used_list() {
       let number_list_1to99 = [];
@@ -117,7 +119,9 @@ export default {
       return number_list_1to99;
     }
   },
-  created() {},
+  created() {
+    this.$store.commit("common/setFullScreen", true);
+  },
   async mounted() {
     this.select_member();
   },

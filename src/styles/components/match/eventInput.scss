@@ -1,0 +1,54 @@
+@import "../../global/mediaQuery.scss";
+
+.home__container {
+  padding-top: 10px;
+
+  .home__header {
+    padding: 8px;
+  }
+
+  .home__content {
+    background-color: #b1deb3;
+  }
+}
+
+.away__container {
+  padding-top: 10px;
+
+  .away__header {
+    padding: 8px;
+  }
+
+  .away__content {
+    background-color: #b1deb3;
+  }
+}
+
+.input__container {
+  .label__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+
+    .label__text {
+      font-weight: 800;
+      font-size: 14px;
+    }
+  }
+
+  .data__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+
+    .data__text {
+      font-weight: 700;
+
+      &.fixed__type {
+        color: #34558b;
+      }
+    }
+  }
+}
