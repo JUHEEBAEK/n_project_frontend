@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <core-Toolbar />
-    <core-navigation />
+  <v-container>
     <v-sheet elevation="8">
       <div>
         <v-sheet elevation="8">
@@ -25,10 +23,10 @@
           </v-col>
         </v-row>
       </v-expand-transition>
+      <squad-team-split />
     </v-sheet>
-    <squad-team-split />
     <util-snack-bar :purpose="snackBarPurpose" :message="snackBarMessage" />
-  </div>
+  </v-container>
 </template>
 
 <script>

@@ -1,7 +1,5 @@
 <template>
   <div>
-    <core-Toolbar />
-    <core-navigation />
     <squad-header />
     <squad-rightDrawer />
     <squad-date />

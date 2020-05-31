@@ -1,15 +1,22 @@
 <template>
   <v-app id="app">
-    <core-Toolbar></core-Toolbar>
-    <core-navigation></core-navigation>
-    <core-View></core-View>
-    <core-footer></core-footer>
+    <core-Toolbar v-if="!fullScreen"></core-Toolbar>
+    <core-navigation v-if="!fullScreen"></core-navigation>
+    <core-view></core-view>
+    <core-footer v-if="!fullScreen"></core-footer>
   </v-app>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  name: "app"
+  name: "app",
+  computed: {
+    ...mapGetters("common", {
+      fullScreen: "fullScreen"
+    })
+  }
 };
 </script>
 

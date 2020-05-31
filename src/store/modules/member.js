@@ -27,7 +27,6 @@ const mutations = {
   [constants.DELETE_MEMBER](state, memberId) {},
   [constants.DETAILS_MEMBER](state, memberProfile) {
     state.profile = memberProfile;
-    console.log("mutations", state.profile);
   },
   [constants.UPDATE_MEMBER](state, memberProfile) {
     state.res = memberProfile;
@@ -61,7 +60,6 @@ const actions = {
   }, payload) {
     try {
       const response = await deleteMember(payload);
-      console.log(response);
       commit("DELETE_MEMBER", response);
       return response;
     } catch (e) {
@@ -86,7 +84,6 @@ const actions = {
   }, payload) {
     try {
       const response = await updateMember(payload);
-      console.log("update", response);
       commit("UPDATE_MEMBER", response);
       return response;
     } catch (e) {

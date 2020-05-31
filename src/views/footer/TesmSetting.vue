@@ -1,7 +1,5 @@
 <template>
   <div>
-    <core-Toolbar></core-Toolbar>
-    <core-navigation></core-navigation>
     <v-container class="overflow-y-auto">
       <team-setting-header></team-setting-header>
       <team-setting-list></team-setting-list>

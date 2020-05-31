@@ -1,7 +1,5 @@
 <template>
   <div class="match__container">
-    <core-Toolbar />
-    <core-Navigation />
     <!-- 스케쥴 리스트 영역 -->
     <v-contatner fluid>
       <v-form ref="form">
@@ -13,119 +11,11 @@
 
     <!-- 경기 기록 이벤트 타입 설정 부분 -->
     <v-container class="event__container">
-      <div class="event__header">
-        <v-switch class="mt-0" v-model="isGoal" hide-details :label="`Status: ${setStatus}`"></v-switch>
-      </div>
+      <!--필드 그림:: 선수 선택 페이지 -->
       <v-row class="event__main">
-        <!--필드 그림:: 선수 선택 페이지 -->
-        <v-col cols="12" xl="6" lg="6" sm="12">
-          <v-card class="home__container" elevation="1">
-            <v-card-title class="home__header">HOME</v-card-title>
-            <v-card-text class="home__content">
-              <v-row justify="center">
-                <v-col
-                  v-for="player in homePlayerList"
-                  :key="player"
-                  class="position__box position__box-home"
-                  cols="4"
-                  align-self="center"
-                >
-                  <v-btn
-                    rounded
-                    small
-                    color="lime lighten-2"
-                    @click="clickPlayer(player)"
-                  >{{ player.name }}</v-btn>
-                </v-col>
-              </v-row>
-            </v-card-text>
-          </v-card>
-          <v-card class="input__container" outlined evalation="2">
-            <v-card-text class="label__container">
-              <span class="label__text">상태</span>
-              <span class="label__text">선수1</span>
-              <span class="label__text">상태</span>
-              <span class="label__text">선수2</span>
-              <v-btn class="my-1" x-small fab @click="init">
-                <v-icon dark>fas fa-eraser</v-icon>
-              </v-btn>
-            </v-card-text>
-            <v-card-text class="data__container">
-              <span class="data__text fixed__type">{{ firstEventType }}</span>
-              <span class="data__text">{{ firstPlayer }}</span>
-              <span class="data__text fixed__type">{{ lastEventType }}</span>
-              <span class="data__text">{{ lastPlayer }}</span>
-              <v-btn class="my-1" x-small fab color="primary" @click="clickSaveButton">
-                <v-icon dark>fas fa-pencil-alt</v-icon>
-              </v-btn>
-            </v-card-text>
-          </v-card>
-          <v-card class="away__container" elevation="1">
-            <v-card-title class="away__header">AWAY</v-card-title>
-            <v-card-text class="away__content">
-              <v-row justify="center">
-                <v-col
-                  v-for="player in awayPlayerList"
-                  :key="player"
-                  class="position__box position__box-away"
-                  cols="4"
-                  align-self="center"
-                >
-                  <v-btn
-                    rounded
-                    small
-                    color="lime lighten-2"
-                    @click="clickPlayer(player)"
-                  >{{ player.name }}</v-btn>
-                </v-col>
-              </v-row>
-            </v-card-text>
-          </v-card>
-        </v-col>
         <!-- 경기 기록 페이지 -->
-        <v-col cols="12" xl="6" lg="6" sm="12">
-          <v-card class="report__container" elevation="1" color="#cfead0">
-            <v-card-title class="report__header">게임 기록</v-card-title>
-            <v-card-text class="report__content">
-              <v-timeline class="report__timeline">
-                <v-timeline-item
-                  class="report__item"
-                  v-for="event in eventList"
-                  :key="event"
-                  small
-                  fill-dot
-                  color="white"
-                  :right="event.team_type === 'A' ? true : false"
-                  :left="event.team_type === 'H' ? true : false"
-                  :icon="
-                    event.event_type === 'Goal'
-                      ? 'fas fa-futbol'
-                      : 'fas fa-exchange-alt fa-rotate-270'
-                  "
-                  icon-color="black"
-                >
-                  <v-chip
-                    class="firstEvent ma-2"
-                    close
-                    color="#dce775"
-                    text-color="black"
-                    close-icon="fas fa-times-circle"
-                    @click:close="deleteButton(event)"
-                  >
-                    <span>{{ event.firstPlayer }}</span>
-                    <v-avatar left>
-                      <v-icon x-small>fas fa-futbol</v-icon>
-                    </v-avatar>
-                    <span class="lastEvent ma-1">{{ event.lastPlayer }}</span>
-                    <v-avatar left>
-                      <v-icon x-small>fas fa-shoe-prints fa-rotate-270</v-icon>
-                    </v-avatar>
-                  </v-chip>
-                </v-timeline-item>
-              </v-timeline>
-            </v-card-text>
-          </v-card>
-        </v-col>
+        <match-event-input></match-event-input>
+        <match-event-list></match-event-list>
       </v-row>
     </v-container>
   </div>
@@ -210,8 +100,8 @@ export default {
   },
   async created() {
     await this.setScheduleList();
-    this.getHomeTeamPlayerList();
-    this.getAwayTeamPlayerList();
+    // this.getHomeTeamPlayerList();
+    // this.getAwayTeamPlayerList();
     this.getEventList();
   },
   methods: {
@@ -261,16 +151,7 @@ export default {
       this.eventList = dummyData.gameEventList;
       // console.log(this.eventList);
     },
-    getHomeTeamPlayerList: function() {
-      // TODO: 홈팀 선수리스트 가져오는 API 호출
-      this.homePlayerList = dummyData.homeTeamPlayers;
-      // console.log(this.homePlayerList);
-    },
-    getAwayTeamPlayerList: function() {
-      // TODO: 어웨이팀 선수리스트 가져오는 API 호출
-      this.awayPlayerList = dummyData.awayTeamPlayers;
-      // console.log(this.awayPlayerList);
-    },
+
     setDateString(selected_schedule) {
       this.setYear = moment(selected_schedule.date).format("YYYY");
       this.setMonth = moment(selected_schedule.date).format("MMMM");

@@ -1,87 +1,81 @@
 import Vue from "vue";
 import Router from "vue-router";
 
+import Home from "../views/Home.vue";
+import Attend from "../views/footer/Attend.vue";
+import SquadView from "../views/footer/Squad.vue";
+import Ranking from "../views/footer/Ranking.vue";
+
+import Member from "../views/nav/member/Member.vue";
+import Profile from "../views/nav/member/Profile.vue";
+import MemberAdd from "../views/nav/member/MemberAdd.vue";
+import Calendar from "../views/nav/Schedule.vue";
+
+import Squad from "../views/nav/squad/Squad.vue";
+import MatchPrepare from "../views/nav/squad/MatchPrepare.vue";
+
+import MatchInput from "../views/nav/match/MatchInput.vue";
+
 Vue.use(Router);
 
 const routes = [{
     path: "/",
     name: "home",
-    // beforeEnter: (to, from, next) => authCheck(to, from, next),
-    component: () => import("../views/Home.vue")
+    component: Home
   },
   // footer view
   {
     path: "/attend",
     name: "attend",
-    // beforeEnter: (to, from, next) => authCheck(to, from, next),
-    component: () => import("../views/footer/Attend.vue")
+     component: Attend
   },
   {
     path: "/squadView",
     name: "squad",
-    // beforeEnter: (to, from, next) => authCheck(to, from, next),
-    component: () => import("../views/footer/Squad.vue")
+    component: SquadView
   },
 
   // navigation view
   {
     path: "/member",
-    // beforeEnter: (to, from, next) => authCheck(to, from, next),
-    component: () => import("../views/nav/member/Member.vue"),
+    component: Member,
   },
   {
     name: "memberUpdatePage",
     path: "/member/:memberId",
-    // beforeEnter: (to, from, next) => authCheck(to, from, next),
-    component: () => import("../views/nav/member/Profile.vue"),
+    component: Profile,
     props: true
   },
   {
     path: "/memberAdd",
     name: "memberAdd",
-    // beforeEnter: (to, from, next) => authCheck(to, from, next),
-    component: () => import("../views/nav/member/MemberAdd.vue")
+    component: MemberAdd
   },
   {
     path: "/calendar",
     name: "calendar",
-    // beforeEnter: (to, from, next) => authCheck(to, from, next),
-    component: () => import("../views/nav/Schedule.vue")
+    component: Calendar
   },
   {
     path: "/squad",
     name: "squadInput",
-    // beforeEnter: (to, from, next) => authCheck(to, from, next),
-    component: () => import("../views/nav/squad/Squad.vue")
+    component: Squad
   },
   {
     path: "/matchPrepare",
     name: "matchPrepare",
-    // beforeEnter: (to, from, next) => authCheck(to, from, next),
-    component: () => import("../views/nav/squad/MatchPrepare.vue")
-  },
-  {
-    path: "/tactical",
-    // beforeEnter: (to, from, next) => authCheck(to, from, next),
-    component: () => import("../views/nav/Tactical.vue")
+    component: MatchPrepare
   },
   {
     path: "/ranking",
     name: "ranking",
-    // beforeEnter: (to, from, next) => authCheck(to, from, next),
-    component: () => import("../views/footer/Ranking.vue")
+    component: Ranking
   },
   {
     path: "/matchInput",
     name: "matchInput",
-    // beforeEnter: (to, from, next) => authCheck(to, from, next),
-    component: () => import("../views/nav/match/MatchInput.vue")
+    component: MatchInput
 
-  },
-  {
-    path: "/testUi",
-    // beforeEnter: (to, from, next) => authCheck(to, from, next),
-    component: () => import("../views/testui/testUi.vue")
   },
   {
     path: "*",
@@ -97,26 +91,3 @@ const router = new Router({
 });
 
 export default router;
-
-
-/*
-
-< 추후 모듈화가 필요할 경우에 대비한 코드 >
-
-const baseRoutes = [
-  {
-    path: "/",
-    name: "home",
-    component: Home
-  }
-];
-
-const routes = baseRoutes.concat(test);
-
-export default new Router({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes
-});
-
-*/

@@ -1,0 +1,28 @@
+@import "../../global/mediaQuery.scss";
+
+.report__container {
+  height: 100%;
+
+  .report__header {
+    background-color: #fff;
+    padding: 18px 16px 8px 16px;
+    font-size: 1.5rem !important;
+    font-weight: 400;
+    line-height: 2rem;
+  }
+
+  .report__content {
+    height: 100%;
+
+    .report__timeline {
+      background-color: #cfead0;
+      padding: 0;
+      // overflow-y: scroll;
+      // max-height: 400px;
+
+      .report__item {
+        align-items: center;
+      }
+    }
+  }
+}
