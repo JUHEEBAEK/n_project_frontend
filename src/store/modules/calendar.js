@@ -145,7 +145,7 @@ const mutations = {
     for (let i in state.attendMember){
       let member = state.attendMember[i]
       if (member["teamNumber"] == null){
-        state.attendMember[i] = -1
+        state.attendMember[i]["teamNumber"] = -1
       }
     }
   },
