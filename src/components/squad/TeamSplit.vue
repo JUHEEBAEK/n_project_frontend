@@ -82,8 +82,8 @@
       <v-card-text>
         <div>
           <v-btn
-            v-for="n in teamCount"
-            :key="n"
+            v-for="(n, index) in teamCount"
+            :key="index"
             class="tab__team ma-1"
             fab
             small
@@ -92,8 +92,8 @@
             @click="clickTeam(n)"
           >{{n}}</v-btn>
           <v-btn
-            v-for="n in teamJoker"
-            :key="n"
+            v-for="(n, index) in teamJoker"
+            :key="index"
             class="tab__team ma-1"
             fab
             small
@@ -114,13 +114,13 @@
         <v-row wrap justify="center">
           <v-col cols="12">
             <v-chip
-              v-for="member in attendMember"
+              v-for="(member, index) in attendMember"
+              :key="index"
               dark
               outlined
               label
               class="chip__member mx-1"
               :color="member.color"
-              :key="member"
               @click="clickMember(member)"
             >{{ member.name }}</v-chip>
           </v-col>
