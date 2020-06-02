@@ -127,7 +127,12 @@ const mutations = {
       let member_id = team_division.jocker_player
       let member_index = search_index[member_id]
       state.attendMember[member_index].teamNumber = new_team_number
-      state.attendMember[member_index].color = colorIndex[new_team_number]
+      if (new_team_number == -1){
+        state.attendMember[member_index].color = "grey"
+      }else{
+        state.attendMember[member_index].color = colorIndex[new_team_number]
+      }
+      
     }
   },
   INITIALIZE_ATTEND_MEMBER(state){

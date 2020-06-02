@@ -116,7 +116,12 @@ export default {
         let teamNumber = null;
         if (splitTeamInfo && splitTeamInfo[member_id]) {
           teamNumber = splitTeamInfo[member_id]["team_number"];
-          color = this.colorIndex[teamNumber];
+          if (teamNumber == -1){
+            color = "grey"
+          }else{
+            color = this.colorIndex[teamNumber];
+          }
+          
         }
 
         let attend_member = {
