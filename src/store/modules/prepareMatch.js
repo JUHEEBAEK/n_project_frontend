@@ -59,6 +59,9 @@ const state = {
     }
   ],
   selectedSplitedTeam: null,
+
+  homeMembers: [],
+  awayMembers: [],
 };
 
 const getters = {
@@ -145,7 +148,12 @@ const mutations = {
       state.selectedSplitedTeam[team_number]["members"].push(member)
     }
   },
-  
+  SET_HOME_MEMBERS(state, homeMembers){
+    state.homeMembers = homeMembers
+  },
+  SET_AWAY_MEMBERS(state, awayMembers){
+    state.awayMembers = awayMembers
+  },
 };
 
 const actions = {
@@ -238,16 +246,16 @@ const actions = {
     }
   },
 
-  async getHomeAwayMember(context, scheduleAndQuarter){
+  async getHomeAwayMember({commit}, scheduleAndQuarter){
     try{
-      // scheduleAndQuarter["schedule_id"] = this.current_schedule_id;
-      // scheduleAndQuarter["quarter"] = this.currentQuarterString;
       const gameInfo = await searchWithScheduleIdAndQuarter(scheduleAndQuarter);
       console.log("getHomeAwayMember", gameInfo)
       const homeMembers = await getinfoWithSquadId(gameInfo.data[0].home_squad_id)
       const awayMembers = await getinfoWithSquadId(gameInfo.data[0].away_squad_id)
       console.log("homeMembers", homeMembers)
       console.log("awayMembers", awayMembers)
+      commit("SET_HOME_MEMBERS", homeMembers.data)
+      commit("SET_AWAY_MEMBERS", awayMembers.data)
       return {
         "homeMembers": homeMembers.data,
         "awayMembers": awayMembers.data

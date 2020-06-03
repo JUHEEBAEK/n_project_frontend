@@ -38,6 +38,12 @@ const {
   mapMutations: squadMutations,
   mapActions: squadActions
 } = createNamespacedHelpers("squad");
+const {
+  mapState: prepareMatchState,
+  mapGetters: prepareMatchGetters,
+  mapMutations: prepareMatchMutations,
+  mapActions: prepareMatchActions
+} = createNamespacedHelpers("prepareMatch");
 
 export default {
   filters: {
@@ -72,6 +78,7 @@ export default {
     eventList: []
   }),
   computed: {
+    ...prepareMatchState(["homeMembers", "awayMembers"]),
     setStatus() {
       this.init();
       if (this.isGoal) {
@@ -100,12 +107,20 @@ export default {
   },
   async created() {
     await this.setScheduleList();
-    // this.getHomeTeamPlayerList();
-    // this.getAwayTeamPlayerList();
     this.getEventList();
+    
+    let scheduleAndQuarter = {} 
+    scheduleAndQuarter["schedule_id"] = this.$route.params.schedule_id;
+    scheduleAndQuarter["quarter"] = this.$route.params.quarter;
+    let homeAwayMembers = await this.getHomeAwayMember(scheduleAndQuarter)
+    // 밑에 두개가 같게 나와야한다
+    console.log("SHOW ME HOME AWAY Members", homeAwayMembers)
+    console.log(this.homeMembers, this.awayMembers)
+
   },
   methods: {
     ...squadActions(["getSplitTeamListWithSchedule"]),
+    ...prepareMatchActions(["getHomeAwayMember"]),
     init() {
       this.firstPlayer = null;
       this.lastPlayer = null;

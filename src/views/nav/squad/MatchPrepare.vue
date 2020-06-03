@@ -198,13 +198,6 @@ export default {
 
       
       }
-      // 홈 데이터 받아오기
-      // 어웨이 데이터 받아오기
-      // let scheduleAndQuarter = {} 
-      // scheduleAndQuarter["schedule_id"] = this.current_schedule_id;
-      // scheduleAndQuarter["quarter"] = this.currentQuarterNumber;
-      // let homeAwayMembers = await this.getHomeAwayMember(scheduleAndQuarter)
-      // console.log("SHOW ME HOME AWAY Members", homeAwayMembers)
       
       this.$router.push({
         name: "matchInput",
