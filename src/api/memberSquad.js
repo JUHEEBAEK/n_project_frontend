@@ -45,3 +45,12 @@ export const getMemberSquadList = async() => {
         console.log(e);
     }
 };
+
+export const getinfoWithSquadId = async(id) => {
+    try {
+        const response = await generalReq("get", "/api/memberSquad/getinfoWithSquadId/"+id);
+        return response;
+    } catch (e) {
+        console.log(e);
+    }
+};

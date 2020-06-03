@@ -14,6 +14,7 @@ import {
 import {
   createMultipleMemberSquad,
   deleteMemberSquad,
+  getinfoWithSquadId,
 } from "../../api/memberSquad.js";
 
 const state = {
@@ -61,8 +62,11 @@ const state = {
 };
 
 const getters = {
-  currentQuarter(state){
+  currentQuarterString(state){
     return state.quarterList[state.quarterIndex]
+  },
+  currentQuarterNumber(state){
+    return state.quarterIndex + 1
   }
 };
 
@@ -192,11 +196,13 @@ const actions = {
   },
   async createMultipleMemberSquad(context, {squad_id, memberData}){
     try {
+      
       let memberSquadformArray = []
       for (let i in memberData.members){
         let member = memberData.members[i]
         memberSquadformArray.push([squad_id, member.member_id, member.position])
       }
+      console.log("createMultipleMemberSquad Sending", memberSquadformArray)
       const response = await createMultipleMemberSquad(memberSquadformArray);
       console.log("createMemberSquad", response)
       return true
@@ -230,7 +236,27 @@ const actions = {
     } catch (e) {
       console.log(e);
     }
+  },
+
+  async getHomeAwayMember(context, scheduleAndQuarter){
+    try{
+      // scheduleAndQuarter["schedule_id"] = this.current_schedule_id;
+      // scheduleAndQuarter["quarter"] = this.currentQuarterString;
+      const gameInfo = await searchWithScheduleIdAndQuarter(scheduleAndQuarter);
+      console.log("getHomeAwayMember", gameInfo)
+      const homeMembers = await getinfoWithSquadId(gameInfo.data[0].home_squad_id)
+      const awayMembers = await getinfoWithSquadId(gameInfo.data[0].away_squad_id)
+      console.log("homeMembers", homeMembers)
+      console.log("awayMembers", awayMembers)
+      return {
+        "homeMembers": homeMembers.data,
+        "awayMembers": awayMembers.data
+      }
+    }catch(e){
+      console.log(e);
+    }
   }
+
 };
 
 

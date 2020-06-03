@@ -41,7 +41,7 @@ export default {
   data: () => ({}),
   computed: {
     ...prepareMatchState(["selectedSplitedTeam", "homeTeam", "awayTeam"]),
-    ...prepareMatchGetters(["currentQuarter"]),
+    ...prepareMatchGetters(["currentQuarterString", "currentQuarterNumber"]),
     ...calendarMapGetters(["current_schedule_id"])
   },
   async created() {
@@ -67,7 +67,8 @@ export default {
       "createGame",
       "deleteMemberSquad",
       "updateGame",
-      "setSelectedSplitedTeam"
+      "setSelectedSplitedTeam",
+      "getHomeAwayMember"
     ]),
     async save() {
       // 확인해야하는 것
@@ -96,10 +97,10 @@ export default {
 
       // 스케쥴 id와 쿼터를 찍기 state
       console.log("GET_CURRENT_SCHEDULE_ID", this.current_schedule_id);
-      console.log("currentQuarter", this.currentQuarter);
+      console.log("currentQuarterString", this.currentQuarterString);
       let formSearchGame = {};
       formSearchGame["schedule_id"] = this.current_schedule_id;
-      formSearchGame["quarter"] = this.currentQuarter;
+      formSearchGame["quarter"] = this.currentQuarterNumber;
       let searchedGame = await this.checkGameAlreadyExist(formSearchGame);
       // 해당 스케쥴, 쿼터에 해당하는 게임이 있는지 확인 Action
       if (searchedGame) {
@@ -186,7 +187,7 @@ export default {
         // schedule_id, quarter, home_squad_id, away_squad_id, homescore, awayscore, result
         let gameForm = {};
         gameForm["schedule_id"] = this.current_schedule_id;
-        gameForm["quarter"] = this.currentQuarter;
+        gameForm["quarter"] = this.currentQuarterNumber;
         gameForm["home_squad_id"] = homeSquadId;
         gameForm["away_squad_id"] = awaySquadId;
         gameForm["home_score"] = 0;
@@ -194,14 +195,24 @@ export default {
         gameForm["result"] = "D";
         await this.createGame(gameForm);
         console.log("저장 끝");
-        this.$router.push({
-          name: "matchInput",
-          params: {
-            schedule_id: this.current_schedule_id,
-            quarter: this.currentQuarter
-          }
-        });
+
+      
       }
+      // 홈 데이터 받아오기
+      // 어웨이 데이터 받아오기
+      // let scheduleAndQuarter = {} 
+      // scheduleAndQuarter["schedule_id"] = this.current_schedule_id;
+      // scheduleAndQuarter["quarter"] = this.currentQuarterNumber;
+      // let homeAwayMembers = await this.getHomeAwayMember(scheduleAndQuarter)
+      // console.log("SHOW ME HOME AWAY Members", homeAwayMembers)
+      
+      this.$router.push({
+        name: "matchInput",
+        params: {
+          schedule_id: this.current_schedule_id,
+          quarter: this.currentQuarterNumber
+        }
+      });
     },
     async setScheduleData(selected_schedule) {
       if (this.scheduleIndex == -1) return;
