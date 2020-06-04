@@ -11,7 +11,7 @@
       <v-col cols="12" class="schedule__list">
         <v-slide-group v-model="slide_index" show-arrows center-active>
           <v-slide-item
-            v-for="item, index in scheduleList"
+            v-for="(item, index) in scheduleList"
             :key="index"
             v-slot:default="{ active, toggle }"
           >
@@ -21,12 +21,13 @@
               height="70"
               width="50"
               @click="toggle"
-              @click.native="setScheduleInfo(item)"
             >
               <v-row class="fill-height" align="center" justify="center">
                 <v-scale-transition>
                   <div>
-                    <p class="date__Mon my-2">{{ item.date | setMomentMonth }}</p>
+                    <p class="date__Mon my-2">
+                      {{ item.date | setMomentMonth }}
+                    </p>
                     <p class="date__day mb-0">{{ item.date.substr(8, 2) }}</p>
                   </div>
                 </v-scale-transition>
@@ -45,24 +46,24 @@ import { createNamespacedHelpers } from "vuex";
 const {
   mapState: calendarMapState,
   mapMutations: calendarMapMutations,
-  mapActions: calendarMapActions
+  mapActions: calendarMapActions,
 } = createNamespacedHelpers("calendar");
 
 export default {
   filters: {
     setMomentMonth: function(val) {
       return moment(val).format("MMM");
-    }
+    },
   },
   data: () => ({
     month: null,
     slide_index: null,
     setMonth: moment().format("MMMM"),
     setYear: moment().format("YYYY"),
-    setDay: moment().format("DD")
+    setDay: moment().format("DD"),
   }),
   computed: {
-    ...calendarMapState(["scheduleIndex", "scheduleList"])
+    ...calendarMapState(["scheduleIndex", "scheduleList"]),
   },
   watch: {
     scheduleIndex: function(val) {
@@ -75,7 +76,7 @@ export default {
         this.$emit("changeDate", selected_schedule);
         this.SET_SCHEDULE_INDEX(this.slide_index);
       }
-    }
+    },
   },
   async created() {
     await this.select_schedule();
@@ -87,15 +88,12 @@ export default {
   methods: {
     ...calendarMapMutations(["SET_SCHEDULE_INDEX"]),
     ...calendarMapActions(["select_schedule", "load_member"]),
-    setScheduleInfo(item) {
-      // this.$emit("changeDate", item);
-    },
     setDateString(selected_schedule) {
       this.setYear = moment(selected_schedule.date).format("YYYY");
       this.setMonth = moment(selected_schedule.date).format("MMMM");
       this.setDay = moment(selected_schedule.date).format("DD");
-    }
-  }
+    },
+  },
 };
 </script>
 
