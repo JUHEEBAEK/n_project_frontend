@@ -249,11 +249,8 @@ const actions = {
   async getHomeAwayMember({commit}, scheduleAndQuarter){
     try{
       const gameInfo = await searchWithScheduleIdAndQuarter(scheduleAndQuarter);
-      console.log("getHomeAwayMember", gameInfo)
       const homeMembers = await getinfoWithSquadId(gameInfo.data[0].home_squad_id)
       const awayMembers = await getinfoWithSquadId(gameInfo.data[0].away_squad_id)
-      console.log("homeMembers", homeMembers)
-      console.log("awayMembers", awayMembers)
       commit("SET_HOME_MEMBERS", homeMembers.data)
       commit("SET_AWAY_MEMBERS", awayMembers.data)
       return {

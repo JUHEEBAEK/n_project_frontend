@@ -31,25 +31,25 @@ const {
   mapState: calendarMapState,
   mapGetters: calendarMapGetters,
   mapMutations: calendarMapMutations,
-  mapActions: calendarMapActions
+  mapActions: calendarMapActions,
 } = createNamespacedHelpers("calendar");
 const {
   mapState: squadState,
   mapMutations: squadMutations,
-  mapActions: squadActions
+  mapActions: squadActions,
 } = createNamespacedHelpers("squad");
 const {
   mapState: prepareMatchState,
   mapGetters: prepareMatchGetters,
   mapMutations: prepareMatchMutations,
-  mapActions: prepareMatchActions
+  mapActions: prepareMatchActions,
 } = createNamespacedHelpers("prepareMatch");
 
 export default {
   filters: {
     setMomentMonth: function(val) {
       return moment(val).format("MMM");
-    }
+    },
   },
   data: () => ({
     // 스케쥴 리스트 영역
@@ -75,7 +75,7 @@ export default {
     position: Position.basicPostion,
     homePlayerList: [],
     awayPlayerList: [],
-    eventList: []
+    eventList: [],
   }),
   computed: {
     ...prepareMatchState(["homeMembers", "awayMembers"]),
@@ -90,7 +90,7 @@ export default {
         this.lastEventType = "In";
         return "Change Player";
       }
-    }
+    },
   },
   watch: {
     scheduleIndex: async function(val) {
@@ -103,20 +103,12 @@ export default {
     quarterCount: function() {
       this.quarterIndex =
         this.scheduleList[this.scheduleIndex]["quarterCount"] - 1;
-    }
+    },
   },
   async created() {
+    console.log("matchInput created");
     await this.setScheduleList();
     this.getEventList();
-    
-    let scheduleAndQuarter = {} 
-    scheduleAndQuarter["schedule_id"] = this.$route.params.schedule_id;
-    scheduleAndQuarter["quarter"] = this.$route.params.quarter;
-    let homeAwayMembers = await this.getHomeAwayMember(scheduleAndQuarter)
-    // 밑에 두개가 같게 나와야한다
-    console.log("SHOW ME HOME AWAY Members", homeAwayMembers)
-    console.log(this.homeMembers, this.awayMembers)
-
   },
   methods: {
     ...squadActions(["getSplitTeamListWithSchedule"]),
@@ -132,7 +124,7 @@ export default {
         event_type: this.firstEventType,
         firstPlayer: this.firstPlayer,
         lastPlayer: this.lastPlayer,
-        team_type: this.teamType
+        team_type: this.teamType,
       });
 
       this.init();
@@ -185,10 +177,12 @@ export default {
     },
     async setScheduleData(selected_schedule) {
       if (this.scheduleIndex == -1) return;
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style lang="scss" src="../../../styles/views/nav/match/matchInput.scss">
-</style>
+<style
+  lang="scss"
+  src="../../../styles/views/nav/match/matchInput.scss"
+></style>

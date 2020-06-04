@@ -1,19 +1,30 @@
 <template>
   <v-col cols="12" xl="6" lg="6" sm="12">
     <div class="event__header">
-      <v-switch class="mt-0" v-model="isGoal" hide-details :label="`Status: ${setStatus}`"></v-switch>
+      <v-switch
+        class="mt-0"
+        v-model="isGoal"
+        hide-details
+        :label="`Status: ${setStatus}`"
+      ></v-switch>
     </div>
     <v-card class="home__container" elevation="1">
       <v-card-title class="home__header">HOME</v-card-title>
       <v-card-text class="home__content">
         <v-row justify="center">
-          <v-col v-for="player in homePlayerList" :key="player" cols="4" align-self="center">
+          <v-col
+            v-for="player in homePlayerList"
+            :key="player"
+            cols="4"
+            align-self="center"
+          >
             <v-btn
               rounded
               small
               color="lime lighten-2"
               @click="clickPlayer(player)"
-            >{{ player.name }}</v-btn>
+              >{{ player.name }}</v-btn
+            >
           </v-col>
         </v-row>
       </v-card-text>
@@ -33,7 +44,13 @@
         <span class="data__text">{{ firstPlayer }}</span>
         <span class="data__text fixed__type">{{ lastEventType }}</span>
         <span class="data__text">{{ lastPlayer }}</span>
-        <v-btn class="my-1" x-small fab color="primary" @click="clickSaveButton">
+        <v-btn
+          class="my-1"
+          x-small
+          fab
+          color="primary"
+          @click="clickSaveButton"
+        >
           <v-icon dark>fas fa-pencil-alt</v-icon>
         </v-btn>
       </v-card-text>
@@ -42,13 +59,19 @@
       <v-card-title class="away__header">AWAY</v-card-title>
       <v-card-text class="away__content">
         <v-row justify="center">
-          <v-col v-for="player in awayPlayerList" :key="player" cols="4" align-self="center">
+          <v-col
+            v-for="player in awayPlayerList"
+            :key="player"
+            cols="4"
+            align-self="center"
+          >
             <v-btn
               rounded
               small
               color="lime lighten-2"
               @click="clickPlayer(player)"
-            >{{ player.name }}</v-btn>
+              >{{ player.name }}</v-btn
+            >
           </v-col>
         </v-row>
       </v-card-text>
@@ -60,6 +83,14 @@
 import moment from "moment";
 import dummyData from "../../assets/value/dummy.json";
 import Position from "../../assets/value/Postion.json";
+import { createNamespacedHelpers } from "vuex";
+
+const {
+  mapState: prepareMatchState,
+  mapGetters: prepareMatchGetters,
+  mapMutations: prepareMatchMutations,
+  mapActions: prepareMatchActions,
+} = createNamespacedHelpers("prepareMatch");
 
 export default {
   data: () => ({
@@ -76,9 +107,10 @@ export default {
     positionAwayList: Position.awayList,
     position: Position.basicPostion,
     homePlayerList: [],
-    awayPlayerList: []
+    awayPlayerList: [],
   }),
   computed: {
+    ...prepareMatchState(["homeMembers", "awayMembers"]),
     setStatus() {
       this.init();
       if (this.isGoal) {
@@ -90,31 +122,36 @@ export default {
         this.lastEventType = "In";
         return "Change Player";
       }
-    }
+    },
   },
-  async created() {
-    this.getHomeTeamPlayerList();
-    this.getAwayTeamPlayerList();
+  created() {
+    this.getHomeAwayMemberList();
   },
   methods: {
+    ...prepareMatchActions(["getHomeAwayMember"]),
     init() {
       this.firstPlayer = null;
       this.lastPlayer = null;
       this.teamType = null;
     },
-    getHomeTeamPlayerList: function() {
-      // TODO: 홈팀 선수리스트 가져오는 API 호출
-      this.homePlayerList = dummyData.homeTeamPlayers;
-      // console.log(this.homePlayerList);
+    getHomeAwayMemberList: async function() {
+      let scheduleAndQuarter = {
+        schedule_id: this.$route.params.schedule_id,
+        quarter: this.$route.params.quarter,
+      };
+      let homeAwayMembers = await this.getHomeAwayMember(scheduleAndQuarter);
+      // 밑에 두개가 같게 나와야한다
+      this.getHomeTeamPlayerList(this.homeMembers);
+      this.getAwayTeamPlayerList(this.awayMembers);
     },
-    getAwayTeamPlayerList: function() {
-      // TODO: 어웨이팀 선수리스트 가져오는 API 호출
-      this.awayPlayerList = dummyData.awayTeamPlayers;
-      // console.log(this.awayPlayerList);
-    }
-  }
+    getHomeTeamPlayerList: function(homeMemberList) {
+      this.homePlayerList = homeMemberList;
+    },
+    getAwayTeamPlayerList: function(awayMemberList) {
+      this.awayPlayerList = awayMemberList;
+    },
+  },
 };
 </script>
 
-<style lang="scss" src="../../styles/components/match/eventInput.scss">
-</style>
+<style lang="scss" src="../../styles/components/match/eventInput.scss"></style>
