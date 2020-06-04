@@ -38,8 +38,7 @@ export const getInfo = async(teamSplitId) => {
 
 export const deleteTeamSplit = async(teamSplit_id_form) => {
   try {
-    let data = { data: teamSplit_id_form }
-    const response = await generalReq("delete", "/api/teamSplit/delete", data);
+    const response = await generalReq("delete", "/api/teamSplit/delete", teamSplit_id_form);
     return response;
   } catch (e) {
       console.log(e);
