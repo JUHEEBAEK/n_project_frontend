@@ -29,8 +29,7 @@ export const createMultipleMemberSquad = async(form) => {
 
 export const deleteMemberSquad = async(form) => {
     try {
-        let data = { data: form}
-        const response = await generalReq("delete", "/api/memberSquad/delete", data);
+        const response = await generalReq("delete", "/api/memberSquad/delete", form);
         return response;
     } catch (e) {
         console.log(e);

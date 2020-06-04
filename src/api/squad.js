@@ -20,8 +20,7 @@ export const createSquad = async(form) => {
 
 export const deleteSquad = async(form) => {
   try {
-      let data = { data: form };
-    const response = await generalReq("delete", "/api/squad/delete", data);
+    const response = await generalReq("delete", "/api/squad/delete", form);
     return response;
   } catch (e) {
       console.log(e);

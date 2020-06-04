@@ -29,8 +29,7 @@ export const getInfo = async(schduleId) => {
 
 export const deleteSchedule = async(schedule_id_form) => {
   try {
-    let data = { data: schedule_id_form}
-    const response = await generalReq("delete", "/api/schedule/delete", data);
+    const response = await generalReq("delete", "/api/schedule/delete", schedule_id_form);
     return response;
   } catch (e) {
       console.log(e);

@@ -107,7 +107,7 @@ export default {
         // 게임이 있다면
         // 0. 스쿼드 id가져오기
         let homeSquadId = searchedGame["home_squad_id"];
-        let awaySquadId = searchedGame["away_sqaud_id"];
+        let awaySquadId = searchedGame["away_squad_id"];
 
         // 1. 기존 스쿼드 멤버들을 없애기
         let deleteMemberSquadForm = {};
