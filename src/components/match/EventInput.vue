@@ -22,7 +22,7 @@
               rounded
               small
               color="lime lighten-2"
-              @click="clickPlayer(player)"
+              @click="clickPlayer(player, 'H')"
               >{{ player.name }}</v-btn
             >
           </v-col>
@@ -69,7 +69,7 @@
               rounded
               small
               color="lime lighten-2"
-              @click="clickPlayer(player)"
+              @click="clickPlayer(player, 'A')"
               >{{ player.name }}</v-btn
             >
           </v-col>
@@ -82,7 +82,6 @@
 <script>
 import moment from "moment";
 import dummyData from "../../assets/value/dummy.json";
-import Position from "../../assets/value/Postion.json";
 import { createNamespacedHelpers } from "vuex";
 
 const {
@@ -92,6 +91,13 @@ const {
   mapActions: prepareMatchActions,
 } = createNamespacedHelpers("prepareMatch");
 
+const {
+  mapState: eventState,
+  mapGetters: eventGetters,
+  mapMutations: eventMutations,
+  mapActions: eventActions,
+} = createNamespacedHelpers("event");
+
 export default {
   data: () => ({
     // 이벤트 기록 영역
@@ -100,17 +106,15 @@ export default {
     lastEventType: "Assist",
     firstPlayer: null,
     lastPlayer: null,
+    firstPlayerId: null,
+    lastPlayerId: null,
     teamType: null,
-
-    benchList: Position.benchList,
-    positionHomeList: Position.homeList,
-    positionAwayList: Position.awayList,
-    position: Position.basicPostion,
     homePlayerList: [],
     awayPlayerList: [],
   }),
   computed: {
     ...prepareMatchState(["homeMembers", "awayMembers"]),
+    ...eventState(["eventList"]),
     setStatus() {
       this.init();
       if (this.isGoal) {
@@ -129,6 +133,39 @@ export default {
   },
   methods: {
     ...prepareMatchActions(["getHomeAwayMember"]),
+    ...eventActions(["getEventList", "addGameEvent"]),
+    ...eventMutations(["ADD_EVENT"]),
+    clickPlayer: function(val, type) {
+      console.log(val);
+      if (this.teamType !== null && this.teamType !== type) {
+        alert("같은 팀을 선택해주세요.");
+        this.init();
+      } else if (this.firstPlayer !== null && this.firstPlayer === val.name) {
+        alert("같은 사람을 선택할 수 없습니다.");
+        this.init();
+      } else {
+        this.teamType = type;
+        if (this.firstPlayer === null) {
+          this.firstPlayer = val.name;
+          this.firstPlayerId = val.member_id;
+        } else {
+          this.lastPlayer = val.name;
+          this.lastPlayerId = val.member_id;
+        }
+      }
+    },
+    clickSaveButton() {
+      // TODO: game_id 추가는 어떻게?
+      let event = {
+        game_id: 37,
+        event_type: this.firstEventType,
+        first_player: this.firstPlayerId,
+        last_player: this.lastPlayerId,
+        team_type: this.teamType,
+      };
+      this.addGameEvent(event);
+      this.init();
+    },
     init() {
       this.firstPlayer = null;
       this.lastPlayer = null;

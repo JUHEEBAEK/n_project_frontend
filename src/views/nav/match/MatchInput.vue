@@ -75,7 +75,6 @@ export default {
     position: Position.basicPostion,
     homePlayerList: [],
     awayPlayerList: [],
-    eventList: [],
   }),
   computed: {
     ...prepareMatchState(["homeMembers", "awayMembers"]),
@@ -106,59 +105,11 @@ export default {
     },
   },
   async created() {
-    console.log("matchInput created");
     await this.setScheduleList();
-    this.getEventList();
   },
   methods: {
     ...squadActions(["getSplitTeamListWithSchedule"]),
     ...prepareMatchActions(["getHomeAwayMember"]),
-    init() {
-      this.firstPlayer = null;
-      this.lastPlayer = null;
-      this.teamType = null;
-    },
-    clickSaveButton() {
-      console.log(this.eventList);
-      this.eventList.push({
-        event_type: this.firstEventType,
-        firstPlayer: this.firstPlayer,
-        lastPlayer: this.lastPlayer,
-        team_type: this.teamType,
-      });
-
-      this.init();
-    },
-    clickPlayer(val) {
-      console.log("clickPlayer", val);
-      if (this.teamType !== null && this.teamType !== val.team) {
-        alert("같은 팀을 선택해주세요.");
-        this.init();
-      } else if (this.firstPlayer !== null && this.firstPlayer === val.name) {
-        alert("같은 사람을 선택할 수 없습니다.");
-        this.init();
-      } else {
-        this.teamType = val.team;
-        if (this.firstPlayer === null) {
-          this.firstPlayer = val.name;
-        } else {
-          this.lastPlayer = val.name;
-        }
-      }
-    },
-    deleteButton: function(event) {
-      this.eventList.forEach((item, idx) => {
-        if (item.event_id === event.event_id) {
-          this.eventList.splice(idx, 1);
-        }
-      });
-    },
-    getEventList: function() {
-      // TODO: 경기 이벤트 리스트 가져오는 API 호출
-      this.eventList = dummyData.gameEventList;
-      // console.log(this.eventList);
-    },
-
     setDateString(selected_schedule) {
       this.setYear = moment(selected_schedule.date).format("YYYY");
       this.setMonth = moment(selected_schedule.date).format("MMMM");
