@@ -44,6 +44,7 @@ const {
 } = createNamespacedHelpers("calendar");
 const {
   mapState: squadState,
+  mapMutations: squadMutations,
   mapActions: squadActions
 } = createNamespacedHelpers("squad");
 
@@ -76,11 +77,19 @@ export default {
   },
   async created() {
     await this.select_schedule();
-    this.CHOOSE_LATEST_SCHEDULE();
+
+    if (this.$route.params && this.$route.params.scheduleIndex && this.$route.params.team_split_index){
+        this.SET_SCHEDULE_INDEX(this.$route.params.scheduleIndex)
+        this.SET_TEAM_INDEX_CHANGED(this.$route.params.team_split_index)
+    }else{
+      this.CHOOSE_LATEST_SCHEDULE();
+    }
+    
   },
   methods: {
-    ...calendarMapMutations(["SET_ATTEND_MEMBER", "CHOOSE_LATEST_SCHEDULE"]),
+    ...calendarMapMutations(["SET_ATTEND_MEMBER", "CHOOSE_LATEST_SCHEDULE", "SET_SCHEDULE_INDEX"]),
     ...calendarMapActions(["select_schedule", "load_member"]),
+    ...squadMutations(["SET_TEAM_INDEX_CHANGED"]),
     ...mapActions(["get_attendance"]),
     ...squadActions(["getSplitTeamListWithSchedule"]),
 

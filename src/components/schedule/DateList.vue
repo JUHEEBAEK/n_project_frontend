@@ -79,8 +79,8 @@ export default {
   },
   async created() {
     await this.select_schedule();
-    // 가장 최신걸 선택
-    this.SET_SCHEDULE_INDEX(this.scheduleList.length - 1);
+    // 선택이 안되어 있다면 가장 최신걸 선택
+    if (this.scheduleIndex == null) this.SET_SCHEDULE_INDEX(this.scheduleList.length - 1);
     // 연동 필수
     this.slide_index = this.scheduleIndex;
   },
