@@ -62,20 +62,22 @@ export default {
     setDay: moment().format("DD")
   }),
   computed: {
-    ...calendarMapState(["scheduleIndex", "scheduleList"])
+    ...calendarMapState(["scheduleIndex", "scheduleList"]),
+    slide_index: {
+      get: function(){
+        return this.scheduleIndex
+      },
+    }
   },
   watch: {
-    scheduleIndex: function(val) {
-      this.slide_index = this.scheduleIndex;
-    },
     slide_index: async function(val) {
       if (val) {
         let selected_schedule = this.scheduleList[this.slide_index];
-        this.setDateString(selected_schedule);
+        this.setDateString(selected_schedule)
         this.$emit("changeDate", selected_schedule);
-        this.SET_SCHEDULE_INDEX(this.slide_index);
+        this.SET_SCHEDULE_INDEX(val)
       }
-    }
+    },
   },
   async created() {
     await this.select_schedule();
