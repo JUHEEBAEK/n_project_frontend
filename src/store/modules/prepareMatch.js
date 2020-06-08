@@ -27,24 +27,6 @@ const state = {
   awayTeam: {}, 
   splitTeamList:{
   }, 
-  
-  headerOfSplitTeam:[{
-      "text": "번호",
-      "value": "splitTeamIndex"
-    },
-    {
-      "text": "팀 수",
-      "value": "numberOfTeam"
-    },
-    {
-      "text": "첫 팀 선수",
-      "value": "memberNameList"
-    },
-    {
-      "text": "조커",
-      "value": "jockerName"
-    }
-  ],
   summarySplitTeamList:[{
       "splitTeamIndex": 1, 
       "numberOfTeam": 2, 
@@ -179,7 +161,6 @@ const actions = {
   async checkGameAlreadyExist(context, form){
     try {
       const response = await searchWithScheduleIdAndQuarter(form);
-      console.log("checkGameAlreadyExist", response.data)
       if (response.data){
         return response.data[0]
       }else{
@@ -192,7 +173,6 @@ const actions = {
   async createSquad(context, form){
     try {
       const response = await createSquad(form);
-      console.log("createSquad", response)
       if (response.data){
         return response.data.insertId
       }else{
@@ -210,7 +190,6 @@ const actions = {
         let member = memberData.members[i]
         memberSquadformArray.push([squad_id, member.member_id, member.position])
       }
-      console.log("createMultipleMemberSquad Sending", memberSquadformArray)
       const response = await createMultipleMemberSquad(memberSquadformArray);
       console.log("createMemberSquad", response)
       return true
