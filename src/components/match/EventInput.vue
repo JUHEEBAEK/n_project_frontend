@@ -1,30 +1,19 @@
 <template>
   <v-col cols="12" xl="6" lg="6" sm="12">
     <div class="event__header">
-      <v-switch
-        class="mt-0"
-        v-model="isGoal"
-        hide-details
-        :label="`Status: ${setStatus}`"
-      ></v-switch>
+      <v-switch class="mt-0" v-model="isGoal" hide-details :label="`Status: ${setStatus}`"></v-switch>
     </div>
     <v-card class="home__container" elevation="1">
       <v-card-title class="home__header">HOME</v-card-title>
       <v-card-text class="home__content">
         <v-row justify="center">
-          <v-col
-            v-for="player in homePlayerList"
-            :key="player"
-            cols="4"
-            align-self="center"
-          >
+          <v-col v-for="player in homePlayerList" :key="player" cols="4" align-self="center">
             <v-btn
               rounded
               small
               color="lime lighten-2"
               @click="clickPlayer(player, 'H')"
-              >{{ player.name }}</v-btn
-            >
+            >{{ player.name }}</v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -44,13 +33,7 @@
         <span class="data__text">{{ firstPlayer }}</span>
         <span class="data__text fixed__type">{{ lastEventType }}</span>
         <span class="data__text">{{ lastPlayer }}</span>
-        <v-btn
-          class="my-1"
-          x-small
-          fab
-          color="primary"
-          @click="clickSaveButton"
-        >
+        <v-btn class="my-1" x-small fab color="primary" @click="clickSaveButton">
           <v-icon dark>fas fa-pencil-alt</v-icon>
         </v-btn>
       </v-card-text>
@@ -59,19 +42,13 @@
       <v-card-title class="away__header">AWAY</v-card-title>
       <v-card-text class="away__content">
         <v-row justify="center">
-          <v-col
-            v-for="player in awayPlayerList"
-            :key="player"
-            cols="4"
-            align-self="center"
-          >
+          <v-col v-for="player in awayPlayerList" :key="player" cols="4" align-self="center">
             <v-btn
               rounded
               small
               color="lime lighten-2"
               @click="clickPlayer(player, 'A')"
-              >{{ player.name }}</v-btn
-            >
+            >{{ player.name }}</v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -88,17 +65,23 @@ const {
   mapState: prepareMatchState,
   mapGetters: prepareMatchGetters,
   mapMutations: prepareMatchMutations,
-  mapActions: prepareMatchActions,
+  mapActions: prepareMatchActions
 } = createNamespacedHelpers("prepareMatch");
 
 const {
   mapState: eventState,
   mapGetters: eventGetters,
   mapMutations: eventMutations,
-  mapActions: eventActions,
+  mapActions: eventActions
 } = createNamespacedHelpers("event");
 
 export default {
+  props: {
+    scheduleInfo: {
+      type: Object,
+      default: null
+    }
+  },
   data: () => ({
     // 이벤트 기록 영역
     isGoal: true,
@@ -110,8 +93,12 @@ export default {
     lastPlayerId: null,
     teamType: null,
     homePlayerList: [],
-    awayPlayerList: [],
+    awayPlayerList: []
   }),
+  mounted() {
+    console.log("mounted");
+    console.log(this.scheduleInfo);
+  },
   computed: {
     ...prepareMatchState(["homeMembers", "awayMembers"]),
     ...eventState(["eventList"]),
@@ -126,7 +113,7 @@ export default {
         this.lastEventType = "In";
         return "Change Player";
       }
-    },
+    }
   },
   created() {
     this.getHomeAwayMemberList();
@@ -156,12 +143,13 @@ export default {
     },
     clickSaveButton() {
       // TODO: game_id 추가는 어떻게?
+      console.log("s_info", this.scheduleInfo);
       let event = {
-        game_id: 37,
+        game_id: this.scheduleInfo.id,
         event_type: this.firstEventType,
         first_player: this.firstPlayerId,
         last_player: this.lastPlayerId,
-        team_type: this.teamType,
+        team_type: this.teamType
       };
       this.addGameEvent(event);
       this.init();
@@ -174,7 +162,7 @@ export default {
     getHomeAwayMemberList: async function() {
       let scheduleAndQuarter = {
         schedule_id: this.$route.params.schedule_id,
-        quarter: this.$route.params.quarter,
+        quarter: this.$route.params.quarter
       };
       let homeAwayMembers = await this.getHomeAwayMember(scheduleAndQuarter);
       // 밑에 두개가 같게 나와야한다
@@ -186,8 +174,8 @@ export default {
     },
     getAwayTeamPlayerList: function(awayMemberList) {
       this.awayPlayerList = awayMemberList;
-    },
-  },
+    }
+  }
 };
 </script>
 
