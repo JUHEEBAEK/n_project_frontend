@@ -14,7 +14,7 @@
             :headers="headerOfSplitTeam"
             :items="summarySplitTeamList"
             :footer-props="teamPaging"
-            :sort-by="['number']"            
+            :sort-by="['number']"
             hide-default-footer
             disable-sort
             @click:row="clickTeam"
@@ -29,18 +29,23 @@
 </template>
 
 <script>
+import matchValue from "../../../assets/value/match.json";
 import squad from "../../../assets/value/squad.json";
 import dialog from "../../../mixin/dialog.js";
 import { createNamespacedHelpers } from "vuex";
-const { mapState: prepareMatchMapState, mapMutations:prepareMatchMapMutations } = createNamespacedHelpers("prepareMatch");
+const {
+  mapState: prepareMatchMapState,
+  mapMutations: prepareMatchMapMutations
+} = createNamespacedHelpers("prepareMatch");
 
 export default {
   mixins: [dialog],
   data: () => ({
-    teamPaging: { "items-per-page-options": [10000] }
+    teamPaging: { "items-per-page-options": [10000] },
+    headerOfSplitTeam: matchValue.headerOfSplitTeam
   }),
   computed: {
-    ...prepareMatchMapState(["summarySplitTeamList","headerOfSplitTeam"])
+    ...prepareMatchMapState(["summarySplitTeamList", "headerOfSplitTeam"])
   },
   methods: {
     closeDialog() {
