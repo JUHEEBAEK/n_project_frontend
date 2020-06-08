@@ -15,7 +15,7 @@
       <v-row class="event__main">
         <!-- 경기 기록 페이지 -->
         <match-event-input></match-event-input>
-        <match-event-list></match-event-list>
+        <match-event-list :gameEventList="eventList"></match-event-list>
       </v-row>
     </v-container>
   </div>
@@ -28,22 +28,23 @@ import Position from "../../../assets/value/Postion.json";
 
 import { createNamespacedHelpers } from "vuex";
 const {
-  mapState: calendarMapState,
-  mapGetters: calendarMapGetters,
-  mapMutations: calendarMapMutations,
-  mapActions: calendarMapActions
-} = createNamespacedHelpers("calendar");
-const {
   mapState: squadState,
   mapMutations: squadMutations,
   mapActions: squadActions
 } = createNamespacedHelpers("squad");
+
 const {
-  mapState: prepareMatchState,
-  mapGetters: prepareMatchGetters,
-  mapMutations: prepareMatchMutations,
-  mapActions: prepareMatchActions
-} = createNamespacedHelpers("prepareMatch");
+  mapState: gameReportState,
+  mapGetters: gameReportGetters,
+  mapMutations: gameReportMutations,
+  mapActions: gameReportActions
+} = createNamespacedHelpers("gameReport");
+
+const {
+  mapState: gameState,
+  mapMutations: gameMutations,
+  mapActions: gameActions
+} = createNamespacedHelpers("game");
 
 export default {
   filters: {
@@ -51,10 +52,21 @@ export default {
       return moment(val).format("MMM");
     }
   },
+  props: {
+    schedule_id: {
+      type: [String, Number],
+      default: null
+    },
+    quarter: {
+      type: [String, Number],
+      default: null
+    }
+  },
   data: () => ({
     // 스케쥴 리스트 영역
     scheduleList: [],
     scheduleIndex: null,
+    scheduleInfo: {},
     setYear: moment().format("YYYY"),
     setMonth: moment().format("MMMM"),
     setDay: moment().format("DD"),
@@ -74,11 +86,11 @@ export default {
     positionAwayList: Position.awayList,
     position: Position.basicPostion,
     homePlayerList: [],
-    awayPlayerList: [],
-    eventList: []
+    awayPlayerList: []
   }),
   computed: {
-    ...prepareMatchState(["homeMembers", "awayMembers"]),
+    ...gameState(["gameInfo"]),
+    ...gameReportState(["eventList"]),
     setStatus() {
       this.init();
       if (this.isGoal) {
@@ -92,12 +104,16 @@ export default {
       }
     }
   },
+  async created() {
+    await this.setGameId();
+    await this.selectEventList();
+  },
   watch: {
     scheduleIndex: async function(val) {
       if (val) {
         let selected_schedule = this.scheduleList[this.scheduleIndex];
         this.setDateString(selected_schedule);
-        // this.$emit("changeDate", selected_schedule);
+        this.scheduleInfo = selected_schedule;
       }
     },
     quarterCount: function() {
@@ -105,90 +121,34 @@ export default {
         this.scheduleList[this.scheduleIndex]["quarterCount"] - 1;
     }
   },
-  async created() {
-    await this.setScheduleList();
-    this.getEventList();
-    
-    let scheduleAndQuarter = {} 
-    scheduleAndQuarter["schedule_id"] = this.$route.params.schedule_id;
-    scheduleAndQuarter["quarter"] = this.$route.params.quarter;
-    let homeAwayMembers = await this.getHomeAwayMember(scheduleAndQuarter)
-    // 밑에 두개가 같게 나와야한다
-    console.log("SHOW ME HOME AWAY Members", homeAwayMembers)
-    console.log(this.homeMembers, this.awayMembers)
-
-  },
   methods: {
     ...squadActions(["getSplitTeamListWithSchedule"]),
-    ...prepareMatchActions(["getHomeAwayMember"]),
-    init() {
-      this.firstPlayer = null;
-      this.lastPlayer = null;
-      this.teamType = null;
-    },
-    clickSaveButton() {
-      console.log(this.eventList);
-      this.eventList.push({
-        event_type: this.firstEventType,
-        firstPlayer: this.firstPlayer,
-        lastPlayer: this.lastPlayer,
-        team_type: this.teamType
-      });
-
-      this.init();
-    },
-    clickPlayer(val) {
-      console.log("clickPlayer", val);
-      if (this.teamType !== null && this.teamType !== val.team) {
-        alert("같은 팀을 선택해주세요.");
-        this.init();
-      } else if (this.firstPlayer !== null && this.firstPlayer === val.name) {
-        alert("같은 사람을 선택할 수 없습니다.");
-        this.init();
-      } else {
-        this.teamType = val.team;
-        if (this.firstPlayer === null) {
-          this.firstPlayer = val.name;
-        } else {
-          this.lastPlayer = val.name;
-        }
-      }
-    },
-    deleteButton: function(event) {
-      this.eventList.forEach((item, idx) => {
-        if (item.event_id === event.event_id) {
-          this.eventList.splice(idx, 1);
-        }
-      });
-    },
-    getEventList: function() {
-      // TODO: 경기 이벤트 리스트 가져오는 API 호출
-      this.eventList = dummyData.gameEventList;
-      // console.log(this.eventList);
-    },
-
+    ...gameActions(["getGameId"]),
+    ...gameReportActions(["getEventList"]),
     setDateString(selected_schedule) {
       this.setYear = moment(selected_schedule.date).format("YYYY");
       this.setMonth = moment(selected_schedule.date).format("MMMM");
       this.setDay = moment(selected_schedule.date).format("DD");
     },
-    setInfo(item) {
-      // TODO: 스케쥴 정보 선택 API 호출
-      this.quarterCount = item.quarterCount;
+    selectEventList: async function() {
+      this.gameEventList = await this.getEventList(this.gameInfo.id);
     },
-    setScheduleList() {
-      this.scheduleList = dummyData.MatchInput_scheduleList;
-      // 스케쥴 초기 세팅
-      this.scheduleIndex = this.scheduleList.length - 1;
-      // 쿼터 초기 세팅
-      this.quarterCount = this.scheduleList[this.scheduleIndex]["quarterCount"];
+    setGameId: async function() {
+      let body = {
+        schedule_id: this.schedule_id,
+        quarter: this.quarter
+      };
+      await this.getGameId(body);
     },
     async setScheduleData(selected_schedule) {
+      console.log("1", selected_schedule);
       if (this.scheduleIndex == -1) return;
     }
   }
 };
 </script>
 
-<style lang="scss" src="../../../styles/views/nav/match/matchInput.scss">
-</style>
+<style
+  lang="scss"
+  src="../../../styles/views/nav/match/matchInput.scss"
+></style>

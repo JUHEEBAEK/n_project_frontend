@@ -11,7 +11,7 @@
       <v-col cols="12" class="schedule__list">
         <v-slide-group v-model="slide_index" show-arrows center-active>
           <v-slide-item
-            v-for="item, index in scheduleList"
+            v-for="(item, index) in scheduleList"
             :key="index"
             v-slot:default="{ active, toggle }"
           >
@@ -21,7 +21,6 @@
               height="70"
               width="50"
               @click="toggle"
-              @click.native="setScheduleInfo(item)"
             >
               <v-row class="fill-height" align="center" justify="center">
                 <v-scale-transition>
@@ -64,34 +63,32 @@ export default {
   computed: {
     ...calendarMapState(["scheduleIndex", "scheduleList"]),
     slide_index: {
-      get: function(){
-        return this.scheduleIndex
-      },
+      get: function() {
+        return this.scheduleIndex;
+      }
     }
   },
   watch: {
     slide_index: async function(val) {
       if (val) {
         let selected_schedule = this.scheduleList[this.slide_index];
-        this.setDateString(selected_schedule)
+        this.setDateString(selected_schedule);
         this.$emit("changeDate", selected_schedule);
-        this.SET_SCHEDULE_INDEX(val)
+        this.SET_SCHEDULE_INDEX(val);
       }
-    },
+    }
   },
   async created() {
     await this.select_schedule();
     // 선택이 안되어 있다면 가장 최신걸 선택
-    if (this.scheduleIndex == null) this.SET_SCHEDULE_INDEX(this.scheduleList.length - 1);
+    if (this.scheduleIndex == null)
+      this.SET_SCHEDULE_INDEX(this.scheduleList.length - 1);
     // 연동 필수
     this.slide_index = this.scheduleIndex;
   },
   methods: {
     ...calendarMapMutations(["SET_SCHEDULE_INDEX"]),
     ...calendarMapActions(["select_schedule", "load_member"]),
-    setScheduleInfo(item) {
-      // this.$emit("changeDate", item);
-    },
     setDateString(selected_schedule) {
       this.setYear = moment(selected_schedule.date).format("YYYY");
       this.setMonth = moment(selected_schedule.date).format("MMMM");

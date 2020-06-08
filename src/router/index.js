@@ -64,7 +64,8 @@ const routes = [{
   {
     path: "/matchPrepare",
     name: "matchPrepare",
-    component: MatchPrepare
+    component: MatchPrepare,
+    props: true
   },
   {
     path: "/ranking",
@@ -72,10 +73,10 @@ const routes = [{
     component: Ranking
   },
   {
-    path: "/matchInput",
+    path: "/matchInput/schedule/:schedule_id/quarter/:quarter",
     name: "matchInput",
-    component: MatchInput
-    
+    component: MatchInput,
+    props: true
   },
   {
     path: "*",
