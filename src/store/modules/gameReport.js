@@ -1,6 +1,7 @@
 import {
-    createEvent
-} from "../../api/event.js";
+    createEvent,
+    getEventList
+} from "../../api/gmaeReport.js";
 
 const state = {
     eventList: []
@@ -14,6 +15,9 @@ const mutations = {
     ADD_EVENT(state, event) {
         state.eventList.push(event);
     },
+    GET_EVENT_LIST(state, eventList) {
+        state.eventList = eventList;
+    },
 };
 
 const actions = {    
@@ -26,6 +30,16 @@ const actions = {
             return false
         }
     },
+    async getEventList({commit}, payload) {
+        let response = await getEventList(payload);
+        commit("GET_EVENT_LIST", response.data);
+        if (response) {
+            return response.data
+        } else {
+            return false
+        }
+    },
+    
 };
 
 

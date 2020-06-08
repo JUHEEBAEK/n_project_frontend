@@ -63,37 +63,26 @@ export default {
   computed: {
     ...calendarMapState(["scheduleIndex", "scheduleList"]),
     slide_index: {
-      get: function(){
-        return this.scheduleIndex
-      },
+      get: function() {
+        return this.scheduleIndex;
+      }
     }
   },
   watch: {
-<<<<<<< HEAD
-    scheduleIndex: function(val) {
-      this.slide_index = this.scheduleIndex;
-      // console.log(this.slide_index);
-    },
     slide_index: async function(val) {
       if (val) {
         let selected_schedule = this.scheduleList[this.slide_index];
         this.setDateString(selected_schedule);
-        this.SET_SCHEDULE_INDEX(this.slide_index);
-=======
-    slide_index: async function(val) {
-      if (val) {
-        let selected_schedule = this.scheduleList[this.slide_index];
-        this.setDateString(selected_schedule)
         this.$emit("changeDate", selected_schedule);
-        this.SET_SCHEDULE_INDEX(val)
->>>>>>> 9443f31bf2baada5f1f8d09836698716a5832575
+        this.SET_SCHEDULE_INDEX(val);
       }
-    },
+    }
   },
   async created() {
     await this.select_schedule();
     // 선택이 안되어 있다면 가장 최신걸 선택
-    if (this.scheduleIndex == null) this.SET_SCHEDULE_INDEX(this.scheduleList.length - 1);
+    if (this.scheduleIndex == null)
+      this.SET_SCHEDULE_INDEX(this.scheduleList.length - 1);
     // 연동 필수
     this.slide_index = this.scheduleIndex;
   },

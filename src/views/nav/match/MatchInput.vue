@@ -14,8 +14,8 @@
       <!--필드 그림:: 선수 선택 페이지 -->
       <v-row class="event__main">
         <!-- 경기 기록 페이지 -->
-        <match-event-input :scheduleInfo="scheduleInfo"></match-event-input>
-        <match-event-list></match-event-list>
+        <match-event-input></match-event-input>
+        <match-event-list :gameEventList="eventList"></match-event-list>
       </v-row>
     </v-container>
   </div>
@@ -33,10 +33,33 @@ const {
   mapActions: squadActions
 } = createNamespacedHelpers("squad");
 
+const {
+  mapState: gameReportState,
+  mapGetters: gameReportGetters,
+  mapMutations: gameReportMutations,
+  mapActions: gameReportActions
+} = createNamespacedHelpers("gameReport");
+
+const {
+  mapState: gameState,
+  mapMutations: gameMutations,
+  mapActions: gameActions
+} = createNamespacedHelpers("game");
+
 export default {
   filters: {
     setMomentMonth: function(val) {
       return moment(val).format("MMM");
+    }
+  },
+  props: {
+    schedule_id: {
+      type: [String, Number],
+      default: null
+    },
+    quarter: {
+      type: [String, Number],
+      default: null
     }
   },
   data: () => ({
@@ -66,6 +89,8 @@ export default {
     awayPlayerList: []
   }),
   computed: {
+    ...gameState(["gameInfo"]),
+    ...gameReportState(["eventList"]),
     setStatus() {
       this.init();
       if (this.isGoal) {
@@ -79,9 +104,12 @@ export default {
       }
     }
   },
+  async created() {
+    await this.setGameId();
+    await this.selectEventList();
+  },
   watch: {
     scheduleIndex: async function(val) {
-      console.log(val);
       if (val) {
         let selected_schedule = this.scheduleList[this.scheduleIndex];
         this.setDateString(selected_schedule);
@@ -95,12 +123,25 @@ export default {
   },
   methods: {
     ...squadActions(["getSplitTeamListWithSchedule"]),
+    ...gameActions(["getGameId"]),
+    ...gameReportActions(["getEventList"]),
     setDateString(selected_schedule) {
       this.setYear = moment(selected_schedule.date).format("YYYY");
       this.setMonth = moment(selected_schedule.date).format("MMMM");
       this.setDay = moment(selected_schedule.date).format("DD");
     },
+    selectEventList: async function() {
+      this.gameEventList = await this.getEventList(this.gameInfo.id);
+    },
+    setGameId: async function() {
+      let body = {
+        schedule_id: this.schedule_id,
+        quarter: this.quarter
+      };
+      await this.getGameId(body);
+    },
     async setScheduleData(selected_schedule) {
+      console.log("1", selected_schedule);
       if (this.scheduleIndex == -1) return;
     }
   }

@@ -64,7 +64,6 @@ const mutations = {
   [constants.quarterIndex]: set("quarterIndex"),
   SET_SPLIT_TEAM_LIST(state, splitTeam){
     state.splitTeamList = {}
-
     for (let team_split_index in splitTeam){
       state.splitTeamList[team_split_index] = {}
       let member_dict = splitTeam[team_split_index]

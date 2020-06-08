@@ -69,6 +69,12 @@ const {
 } = createNamespacedHelpers("prepareMatch");
 
 const {
+  mapState: gameState,
+  mapMutations: gameMutations,
+  mapActions: gameActions
+} = createNamespacedHelpers("game");
+
+const {
   mapState: eventState,
   mapGetters: eventGetters,
   mapMutations: eventMutations,
@@ -76,12 +82,6 @@ const {
 } = createNamespacedHelpers("event");
 
 export default {
-  props: {
-    scheduleInfo: {
-      type: Object,
-      default: null
-    }
-  },
   data: () => ({
     // 이벤트 기록 영역
     isGoal: true,
@@ -95,13 +95,10 @@ export default {
     homePlayerList: [],
     awayPlayerList: []
   }),
-  mounted() {
-    console.log("mounted");
-    console.log(this.scheduleInfo);
-  },
   computed: {
     ...prepareMatchState(["homeMembers", "awayMembers"]),
     ...eventState(["eventList"]),
+    ...gameState(["gameInfo"]),
     setStatus() {
       this.init();
       if (this.isGoal) {
@@ -143,9 +140,9 @@ export default {
     },
     clickSaveButton() {
       // TODO: game_id 추가는 어떻게?
-      console.log("s_info", this.scheduleInfo);
+      console.log("eventInfo", this.gameInfo);
       let event = {
-        game_id: this.scheduleInfo.id,
+        game_id: this.gameInfo.id,
         event_type: this.firstEventType,
         first_player: this.firstPlayerId,
         last_player: this.lastPlayerId,
