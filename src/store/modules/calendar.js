@@ -103,7 +103,6 @@ const mutations = {
     state.scheduleInfo = scheduleInfo;
   },
   SET_ATTEND_MEMBER(state, attendMember){
-    console.log("SET_ATTEND_MEMBER", attendMember)
     state.attendMember = attendMember;
   },
   CHANGED_TEAM_OF_ATTEND_member(state, team_division){

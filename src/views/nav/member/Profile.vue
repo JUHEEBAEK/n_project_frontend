@@ -123,7 +123,6 @@ export default {
     ...memberMapActions(["details_member", "delete_member", "update_member"]),
     async getMemberInfo(memberId) {
       this.memberInfo = await this.details_member(memberId);
-      console.log("getMemberInfo", this.memberInfo);
       this.setMemberInfo(this.memberInfo);
     },
     setMemberInfo(memberInfo) {

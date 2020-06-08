@@ -28,12 +28,12 @@
               close-icon="fas fa-times-circle"
               @click:close="deleteButton(gameReport)"
             >
-              <span>{{ gameReport.first_player }}</span>
+              <span>{{ gameReport.first_player_name }}</span>
               <v-avatar left>
                 <v-icon v-if="gameReport.event_type === 'Goal'" x-small>fas fa-futbol</v-icon>
                 <v-icon v-else x-small>fas fa-long-arrow-alt-down</v-icon>
               </v-avatar>
-              <span class="lastEvent ma-1">{{ gameReport.last_player }}</span>
+              <span class="lastEvent ma-1">{{ gameReport.last_player_name }}</span>
               <v-avatar left>
                 <v-icon
                   v-if="gameReport.event_type === 'Goal'"
@@ -53,9 +53,9 @@
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: gameReportState,
-  mapGetters: eventGetters,
-  mapMutations: eventMutations,
-  mapActions: eventActions
+  mapGetters: gameReportGetters,
+  mapMutations: gameReportMutations,
+  mapActions: gameReportActions
 } = createNamespacedHelpers("gameReport");
 
 const {
@@ -77,10 +77,15 @@ export default {
     ...gameState(["gameInfo"])
   },
   methods: {
-    deleteButton: function(gameReport) {
-      this.gameEventList.forEach((item, idx) => {
-        if (item.event_id === gameReport.event_id) {
-          this.gameEventList.splice(idx, 1);
+    ...gameReportActions(["deleteGameEvent"]),
+    deleteButton: async function(gameReport) {
+      this.gameEventList.forEach(async (item, idx) => {
+        if (item.id === gameReport.id) {
+          let body = {
+            gameReport_id: gameReport.id
+          };
+          await this.deleteGameEvent(body);
+          this.$emit("selectEventList");
         }
       });
     }

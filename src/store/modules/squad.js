@@ -89,7 +89,6 @@ const mutations = {
 
 const actions = {
     async saveTeamSplit(context, payload){
-        console.log('saveTeamSplit Action', payload);
         try {
             const response = await bulkCreateOrUpdate(payload);
             return response.data;
@@ -104,7 +103,6 @@ const actions = {
     async getSplitTeamListWithSchedule(context, schedule_id){
         try {
             const response = await getSplitTeamListWithSchedule(schedule_id);
-            console.log("getSplitTeamListWithSchedule", response.data)
             context.commit("SET_SPLIT_TEAM", response.data)
             context.commit("SET_TEAM_SPLIT_SELECTED")
             

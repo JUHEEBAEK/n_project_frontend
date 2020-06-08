@@ -75,11 +75,11 @@ const {
 } = createNamespacedHelpers("game");
 
 const {
-  mapState: eventState,
-  mapGetters: eventGetters,
-  mapMutations: eventMutations,
-  mapActions: eventActions
-} = createNamespacedHelpers("event");
+  mapState: gameReportState,
+  mapGetters: gameReportGetters,
+  mapMutations: gameReportMutations,
+  mapActions: gameReportActions
+} = createNamespacedHelpers("gameReport");
 
 export default {
   data: () => ({
@@ -97,7 +97,7 @@ export default {
   }),
   computed: {
     ...prepareMatchState(["homeMembers", "awayMembers"]),
-    ...eventState(["eventList"]),
+    ...gameReportState(["eventList"]),
     ...gameState(["gameInfo"]),
     setStatus() {
       this.init();
@@ -117,10 +117,9 @@ export default {
   },
   methods: {
     ...prepareMatchActions(["getHomeAwayMember"]),
-    ...eventActions(["getEventList", "addGameEvent"]),
-    ...eventMutations(["ADD_EVENT"]),
+    ...gameReportActions(["getEventList", "addGameEvent"]),
+    ...gameReportMutations(["ADD_EVENT"]),
     clickPlayer: function(val, type) {
-      console.log(val);
       if (this.teamType !== null && this.teamType !== type) {
         alert("같은 팀을 선택해주세요.");
         this.init();
@@ -139,8 +138,6 @@ export default {
       }
     },
     clickSaveButton() {
-      // TODO: game_id 추가는 어떻게?
-      console.log("eventInfo", this.gameInfo);
       let event = {
         game_id: this.gameInfo.id,
         event_type: this.firstEventType,
@@ -150,6 +147,7 @@ export default {
       };
       this.addGameEvent(event);
       this.init();
+      this.$emit("selectEventList");
     },
     init() {
       this.firstPlayer = null;

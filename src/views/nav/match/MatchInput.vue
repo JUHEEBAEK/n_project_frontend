@@ -14,8 +14,13 @@
       <!--필드 그림:: 선수 선택 페이지 -->
       <v-row class="event__main">
         <!-- 경기 기록 페이지 -->
-        <match-event-input></match-event-input>
-        <match-event-list :gameEventList="eventList"></match-event-list>
+        <match-event-input @selectEventList="selectEventList"></match-event-input>
+        <match-event-list :gameEventList="eventList" @selectEventList="selectEventList"></match-event-list>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-btn @click="save" color="primary">저장</v-btn>
+        </v-col>
       </v-row>
     </v-container>
   </div>
@@ -141,7 +146,6 @@ export default {
       await this.getGameId(body);
     },
     async setScheduleData(selected_schedule) {
-      console.log("1", selected_schedule);
       if (this.scheduleIndex == -1) return;
     }
   }

@@ -67,7 +67,6 @@ export default {
     ...calendarMapActions(["select_schedule"]),
     ...memberMapActions(["select_member"]),
     isAttend: async function(item) {
-      console.log("this is clicked", item);
       this.requesting = true;
 
       let success_in_query = false;
@@ -82,7 +81,6 @@ export default {
         // insert api
         success_in_query = await this.add_attend(form);
       }
-      console.log("result", success_in_query);
       // attend를 없애기 만약 콜백에 문제가 없는 경우에 로컬 변경
       if (success_in_query) {
         item.attend = !item.attend;
@@ -91,7 +89,6 @@ export default {
       this.requesting = false;
     },
     changeDate: async function(item) {
-      console.log("changeDate: ", item);
       this.cardInfoLoading = true;
 
       this.scheduleName = item.name;
@@ -102,12 +99,9 @@ export default {
 
       this.cardInfoLoading = false;
       // 출석률 가져오기
-      console.log("!1 ");
       await this.get_attend_rate(item.date);
-      console.log("!2 ");
       // 그중에 출석한 사람들 업데이트 해주기
       await this.get_attend(item.id);
-      console.log("!3 ");
     },
     setFormatMemberList: async function(countMember) {
       this.memberList = await getMember();

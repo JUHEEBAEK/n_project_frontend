@@ -88,7 +88,6 @@ const mutations = {
         state.good_attend = good_list;
         state.so_so_attend = so_so_list;
         state.ghost_attend = ghost_list;
-        console.log("6", state.ghost_attend);
     }
 };
 
@@ -116,7 +115,6 @@ const actions = {
     },
     async add_attend(context, payload) {
         let response = await createAttend(payload);
-        console.log('add_attend', response)
         if (response) {
             return true
         } else {
@@ -125,7 +123,6 @@ const actions = {
     },
     async delete_attend(context, payload) {
         let response = await deleteAttend(payload);
-        console.log('delte_attend', response)
         if (response) {
             return true
         } else {

@@ -1,6 +1,7 @@
 import {
     createEvent,
-    getEventList
+    getEventList,
+    deleteEvent
 } from "../../api/gmaeReport.js";
 
 const state = {
@@ -17,7 +18,7 @@ const mutations = {
     },
     GET_EVENT_LIST(state, eventList) {
         state.eventList = eventList;
-    },
+    }
 };
 
 const actions = {    
@@ -38,8 +39,15 @@ const actions = {
         } else {
             return false
         }
-    },
-    
+    },    
+    async deleteGameEvent({commit}, payload) {
+        let response = await deleteEvent(payload);
+        if (response) {
+            return true
+        } else {
+            return false
+        }
+    },  
 };
 
 
