@@ -75,12 +75,10 @@ export default {
       type: Object
     }
   },
-  data: () => ({
-    awayScore: 0,
-    homeScore: 0
-  }),
+  data: () => ({}),
   computed: {
-    ...gameState(["gameInfo"])
+    ...gameState(["gameInfo"]),
+    ...gameReportState(["homeScore", "awayScore"])
   },
   methods: {
     ...gameReportActions(["deleteGameEvent"]),

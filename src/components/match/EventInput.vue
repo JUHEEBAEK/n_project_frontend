@@ -145,8 +145,11 @@ export default {
         last_player: this.lastPlayerId,
         team_type: this.teamType
       };
+      // 경기 기록 추가 actions
       this.addGameEvent(event);
+      // input 창 초기화
       this.init();
+      // 경기기록 리스트 다시 불러와주기
       this.$emit("selectEventList");
     },
     init() {

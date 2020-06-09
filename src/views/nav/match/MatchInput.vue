@@ -19,7 +19,7 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-btn @click="save" color="primary">저장</v-btn>
+          <v-btn @click="saveGame" color="primary">저장</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -95,7 +95,7 @@ export default {
   }),
   computed: {
     ...gameState(["gameInfo"]),
-    ...gameReportState(["eventList"]),
+    ...gameReportState(["eventList", "awayScore", "homeScore"]),
     setStatus() {
       this.init();
       if (this.isGoal) {
@@ -128,15 +128,30 @@ export default {
   },
   methods: {
     ...squadActions(["getSplitTeamListWithSchedule"]),
-    ...gameActions(["getGameId"]),
+    ...gameActions(["getGameId", "updateGameScore"]),
+    ...gameReportMutations(["SET_HOME_SCORE", "SET_AWAY_SCORE"]),
     ...gameReportActions(["getEventList"]),
+    saveGame: async function() {
+      console.log("gameInfo", this.gameInfo);
+      let body = {
+        game_id: this.gameInfo.id,
+        game: {
+          quarter: this.gameInfo.quarter,
+          away_score: this.awayScore,
+          home_score: this.homeScore
+        }
+      };
+      console.log(body);
+      await this.updateGameScore(body);
+      this.setGameId(body.game_id);
+    },
+    selectEventList: async function() {
+      this.gameEventList = await this.getEventList(this.gameInfo.id);
+    },
     setDateString(selected_schedule) {
       this.setYear = moment(selected_schedule.date).format("YYYY");
       this.setMonth = moment(selected_schedule.date).format("MMMM");
       this.setDay = moment(selected_schedule.date).format("DD");
-    },
-    selectEventList: async function() {
-      this.gameEventList = await this.getEventList(this.gameInfo.id);
     },
     setGameId: async function() {
       let body = {
@@ -144,6 +159,9 @@ export default {
         quarter: this.quarter
       };
       await this.getGameId(body);
+      console.log(this.gameInfo);
+      await this.SET_HOME_SCORE(this.gameInfo.home_score);
+      this.SET_AWAY_SCORE(this.gameInfo.away_score);
     },
     async setScheduleData(selected_schedule) {
       if (this.scheduleIndex == -1) return;
