@@ -40,7 +40,7 @@
       v-if="dialog===true && type==='position'"
       :selectTeam="selectTeam"
       :selectPosition="selectPosition"
-      @savaPosition="savaPosition"
+      @savePosition="savePosition"
     ></dialog-squad-position>
   </div>
 </template>
@@ -83,7 +83,7 @@ export default {
         this.setDialogAndType({ dialog: true, type: "position" });
       }
     },
-    savaPosition(member) {
+    savePosition(member) {
       this.position[this.selectType][member.position] = member.name;
     }
   }
