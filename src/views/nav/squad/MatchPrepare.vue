@@ -209,6 +209,13 @@ export default {
       // prepareMatch store에서 값 세팅
       await this.setSplitTeamList();
       await this.setSummarySplitTeamList();
+
+      // TODO: prepareMatch.js의 homeTeam과 awayTeam
+      // this.homeTeam의 {members:[{id:, name: [, position:]}]}
+      // this.awayTeam
+      // inputPosition에다가 props로 넘겨줘야할듯 
+      // props를 watch 시켜서 넘어오는게 있을 때 변동시켜줄 것
+      // 넘겨주는 값은 selectType(home away), posision, member_name 포맷으로
     }
   }
 };
