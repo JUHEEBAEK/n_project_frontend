@@ -90,11 +90,6 @@ export default {
       } else {
         var awayExist = false;
       }
-
-      console.log("SAVE");
-      console.log("Home", this.homeTeam);
-      console.log("Away", this.awayTeam);
-
       // 스케쥴 id와 쿼터를 찍기 state
       console.log("GET_CURRENT_SCHEDULE_ID", this.current_schedule_id);
       console.log("currentQuarterString", this.currentQuarterString);
@@ -195,10 +190,8 @@ export default {
         gameForm["result"] = "D";
         await this.createGame(gameForm);
         console.log("저장 끝");
-
-      
       }
-      
+
       this.$router.push({
         name: "matchInput",
         params: {

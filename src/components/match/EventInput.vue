@@ -12,7 +12,7 @@
               rounded
               small
               color="lime lighten-2"
-              @click="clickPlayer(player)"
+              @click="clickPlayer(player, 'H')"
             >{{ player.name }}</v-btn>
           </v-col>
         </v-row>
@@ -47,7 +47,7 @@
               rounded
               small
               color="lime lighten-2"
-              @click="clickPlayer(player)"
+              @click="clickPlayer(player, 'A')"
             >{{ player.name }}</v-btn>
           </v-col>
         </v-row>
@@ -59,7 +59,27 @@
 <script>
 import moment from "moment";
 import dummyData from "../../assets/value/dummy.json";
-import Position from "../../assets/value/Postion.json";
+import { createNamespacedHelpers } from "vuex";
+
+const {
+  mapState: prepareMatchState,
+  mapGetters: prepareMatchGetters,
+  mapMutations: prepareMatchMutations,
+  mapActions: prepareMatchActions
+} = createNamespacedHelpers("prepareMatch");
+
+const {
+  mapState: gameState,
+  mapMutations: gameMutations,
+  mapActions: gameActions
+} = createNamespacedHelpers("game");
+
+const {
+  mapState: gameReportState,
+  mapGetters: gameReportGetters,
+  mapMutations: gameReportMutations,
+  mapActions: gameReportActions
+} = createNamespacedHelpers("gameReport");
 
 export default {
   data: () => ({
@@ -69,16 +89,16 @@ export default {
     lastEventType: "Assist",
     firstPlayer: null,
     lastPlayer: null,
+    firstPlayerId: null,
+    lastPlayerId: null,
     teamType: null,
-
-    benchList: Position.benchList,
-    positionHomeList: Position.homeList,
-    positionAwayList: Position.awayList,
-    position: Position.basicPostion,
     homePlayerList: [],
     awayPlayerList: []
   }),
   computed: {
+    ...prepareMatchState(["homeMembers", "awayMembers"]),
+    ...gameReportState(["eventList"]),
+    ...gameState(["gameInfo"]),
     setStatus() {
       this.init();
       if (this.isGoal) {
@@ -92,29 +112,66 @@ export default {
       }
     }
   },
-  async created() {
-    this.getHomeTeamPlayerList();
-    this.getAwayTeamPlayerList();
+  created() {
+    this.getHomeAwayMemberList();
   },
   methods: {
+    ...prepareMatchActions(["getHomeAwayMember"]),
+    ...gameReportActions(["getEventList", "addGameEvent"]),
+    ...gameReportMutations(["ADD_EVENT"]),
+    clickPlayer: function(val, type) {
+      if (this.teamType !== null && this.teamType !== type) {
+        alert("같은 팀을 선택해주세요.");
+        this.init();
+      } else if (this.firstPlayer !== null && this.firstPlayer === val.name) {
+        alert("같은 사람을 선택할 수 없습니다.");
+        this.init();
+      } else {
+        this.teamType = type;
+        if (this.firstPlayer === null) {
+          this.firstPlayer = val.name;
+          this.firstPlayerId = val.member_id;
+        } else {
+          this.lastPlayer = val.name;
+          this.lastPlayerId = val.member_id;
+        }
+      }
+    },
+    clickSaveButton() {
+      let event = {
+        game_id: this.gameInfo.id,
+        event_type: this.firstEventType,
+        first_player: this.firstPlayerId,
+        last_player: this.lastPlayerId,
+        team_type: this.teamType
+      };
+      this.addGameEvent(event);
+      this.init();
+      this.$emit("selectEventList");
+    },
     init() {
       this.firstPlayer = null;
       this.lastPlayer = null;
       this.teamType = null;
     },
-    getHomeTeamPlayerList: function() {
-      // TODO: 홈팀 선수리스트 가져오는 API 호출
-      this.homePlayerList = dummyData.homeTeamPlayers;
-      // console.log(this.homePlayerList);
+    getHomeAwayMemberList: async function() {
+      let scheduleAndQuarter = {
+        schedule_id: this.$route.params.schedule_id,
+        quarter: this.$route.params.quarter
+      };
+      let homeAwayMembers = await this.getHomeAwayMember(scheduleAndQuarter);
+      // 밑에 두개가 같게 나와야한다
+      this.getHomeTeamPlayerList(this.homeMembers);
+      this.getAwayTeamPlayerList(this.awayMembers);
     },
-    getAwayTeamPlayerList: function() {
-      // TODO: 어웨이팀 선수리스트 가져오는 API 호출
-      this.awayPlayerList = dummyData.awayTeamPlayers;
-      // console.log(this.awayPlayerList);
+    getHomeTeamPlayerList: function(homeMemberList) {
+      this.homePlayerList = homeMemberList;
+    },
+    getAwayTeamPlayerList: function(awayMemberList) {
+      this.awayPlayerList = awayMemberList;
     }
   }
 };
 </script>
 
-<style lang="scss" src="../../styles/components/match/eventInput.scss">
-</style>
+<style lang="scss" src="../../styles/components/match/eventInput.scss"></style>

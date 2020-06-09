@@ -1,0 +1,19 @@
+{
+  "headerOfSplitTeam": [{
+      "text": "번호",
+      "value": "splitTeamIndex"
+    },
+    {
+      "text": "팀 수",
+      "value": "numberOfTeam"
+    },
+    {
+      "text": "첫 팀 선수",
+      "value": "memberNameList"
+    },
+    {
+      "text": "조커",
+      "value": "jockerName"
+    }
+  ]
+}

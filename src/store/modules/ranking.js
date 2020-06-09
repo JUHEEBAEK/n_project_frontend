@@ -69,7 +69,6 @@ const actions = {
     async get_goal_ranking(context){
         try {
             const response = await getGoalRanking();
-            console.log(response.data)
             context.commit("SET_GOAL_RANKING_DATA", response.data);
             return response.data;
         } catch (e) {
@@ -79,7 +78,6 @@ const actions = {
     async get_assist_ranking(context){
         try {
             const response = await getAssistRanking();
-            console.log(response.data)
             context.commit("SET_ASSIST_RANKING_DATA", response.data);
             return response.data;
         } catch (e) {
@@ -89,7 +87,6 @@ const actions = {
     async get_clean_sheet_ranking(context){
         try {
             const response = await getCleanSheetRanking();
-            console.log(response.data)
             context.commit("SET_CLEAN_SHEET_RANKING_DATA", response.data);
             return response.data;
         } catch (e) {

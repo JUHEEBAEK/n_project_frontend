@@ -59,13 +59,9 @@ export default {
   },
   data: () => ({
     menu: false
-    // quarterList: []
-    // date: null,
-    // menu_date: null
   }),
   methods: {
     ...mapMutations(["SET_DATE"]),
-    SET_DATE() {},
     changeDate(date) {
       this.SET_DATE(date);
     }
