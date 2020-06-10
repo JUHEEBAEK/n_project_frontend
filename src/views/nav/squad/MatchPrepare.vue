@@ -5,7 +5,7 @@
         <schedule-date-list @changeDate="setScheduleData"></schedule-date-list>
         <squad-quarter></squad-quarter>
         <squad-team-list></squad-team-list>
-        <squad-input-position></squad-input-position>
+        <squad-input-position :members="members"></squad-input-position>
         <v-row>
           <v-col>
             <v-btn @click="save" color="primary">저장</v-btn>
@@ -38,9 +38,17 @@ const {
 } = createNamespacedHelpers("prepareMatch");
 
 export default {
-  data: () => ({}),
+  data: () => ({
+    members: null
+  }),
   computed: {
-    ...prepareMatchState(["selectedSplitedTeam", "homeTeam", "awayTeam"]),
+    ...prepareMatchState([
+      "selectedSplitedTeam",
+      "homeTeam",
+      "awayTeam",
+      "homeMembers",
+      "awayMembers"
+    ]),
     ...prepareMatchGetters(["currentQuarterString", "currentQuarterNumber"]),
     ...calendarMapGetters(["current_schedule_id"])
   },
@@ -210,12 +218,39 @@ export default {
       await this.setSplitTeamList();
       await this.setSummarySplitTeamList();
 
-      // TODO: prepareMatch.js의 homeTeam과 awayTeam
-      // this.homeTeam의 {members:[{id:, name: [, position:]}]}
-      // this.awayTeam
-      // inputPosition에다가 props로 넘겨줘야할듯 
-      // props를 watch 시켜서 넘어오는게 있을 때 변동시켜줄 것
-      // 넘겨주는 값은 selectType(home away), posision, member_name 포맷으로
+      this.reset_members();
+    },
+
+    async reset_members() {
+      console.log("reset_members");
+      // 현재 스케쥴이랑 쿼터 가져오기
+      const home_away_members = await this.getHomeAwayMember({
+        schedule_id: this.current_schedule_id,
+        quarter: this.currentQuarterNumber
+      });
+
+      let members = []; // {selectType: "home", position: "", name: ""}
+      for (var i in this.homeMembers) {
+        let member = this.homeMembers[i];
+        if (member.position) {
+          members.push({
+            selectType: "Home",
+            position: member.position,
+            name: member.name
+          });
+        }
+      }
+      for (var i in this.awayMembers) {
+        let member = this.awayMembers[i];
+        if (member.position) {
+          members.push({
+            selectType: "Away",
+            position: member.position,
+            name: member.name
+          });
+        }
+      }
+      this.members = members;
     }
   }
 };

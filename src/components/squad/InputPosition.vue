@@ -37,7 +37,7 @@
       </v-col>
     </v-row>
     <dialog-squad-position
-      v-if="dialog===true && type==='position'"
+      v-if="dialog === true && type === 'position'"
       :selectTeam="selectTeam"
       :selectPosition="selectPosition"
       @savePosition="savePosition"
@@ -55,6 +55,12 @@ const { mapState, mapMutations } = createNamespacedHelpers("prepareMatch");
 
 export default {
   mixins: [dialog, regex],
+  props: {
+    members: {
+      type: Object,
+      defualt: null
+    }
+  },
   data: () => ({
     selectTeam: null,
     selectPosition: null,
@@ -62,6 +68,19 @@ export default {
     benchList: Position.benchList,
     position: Position.basicPostion
   }),
+  watch: {
+    members(value) {
+      console.log("watch members", value);
+      this.position = Position.basicPostion;
+      value.forEach((member) => {
+        // member 형태
+        //  selectType, position, name
+        //    "Home",   "GK",     "김철"
+
+        this.savePosition2(member);
+      });
+    }
+  },
   computed: {
     ...mapState(["isHome", "selectType", "homeTeam", "awayTeam"])
   },
@@ -85,6 +104,9 @@ export default {
     },
     savePosition(member) {
       this.position[this.selectType][member.position] = member.name;
+    },
+    savePosition2(member, selectType) {
+      this.position[member.selectType][member.position] = member.name;
     }
   }
 };
