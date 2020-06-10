@@ -23,8 +23,8 @@ const state = {
   quarterIndex: 0,
   isHome: true,
   selectType: "Home",
-  homeTeam: {},
-  awayTeam: {}, 
+  homeTeam: {members:[{id:null, name: null}]},
+  awayTeam: {members:[{id:null, name: null}]},
   splitTeamList:{
   }, 
   summarySplitTeamList:[{
