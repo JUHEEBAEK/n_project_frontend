@@ -5,7 +5,7 @@
       <v-form ref="form">
         <schedule-date-list @changeDate="setScheduleData"></schedule-date-list>
         <!-- 쿼터 리스트 영역 -->
-        <squad-quarter></squad-quarter>
+        <squad-quarter @changeQuarterAndParams="changeQuarterAndParams"></squad-quarter>
       </v-form>
     </v-contatner>
 
@@ -14,7 +14,10 @@
       <!--필드 그림:: 선수 선택 페이지 -->
       <v-row class="event__main">
         <!-- 경기 기록 페이지 -->
-        <match-event-input @selectEventList="selectEventList"></match-event-input>
+        <match-event-input
+          @getHomeAwayMemberList="getHomeAwayMemberList"
+          @selectEventList="selectEventList"
+        ></match-event-input>
         <match-event-list :gameEventList="eventList" @selectEventList="selectEventList"></match-event-list>
       </v-row>
       <v-row>
@@ -28,8 +31,8 @@
 
 <script>
 import moment from "moment";
-import dummyData from "../../../assets/value/dummy.json";
 import Position from "../../../assets/value/Postion.json";
+import regex from "../../../mixin/regex.js";
 
 import { createNamespacedHelpers } from "vuex";
 const {
@@ -37,6 +40,13 @@ const {
   mapMutations: squadMutations,
   mapActions: squadActions
 } = createNamespacedHelpers("squad");
+
+const {
+  mapState: prepareMatchState,
+  mapGetters: prepareMatchGetters,
+  mapMutations: prepareMatchMutations,
+  mapActions: prepareMatchActions
+} = createNamespacedHelpers("prepareMatch");
 
 const {
   mapState: gameReportState,
@@ -52,6 +62,7 @@ const {
 } = createNamespacedHelpers("game");
 
 export default {
+  mixins: [regex],
   filters: {
     setMomentMonth: function(val) {
       return moment(val).format("MMM");
@@ -94,6 +105,7 @@ export default {
     awayPlayerList: []
   }),
   computed: {
+    ...prepareMatchState(["homeMembers", "awayMembers"]),
     ...gameState(["gameInfo"]),
     ...gameReportState(["eventList", "awayScore", "homeScore"]),
     setStatus() {
@@ -110,6 +122,7 @@ export default {
     }
   },
   async created() {
+    console.log("matchInput created");
     await this.setGameId();
     await this.selectEventList();
   },
@@ -124,15 +137,35 @@ export default {
     quarterCount: function() {
       this.quarterIndex =
         this.scheduleList[this.scheduleIndex]["quarterCount"] - 1;
+    },
+    "$route.params.quarter": async function(newQuarter, oldQuarter) {
+      this.quarterIndex = newQuarter;
+      await this.setGameId();
+      await this.getHomeAwayMemberList();
+      this.selectEventList();
     }
   },
   methods: {
     ...squadActions(["getSplitTeamListWithSchedule"]),
+    ...prepareMatchActions(["getHomeAwayMember"]),
     ...gameActions(["getGameId", "updateGameScore"]),
     ...gameReportMutations(["SET_HOME_SCORE", "SET_AWAY_SCORE"]),
     ...gameReportActions(["getEventList"]),
+    changeQuarterAndParams(item) {
+      let changeQuarter = this.extractNumberFromStr(item);
+      this.$router.replace({
+        name: "matchInput",
+        params: { quarter: changeQuarter }
+      });
+    },
+    getHomeAwayMemberList: async function() {
+      let scheduleAndQuarter = {
+        schedule_id: this.$route.params.schedule_id,
+        quarter: this.$route.params.quarter
+      };
+      let homeAwayMembers = await this.getHomeAwayMember(scheduleAndQuarter);
+    },
     saveGame: async function() {
-      console.log("gameInfo", this.gameInfo);
       let body = {
         game_id: this.gameInfo.id,
         game: {

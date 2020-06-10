@@ -60,6 +60,11 @@ const regex = {
     checkedDuplicatePostion: function() {
       //구현 필요 interface
     },
+    // 문자열에서 숫자만 추출
+    extractNumberFromStr: function(str) {
+      return str.replace(/[^0-9]/g,'');
+    }
+    
   }
 }
 
