@@ -17,9 +17,9 @@ test("State has right key and values", () => {
         "member_id": "is_attend_boolean"
     });
     expect(store.state.good_attend[0]).toHaveProperty("attend", false);
-    expect(store.state.good_attend[0]).toHaveProperty("id", 6);
+    expect(store.state.good_attend[0]).toHaveProperty("id", 0);
     expect(store.state.good_attend[0]).toHaveProperty("count", 18);
-    expect(store.state.good_attend[0]).toHaveProperty("name", '이종은');
+    expect(store.state.good_attend[0]).toHaveProperty("name", '테스트');
 });
 
 
