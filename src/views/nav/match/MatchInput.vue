@@ -139,6 +139,7 @@ export default {
         this.scheduleList[this.scheduleIndex]["quarterCount"] - 1;
     },
     "$route.params.quarter": async function(newQuarter, oldQuarter) {
+      console.log("newQuarter", newQuarter);
       this.quarterIndex = newQuarter;
       await this.setGameId();
       await this.getHomeAwayMemberList();
@@ -166,6 +167,7 @@ export default {
       let homeAwayMembers = await this.getHomeAwayMember(scheduleAndQuarter);
     },
     saveGame: async function() {
+      console.log("gameInfo", this.gameInfo);
       let body = {
         game_id: this.gameInfo.id,
         game: {
