@@ -52,7 +52,11 @@ export default {
   mounted() {
     // 지금 params로 쿼터 버튼을 누르게 한다.
     let params = this.$route.params;
-    this.QAURTER_INDEX(params.quarter - 1);
+    if (params.quarter) {
+      this.QAURTER_INDEX(params.quarter - 1);
+    } else {
+      this.QAURTER_INDEX(0);
+    }
   },
 
   methods: {

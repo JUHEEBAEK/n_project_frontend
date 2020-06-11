@@ -3,7 +3,9 @@
     <v-row class justify="center">
       <v-form ref="form">
         <schedule-date-list @changeDate="setScheduleData"></schedule-date-list>
-        <squad-quarter></squad-quarter>
+        <squad-quarter
+          @changeQuarterAndParams="setScheduleData"
+        ></squad-quarter>
         <squad-team-list></squad-team-list>
         <squad-input-position :members="members"></squad-input-position>
         <v-row>
@@ -210,12 +212,12 @@ export default {
         }
       });
     },
-    async setScheduleData(selected_schedule) {
+    async setScheduleData() {
       if (this.scheduleIndex == -1) return;
 
       // db에서 불러오는 부분
-      await this.getSplitTeamListWithSchedule(selected_schedule.id);
-      await this.load_member(selected_schedule.id);
+      await this.getSplitTeamListWithSchedule(this.current_schedule_id);
+      await this.load_member(this.current_schedule_id);
       // prepareMatch store에서 값 세팅
       await this.setSplitTeamList();
       await this.setSummarySplitTeamList();
