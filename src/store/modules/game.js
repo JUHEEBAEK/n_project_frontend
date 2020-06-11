@@ -34,7 +34,6 @@ const actions = {
   async updateGameScore({commit}, payload) {
     try {
       let response = await updateGame(payload);
-       console.log("updateGameScore", payload);
       if (response.data){
         return response.data.insertId
       }else{

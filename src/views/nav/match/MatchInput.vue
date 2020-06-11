@@ -122,7 +122,6 @@ export default {
     }
   },
   async created() {
-    console.log("matchInput created");
     await this.setGameId();
     await this.selectEventList();
   },
@@ -139,7 +138,6 @@ export default {
         this.scheduleList[this.scheduleIndex]["quarterCount"] - 1;
     },
     "$route.params.quarter": async function(newQuarter, oldQuarter) {
-      console.log("newQuarter", newQuarter);
       this.quarterIndex = newQuarter;
       await this.setGameId();
       await this.getHomeAwayMemberList();
@@ -167,7 +165,6 @@ export default {
       let homeAwayMembers = await this.getHomeAwayMember(scheduleAndQuarter);
     },
     saveGame: async function() {
-      console.log("gameInfo", this.gameInfo);
       let body = {
         game_id: this.gameInfo.id,
         game: {
@@ -176,7 +173,6 @@ export default {
           home_score: this.homeScore
         }
       };
-      console.log(body);
       await this.updateGameScore(body);
       this.setGameId(body.game_id);
     },
