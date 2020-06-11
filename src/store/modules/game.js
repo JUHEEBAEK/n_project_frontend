@@ -1,5 +1,6 @@
 import {
-  searchWithScheduleIdAndQuarter
+  searchWithScheduleIdAndQuarter,
+  updateGame
 } from "../../api/game.js";
 
 const state = {
@@ -28,8 +29,21 @@ const actions = {
       } 
     }catch (e) {
         console.log(e);
-      }
+    }
   },
+  async updateGameScore({commit}, payload) {
+    try {
+      let response = await updateGame(payload);
+      if (response.data){
+        return response.data.insertId
+      }else{
+        return false;
+      } 
+    }catch (e) {
+        console.log(e);
+    }
+
+  }
 };
 
 

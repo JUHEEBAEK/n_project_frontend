@@ -7,7 +7,7 @@
       <v-card-title class="home__header">HOME</v-card-title>
       <v-card-text class="home__content">
         <v-row justify="center">
-          <v-col v-for="player in homePlayerList" :key="player" cols="4" align-self="center">
+          <v-col v-for="player in homeMembers" :key="player" cols="4" align-self="center">
             <v-btn
               rounded
               small
@@ -42,7 +42,7 @@
       <v-card-title class="away__header">AWAY</v-card-title>
       <v-card-text class="away__content">
         <v-row justify="center">
-          <v-col v-for="player in awayPlayerList" :key="player" cols="4" align-self="center">
+          <v-col v-for="player in awayMembers" :key="player" cols="4" align-self="center">
             <v-btn
               rounded
               small
@@ -112,11 +112,10 @@ export default {
       }
     }
   },
-  created() {
-    this.getHomeAwayMemberList();
+  async created() {
+    await this.$emit("getHomeAwayMemberList");
   },
   methods: {
-    ...prepareMatchActions(["getHomeAwayMember"]),
     ...gameReportActions(["getEventList", "addGameEvent"]),
     ...gameReportMutations(["ADD_EVENT"]),
     clickPlayer: function(val, type) {
@@ -145,30 +144,17 @@ export default {
         last_player: this.lastPlayerId,
         team_type: this.teamType
       };
+      // 경기 기록 추가 actions
       this.addGameEvent(event);
+      // input 창 초기화
       this.init();
+      // 경기기록 리스트 다시 불러와주기
       this.$emit("selectEventList");
     },
     init() {
       this.firstPlayer = null;
       this.lastPlayer = null;
       this.teamType = null;
-    },
-    getHomeAwayMemberList: async function() {
-      let scheduleAndQuarter = {
-        schedule_id: this.$route.params.schedule_id,
-        quarter: this.$route.params.quarter
-      };
-      let homeAwayMembers = await this.getHomeAwayMember(scheduleAndQuarter);
-      // 밑에 두개가 같게 나와야한다
-      this.getHomeTeamPlayerList(this.homeMembers);
-      this.getAwayTeamPlayerList(this.awayMembers);
-    },
-    getHomeTeamPlayerList: function(homeMemberList) {
-      this.homePlayerList = homeMemberList;
-    },
-    getAwayTeamPlayerList: function(awayMemberList) {
-      this.awayPlayerList = awayMemberList;
     }
   }
 };

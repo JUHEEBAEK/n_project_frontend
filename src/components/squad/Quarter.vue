@@ -15,7 +15,7 @@
               height="30"
               width="50"
               @click="toggle"
-              @click.native="setQuaterInfo(item)"
+              @click.native="clickOtherQuarter(item)"
             >
               <v-scale-transition>
                 <p class="quarter__text">{{ item }}</p>
@@ -36,7 +36,7 @@ const { mapState, mapMutations } = createNamespacedHelpers("prepareMatch");
 export default {
   mixins: [regex],
   data: () => ({
-    menu: false,
+    menu: false
   }),
   computed: {
     ...mapState(["quarterList", "quarterIndex"]),
@@ -46,20 +46,21 @@ export default {
       },
       set: function(new_value) {
         this.QAURTER_INDEX(new_value);
-      },
-    },
+      }
+    }
   },
   mounted() {
-    // 가장 처음에 아무거나 하나 선택되어 있게 할 것
+    // 지금 params로 쿼터 버튼을 누르게 한다.
+    let params = this.$route.params;
+    this.QAURTER_INDEX(params.quarter - 1);
   },
 
   methods: {
     ...mapMutations(["SET_DATE", "QAURTER_INDEX"]),
-    setQuaterInfo() {
-      console.log("setQuarterInfo");
-      //쿼터 정보를 불러온다
-    },
-  },
+    clickOtherQuarter: function(item) {
+      this.$emit("changeQuarterAndParams", item);
+    }
+  }
 };
 </script>
 

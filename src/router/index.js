@@ -34,7 +34,11 @@ const routes = [{
     name: "squad",
     component: SquadView
   },
-
+  {
+    path: "/ranking",
+    name: "ranking",
+    component: Ranking
+  },
   // navigation view
   {
     path: "/member",
@@ -66,11 +70,6 @@ const routes = [{
     name: "matchPrepare",
     component: MatchPrepare,
     props: true
-  },
-  {
-    path: "/ranking",
-    name: "ranking",
-    component: Ranking
   },
   {
     path: "/matchInput/schedule/:schedule_id/quarter/:quarter",

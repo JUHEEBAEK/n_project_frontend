@@ -27,3 +27,7 @@ export const setIsHome = "SET_IS_HOME";
 export const setType = "SET_TYPE";
 export const quarterIndex = "QAURTER_INDEX";
 
+// gameReport 부분
+export const setHomeScore = "SET_HOME_SCORE";
+export const setAwayScore = "SET_AWAY_SCORE";
+
