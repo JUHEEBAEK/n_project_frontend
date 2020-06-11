@@ -31,8 +31,6 @@ test("Devide Team with Members", async () => {
   // };
 
   store.commit("divide_member_into_team", input_division_requirement);
-  console.log(store.state.team_division.teams);
-  console.log(store.state.team_division.jocker_player);
   expect(store.state.team_division).toHaveProperty("teams");
   expect(store.state.team_division).toHaveProperty("jocker_player");
 

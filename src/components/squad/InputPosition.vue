@@ -78,7 +78,6 @@ export default {
   },
   methods: {
     openDialog(val) {
-      console.log("openDialog 할 수 있는가? ", this.homeTeam, this.awayTeam);
       this.selectPosition = val;
       if (this.isHome) {
         this.selectTeam = this.homeTeam;
@@ -95,7 +94,7 @@ export default {
     async onMembersChange(members) {
       this.position = JSON.parse(JSON.stringify(Position.basicPostion));
 
-      members.forEach((member) => {
+      members.forEach(member => {
         // member 형태
         //  selectType, position, name
         //    "Home",   "GK",     "김철"

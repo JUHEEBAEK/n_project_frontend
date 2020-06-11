@@ -53,14 +53,6 @@ export default {
 
   methods: {
     ...memberMapActions(["select_member", "delete_member"]),
-    testButton() {
-      console.log("dbug");
-    },
-
-    updateMember(member_id) {
-      console.log(member_id);
-    },
-
     async deleteMember(member_id) {
       let formData = { data: { member_id } };
       if (confirm("정말 정말로 삭제하시겠습니까??")) {
@@ -68,7 +60,6 @@ export default {
         this.select_member();
       }
     },
-
     moveDetails(item) {
       this.$router.push({
         name: "memberUpdatePage",

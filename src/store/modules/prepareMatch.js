@@ -232,7 +232,6 @@ const actions = {
         memberSquadformArray.push([squad_id, member.member_id, member.position])
       }
       const response = await createMultipleMemberSquad(memberSquadformArray);
-      console.log("createMemberSquad", response)
       return true
     } catch (e) {
       console.log(e);
@@ -241,7 +240,6 @@ const actions = {
   async createGame(context, gameForm) {
     try {
       const response = await createGame(gameForm);
-      console.log("createGame", response)
       return true
     } catch (e) {
       console.log(e);
@@ -250,7 +248,6 @@ const actions = {
   async updateGame(context, gameUpdateForm) {
     try {
       const response = await updateGame(gameUpdateForm);
-      console.log("updateGame", response)
       return true
     } catch (e) {
       console.log(e);
@@ -259,7 +256,6 @@ const actions = {
   async deleteMemberSquad(context, deleteMemberSquadForm) {
     try {
       const response = await deleteMemberSquad(deleteMemberSquadForm);
-      console.log("deleteMemberSquad", response)
       return true
     } catch (e) {
       console.log(e);
