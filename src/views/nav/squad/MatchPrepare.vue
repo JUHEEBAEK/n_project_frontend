@@ -105,6 +105,7 @@ export default {
       formSearchGame["schedule_id"] = this.current_schedule_id;
       formSearchGame["quarter"] = this.currentQuarterNumber;
       let searchedGame = await this.checkGameAlreadyExist(formSearchGame);
+
       // 해당 스케쥴, 쿼터에 해당하는 게임이 있는지 확인 Action
       if (searchedGame) {
         // 게임이 있다면
@@ -121,6 +122,7 @@ export default {
           deleteMemberSquadForm["squad_id"] = awaySquadId;
           await this.deleteMemberSquad(deleteMemberSquadForm);
         }
+        console.log("얘가 왜 안들어가지", this.homeTeam);
         // 2. 스쿼드멤버를 넣기
         await this.createMultipleMemberSquad({
           squad_id: homeSquadId,
