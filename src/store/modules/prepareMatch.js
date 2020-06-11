@@ -287,7 +287,12 @@ const actions = {
           console.log("2", awayMembers)
           commit("SET_AWAY_MEMBERS", awayMembers.data)
           membersDict["awayMembers"] = awayMembers.data
+        } else {
+          commit("SET_AWAY_MEMBERS", [])
         }
+      } else {
+        commit("SET_HOME_MEMBERS", [])
+        commit("SET_AWAY_MEMBERS", [])
       }
       console.log("getHomeAwayMember", scheduleAndQuarter, gameInfo, membersDict)
       return membersDict
