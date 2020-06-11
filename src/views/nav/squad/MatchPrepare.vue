@@ -222,9 +222,8 @@ export default {
     },
 
     async reset_members() {
-      console.log("reset_members");
       // 현재 스케쥴이랑 쿼터 가져오기
-      const home_away_members = await this.getHomeAwayMember({
+      await this.getHomeAwayMember({
         schedule_id: this.current_schedule_id,
         quarter: this.currentQuarterNumber
       });

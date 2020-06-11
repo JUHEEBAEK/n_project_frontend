@@ -14,8 +14,13 @@
       <!--필드 그림:: 선수 선택 페이지 -->
       <v-row class="event__main">
         <!-- 경기 기록 페이지 -->
-        <match-event-input @selectEventList="selectEventList"></match-event-input>
-        <match-event-list :gameEventList="eventList" @selectEventList="selectEventList"></match-event-list>
+        <match-event-input
+          @selectEventList="selectEventList"
+        ></match-event-input>
+        <match-event-list
+          :gameEventList="eventList"
+          @selectEventList="selectEventList"
+        ></match-event-list>
       </v-row>
       <v-row>
         <v-col>
@@ -89,7 +94,7 @@ export default {
     benchList: Position.benchList,
     positionHomeList: Position.homeList,
     positionAwayList: Position.awayList,
-    position: Position.basicPostion,
+    position: JSON.parse(JSON.stringify(Position.basicPostion)),
     homePlayerList: [],
     awayPlayerList: []
   }),

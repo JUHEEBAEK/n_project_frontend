@@ -66,31 +66,17 @@ export default {
     selectPosition: null,
     positionList: Position.list,
     benchList: Position.benchList,
-    position: Position.basicPostion
+    position: JSON.parse(JSON.stringify(Position.basicPostion))
   }),
   watch: {
-    members(value) {
-      console.log("watch members", value);
-      this.position = Position.basicPostion;
-      value.forEach((member) => {
-        // member 형태
-        //  selectType, position, name
-        //    "Home",   "GK",     "김철"
-
-        this.savePosition2(member);
-      });
+    async members(value) {
+      this.onMembersChange(value);
     }
   },
   computed: {
     ...mapState(["isHome", "selectType", "homeTeam", "awayTeam"])
   },
   methods: {
-    // 중복된 선수가 있는지 체크 해주는 함수.
-    checkedDuplicatePostion: function(value) {
-      // TODO: 중복된 선수 rules 추가해주기
-      console.log("checkedDuplicatePostion", value);
-      return true;
-    },
     openDialog(val) {
       this.selectPosition = val;
       if (this.isHome) {
@@ -103,7 +89,22 @@ export default {
       }
     },
     savePosition(member) {
+      this.position = JSON.parse(JSON.stringify(Position.basicPostion));
       this.position[this.selectType][member.position] = member.name;
+    },
+    async onMembersChange(members) {
+      this.position = JSON.parse(JSON.stringify(Position.basicPostion));
+      console.log(
+        this.position,
+        JSON.parse(JSON.stringify(Position.basicPostion))
+      );
+      members.forEach((member) => {
+        // member 형태
+        //  selectType, position, name
+        //    "Home",   "GK",     "김철"
+
+        this.savePosition2(member, member.selectType);
+      });
     },
     savePosition2(member, selectType) {
       this.position[member.selectType][member.position] = member.name;
