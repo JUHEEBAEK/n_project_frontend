@@ -10,7 +10,12 @@ const state = {
     attend: {
         "member_id": "is_attend_boolean"
     },
-    good_attend: [],
+    good_attend: [{
+        "attend": false,
+        "count": 18,
+        "id": 0,
+        "name": "테스트"
+    }],
     so_so_attend: [],
     ghost_attend: [],
 };

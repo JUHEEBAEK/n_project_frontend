@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="dialog" v-if="type='position'" width="600">
+    <v-dialog v-model="dialog" v-if="(type = 'position')" width="600">
       <v-card>
         <v-card-title>
           <v-toolbar flat>{{ selectPosition }} 선택</v-toolbar>
@@ -11,9 +11,10 @@
             v-for="member in selectTeam.members"
             :key="member.id"
             class="button__item"
-            :class="{active:member.id == isActive}"
+            :class="{ active: member.id == isActive }"
             @click="clickMember(member)"
-          >{{ member.name}}</v-btn>
+            >{{ member.name }}</v-btn
+          >
         </v-card-text>
 
         <v-card-actions>
@@ -48,7 +49,7 @@ export default {
     clickMember(member) {
       this.isActive = member.id;
       member.position = this.selectPosition;
-      this.$emit("savaPosition", member);
+      this.$emit("savePosition", member);
     }
   }
 };

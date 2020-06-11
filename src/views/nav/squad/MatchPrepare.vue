@@ -5,7 +5,7 @@
         <schedule-date-list @changeDate="setScheduleData"></schedule-date-list>
         <squad-quarter></squad-quarter>
         <squad-team-list></squad-team-list>
-        <squad-input-position></squad-input-position>
+        <squad-input-position :members="members"></squad-input-position>
         <v-row>
           <v-col>
             <v-btn @click="save" color="primary">저장</v-btn>
@@ -38,9 +38,17 @@ const {
 } = createNamespacedHelpers("prepareMatch");
 
 export default {
-  data: () => ({}),
+  data: () => ({
+    members: null
+  }),
   computed: {
-    ...prepareMatchState(["selectedSplitedTeam", "homeTeam", "awayTeam"]),
+    ...prepareMatchState([
+      "selectedSplitedTeam",
+      "homeTeam",
+      "awayTeam",
+      "homeMembers",
+      "awayMembers"
+    ]),
     ...prepareMatchGetters(["currentQuarterString", "currentQuarterNumber"]),
     ...calendarMapGetters(["current_schedule_id"])
   },
@@ -97,6 +105,7 @@ export default {
       formSearchGame["schedule_id"] = this.current_schedule_id;
       formSearchGame["quarter"] = this.currentQuarterNumber;
       let searchedGame = await this.checkGameAlreadyExist(formSearchGame);
+
       // 해당 스케쥴, 쿼터에 해당하는 게임이 있는지 확인 Action
       if (searchedGame) {
         // 게임이 있다면
@@ -113,6 +122,7 @@ export default {
           deleteMemberSquadForm["squad_id"] = awaySquadId;
           await this.deleteMemberSquad(deleteMemberSquadForm);
         }
+        console.log("얘가 왜 안들어가지", this.homeTeam);
         // 2. 스쿼드멤버를 넣기
         await this.createMultipleMemberSquad({
           squad_id: homeSquadId,
@@ -209,6 +219,39 @@ export default {
       // prepareMatch store에서 값 세팅
       await this.setSplitTeamList();
       await this.setSummarySplitTeamList();
+
+      this.reset_members();
+    },
+
+    async reset_members() {
+      // 현재 스케쥴이랑 쿼터 가져오기
+      await this.getHomeAwayMember({
+        schedule_id: this.current_schedule_id,
+        quarter: this.currentQuarterNumber
+      });
+
+      let members = []; // {selectType: "home", position: "", name: ""}
+      for (var i in this.homeMembers) {
+        let member = this.homeMembers[i];
+        if (member.position) {
+          members.push({
+            selectType: "Home",
+            position: member.position,
+            name: member.name
+          });
+        }
+      }
+      for (var i in this.awayMembers) {
+        let member = this.awayMembers[i];
+        if (member.position) {
+          members.push({
+            selectType: "Away",
+            position: member.position,
+            name: member.name
+          });
+        }
+      }
+      this.members = members;
     }
   }
 };

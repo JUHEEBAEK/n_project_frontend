@@ -100,7 +100,7 @@ export default {
     benchList: Position.benchList,
     positionHomeList: Position.homeList,
     positionAwayList: Position.awayList,
-    position: Position.basicPostion,
+    position: JSON.parse(JSON.stringify(Position.basicPostion)),
     homePlayerList: [],
     awayPlayerList: []
   }),

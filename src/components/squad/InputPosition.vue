@@ -37,7 +37,7 @@
       </v-col>
     </v-row>
     <dialog-squad-position
-      v-if="dialog===true && type==='position'"
+      v-if="dialog === true && type === 'position'"
       :selectTeam="selectTeam"
       :selectPosition="selectPosition"
       @savePosition="savePosition"
@@ -55,24 +55,30 @@ const { mapState, mapMutations } = createNamespacedHelpers("prepareMatch");
 
 export default {
   mixins: [dialog, regex],
+  props: {
+    members: {
+      type: Object,
+      defualt: null
+    }
+  },
   data: () => ({
     selectTeam: null,
     selectPosition: null,
     positionList: Position.list,
     benchList: Position.benchList,
-    position: Position.basicPostion
+    position: JSON.parse(JSON.stringify(Position.basicPostion))
   }),
+  watch: {
+    async members(value) {
+      this.onMembersChange(value);
+    }
+  },
   computed: {
     ...mapState(["isHome", "selectType", "homeTeam", "awayTeam"])
   },
   methods: {
-    // 중복된 선수가 있는지 체크 해주는 함수.
-    checkedDuplicatePostion: function(value) {
-      // TODO: 중복된 선수 rules 추가해주기
-      console.log("checkedDuplicatePostion", value);
-      return true;
-    },
     openDialog(val) {
+      console.log("openDialog 할 수 있는가? ", this.homeTeam, this.awayTeam);
       this.selectPosition = val;
       if (this.isHome) {
         this.selectTeam = this.homeTeam;
@@ -85,6 +91,20 @@ export default {
     },
     savePosition(member) {
       this.position[this.selectType][member.position] = member.name;
+    },
+    async onMembersChange(members) {
+      this.position = JSON.parse(JSON.stringify(Position.basicPostion));
+
+      members.forEach((member) => {
+        // member 형태
+        //  selectType, position, name
+        //    "Home",   "GK",     "김철"
+
+        this.savePosition2(member, member.selectType);
+      });
+    },
+    savePosition2(member, selectType) {
+      this.position[member.selectType][member.position] = member.name;
     }
   }
 };

@@ -218,6 +218,7 @@ test("Get Schedule with specific id ", async () => {
     "end_time": null,
     "id": 1,
     "name": "[자체 경기] 풀굿",
+    "nick_name": "풀굿",
     "place": "풀굿 FC 풋살장(봉천)",
     "stadium_id": 10,
     "start_time": null,
