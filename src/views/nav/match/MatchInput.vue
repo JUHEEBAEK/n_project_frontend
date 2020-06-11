@@ -36,6 +36,11 @@ import regex from "../../../mixin/regex.js";
 
 import { createNamespacedHelpers } from "vuex";
 const {
+  mapGetters: calendarGetters,
+  mapMutations: calendarMapMutations
+} = createNamespacedHelpers("calendar");
+
+const {
   mapState: squadState,
   mapMutations: squadMutations,
   mapActions: squadActions
@@ -105,6 +110,8 @@ export default {
     awayPlayerList: []
   }),
   computed: {
+    ...calendarGetters(["current_schedule_id"]),
+    ...prepareMatchGetters(["currentQuarterNumber"]),
     ...prepareMatchState(["homeMembers", "awayMembers"]),
     ...gameState(["gameInfo"]),
     ...gameReportState(["eventList", "awayScore", "homeScore"]),
@@ -145,6 +152,7 @@ export default {
     }
   },
   methods: {
+    ...calendarMapMutations(["SET_SCHEDULE_INDEX"]),
     ...squadActions(["getSplitTeamListWithSchedule"]),
     ...prepareMatchActions(["getHomeAwayMember"]),
     ...gameActions(["getGameId", "updateGameScore"]),
@@ -152,15 +160,18 @@ export default {
     ...gameReportActions(["getEventList"]),
     changeQuarterAndParams(item) {
       let changeQuarter = this.extractNumberFromStr(item);
+
       this.$router.replace({
         name: "matchInput",
-        params: { quarter: changeQuarter }
+        params: {
+          quarter: changeQuarter
+        }
       });
     },
     getHomeAwayMemberList: async function() {
       let scheduleAndQuarter = {
-        schedule_id: this.$route.params.schedule_id,
-        quarter: this.$route.params.quarter
+        schedule_id: this.current_schedule_id,
+        quarter: this.currentQuarterNumber
       };
       let homeAwayMembers = await this.getHomeAwayMember(scheduleAndQuarter);
     },
@@ -185,17 +196,48 @@ export default {
       this.setDay = moment(selected_schedule.date).format("DD");
     },
     setGameId: async function() {
-      let body = {
+      let scheduleQuarter = {
         schedule_id: this.schedule_id,
         quarter: this.quarter
       };
-      await this.getGameId(body);
-      console.log(this.gameInfo);
-      await this.SET_HOME_SCORE(this.gameInfo.home_score);
-      this.SET_AWAY_SCORE(this.gameInfo.away_score);
+      await this.getGameId(scheduleQuarter);
+      if (this.gameInfo && this.gameInfo.home_score) {
+        this.SET_HOME_SCORE(this.gameInfo.home_score);
+        this.SET_AWAY_SCORE(this.gameInfo.away_score);
+      } else {
+        this.SET_HOME_SCORE(0);
+        this.SET_AWAY_SCORE(0);
+      }
     },
     async setScheduleData(selected_schedule) {
+      if (
+        String(this.$route.params.schedule_id) !==
+        String(this.current_schedule_id)
+      ) {
+        this.$router.replace({
+          name: "matchInput",
+          params: {
+            schedule_id: this.current_schedule_id
+          }
+        });
+      }
+
       if (this.scheduleIndex == -1) return;
+      await this.getGameId({
+        schedule_id: this.current_schedule_id,
+        quarter: this.currentQuarterNumber
+      });
+
+      if (this.gameInfo && this.gameInfo.home_score) {
+        this.SET_HOME_SCORE(this.gameInfo.home_score);
+        this.SET_AWAY_SCORE(this.gameInfo.away_score);
+      } else {
+        this.SET_HOME_SCORE(0);
+        this.SET_AWAY_SCORE(0);
+      }
+
+      await this.getHomeAwayMemberList();
+      this.selectEventList();
     }
   }
 };

@@ -96,10 +96,6 @@ const actions = {
             console.log(e);
         }
     },
-    async getTeamList(context, payload){
-        // payload에는 schedule_id가 있으면 될듯하다
-        console.log("getTeamList", payload)
-    },
     async getSplitTeamListWithSchedule(context, schedule_id){
         try {
             const response = await getSplitTeamListWithSchedule(schedule_id);

@@ -17,7 +17,6 @@
     "@fortawesome/fontawesome-free": "^5.8.2",
     "axios": "^0.19.2",
     "core-js": "^3.4.4",
-    "fabric": "^3.6.3",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
@@ -71,15 +70,17 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "overrides": [{
-      "files": [
-        "**/__tests__/*.{j,t}s?(x)",
-        "**/tests/unit/**/*.spec.{j,t}s?(x)"
-      ],
-      "env": {
-        "jest": true
+    "overrides": [
+      {
+        "files": [
+          "**/__tests__/*.{j,t}s?(x)",
+          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+        ],
+        "env": {
+          "jest": true
+        }
       }
-    }]
+    ]
   },
   "browserslist": [
     "> 1%",

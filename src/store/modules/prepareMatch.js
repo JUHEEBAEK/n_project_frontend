@@ -232,7 +232,6 @@ const actions = {
         memberSquadformArray.push([squad_id, member.member_id, member.position])
       }
       const response = await createMultipleMemberSquad(memberSquadformArray);
-      console.log("createMemberSquad", response)
       return true
     } catch (e) {
       console.log(e);
@@ -241,7 +240,6 @@ const actions = {
   async createGame(context, gameForm) {
     try {
       const response = await createGame(gameForm);
-      console.log("createGame", response)
       return true
     } catch (e) {
       console.log(e);
@@ -250,7 +248,6 @@ const actions = {
   async updateGame(context, gameUpdateForm) {
     try {
       const response = await updateGame(gameUpdateForm);
-      console.log("updateGame", response)
       return true
     } catch (e) {
       console.log(e);
@@ -259,7 +256,6 @@ const actions = {
   async deleteMemberSquad(context, deleteMemberSquadForm) {
     try {
       const response = await deleteMemberSquad(deleteMemberSquadForm);
-      console.log("deleteMemberSquad", response)
       return true
     } catch (e) {
       console.log(e);
@@ -279,12 +275,10 @@ const actions = {
 
       if (gameInfo.data.length != 0) {
         const homeMembers = await getinfoWithSquadId(gameInfo.data[0].home_squad_id)
-        console.log("1", homeMembers)
         commit("SET_HOME_MEMBERS", homeMembers.data)
         membersDict["homeMembers"] = homeMembers.data
         if (gameInfo.data[0].away_squad_id) {
           const awayMembers = await getinfoWithSquadId(gameInfo.data[0].away_squad_id)
-          console.log("2", awayMembers)
           commit("SET_AWAY_MEMBERS", awayMembers.data)
           membersDict["awayMembers"] = awayMembers.data
         } else {
@@ -294,7 +288,6 @@ const actions = {
         commit("SET_HOME_MEMBERS", [])
         commit("SET_AWAY_MEMBERS", [])
       }
-      console.log("getHomeAwayMember", scheduleAndQuarter, gameInfo, membersDict)
       return membersDict
     } catch (e) {
       console.log(e);

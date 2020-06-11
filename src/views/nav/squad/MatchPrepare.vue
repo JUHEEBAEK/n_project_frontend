@@ -3,9 +3,7 @@
     <v-row class justify="center">
       <v-form ref="form">
         <schedule-date-list @changeDate="setScheduleData"></schedule-date-list>
-        <squad-quarter
-          @changeQuarterAndParams="setScheduleData"
-        ></squad-quarter>
+        <squad-quarter @changeQuarterAndParams="setScheduleData"></squad-quarter>
         <squad-team-list></squad-team-list>
         <squad-input-position :members="members"></squad-input-position>
         <v-row>
@@ -81,13 +79,7 @@ export default {
       "getHomeAwayMember"
     ]),
     async save() {
-      // 확인해야하는 것
-      // 1. this.homeTeam과 away팀이 있어야됨
-      // 2. 각 선수가 모두 포지션이 있어야됨
-      // 둘다 채워야하나??
-      // TODO: 포지션은 필수가 아니다
       if (!this.homeTeam) {
-        console.log("home팀 채워주세요");
         return;
         if (this.$refs.form.validate()) {
           //home과 away를 return 할 것
@@ -100,9 +92,6 @@ export default {
       } else {
         var awayExist = false;
       }
-      // 스케쥴 id와 쿼터를 찍기 state
-      console.log("GET_CURRENT_SCHEDULE_ID", this.current_schedule_id);
-      console.log("currentQuarterString", this.currentQuarterString);
       let formSearchGame = {};
       formSearchGame["schedule_id"] = this.current_schedule_id;
       formSearchGame["quarter"] = this.currentQuarterNumber;
@@ -124,7 +113,6 @@ export default {
           deleteMemberSquadForm["squad_id"] = awaySquadId;
           await this.deleteMemberSquad(deleteMemberSquadForm);
         }
-        console.log("얘가 왜 안들어가지", this.homeTeam);
         // 2. 스쿼드멤버를 넣기
         await this.createMultipleMemberSquad({
           squad_id: homeSquadId,
@@ -158,7 +146,6 @@ export default {
           }
         }
       } else {
-        console.log("game Not Exist");
         // 게임이 없다면
         // 1. 스쿼드를 만들기
         // 스쿼드 만들려면 스케쥴 id랑 팀 넘버 필요함
@@ -201,7 +188,6 @@ export default {
         gameForm["away_score"] = 0;
         gameForm["result"] = "D";
         await this.createGame(gameForm);
-        console.log("저장 끝");
       }
 
       this.$router.push({

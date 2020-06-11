@@ -65,9 +65,6 @@ import { createNamespacedHelpers } from "vuex";
 const { mapState: attendMapState } = createNamespacedHelpers("attend");
 
 export default {
-  created() {
-    console.log("created Member rating list", this.ghost_attend);
-  },
   computed: {
     ...attendMapState(["good_attend", "so_so_attend", "ghost_attend"])
   },
