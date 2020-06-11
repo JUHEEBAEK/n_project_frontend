@@ -12,7 +12,6 @@ import {
   attendList
 } from "../../api/attend.js";
 
-import moment from "moment";
 import * as constants from "../constants";
 const state = {
   newScheduleBox: false,
@@ -25,7 +24,12 @@ const state = {
 
 const getters = {
   current_schedule_id(state){
-    return state.scheduleList[state.scheduleIndex].id
+    if (state.scheduleList[state.scheduleIndex]){
+      return state.scheduleList[state.scheduleIndex].id
+    }else{
+      return null;
+    }
+    
   }
 }
 

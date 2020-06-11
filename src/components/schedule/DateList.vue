@@ -73,8 +73,8 @@ export default {
       if (val) {
         let selected_schedule = this.scheduleList[this.slide_index];
         this.setDateString(selected_schedule);
-        this.$emit("changeDate", selected_schedule);
         this.SET_SCHEDULE_INDEX(val);
+        this.$emit("changeDate", selected_schedule);
       }
     }
   },

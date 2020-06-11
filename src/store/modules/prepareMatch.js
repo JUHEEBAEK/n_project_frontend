@@ -279,12 +279,10 @@ const actions = {
 
       if (gameInfo.data.length != 0) {
         const homeMembers = await getinfoWithSquadId(gameInfo.data[0].home_squad_id)
-        console.log("1", homeMembers)
         commit("SET_HOME_MEMBERS", homeMembers.data)
         membersDict["homeMembers"] = homeMembers.data
         if (gameInfo.data[0].away_squad_id) {
           const awayMembers = await getinfoWithSquadId(gameInfo.data[0].away_squad_id)
-          console.log("2", awayMembers)
           commit("SET_AWAY_MEMBERS", awayMembers.data)
           membersDict["awayMembers"] = awayMembers.data
         } else {
@@ -294,7 +292,6 @@ const actions = {
         commit("SET_HOME_MEMBERS", [])
         commit("SET_AWAY_MEMBERS", [])
       }
-      console.log("getHomeAwayMember", scheduleAndQuarter, gameInfo, membersDict)
       return membersDict
     } catch (e) {
       console.log(e);

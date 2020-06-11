@@ -22,7 +22,12 @@ const actions = {
     try {
       let response = await searchWithScheduleIdAndQuarter(payload);
       if (response.data){
-        commit("SET_GAME_INFO", response.data[0])
+        if (response.data.length == 0 ){
+          commit("SET_GAME_INFO", {})
+        }else{
+          commit("SET_GAME_INFO", response.data[0])  
+        }
+        
         return response.data.insertId
       }else{
         return false;
