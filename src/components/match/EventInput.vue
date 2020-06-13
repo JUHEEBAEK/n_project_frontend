@@ -153,8 +153,10 @@ export default {
     },
     init() {
       this.firstPlayer = null;
+      this.firstPlayerId = null;
       this.lastPlayer = null;
       this.teamType = null;
+      this.lastPlayerId = null;
     }
   }
 };
