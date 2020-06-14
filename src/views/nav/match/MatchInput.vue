@@ -2,11 +2,9 @@
   <div class="match__container">
     <!-- 스케쥴 리스트 영역 -->
     <v-contatner fluid>
-      <v-form ref="form">
-        <schedule-date-list @changeDate="setScheduleData"></schedule-date-list>
-        <!-- 쿼터 리스트 영역 -->
-        <squad-quarter @changeQuarterAndParams="changeQuarterAndParams"></squad-quarter>
-      </v-form>
+      <schedule-date-list @changeDate="setScheduleData"></schedule-date-list>
+      <!-- 쿼터 리스트 영역 -->
+      <squad-quarter @changeQuarterAndParams="changeQuarterAndParams"></squad-quarter>
     </v-contatner>
 
     <!-- 경기 기록 이벤트 타입 설정 부분 -->

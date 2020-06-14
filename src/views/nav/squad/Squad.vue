@@ -1,30 +1,27 @@
 <template>
   <v-container>
-    <v-sheet elevation="8">
-      <div>
-        <v-sheet elevation="8">
-          <schedule-date-list @changeDate="setScheduleData"></schedule-date-list>
-        </v-sheet>
-      </div>
-      <v-expand-transition>
-        <v-row class="fill-height" align="center" justify="center">
-          <v-col cols="12" sm="12" md="5">
-            <schedule-info-card
-              :cardInfoLoading="loading"
-              :scheduleName="scheduleName"
-              :scheduleStart="scheduleStart"
-              :scheduleEnd="scheduleEnd"
-              :scheduleStadium="scheduleStadium"
-              :scheduleAddress="scheduleAddress"
-            ></schedule-info-card>
-          </v-col>
-          <v-col cols="12" sm="12" md="7">
-            <squad-team-split-list />
-          </v-col>
-        </v-row>
-      </v-expand-transition>
-      <squad-team-split />
-    </v-sheet>
+    <v-row>
+      <v-col cols="12">
+        <schedule-date-list @changeDate="setScheduleData"></schedule-date-list>
+      </v-col>
+      <v-col cols="12" sm="12" md="5">
+        <schedule-info-card
+          :cardInfoLoading="loading"
+          :scheduleName="scheduleName"
+          :scheduleStart="scheduleStart"
+          :scheduleEnd="scheduleEnd"
+          :scheduleStadium="scheduleStadium"
+          :scheduleAddress="scheduleAddress"
+        ></schedule-info-card>
+      </v-col>
+      <v-col cols="12" sm="12" md="7">
+        <squad-team-split-list />
+      </v-col>
+      <v-col cols="12">
+        <squad-team-split />
+      </v-col>
+    </v-row>
+
     <util-snack-bar :purpose="snackBarPurpose" :message="snackBarMessage" />
   </v-container>
 </template>
@@ -78,16 +75,23 @@ export default {
   async created() {
     await this.select_schedule();
 
-    if (this.$route.params && this.$route.params.scheduleIndex && this.$route.params.team_split_index){
-        this.SET_SCHEDULE_INDEX(this.$route.params.scheduleIndex)
-        this.SET_TEAM_INDEX_CHANGED(this.$route.params.team_split_index)
-    }else{
+    if (
+      this.$route.params &&
+      this.$route.params.scheduleIndex &&
+      this.$route.params.team_split_index
+    ) {
+      this.SET_SCHEDULE_INDEX(this.$route.params.scheduleIndex);
+      this.SET_TEAM_INDEX_CHANGED(this.$route.params.team_split_index);
+    } else {
       this.CHOOSE_LATEST_SCHEDULE();
     }
-    
   },
   methods: {
-    ...calendarMapMutations(["SET_ATTEND_MEMBER", "CHOOSE_LATEST_SCHEDULE", "SET_SCHEDULE_INDEX"]),
+    ...calendarMapMutations([
+      "SET_ATTEND_MEMBER",
+      "CHOOSE_LATEST_SCHEDULE",
+      "SET_SCHEDULE_INDEX"
+    ]),
     ...calendarMapActions(["select_schedule", "load_member"]),
     ...squadMutations(["SET_TEAM_INDEX_CHANGED"]),
     ...mapActions(["get_attendance"]),
@@ -125,12 +129,11 @@ export default {
         let teamNumber = null;
         if (splitTeamInfo && splitTeamInfo[member_id]) {
           teamNumber = splitTeamInfo[member_id]["team_number"];
-          if (teamNumber == -1){
-            color = "grey"
-          }else{
+          if (teamNumber == -1) {
+            color = "grey";
+          } else {
             color = this.colorIndex[teamNumber];
           }
-          
         }
 
         let attend_member = {
@@ -148,51 +151,5 @@ export default {
 };
 </script>
 
-<style scoped>
-.attandance__date {
-  font-size: 20px;
-  font-weight: 200;
-}
-.date__year {
-  font-size: 20px;
-  font-weight: 400;
-}
-.date__month {
-  font-size: 24px;
-  font-weight: 500;
-}
-.date__day {
-  font-size: 20px;
-  font-weight: 600;
-  color: white;
-}
-.schdule__list {
-  display: flex;
-  flex-flow: column;
-  flex-direction: column;
-  background-color: bisque;
-}
+<style scoped></style>
 
-.date__item {
-  background-color: pink;
-  list-style: none;
-}
-
-.schedule__title {
-  font-size: 16px;
-  font-weight: 600;
-}
-.setting__actions {
-  justify-content: space-between;
-}
-
-.tab__team {
-  border: solid 5px;
-}
-.group__item {
-  margin: 0 5px;
-}
-/* .jocker {
-  background: black;
-} */
-</style>
