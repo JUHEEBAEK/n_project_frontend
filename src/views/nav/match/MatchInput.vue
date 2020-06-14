@@ -201,7 +201,7 @@ export default {
         quarter: this.quarter
       };
       await this.getGameId(scheduleQuarter);
-      if (this.gameInfo && this.gameInfo.home_score) {
+      if (this.gameInfo) {
         this.SET_HOME_SCORE(this.gameInfo.home_score);
         this.SET_AWAY_SCORE(this.gameInfo.away_score);
       } else {
@@ -228,7 +228,7 @@ export default {
         quarter: this.currentQuarterNumber
       });
 
-      if (this.gameInfo && this.gameInfo.home_score) {
+      if (this.gameInfo) {
         this.SET_HOME_SCORE(this.gameInfo.home_score);
         this.SET_AWAY_SCORE(this.gameInfo.away_score);
       } else {

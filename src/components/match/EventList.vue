@@ -3,7 +3,10 @@
     <v-card class="report__container" elevation="1" color="#cfead0">
       <v-card-title class="report__header">
         <span class="report__title">게임 기록</span>
-        <span class="report__score">{{ `${homeScore} : ${awayScore} `}}</span>
+        <span
+          class="report__score"
+          v-if="homeScore !== undefined"
+        >{{ `${homeScore} : ${awayScore} `}}</span>
       </v-card-title>
       <v-card-text class="report__content">
         <v-timeline class="report__timeline">
