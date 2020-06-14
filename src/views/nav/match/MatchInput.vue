@@ -15,10 +15,18 @@
       <v-row class="event__main">
         <!-- 경기 기록 페이지 -->
         <match-event-input
+          :isUpdate="isUpdate"
+          :toggle="toggle"
+          @setGameReport="setGameReport"
+          @initSaveButton="initSaveButton"
           @getHomeAwayMemberList="getHomeAwayMemberList"
           @selectEventList="selectEventList"
         ></match-event-input>
-        <match-event-list :gameEventList="eventList" @selectEventList="selectEventList"></match-event-list>
+        <match-event-list
+          :gameEventList="eventList"
+          @selectEventList="selectEventList"
+          @changeUpdateButton="changeUpdateButton"
+        ></match-event-list>
       </v-row>
       <v-row>
         <v-col>
@@ -97,6 +105,8 @@ export default {
     buttonClickState: null,
     // 이벤트 기록 영역
     isGoal: true,
+    isUpdate: false,
+    toggle: true,
     firstEventType: "Goal",
     lastEventType: "Assist",
     firstPlayer: null,
@@ -168,12 +178,20 @@ export default {
         }
       });
     },
+    changeUpdateButton: function() {
+      console.log("changeButton");
+      this.isUpdate = true;
+      this.toggle = !this.toggle;
+    },
     getHomeAwayMemberList: async function() {
       let scheduleAndQuarter = {
         schedule_id: this.current_schedule_id,
         quarter: this.currentQuarterNumber
       };
       let homeAwayMembers = await this.getHomeAwayMember(scheduleAndQuarter);
+    },
+    initSaveButton() {
+      this.isUpdate = false;
     },
     saveGame: async function() {
       let body = {
