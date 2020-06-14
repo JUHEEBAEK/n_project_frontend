@@ -28,6 +28,7 @@
               color="#dce775"
               text-color="black"
               close-icon="fas fa-times-circle"
+              @click="clickUpdateEvent(gameReport)"
               @click:close="deleteButton(gameReport)"
             >
               <span>{{ gameReport.first_player_name }}</span>
@@ -78,13 +79,21 @@ export default {
   },
   methods: {
     ...gameReportActions(["deleteGameEvent"]),
-    ...gameReportMutations(["SUBTRACT_HOME_SCORE", "SUBTRACT_AWAY_SCORE"]),
+    ...gameReportMutations([
+      "SET_EVENT_INFO",
+      "SUBTRACT_HOME_SCORE",
+      "SUBTRACT_AWAY_SCORE"
+    ]),
     subtractScore: function(gameEvent) {
       if (gameEvent.team_type === "H") {
         this.SUBTRACT_HOME_SCORE(1);
       } else if (gameEvent.team_type === "A") {
         this.SUBTRACT_AWAY_SCORE(1);
       }
+    },
+    clickUpdateEvent: function(gameReport) {
+      this.SET_EVENT_INFO(gameReport);
+      this.$emit("changeUpdateButton");
     },
     deleteButton: async function(gameReport) {
       this.gameEventList.forEach(async (gameEvent, idx) => {

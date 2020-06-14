@@ -30,5 +30,10 @@
     "Goal": "fas fa-shoe-prints fa-rotate-270",
     "Out": "fas fa-long-arrow-alt-up",
     "K.O": "fas fa-long-arrow-alt-up"
+  },
+  "eventType": {
+    "Goal": "Assist",
+    "Out": "In",
+    "K.O": "K.I"
   }
 }
