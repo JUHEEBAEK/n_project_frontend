@@ -117,7 +117,14 @@ export default {
   },
   methods: {
     ...gameReportActions(["getEventList", "addGameEvent"]),
-    ...gameReportMutations(["ADD_EVENT"]),
+    ...gameReportMutations(["ADD_EVENT", "ADD_HOME_SCORE", "ADD_AWAY_SCORE"]),
+    addGameScore: function(eventInfo) {
+      if (eventInfo.team_type === "H") {
+        this.ADD_HOME_SCORE(1);
+      } else if (eventInfo.team_type === "A") {
+        this.ADD_AWAY_SCORE(1);
+      }
+    },
     clickPlayer: function(val, type) {
       if (this.teamType !== null && this.teamType !== type) {
         alert("같은 팀을 선택해주세요.");
@@ -136,7 +143,7 @@ export default {
         }
       }
     },
-    clickSaveButton() {
+    clickSaveButton: async function() {
       let event = {
         game_id: this.gameInfo.id,
         event_type: this.firstEventType,
@@ -145,7 +152,11 @@ export default {
         team_type: this.teamType
       };
       // 경기 기록 추가 actions
-      this.addGameEvent(event);
+      let addGameEventresult = await this.addGameEvent(event);
+      // 게임 이벤트추가 결과가 true이고 골일 경우에만 스코어를 추가시켜주기 위해서.
+      if (addGameEventresult && event.event_type === "Goal") {
+        this.addGameScore(event);
+      }
       // input 창 초기화
       this.init();
       // 경기기록 리스트 다시 불러와주기
