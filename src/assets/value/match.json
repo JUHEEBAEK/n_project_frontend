@@ -15,5 +15,25 @@
       "text": "조커",
       "value": "jockerName"
     }
-  ]
+  ],
+  "gameReportEventTimeLineIcon": {
+    "Goal": "fas fa-futbol",
+    "Out": "fas fa-exchange-alt fa-rotate-270",
+    "K.O": "fab fa-kickstarter"
+  },
+  "gameReportEventChipFirstIcon": {
+    "Goal": "fas fa-futbol",
+    "Out": "fas fa-long-arrow-alt-down",
+    "K.O": "fas fa-long-arrow-alt-down"
+  },
+  "gameReportEventChipSecondIcon": {
+    "Goal": "fas fa-shoe-prints fa-rotate-270",
+    "Out": "fas fa-long-arrow-alt-up",
+    "K.O": "fas fa-long-arrow-alt-up"
+  },
+  "eventType": {
+    "Goal": "Assist",
+    "Out": "In",
+    "K.O": "K.I"
+  }
 }

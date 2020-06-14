@@ -2,11 +2,9 @@
   <div class="match__container">
     <!-- 스케쥴 리스트 영역 -->
     <v-contatner fluid>
-      <v-form ref="form">
-        <schedule-date-list @changeDate="setScheduleData"></schedule-date-list>
-        <!-- 쿼터 리스트 영역 -->
-        <squad-quarter @changeQuarterAndParams="changeQuarterAndParams"></squad-quarter>
-      </v-form>
+      <schedule-date-list @changeDate="setScheduleData"></schedule-date-list>
+      <!-- 쿼터 리스트 영역 -->
+      <squad-quarter @changeQuarterAndParams="changeQuarterAndParams"></squad-quarter>
     </v-contatner>
 
     <!-- 경기 기록 이벤트 타입 설정 부분 -->
@@ -15,10 +13,18 @@
       <v-row class="event__main">
         <!-- 경기 기록 페이지 -->
         <match-event-input
+          :isUpdate="isUpdate"
+          :toggle="toggle"
+          @setGameReport="setGameReport"
+          @initSaveButton="initSaveButton"
           @getHomeAwayMemberList="getHomeAwayMemberList"
           @selectEventList="selectEventList"
         ></match-event-input>
-        <match-event-list :gameEventList="eventList" @selectEventList="selectEventList"></match-event-list>
+        <match-event-list
+          :gameEventList="eventList"
+          @selectEventList="selectEventList"
+          @changeUpdateButton="changeUpdateButton"
+        ></match-event-list>
       </v-row>
       <v-row>
         <v-col>
@@ -97,6 +103,8 @@ export default {
     buttonClickState: null,
     // 이벤트 기록 영역
     isGoal: true,
+    isUpdate: false,
+    toggle: true,
     firstEventType: "Goal",
     lastEventType: "Assist",
     firstPlayer: null,
@@ -168,12 +176,20 @@ export default {
         }
       });
     },
+    changeUpdateButton: function() {
+      console.log("changeButton");
+      this.isUpdate = true;
+      this.toggle = !this.toggle;
+    },
     getHomeAwayMemberList: async function() {
       let scheduleAndQuarter = {
         schedule_id: this.current_schedule_id,
         quarter: this.currentQuarterNumber
       };
       let homeAwayMembers = await this.getHomeAwayMember(scheduleAndQuarter);
+    },
+    initSaveButton() {
+      this.isUpdate = false;
     },
     saveGame: async function() {
       let body = {
@@ -201,7 +217,7 @@ export default {
         quarter: this.quarter
       };
       await this.getGameId(scheduleQuarter);
-      if (this.gameInfo && this.gameInfo.home_score) {
+      if (this.gameInfo) {
         this.SET_HOME_SCORE(this.gameInfo.home_score);
         this.SET_AWAY_SCORE(this.gameInfo.away_score);
       } else {
@@ -228,7 +244,7 @@ export default {
         quarter: this.currentQuarterNumber
       });
 
-      if (this.gameInfo && this.gameInfo.home_score) {
+      if (this.gameInfo) {
         this.SET_HOME_SCORE(this.gameInfo.home_score);
         this.SET_AWAY_SCORE(this.gameInfo.away_score);
       } else {

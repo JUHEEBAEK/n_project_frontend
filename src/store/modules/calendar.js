@@ -145,6 +145,7 @@ const mutations = {
     }
   },
   SET_SCHEDULE_INDEX(state, index){
+    console.log(index);
     state.scheduleIndex = index
   },
   FILL_TEAM_NUMBER(state){

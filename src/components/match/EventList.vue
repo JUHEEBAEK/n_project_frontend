@@ -3,7 +3,10 @@
     <v-card class="report__container" elevation="1" color="#cfead0">
       <v-card-title class="report__header">
         <span class="report__title">게임 기록</span>
-        <span class="report__score">{{ `${homeScore} : ${awayScore} `}}</span>
+        <span
+          class="report__score"
+          v-if="homeScore !== undefined"
+        >{{ `${homeScore} : ${awayScore} `}}</span>
       </v-card-title>
       <v-card-text class="report__content">
         <v-timeline class="report__timeline">
@@ -16,11 +19,7 @@
             color="white"
             :right="gameReport.team_type === 'A' ? true : false"
             :left="gameReport.team_type === 'H' ? true : false"
-            :icon="
-              gameReport.event_type === 'Goal'
-                ? 'fas fa-futbol'
-                : 'fas fa-exchange-alt fa-rotate-270'
-            "
+            :icon="searchProperTimelineIcon(gameReport.event_type)"
             icon-color="black"
           >
             <v-chip
@@ -29,21 +28,15 @@
               color="#dce775"
               text-color="black"
               close-icon="fas fa-times-circle"
+              @click="clickUpdateEvent(gameReport)"
               @click:close="deleteButton(gameReport)"
             >
-              <span>{{ gameReport.first_player_name }}</span>
-              <v-avatar left>
-                <v-icon v-if="gameReport.event_type === 'Goal'" x-small>fas fa-futbol</v-icon>
-                <v-icon v-else x-small>fas fa-long-arrow-alt-down</v-icon>
-              </v-avatar>
-              <span class="lastEvent ma-1">{{ gameReport.last_player_name }}</span>
-              <v-avatar left>
-                <v-icon
-                  v-if="gameReport.event_type === 'Goal'"
-                  x-small
-                >fas fa-shoe-prints fa-rotate-270</v-icon>
-                <v-icon v-else x-small>fas fa-long-arrow-alt-up</v-icon>
-              </v-avatar>
+              <span class="d-none d-sm-flex px-2">{{ gameReport.first_player_name }}</span>
+              <span class="d-flex d-sm-none">{{ showTwoCharAt(gameReport.first_player_name) }}</span>
+              <v-icon x-small>{{ searchProperChipIcon(gameReport.event_type, "first")}}</v-icon>
+              <span class="d-none d-sm-flex px-2">{{ gameReport.last_player_name }}</span>
+              <span class="d-flex d-sm-none">{{ showTwoCharAt(gameReport.last_player_name) }}</span>
+              <v-icon x-small>{{ searchProperChipIcon(gameReport.event_type, "second")}}</v-icon>
             </v-chip>
           </v-timeline-item>
         </v-timeline>
@@ -53,6 +46,8 @@
 </template>
 
 <script>
+import matchValue from "../../assets/value/match.json";
+
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: gameReportState,
@@ -82,16 +77,50 @@ export default {
   },
   methods: {
     ...gameReportActions(["deleteGameEvent"]),
+    ...gameReportMutations([
+      "SET_EVENT_INFO",
+      "SUBTRACT_HOME_SCORE",
+      "SUBTRACT_AWAY_SCORE"
+    ]),
+    subtractScore: function(gameEvent) {
+      if (gameEvent.team_type === "H") {
+        this.SUBTRACT_HOME_SCORE(1);
+      } else if (gameEvent.team_type === "A") {
+        this.SUBTRACT_AWAY_SCORE(1);
+      }
+    },
+    clickUpdateEvent: function(gameReport) {
+      this.SET_EVENT_INFO(gameReport);
+      this.$emit("changeUpdateButton");
+    },
     deleteButton: async function(gameReport) {
-      this.gameEventList.forEach(async (item, idx) => {
-        if (item.id === gameReport.id) {
+      this.gameEventList.forEach(async (gameEvent, idx) => {
+        if (gameEvent.id === gameReport.id) {
           let body = {
             gameReport_id: gameReport.id
           };
-          await this.deleteGameEvent(body);
+          // 게임 이벤트를 삭제하는 결과를 받아온다. 받아온 결과로 점수를 1점 뺜다.
+          let result = await this.deleteGameEvent(body);
+          // 이벤트가 정상적으로 삭제 될 경우에만 실행이 된다.
+          if (result && gameEvent.event_type === "Goal") {
+            this.subtractScore(gameEvent);
+          }
           this.$emit("selectEventList");
         }
       });
+    },
+    searchProperTimelineIcon: function(iconType) {
+      return matchValue.gameReportEventTimeLineIcon[iconType];
+    },
+    searchProperChipIcon: function(iconType, order) {
+      if (order === "first") {
+        return matchValue.gameReportEventChipFirstIcon[iconType];
+      } else if (order === "second") {
+        return matchValue.gameReportEventChipSecondIcon[iconType];
+      }
+    },
+    showTwoCharAt(name) {
+      return name.substring(0, 2);
     }
   }
 };

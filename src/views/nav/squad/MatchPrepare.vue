@@ -1,17 +1,23 @@
 <template>
   <v-container class="match__container" fluid>
     <v-row class justify="center">
-      <v-form ref="form">
+      <v-col cols="12">
         <schedule-date-list @changeDate="setScheduleData"></schedule-date-list>
+      </v-col>
+      <v-col cols="12">
         <squad-quarter @changeQuarterAndParams="setScheduleData"></squad-quarter>
+      </v-col>
+      <v-col cols="12">
         <squad-team-list></squad-team-list>
+      </v-col>
+      <v-col cols="12">
         <squad-input-position :members="members"></squad-input-position>
-        <v-row>
-          <v-col>
-            <v-btn @click="save" color="primary">저장</v-btn>
-          </v-col>
-        </v-row>
-      </v-form>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-btn @click="save" color="primary">저장</v-btn>
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -81,11 +87,8 @@ export default {
     async save() {
       if (!this.homeTeam) {
         return;
-        if (this.$refs.form.validate()) {
-          //home과 away를 return 할 것
-          // 여긴 뭐지??
-          // TODO: 포지션에 중복된 선수가 되있으면 안된다.
-        }
+        //home과 away를 return 할 것
+        // TODO: 포지션에 중복된 선수가 되있으면 안된다.
       }
       if (this.awayTeam.members) {
         var awayExist = true;
