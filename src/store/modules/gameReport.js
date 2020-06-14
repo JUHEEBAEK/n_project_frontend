@@ -44,12 +44,6 @@ const actions = {
         let response = await createEvent(payload);
         commit("ADD_EVENT", payload);
         if (response) {
-            // H / A 구분하여 점수에 1씩 추가
-            if(payload.team_type === 'H') {
-                commit("ADD_HOME_SCORE", 1);
-            }else if(payload.team_type === 'A') {
-                commit("ADD_AWAY_SCORE", 1);
-            }
             return true
         } else {
             return false
@@ -58,12 +52,6 @@ const actions = {
     async deleteGameEvent({commit}, payload) {
         let response = await deleteEvent(payload);
         if (response) {
-            // H / A 구분하여 점수에 1씩 추가
-            if(payload.team_type === 'H') {
-                commit("SUBTRACT_HOME_SCORE", 1);
-            }else if(payload.team_type === 'A') {
-                commit("SUBTRACT_AWAY_SCORE", 1);
-            }
             return true
         } else {
             return false

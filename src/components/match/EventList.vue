@@ -82,13 +82,26 @@ export default {
   },
   methods: {
     ...gameReportActions(["deleteGameEvent"]),
+    ...gameReportMutations(["SUBTRACT_HOME_SCORE", "SUBTRACT_AWAY_SCORE"]),
+    subtractScore: function(gameEvent) {
+      if (gameEvent.team_type === "H") {
+        this.SUBTRACT_HOME_SCORE(1);
+      } else if (gameEvent.team_type === "A") {
+        this.SUBTRACT_AWAY_SCORE(1);
+      }
+    },
     deleteButton: async function(gameReport) {
-      this.gameEventList.forEach(async (item, idx) => {
-        if (item.id === gameReport.id) {
+      this.gameEventList.forEach(async (gameEvent, idx) => {
+        if (gameEvent.id === gameReport.id) {
           let body = {
             gameReport_id: gameReport.id
           };
-          await this.deleteGameEvent(body);
+          // 게임 이벤트를 삭제하는 결과를 받아온다. 받아온 결과로 점수를 1점 뺜다.
+          let result = await this.deleteGameEvent(body);
+          // 이벤트가 정상적으로 삭제 될 경우에만 실행이 된다.
+          if (result && gameEvent.event_type === "Goal") {
+            this.subtractScore(gameEvent);
+          }
           this.$emit("selectEventList");
         }
       });
