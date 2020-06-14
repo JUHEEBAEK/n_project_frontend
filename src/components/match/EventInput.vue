@@ -19,6 +19,19 @@
       </v-card-text>
     </v-card>
     <v-card class="input__container" outlined evalation="2">
+      <v-card-text>
+        <span class="data__text">
+          <v-text-field
+            class="data__time"
+            v-model="time"
+            label="시간"
+            outlined
+            hide-details
+            dense
+            placeholder="05:00"
+          ></v-text-field>
+        </span>
+      </v-card-text>
       <v-card-text class="label__container">
         <span class="label__text">상태</span>
         <span class="label__text">선수1</span>
@@ -92,6 +105,7 @@ export default {
     firstPlayerId: null,
     lastPlayerId: null,
     teamType: null,
+    time: "",
     homePlayerList: [],
     awayPlayerList: []
   }),
@@ -146,6 +160,7 @@ export default {
     clickSaveButton: async function() {
       let event = {
         game_id: this.gameInfo.id,
+        time: this.time,
         event_type: this.firstEventType,
         first_player: this.firstPlayerId,
         last_player: this.lastPlayerId,

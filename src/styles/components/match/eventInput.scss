@@ -46,6 +46,10 @@
     .data__text {
       font-weight: 700;
 
+      .data__time {
+        width: 50px;
+      }
+
       &.fixed__type {
         color: #34558b;
       }
