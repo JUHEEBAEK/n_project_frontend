@@ -26,6 +26,7 @@ const mutations = {
         state.eventList = eventList;
     },
     ADD_HOME_SCORE(state, homeScore) {
+        console.log(homeScore);
         state.homeScore += homeScore;
     },
     ADD_AWAY_SCORE(state, awayScore) {

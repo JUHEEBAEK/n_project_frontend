@@ -50,6 +50,9 @@
           <v-icon dark>fas fa-pencil-alt</v-icon>
         </v-btn>
       </v-card-text>
+      <v-card-text v-if="isGoal === false">
+        <v-checkbox v-model="isKeepChange" :label="`키퍼교체: ${isKeepChange.toString()}`"></v-checkbox>
+      </v-card-text>
     </v-card>
     <v-card class="away__container" elevation="1">
       <v-card-title class="away__header">AWAY</v-card-title>
@@ -98,6 +101,7 @@ export default {
   data: () => ({
     // 이벤트 기록 영역
     isGoal: true,
+    isKeepChange: false,
     firstEventType: "Goal",
     lastEventType: "Assist",
     firstPlayer: null,
@@ -166,6 +170,9 @@ export default {
         last_player: this.lastPlayerId,
         team_type: this.teamType
       };
+      if (this.isKeepChange) {
+        event.event_type = "K.O";
+      }
       // 경기 기록 추가 actions
       let addGameEventresult = await this.addGameEvent(event);
       // 게임 이벤트추가 결과가 true이고 골일 경우에만 스코어를 추가시켜주기 위해서.

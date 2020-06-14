@@ -16,11 +16,7 @@
             color="white"
             :right="gameReport.team_type === 'A' ? true : false"
             :left="gameReport.team_type === 'H' ? true : false"
-            :icon="
-              gameReport.event_type === 'Goal'
-                ? 'fas fa-futbol'
-                : 'fas fa-exchange-alt fa-rotate-270'
-            "
+            :icon="searchProperTimelineIcon(gameReport.event_type)"
             icon-color="black"
           >
             <v-chip
@@ -33,16 +29,11 @@
             >
               <span>{{ gameReport.first_player_name }}</span>
               <v-avatar left>
-                <v-icon v-if="gameReport.event_type === 'Goal'" x-small>fas fa-futbol</v-icon>
-                <v-icon v-else x-small>fas fa-long-arrow-alt-down</v-icon>
+                <v-icon x-small>{{ searchProperChipIcon(gameReport.event_type, "first")}}</v-icon>
               </v-avatar>
               <span class="lastEvent ma-1">{{ gameReport.last_player_name }}</span>
               <v-avatar left>
-                <v-icon
-                  v-if="gameReport.event_type === 'Goal'"
-                  x-small
-                >fas fa-shoe-prints fa-rotate-270</v-icon>
-                <v-icon v-else x-small>fas fa-long-arrow-alt-up</v-icon>
+                <v-icon x-small>{{ searchProperChipIcon(gameReport.event_type, "second")}}</v-icon>
               </v-avatar>
             </v-chip>
           </v-timeline-item>
@@ -53,6 +44,8 @@
 </template>
 
 <script>
+import matchValue from "../../assets/value/match.json";
+
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: gameReportState,
@@ -105,6 +98,16 @@ export default {
           this.$emit("selectEventList");
         }
       });
+    },
+    searchProperTimelineIcon: function(iconType) {
+      return matchValue.gameReportEventTimeLineIcon[iconType];
+    },
+    searchProperChipIcon: function(iconType, order) {
+      if (order === "first") {
+        return matchValue.gameReportEventChipFirstIcon[iconType];
+      } else if (order === "second") {
+        return matchValue.gameReportEventChipSecondIcon[iconType];
+      }
     }
   }
 };
