@@ -189,6 +189,7 @@ export default {
       this.firstPlayerId = null;
       this.lastPlayer = null;
       this.teamType = null;
+      this.time = null;
       this.lastPlayerId = null;
     }
   }
