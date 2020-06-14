@@ -31,14 +31,12 @@
               @click="clickUpdateEvent(gameReport)"
               @click:close="deleteButton(gameReport)"
             >
-              <span>{{ gameReport.first_player_name }}</span>
-              <v-avatar left>
-                <v-icon x-small>{{ searchProperChipIcon(gameReport.event_type, "first")}}</v-icon>
-              </v-avatar>
-              <span class="lastEvent ma-1">{{ gameReport.last_player_name }}</span>
-              <v-avatar left>
-                <v-icon x-small>{{ searchProperChipIcon(gameReport.event_type, "second")}}</v-icon>
-              </v-avatar>
+              <span class="d-none d-sm-flex px-2">{{ gameReport.first_player_name }}</span>
+              <span class="d-flex d-sm-none">{{ showTwoCharAt(gameReport.first_player_name) }}</span>
+              <v-icon x-small>{{ searchProperChipIcon(gameReport.event_type, "first")}}</v-icon>
+              <span class="d-none d-sm-flex px-2">{{ gameReport.last_player_name }}</span>
+              <span class="d-flex d-sm-none">{{ showTwoCharAt(gameReport.last_player_name) }}</span>
+              <v-icon x-small>{{ searchProperChipIcon(gameReport.event_type, "second")}}</v-icon>
             </v-chip>
           </v-timeline-item>
         </v-timeline>
@@ -120,6 +118,9 @@ export default {
       } else if (order === "second") {
         return matchValue.gameReportEventChipSecondIcon[iconType];
       }
+    },
+    showTwoCharAt(name) {
+      return name.substring(0, 2);
     }
   }
 };
