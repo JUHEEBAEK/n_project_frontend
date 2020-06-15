@@ -23,7 +23,7 @@ jobs:
           from: ./dist
           overwrite: true
           to: "s3://nunnunanna"
-      - run: aws cloudfront create-invalidation --distribution-id E2KHC2ZMNEODCO --paths \/*
+      - run: aws cloudfront create-invalidation --distribution-id E2KHC2ZMNEODCO --paths "*"
 
 workflows:
   version: 2
