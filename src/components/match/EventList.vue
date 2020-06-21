@@ -36,7 +36,10 @@
               <v-icon x-small>{{ searchProperChipIcon(gameReport.event_type, "first")}}</v-icon>
               <span class="d-none d-sm-flex px-2">{{ gameReport.last_player_name }}</span>
               <span class="d-flex d-sm-none">{{ showTwoCharAt(gameReport.last_player_name) }}</span>
-              <v-icon x-small>{{ searchProperChipIcon(gameReport.event_type, "second")}}</v-icon>
+              <v-icon
+                x-small
+                v-if="gameReport.last_player_name"
+              >{{ searchProperChipIcon(gameReport.event_type, "second")}}</v-icon>
             </v-chip>
           </v-timeline-item>
         </v-timeline>
@@ -120,7 +123,9 @@ export default {
       }
     },
     showTwoCharAt(name) {
-      return name.substring(0, 2);
+      if (name) {
+        return name.substring(0, 2);
+      }
     }
   }
 };

@@ -223,6 +223,7 @@ export default {
       if (this.isUpdate) {
         await this.clickUpdateButton(event);
       } else {
+        console.log("save");
         await this.clickSaveButton(event);
       }
 
@@ -232,6 +233,7 @@ export default {
       this.$emit("selectEventList");
     },
     clickSaveButton: async function(event) {
+      console.log("clickSave", event);
       event.game_id = this.gameInfo.id;
       // 경기 기록 추가 actions
       let addGameEventresult = await this.addGameEvent(event);

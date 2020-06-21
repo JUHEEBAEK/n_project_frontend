@@ -6,6 +6,7 @@ import Attend from "../views/footer/Attend.vue";
 import SquadView from "../views/footer/Squad.vue";
 import Ranking from "../views/footer/Ranking.vue";
 
+import Team from "../views/nav/TeamView.vue";
 import Member from "../views/nav/member/Member.vue";
 import Profile from "../views/nav/member/Profile.vue";
 import MemberAdd from "../views/nav/member/MemberAdd.vue";
@@ -40,6 +41,10 @@ const routes = [{
     component: Ranking
   },
   // navigation view
+  {
+    path: "/team",
+    component: Team,
+  },
   {
     path: "/member",
     component: Member,

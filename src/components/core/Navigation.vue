@@ -11,12 +11,7 @@
       <v-divider />
       <v-list nav>
         <v-list-item-group color="primary">
-          <v-list-item
-            class="nav__item"
-            v-for="item in items"
-            :key="item.title"
-            :to="`${item.to}`"
-          >
+          <v-list-item class="nav__item" v-for="item in items" :key="item.title" :to="`${item.to}`">
             <v-list-item-icon>
               <v-img :src="$imgBaseUrl + item.icon" contain width="24" />
             </v-list-item-icon>
@@ -34,7 +29,7 @@
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: commonMapState,
-  mapMutations: commonMapMutations,
+  mapMutations: commonMapMutations
 } = createNamespacedHelpers("common");
 
 export default {
@@ -42,47 +37,30 @@ export default {
     items: [
       {
         title: "TEAM",
-        to: "",
-        icon: "fsnnnn_emblem_official2.png",
+        to: "/team",
+        icon: "fsnnnn_emblem_official2.png"
       },
       {
         title: "MEMBER",
         to: "/member",
-        icon: "team.png",
+        icon: "team.png"
       },
       {
         title: "CALENDAR",
         to: "/calendar",
-        icon: "deadline.png",
+        icon: "deadline.png"
       },
       {
         title: "SQUAD",
         to: "/squad",
-        icon: "003-tshirt.png",
+        icon: "003-tshirt.png"
       },
       {
         title: "MATCH PREPARE",
         to: "/matchPrepare",
-        icon: "soccer.png",
-      },
-      // {
-      //   title: "MATCH",
-      //   to: "/matchInput",
-      //   icon: "medical-history.png"
-      // }
-      // {
-      //   title: "STADIUM",
-      //   to: "",
-      //   icon: require("../../assets/linear/dark/stadium.png")
-      // },
-      // {
-      //   title: "TRAINING",
-      //   to: "",
-      //   icon: require("../../assets/linear/dark/training.png")
-      // },
-      /* 임시로 추가 */
-      // { title: "Spinner", to: "spinner" }
-    ],
+        icon: "soccer.png"
+      }
+    ]
   }),
   computed: {
     ...commonMapState(["drawer"]),
@@ -92,14 +70,14 @@ export default {
       },
       set(val) {
         this.setDrawer(val);
-      },
-    },
+      }
+    }
   },
   mounted() {},
 
   methods: {
-    ...commonMapMutations(["setDrawer"]),
-  },
+    ...commonMapMutations(["setDrawer"])
+  }
 };
 </script>
 <style scoped>
