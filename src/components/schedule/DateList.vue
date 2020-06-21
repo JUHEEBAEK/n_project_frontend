@@ -98,47 +98,6 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.schedule__container {
-  padding: 0;
-  .date__content {
-    text-align: left;
-    font-size: 20px;
-    font-weight: 200;
-
-    .date__year {
-      font-size: 20px;
-      font-weight: 400;
-    }
-    .date__month {
-      font-size: 24px;
-      font-weight: 500;
-    }
-  }
-  .schedule__list {
-    .date__card {
-      background-color: #fafafa;
-      .date__Mon {
-        color: #666;
-        font-weight: 500;
-      }
-      .date__day {
-        font-size: 20px;
-        font-weight: 600;
-        color: #34558b;
-      }
-      &.active {
-        background-color: #34558b;
-        .date__Mon {
-          color: #ddd;
-        }
-        .date__day {
-          font-size: 20px;
-          font-weight: 600;
-          color: white;
-        }
-      }
-    }
-  }
-}
+<style lang="scss"
+  src="../../styles/components/schedule/dateList.scss">
 </style>
