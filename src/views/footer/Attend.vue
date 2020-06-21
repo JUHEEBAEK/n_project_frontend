@@ -1,31 +1,25 @@
 <template>
-  <div>
-    <core-Toolbar></core-Toolbar>
-    <core-navigation></core-navigation>
-    <div>
-      <v-sheet elevation="8">
-        <schedule-date-list @changeDate="changeDate"></schedule-date-list>
-      </v-sheet>
-      <v-expand-transition>
-        <v-sheet color="grey lighten-4" height="300" tile>
-          <v-row class="fill-height" align="center" justify="center">
-            <v-col cols="12" sm="12" md="12" lg="3">
-              <schedule-info-card
-                :cardInfoLoading="cardInfoLoading"
-                :scheduleName="scheduleName"
-                :scheduleStart="scheduleStart"
-                :scheduleEnd="scheduleEnd"
-                :scheduleStadium="scheduleStadium"
-                :scheduleAddress="scheduleAddress"
-              ></schedule-info-card>
-            </v-col>
-            <v-col cols="12" sm="12" md="12" lg="8">
-              <member-rating-list @isAttend="isAttend"></member-rating-list>
-            </v-col>
-          </v-row>
-        </v-sheet>
-      </v-expand-transition>
-    </div>
+  <div class="match__container">
+    <v-contatner fluid>
+      <schedule-date-list @changeDate="changeDate"></schedule-date-list>
+    </v-contatner>
+    <v-container>
+      <v-row class="fill-height" align="center" justify="center">
+        <v-col cols="12" sm="12" md="12" lg="3">
+          <schedule-info-card
+            :cardInfoLoading="cardInfoLoading"
+            :scheduleName="scheduleName"
+            :scheduleStart="scheduleStart"
+            :scheduleEnd="scheduleEnd"
+            :scheduleStadium="scheduleStadium"
+            :scheduleAddress="scheduleAddress"
+          ></schedule-info-card>
+        </v-col>
+        <v-col cols="12" sm="12" md="12" lg="8">
+          <member-rating-list @isAttend="isAttend"></member-rating-list>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 

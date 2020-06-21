@@ -1,11 +1,5 @@
 <template>
-  <div>
-    <squad-header />
-    <squad-rightDrawer />
-    <squad-date />
-    <squad-quarter />
-    <squad-contents />
-  </div>
+  <div class="squad__container">준비중</div>
 </template>
 
 <script>
