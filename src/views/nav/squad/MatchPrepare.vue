@@ -189,7 +189,7 @@ export default {
         gameForm["away_squad_id"] = awaySquadId;
         gameForm["home_score"] = 0;
         gameForm["away_score"] = 0;
-        gameForm["result"] = "D";
+        gameForm["result"] = "N";
         await this.createGame(gameForm);
       }
 
