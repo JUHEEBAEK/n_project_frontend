@@ -284,7 +284,7 @@ export default {
         name: "matchPrepare",
         params: {
           schedule_id: this.scheduleList[this.scheduleIndex].id,
-          scheduleIndex: this.scheduleIndex,
+          schedule_index: this.scheduleIndex,
           team_split_index: this.teamSplitSelected
         }
       });
