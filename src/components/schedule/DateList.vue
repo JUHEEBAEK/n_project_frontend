@@ -25,7 +25,9 @@
               <v-row class="fill-height" align="center" justify="center">
                 <v-scale-transition>
                   <div>
-                    <p class="date__Mon my-2">{{ item.date | setMomentMonth }}</p>
+                    <p class="date__Mon my-2">
+                      {{ item.date | setMomentMonth }}
+                    </p>
                     <p class="date__day mb-0">{{ item.date.substr(8, 2) }}</p>
                   </div>
                 </v-scale-transition>
@@ -98,6 +100,4 @@ export default {
 };
 </script>
 
-<style lang="scss"
-  src="../../styles/components/schedule/dateList.scss">
-</style>
+<style lang="scss" src="../../styles/components/schedule/dateList.scss"></style>

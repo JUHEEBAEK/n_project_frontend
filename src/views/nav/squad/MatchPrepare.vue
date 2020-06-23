@@ -5,7 +5,9 @@
         <schedule-date-list @changeDate="setScheduleData"></schedule-date-list>
       </v-col>
       <v-col cols="12">
-        <squad-quarter @changeQuarterAndParams="setScheduleData"></squad-quarter>
+        <squad-quarter
+          @changeQuarterAndParams="setScheduleData"
+        ></squad-quarter>
       </v-col>
       <v-col cols="12">
         <squad-team-list></squad-team-list>

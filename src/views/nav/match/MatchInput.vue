@@ -4,7 +4,9 @@
     <v-contatner fluid>
       <schedule-date-list @changeDate="setScheduleData"></schedule-date-list>
       <!-- 쿼터 리스트 영역 -->
-      <squad-quarter @changeQuarterAndParams="changeQuarterAndParams"></squad-quarter>
+      <squad-quarter
+        @changeQuarterAndParams="changeQuarterAndParams"
+      ></squad-quarter>
     </v-contatner>
 
     <!-- 경기 기록 이벤트 타입 설정 부분 -->

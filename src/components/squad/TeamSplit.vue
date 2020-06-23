@@ -3,8 +3,17 @@
     <v-card-actions class="setting__actions">
       <v-list-item>
         <v-list-item-actions class="px-0">
-          <v-btn dark color="primary" outlined large @click="autoTeamSplit">팀나누기</v-btn>
-          <v-btn dark color="blue" @click="INITIALIZE_ATTEND_MEMBER" outlined large>초기화</v-btn>
+          <v-btn dark color="primary" outlined large @click="autoTeamSplit"
+            >팀나누기</v-btn
+          >
+          <v-btn
+            dark
+            color="blue"
+            @click="INITIALIZE_ATTEND_MEMBER"
+            outlined
+            large
+            >초기화</v-btn
+          >
         </v-list-item-actions>
 
         <v-list-item-content></v-list-item-content>
@@ -39,8 +48,15 @@
                           <div
                             v-if="acitve"
                             class="flex-grow-1 text-center list__item white--text"
-                          >{{ item }}</div>
-                          <div v-else class="flex-grow-1 text-center list__item">{{ item }}</div>
+                          >
+                            {{ item }}
+                          </div>
+                          <div
+                            v-else
+                            class="flex-grow-1 text-center list__item"
+                          >
+                            {{ item }}
+                          </div>
                         </v-scroll-y-transition>
                       </v-btn>
                     </v-item>
@@ -51,7 +67,8 @@
                         elevation="0"
                         x-small
                         @click="addTeamCount"
-                      >+</v-btn>
+                        >+</v-btn
+                      >
                     </v-item>
                   </v-item-group>
                 </v-list-item-subtitle>
@@ -89,7 +106,8 @@
           outlined
           :color="colorIndex[n]"
           @click="clickTeam(n)"
-        >{{n}}</v-btn>
+          >{{ n }}</v-btn
+        >
         <v-btn
           v-for="(n, index) in teamJoker"
           :key="index"
@@ -99,14 +117,17 @@
           outlined
           :color="colorIndex[0]"
           @click="clickTeam('J')"
-        >{{n}}</v-btn>
+          >{{ n }}</v-btn
+        >
       </div>
       <div v-if="isJoker">깍두기 있음</div>
     </v-card-text>
     <v-card-text>
       <v-row>
         <v-col>
-          <span v-if="selectedTeam" class="title">{{ selectedTeam }} 팀의 팀원을 선택하시오</span>
+          <span v-if="selectedTeam" class="title"
+            >{{ selectedTeam }} 팀의 팀원을 선택하시오</span
+          >
           <span v-if="selectedJoker" class="title">조커를 선택하시오</span>
         </v-col>
       </v-row>
@@ -121,7 +142,8 @@
             class="chip__member mx-1"
             :color="member.color"
             @click="clickMember(member)"
-          >{{ member.name }}</v-chip>
+            >{{ member.name }}</v-chip
+          >
         </v-col>
       </v-row>
       <v-row>
@@ -225,7 +247,7 @@ export default {
       value.color = this.colorIndex[value.teamNumber];
     },
     removeJocekr: function() {
-      this.attendMember.map(item => {
+      this.attendMember.map((item) => {
         if (item.teamNumber === 0) {
           // teamNumber, color를 초기화
           item.teamNumber = null;
@@ -270,7 +292,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 .attandance__date {
