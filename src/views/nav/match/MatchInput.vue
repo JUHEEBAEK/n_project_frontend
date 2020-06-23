@@ -2,7 +2,10 @@
   <div class="match__container">
     <!-- 스케쥴 리스트 영역 -->
     <v-contatner fluid>
-      <schedule-date-list @changeDate="setScheduleData"></schedule-date-list>
+      <schedule-date-list
+        :scheduleId="schedule_id"
+        @changeDate="setScheduleData"
+      ></schedule-date-list>
       <!-- 쿼터 리스트 영역 -->
       <squad-quarter
         @changeQuarterAndParams="changeQuarterAndParams"
@@ -100,8 +103,6 @@ export default {
     setMonth: moment().format("MMMM"),
     setDay: moment().format("DD"),
     // 쿼터 리스트 영역
-    quarterIndex: null,
-    quarterCount: null,
     buttonClickState: null,
     // 이벤트 기록 영역
     isGoal: true,
@@ -139,35 +140,35 @@ export default {
     }
   },
   async created() {
-    await this.setGameId();
-    await this.selectEventList();
-  },
-  watch: {
-    scheduleIndex: async function(val) {
-      if (val) {
-        let selected_schedule = this.scheduleList[this.scheduleIndex];
-        this.setDateString(selected_schedule);
-        this.scheduleInfo = selected_schedule;
-      }
-    },
-    quarterCount: function() {
-      this.quarterIndex =
-        this.scheduleList[this.scheduleIndex]["quarterCount"] - 1;
-    },
-    "$route.params.quarter": async function(newQuarter, oldQuarter) {
-      this.quarterIndex = newQuarter;
-      await this.setGameId();
-      await this.getHomeAwayMemberList();
-      this.selectEventList();
-    }
+    console.log("MatchInput created", this.schedule_id);
+    this.SET_QAURTER_INDEX(Number(this.quarter));
   },
   methods: {
     ...calendarMapMutations(["SET_SCHEDULE_INDEX"]),
     ...squadActions(["getSplitTeamListWithSchedule"]),
+    ...prepareMatchMutations(["SET_QAURTER_INDEX"]),
     ...prepareMatchActions(["getHomeAwayMember"]),
     ...gameActions(["getGameId", "updateGameScore"]),
     ...gameReportMutations(["SET_HOME_SCORE", "SET_AWAY_SCORE"]),
     ...gameReportActions(["getEventList"]),
+
+    async setScheduleData(selected_schedule) {
+      let changedScheduleId = selected_schedule.id;
+      this.setDateString(selected_schedule);
+
+      this.$router.replace({
+        name: "matchInput",
+        params: {
+          schedule_id: changedScheduleId
+        }
+      });
+      this.initializeGame();
+    },
+    async initializeGame() {
+      await this.setGameId();
+      await this.getHomeAwayMemberList();
+      this.selectEventList();
+    },
     changeQuarterAndParams(item) {
       let changeQuarter = this.extractNumberFromStr(item);
 
@@ -177,9 +178,10 @@ export default {
           quarter: changeQuarter
         }
       });
+      this.initializeGame();
     },
+
     changeUpdateButton: function() {
-      console.log("changeButton");
       this.isUpdate = true;
       this.toggle = !this.toggle;
     },
@@ -226,36 +228,6 @@ export default {
         this.SET_HOME_SCORE(0);
         this.SET_AWAY_SCORE(0);
       }
-    },
-    async setScheduleData(selected_schedule) {
-      if (
-        String(this.$route.params.schedule_id) !==
-        String(this.current_schedule_id)
-      ) {
-        this.$router.replace({
-          name: "matchInput",
-          params: {
-            schedule_id: this.current_schedule_id
-          }
-        });
-      }
-
-      if (this.scheduleIndex == -1) return;
-      await this.getGameId({
-        schedule_id: this.current_schedule_id,
-        quarter: this.currentQuarterNumber
-      });
-
-      if (this.gameInfo) {
-        this.SET_HOME_SCORE(this.gameInfo.home_score);
-        this.SET_AWAY_SCORE(this.gameInfo.away_score);
-      } else {
-        this.SET_HOME_SCORE(0);
-        this.SET_AWAY_SCORE(0);
-      }
-
-      await this.getHomeAwayMemberList();
-      this.selectEventList();
     }
   }
 };

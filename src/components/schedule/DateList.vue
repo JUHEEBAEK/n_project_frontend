@@ -50,6 +50,12 @@ const {
 } = createNamespacedHelpers("calendar");
 
 export default {
+  props: {
+    scheduleId: {
+      type: [String, Number],
+      default: null
+    }
+  },
   filters: {
     setMomentMonth: function(val) {
       return moment(val).format("MMM");
@@ -67,6 +73,9 @@ export default {
     slide_index: {
       get: function() {
         return this.scheduleIndex;
+      },
+      set: function(new_value) {
+        this.SET_SCHEDULE_INDEX(new_value);
       }
     }
   },
@@ -85,11 +94,20 @@ export default {
     // 선택이 안되어 있다면 가장 최신걸 선택
     if (this.scheduleIndex == null)
       this.SET_SCHEDULE_INDEX(this.scheduleList.length - 1);
+
+    if (this.scheduleId)
+      this.slide_index = this.SET_SCHEDULE_INDEX_WITH_SCHEDULE_ID(
+        this.scheduleId
+      );
+
     // 연동 필수
     this.slide_index = this.scheduleIndex;
   },
   methods: {
-    ...calendarMapMutations(["SET_SCHEDULE_INDEX"]),
+    ...calendarMapMutations([
+      "SET_SCHEDULE_INDEX",
+      "SET_SCHEDULE_INDEX_WITH_SCHEDULE_ID"
+    ]),
     ...calendarMapActions(["select_schedule", "load_member"]),
     setDateString(selected_schedule) {
       this.setYear = moment(selected_schedule.date).format("YYYY");
