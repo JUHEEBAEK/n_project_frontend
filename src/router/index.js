@@ -28,7 +28,7 @@ const routes = [{
   {
     path: "/attend",
     name: "attend",
-     component: Attend
+    component: Attend
   },
   {
     path: "/squadView",

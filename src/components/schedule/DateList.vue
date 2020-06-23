@@ -25,7 +25,9 @@
               <v-row class="fill-height" align="center" justify="center">
                 <v-scale-transition>
                   <div>
-                    <p class="date__Mon my-2">{{ item.date | setMomentMonth }}</p>
+                    <p class="date__Mon my-2">
+                      {{ item.date | setMomentMonth }}
+                    </p>
                     <p class="date__day mb-0">{{ item.date.substr(8, 2) }}</p>
                   </div>
                 </v-scale-transition>
@@ -48,6 +50,12 @@ const {
 } = createNamespacedHelpers("calendar");
 
 export default {
+  props: {
+    scheduleId: {
+      type: [String, Number],
+      default: null
+    }
+  },
   filters: {
     setMomentMonth: function(val) {
       return moment(val).format("MMM");
@@ -65,6 +73,9 @@ export default {
     slide_index: {
       get: function() {
         return this.scheduleIndex;
+      },
+      set: function(new_value) {
+        this.SET_SCHEDULE_INDEX(new_value);
       }
     }
   },
@@ -83,11 +94,20 @@ export default {
     // 선택이 안되어 있다면 가장 최신걸 선택
     if (this.scheduleIndex == null)
       this.SET_SCHEDULE_INDEX(this.scheduleList.length - 1);
+
+    if (this.scheduleId)
+      this.slide_index = this.SET_SCHEDULE_INDEX_WITH_SCHEDULE_ID(
+        this.scheduleId
+      );
+
     // 연동 필수
     this.slide_index = this.scheduleIndex;
   },
   methods: {
-    ...calendarMapMutations(["SET_SCHEDULE_INDEX"]),
+    ...calendarMapMutations([
+      "SET_SCHEDULE_INDEX",
+      "SET_SCHEDULE_INDEX_WITH_SCHEDULE_ID"
+    ]),
     ...calendarMapActions(["select_schedule", "load_member"]),
     setDateString(selected_schedule) {
       this.setYear = moment(selected_schedule.date).format("YYYY");
@@ -98,6 +118,4 @@ export default {
 };
 </script>
 
-<style lang="scss"
-  src="../../styles/components/schedule/dateList.scss">
-</style>
+<style lang="scss" src="../../styles/components/schedule/dateList.scss"></style>

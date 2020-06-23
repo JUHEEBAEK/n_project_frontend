@@ -5,7 +5,9 @@
         <schedule-date-list @changeDate="setScheduleData"></schedule-date-list>
       </v-col>
       <v-col cols="12">
-        <squad-quarter @changeQuarterAndParams="setScheduleData"></squad-quarter>
+        <squad-quarter
+          @changeQuarterAndParams="setScheduleData"
+        ></squad-quarter>
       </v-col>
       <v-col cols="12">
         <squad-team-list></squad-team-list>
@@ -56,13 +58,14 @@ export default {
       "awayMembers"
     ]),
     ...prepareMatchGetters(["currentQuarterString", "currentQuarterNumber"]),
+    ...calendarMapState(["scheduleIndex"]),
     ...calendarMapGetters(["current_schedule_id"])
   },
   async created() {
     await this.select_schedule();
     let params = this.$route.params;
     if (Object.keys(params).length) {
-      this.SET_SCHEDULE_INDEX(params["scheduleIndex"]);
+      this.SET_SCHEDULE_INDEX(params["schedule_index"]);
       this.setSelectedSplitedTeam(params["team_split_index"]);
     } else {
       this.CHOOSE_LATEST_SCHEDULE();
