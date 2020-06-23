@@ -72,7 +72,7 @@ const mutations = {
   [constants.setAwayTeam]: set("awayTeam"),
   [constants.setIsHome]: set("isHome"),
   [constants.setType]: set("selectType"),
-  [constants.quarterIndex]: set("quarterIndex"),
+  [constants.setQuarterIndex]: set("quarterIndex"),
   SET_SPLIT_TEAM_LIST(state, splitTeam) {
     state.splitTeamList = {}
     for (let team_split_index in splitTeam) {
