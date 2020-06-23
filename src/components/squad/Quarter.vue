@@ -45,7 +45,7 @@ export default {
         return this.quarterIndex;
       },
       set: function(new_value) {
-        this.QAURTER_INDEX(new_value);
+        this.SET_QAURTER_INDEX(new_value);
       }
     }
   },
@@ -53,14 +53,14 @@ export default {
     // 지금 params로 쿼터 버튼을 누르게 한다.
     let params = this.$route.params;
     if (params.quarter) {
-      this.QAURTER_INDEX(params.quarter - 1);
+      this.SET_QAURTER_INDEX(params.quarter - 1);
     } else {
-      this.QAURTER_INDEX(0);
+      this.SET_QAURTER_INDEX(0);
     }
   },
 
   methods: {
-    ...mapMutations(["SET_DATE", "QAURTER_INDEX"]),
+    ...mapMutations(["SET_DATE", "SET_QAURTER_INDEX"]),
     clickOtherQuarter: function(item) {
       this.$emit("changeQuarterAndParams", item);
     }
