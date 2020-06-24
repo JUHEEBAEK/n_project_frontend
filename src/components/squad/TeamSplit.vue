@@ -285,7 +285,8 @@ export default {
         params: {
           schedule_id: this.scheduleList[this.scheduleIndex].id,
           schedule_index: this.scheduleIndex,
-          team_split_index: this.teamSplitSelected
+          team_split_index: this.teamSplitSelected,
+          quarter: 1
         }
       });
     }

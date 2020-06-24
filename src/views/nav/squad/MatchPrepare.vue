@@ -2,7 +2,10 @@
   <v-container class="match__container" fluid>
     <v-row class justify="center">
       <v-col cols="12">
-        <schedule-date-list @changeDate="setScheduleData"></schedule-date-list>
+        <schedule-date-list
+          :scheduleId="schedule_id"
+          @changeDate="setScheduleData"
+        ></schedule-date-list>
       </v-col>
       <v-col cols="12">
         <squad-quarter
@@ -46,6 +49,16 @@ const {
 } = createNamespacedHelpers("prepareMatch");
 
 export default {
+  props: {
+    schedule_id: {
+      type: [String, Number],
+      default: null
+    },
+    quarter: {
+      type: [String, Number],
+      default: null
+    }
+  },
   data: () => ({
     members: null
   }),
@@ -55,26 +68,21 @@ export default {
       "homeTeam",
       "awayTeam",
       "homeMembers",
-      "awayMembers"
+      "awayMembers",
+      "quarterIndex"
     ]),
     ...prepareMatchGetters(["currentQuarterString", "currentQuarterNumber"]),
     ...calendarMapState(["scheduleIndex"]),
     ...calendarMapGetters(["current_schedule_id"])
   },
   async created() {
-    await this.select_schedule();
-    let params = this.$route.params;
-    if (Object.keys(params).length) {
-      this.SET_SCHEDULE_INDEX(params["schedule_index"]);
-      this.setSelectedSplitedTeam(params["team_split_index"]);
-    } else {
-      this.CHOOSE_LATEST_SCHEDULE();
-    }
+    this.SET_QAURTER_INDEX(Number(this.quarter) - 1);
   },
   methods: {
     ...squadActions(["getSplitTeamListWithSchedule"]),
     ...calendarMapActions(["select_schedule", "load_member"]),
     ...calendarMapMutations(["CHOOSE_LATEST_SCHEDULE", "SET_SCHEDULE_INDEX"]),
+    ...prepareMatchMutations(["SET_QAURTER_INDEX"]),
     ...prepareMatchActions([
       "setSplitTeamList",
       "setSummarySplitTeamList",
@@ -206,6 +214,13 @@ export default {
     },
     async setScheduleData() {
       if (this.scheduleIndex == -1) return;
+      this.$router.replace({
+        name: "matchPrepare",
+        params: {
+          schedule_id: this.current_schedule_id,
+          quarter: this.currentQuarterNumber
+        }
+      });
 
       // db에서 불러오는 부분
       await this.getSplitTeamListWithSchedule(this.current_schedule_id);

@@ -71,10 +71,15 @@ const routes = [{
     component: Squad
   },
   {
-    path: "/matchPrepare",
+    path: "/matchPrepare/schedule/:schedule_id/quarter/:quarter",
     name: "matchPrepare",
     component: MatchPrepare,
     props: true
+  },
+  {
+    path: "/matchPrepare",
+    name: "matchPrepareBasic",
+    component: MatchPrepare,
   },
   {
     path: "/matchInput/schedule/:schedule_id/quarter/:quarter",
