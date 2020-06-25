@@ -98,8 +98,6 @@ export default {
     addJockerTeam: function() {
       this.ADD_HOME_JOCKER(this.jocker);
       this.ADD_AWAY_JOCKER(this.jocker);
-      console.log("home", this.homeTeam);
-      console.log("away", this.awayTeam);
     },
     async save() {
       if (!this.homeTeam) {
