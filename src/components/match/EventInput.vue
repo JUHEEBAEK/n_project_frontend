@@ -8,12 +8,14 @@
       <v-card-text class="home__content">
         <v-row justify="center">
           <v-col v-for="player in homeMembers" :key="player" cols="4" align-self="center">
-            <v-btn
-              rounded
-              small
-              color="lime lighten-2"
-              @click="clickPlayer(player, 'H')"
-            >{{ player.name }}</v-btn>
+            <div>
+              <v-btn
+                rounded
+                small
+                :color="player.position !== 'JK' ? 'lime lighten-2' : 'light blue lighten-2'"
+                @click="clickPlayer(player, 'H')"
+              >{{ player.name }}</v-btn>
+            </div>
           </v-col>
         </v-row>
       </v-card-text>
@@ -64,7 +66,7 @@
             <v-btn
               rounded
               small
-              color="lime lighten-2"
+              :color="player.position !== 'JK' ? 'lime lighten-2' : 'light blue lighten-2'"
               @click="clickPlayer(player, 'A')"
             >{{ player.name }}</v-btn>
           </v-col>

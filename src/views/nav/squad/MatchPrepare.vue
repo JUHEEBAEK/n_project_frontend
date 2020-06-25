@@ -2,15 +2,10 @@
   <v-container class="match__container" fluid>
     <v-row class justify="center">
       <v-col cols="12">
-        <schedule-date-list
-          :scheduleId="schedule_id"
-          @changeDate="setScheduleData"
-        ></schedule-date-list>
+        <schedule-date-list :scheduleId="schedule_id" @changeDate="setScheduleData"></schedule-date-list>
       </v-col>
       <v-col cols="12">
-        <squad-quarter
-          @changeQuarterAndParams="setScheduleData"
-        ></squad-quarter>
+        <squad-quarter @changeQuarterAndParams="setScheduleData"></squad-quarter>
       </v-col>
       <v-col cols="12">
         <squad-team-list></squad-team-list>
@@ -67,6 +62,7 @@ export default {
       "selectedSplitedTeam",
       "homeTeam",
       "awayTeam",
+      "jocker",
       "homeMembers",
       "awayMembers",
       "quarterIndex"
@@ -82,7 +78,11 @@ export default {
     ...squadActions(["getSplitTeamListWithSchedule"]),
     ...calendarMapActions(["select_schedule", "load_member"]),
     ...calendarMapMutations(["CHOOSE_LATEST_SCHEDULE", "SET_SCHEDULE_INDEX"]),
-    ...prepareMatchMutations(["SET_QAURTER_INDEX"]),
+    ...prepareMatchMutations([
+      "SET_QAURTER_INDEX",
+      "ADD_HOME_JOCKER",
+      "ADD_AWAY_JOCKER"
+    ]),
     ...prepareMatchActions([
       "setSplitTeamList",
       "setSummarySplitTeamList",
@@ -95,6 +95,12 @@ export default {
       "setSelectedSplitedTeam",
       "getHomeAwayMember"
     ]),
+    addJockerTeam: function() {
+      this.ADD_HOME_JOCKER(this.jocker);
+      this.ADD_AWAY_JOCKER(this.jocker);
+      console.log("home", this.homeTeam);
+      console.log("away", this.awayTeam);
+    },
     async save() {
       if (!this.homeTeam) {
         return;
@@ -110,6 +116,8 @@ export default {
       formSearchGame["schedule_id"] = this.current_schedule_id;
       formSearchGame["quarter"] = this.currentQuarterNumber;
       let searchedGame = await this.checkGameAlreadyExist(formSearchGame);
+
+      this.addJockerTeam();
 
       // 해당 스케쥴, 쿼터에 해당하는 게임이 있는지 확인 Action
       if (searchedGame) {
@@ -203,7 +211,6 @@ export default {
         gameForm["result"] = "N";
         await this.createGame(gameForm);
       }
-
       this.$router.push({
         name: "matchInput",
         params: {
