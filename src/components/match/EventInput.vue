@@ -178,12 +178,14 @@ export default {
       "SUBTRACT_HOME_SCORE",
       "SUBTRACT_AWAY_SCORE"
     ]),
+    ...gameActions(["updateGameScore"]),
     addGameScore: function(eventInfo) {
       if (eventInfo.team_type === "H") {
         this.ADD_HOME_SCORE(1);
       } else if (eventInfo.team_type === "A") {
         this.ADD_AWAY_SCORE(1);
       }
+      this.updateGameInfo();
     },
     subtractGameScore: function(eventInfo) {
       if (eventInfo.team_type === "H") {
@@ -191,6 +193,7 @@ export default {
       } else if (eventInfo.team_type === "A") {
         this.SUBTRACT_HOME_SCORE(1);
       }
+      this.updateGameInfo();
     },
     clickPlayer: function(val, type) {
       if (this.teamType !== null && this.teamType !== type) {
@@ -225,7 +228,6 @@ export default {
       if (this.isUpdate) {
         await this.clickUpdateButton(event);
       } else {
-        console.log("save");
         await this.clickSaveButton(event);
       }
 
@@ -235,7 +237,6 @@ export default {
       this.$emit("selectEventList");
     },
     clickSaveButton: async function(event) {
-      console.log("clickSave", event);
       event.game_id = this.gameInfo.id;
       // 경기 기록 추가 actions
       let addGameEventresult = await this.addGameEvent(event);
@@ -298,6 +299,30 @@ export default {
     },
     setLastEvent: function(firstType) {
       return matchValue.event_type[firstType];
+    },
+    updateGameInfo: function() {
+      let gameResult = this.setGameResult();
+      let body = {
+        game_id: this.gameInfo.id,
+        game: {
+          quarter: this.gameInfo.quarter,
+          away_score: this.awayScore,
+          home_score: this.homeScore,
+          result: gameResult
+        }
+      };
+      this.updateGameScore(body);
+      this.$emit("setGameId");
+    },
+    setGameResult() {
+      let caculateScore = this.homeScore - this.away_score;
+      if (caculateScore > 0) {
+        return "H";
+      } else if (caculateScore < 0) {
+        return "A";
+      } else {
+        return "D";
+      }
     }
   }
 };
