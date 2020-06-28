@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ranking-filter />
+    <ranking-filter @filterChanged="filterRanking"/>
     <v-card color="basil">
       <v-card-title class="text-center justify-center py-6">
         <h1 class="font-weight-bold display-3 basil--text">NNNN Ranking</h1>
@@ -52,6 +52,12 @@ export default {
       "get_assist_ranking_filter",
       "get_clean_sheet_ranking_filter",
     ]),
+    filterRanking(filter){
+      console.log("filterRanking", filter)
+      this.get_goal_ranking_filter(filter)
+      this.get_assist_ranking_filter(filter)
+      this.get_clean_sheet_ranking_filter(filter)
+    }
   }
 };
 </script>

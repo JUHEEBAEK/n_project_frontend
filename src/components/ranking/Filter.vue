@@ -24,8 +24,9 @@
               <v-radio
                 v-for="(contest, index) in contests"
                 :key="`contest-${index}`"
-                :label="contest"
-                :value="contest"
+                :label="contest.label"
+                :value="contest.value"
+                @change="handleChangeEvent('contest', contest.value)"
               ></v-radio>
             </v-radio-group>
           </div>
@@ -36,8 +37,9 @@
               <v-radio
                 v-for="(year, index) in years"
                 :key="`year-${index}`"
-                :label="year"
-                :value="year"
+                :label="year.label"
+                :value="year.value"
+                @change="handleChangeEvent('year', year.value)"
               ></v-radio>
             </v-radio-group>
           </div>
@@ -48,8 +50,9 @@
               <v-radio
                 v-for="(month, index) in months"
                 :key="`month-${index}`"
-                :label="month"
-                :value="month"
+                :label="month.label"
+                :value="month.value"
+                @change="handleChangeEvent('month', month.value)"
               ></v-radio>
             </v-radio-group>
           </div>
@@ -69,16 +72,48 @@ export default {
     },
     data () {
       return {
-        contests: ["대회", "친선"],
-        years: ["전체", 2018, 2019, 2020],
-        months: ["전체", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        contests: [{label:"대회", value:'C'}, {label:"친선", value:'M'}, {label:"훈련", value:'T'}, {label:"리그 경기", value:'L'}],
+        years: [{label:"전체", value: 0},
+                {label:"2018", value: 2018},
+                {label:"2019", value: 2019},
+                {label:"2020", value: 2020}],
+        months: [{label:"전체", value: "0"}, 
+                 {label:"1", value: "01"},
+                 {label:"2", value: "02"},
+                 {label:"3", value: "03"},
+                 {label:"4", value: "04"},
+                 {label:"5", value: "05"},
+                 {label:"6", value: "06"},
+                 {label:"7", value: "07"},
+                 {label:"8", value: "08"},
+                 {label:"9", value: "09"},
+                 {label:"10", value: "10"},
+                 {label:"11", value: "11"},
+                 {label:"12", value: "12"},
+                 ],
 
-        selectedContest: "대회",
-        selectedYear: "전체",
-        selectedMonth: "전체"
+        selectedContest: 'T',
+        selectedYear: 2000,
+        selectedMonth: 0,
+        current_filters:{
+          contest:'T',
+          year:2000,
+          month:0,
+        }
       }
     },
+    computed: {
+    },
     mounted() {
+      
+    },
+    methods: {
+      handleChangeEvent(type, value){
+        console.log("handleChangeEvent", type, value)
+        this.current_filters[type] = value
+        console.log(this.current_filters)
+        this.$emit("filterChanged", this.current_filters)
+      },
     },
 }
 </script>
