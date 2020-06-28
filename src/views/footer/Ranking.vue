@@ -47,8 +47,11 @@ export default {
     ...rankingMapActions([
       "get_goal_ranking",
       "get_assist_ranking",
-      "get_clean_sheet_ranking"
-    ])
+      "get_clean_sheet_ranking",
+      "get_goal_ranking_filter",
+      "get_assist_ranking_filter",
+      "get_clean_sheet_ranking_filter",
+    ]),
   }
 };
 </script>
