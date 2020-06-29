@@ -217,8 +217,8 @@ export default {
     },
     setGameId: async function() {
       let scheduleQuarter = {
-        schedule_id: this.schedule_id,
-        quarter: this.quarter
+        schedule_id: this.current_schedule_id,
+        quarter: this.currentQuarterNumber
       };
       await this.getGameId(scheduleQuarter);
       if (this.gameInfo) {
