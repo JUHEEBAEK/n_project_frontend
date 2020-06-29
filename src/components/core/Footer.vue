@@ -10,33 +10,14 @@
 </template>
 
 <script>
+import CoreValueItem from "../../assets/value/CoreValueItem.json";
+
 export default {
   name: "Footer.vue",
 
   data: () => ({
     bottomNav: "CALENDAR",
-    items: [
-      {
-        title: "ATTEND",
-        to: "/attend",
-        icon: "046-calendar.png"
-      },
-      {
-        title: "SQUAD",
-        to: "/squadView",
-        icon: "003-tshirt.png"
-      },
-      {
-        title: "REPORT",
-        to: "",
-        icon: "037-scoreboard.png"
-      },
-      {
-        title: "RANKING",
-        to: "/ranking",
-        icon: "006-podium.png"
-      }
-    ]
+    items: CoreValueItem.footerItems
   })
 };
 </script>

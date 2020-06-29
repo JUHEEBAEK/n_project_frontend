@@ -16,6 +16,9 @@ export default {
     ...mapGetters("common", {
       fullScreen: "fullScreen"
     })
+  },
+  created() {
+    console.log(this);
   }
 };
 </script>
