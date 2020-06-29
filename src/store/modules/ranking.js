@@ -107,7 +107,7 @@ const actions = {
     },
     async get_assist_ranking_filter(context, condition){
         try {
-            const response = await getAssistRanking(condition);
+            const response = await getAssistRankingFilter(condition);
             context.commit("SET_ASSIST_RANKING_DATA", response.data);
             return response.data;
         } catch (e) {
@@ -116,7 +116,7 @@ const actions = {
     },
     async get_clean_sheet_ranking_filter(context, condition){
         try {
-            const response = await getCleanSheetRanking(condition);
+            const response = await getCleanSheetRankingFilter(condition);
             context.commit("SET_CLEAN_SHEET_RANKING_DATA", response.data);
             return response.data;
         } catch (e) {

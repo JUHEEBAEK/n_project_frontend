@@ -72,7 +72,7 @@ export default {
     },
     data () {
       return {
-        contests: [{label:"대회", value:'C'}, {label:"친선", value:'M'}, {label:"훈련", value:'T'}, {label:"리그 경기", value:'L'}],
+        contests: [{label:"자체경기", value:'P'}, {label:"대회", value:'C'}, {label:"친선", value:'M'}, {label:"훈련", value:'T'}, {label:"리그 경기", value:'L'}],
         years: [{label:"전체", value: 0},
                 {label:"2018", value: 2018},
                 {label:"2019", value: 2019},
@@ -92,13 +92,13 @@ export default {
                  {label:"12", value: "12"},
                  ],
 
-        selectedContest: 'T',
-        selectedYear: 2000,
-        selectedMonth: 0,
+        selectedContest: 'P',
+        selectedYear: 0,
+        selectedMonth: "0",
         current_filters:{
           contest:'T',
-          year:2000,
-          month:0,
+          year:0,
+          month:"0",
         }
       }
     },
