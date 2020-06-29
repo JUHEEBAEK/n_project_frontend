@@ -1,5 +1,8 @@
 <template>
-  <div>gameReport</div>
+  <div>
+    gameReport
+    <report-position-view></report-position-view>
+  </div>
 </template>
 
 <script>

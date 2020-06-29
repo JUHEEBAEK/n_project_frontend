@@ -30,10 +30,5 @@ export default {
 };
 </script>
 
-<style scoped>
-.alert__container {
-  position: absolute;
-  left: 50%;
-  z-index: 1;
-}
-</style>
+<style scoped></style>
+

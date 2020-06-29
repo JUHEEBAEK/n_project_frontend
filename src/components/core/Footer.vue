@@ -22,10 +22,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.footer__img {
-  flex: 0.4 0 auto;
-  width: 24px;
-  height: 24px;
-}
-</style>
+<style scoped lang="scss" src="../../styles/components/core/footer.scss"></style>

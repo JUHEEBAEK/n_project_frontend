@@ -30,8 +30,5 @@ export default {
 };
 </script>
 
-<style scoped>
-.v-application a {
-  color: #fff;
-}
-</style>
+<style scoped></style>
+
