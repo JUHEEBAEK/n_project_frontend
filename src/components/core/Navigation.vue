@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import CoreValueItem from "../../assets/value/CoreValueItem.json";
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: commonMapState,
@@ -34,33 +35,7 @@ const {
 
 export default {
   data: () => ({
-    items: [
-      {
-        title: "TEAM",
-        to: "/team",
-        icon: "fsnnnn_emblem_official2.png"
-      },
-      {
-        title: "MEMBER",
-        to: "/member",
-        icon: "team.png"
-      },
-      {
-        title: "CALENDAR",
-        to: "/calendar",
-        icon: "deadline.png"
-      },
-      {
-        title: "SQUAD",
-        to: "/squad",
-        icon: "003-tshirt.png"
-      },
-      {
-        title: "MATCH PREPARE",
-        to: "/matchPrepare",
-        icon: "soccer.png"
-      }
-    ]
+    items: CoreValueItem.navigationItems
   }),
   computed: {
     ...commonMapState(["drawer"]),
@@ -80,13 +55,6 @@ export default {
   }
 };
 </script>
-<style scoped>
-a {
-  text-decoration: none !important;
-  color: #000 !important;
-}
 
-.v-list-item--link:before {
-  background-color: #fff;
-}
-</style>
+<style scoped></style>
+

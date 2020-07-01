@@ -1,7 +1,46 @@
 {
-  "list": ["LW", "FW", "RW", "LCM", "CM", "RCM", "LCB", "CB", "RCB", "", "GK", ""],
-  "homeList": ["", "GK", "", "LCB", "CB", "RCB", "LCM", "CM", "RCM", "LW", "FW", "RW"],
-  "awayList": ["LW", "FW", "RW", "LCM", "CM", "RCM", "LCB", "CB", "RCB", "", "GK", ""],
+  "list": [
+    "LW",
+    "FW",
+    "RW",
+    "LCM",
+    "CM",
+    "RCM",
+    "LCB",
+    "CB",
+    "RCB",
+    "",
+    "GK",
+    ""
+  ],
+  "homeList": [
+    "",
+    "GK",
+    "",
+    "LCB",
+    "CB",
+    "RCB",
+    "LCM",
+    "CM",
+    "RCM",
+    "LW",
+    "FW",
+    "RW"
+  ],
+  "awayList": [
+    "LW",
+    "FW",
+    "RW",
+    "LCM",
+    "CM",
+    "RCM",
+    "LCB",
+    "CB",
+    "RCB",
+    "",
+    "GK",
+    ""
+  ],
   "benchList": ["bench1", "bench2", "bench3"],
   "basicPostion": {
     "Home": {
@@ -36,6 +75,15 @@
     }
   },
   "homePosition": {
-
+    "goalkeeper": ["", "GK", ""],
+    "defenders": ["LB", "CB", "RB"],
+    "midfielders": ["LCM", "CM", "RCM"],
+    "forwards": ["LW", "FW", "RW"]
+  },
+  "awayPosition": {
+    "forwards": ["LW", "FW", "RW"],
+    "midfielders": ["LCM", "CM", "RCM"],
+    "defenders": ["LB", "CB", "RB"],
+    "goalkeeper": ["", "GK", ""]
   }
 }
