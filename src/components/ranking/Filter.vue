@@ -20,15 +20,13 @@
       <v-row>
         <v-col>
           <div class="selectBody">
-            <v-radio-group v-model="selectedContest">
-              <v-radio
-                v-for="(contest, index) in contests"
-                :key="`contest-${index}`"
-                :label="contest.label"
-                :value="contest.value"
-                @change="handleChangeEvent('contest', contest.value)"
-              ></v-radio>
-            </v-radio-group>
+            <v-checkbox 
+              v-for="(contest, index) in contests"
+              :key="`contest-${index}`"
+              :label="contest.label"
+              :value="contest.value"
+              v-model="selectedContest"
+            />
           </div>
         </v-col>
         <v-col>
@@ -39,7 +37,6 @@
                 :key="`year-${index}`"
                 :label="year.label"
                 :value="year.value"
-                @change="handleChangeEvent('year', year.value)"
               ></v-radio>
             </v-radio-group>
           </div>
@@ -52,7 +49,6 @@
                 :key="`month-${index}`"
                 :label="month.label"
                 :value="month.value"
-                @change="handleChangeEvent('month', month.value)"
               ></v-radio>
             </v-radio-group>
           </div>
@@ -92,14 +88,9 @@ export default {
                  {label:"12", value: "12"},
                  ],
 
-        selectedContest: 'P',
+        selectedContest: ['P'],
         selectedYear: 0,
-        selectedMonth: "0",
-        current_filters:{
-          contest:'T',
-          year:0,
-          month:"0",
-        }
+        selectedMonth: "0"
       }
     },
     computed: {
@@ -107,13 +98,27 @@ export default {
     mounted() {
       
     },
-    methods: {
-      handleChangeEvent(type, value){
-        console.log("handleChangeEvent", type, value)
-        this.current_filters[type] = value
-        console.log(this.current_filters)
-        this.$emit("filterChanged", this.current_filters)
+    watch: {
+      selectedContest(value){
+        this.emitEvent()
       },
+      selectedYear(value){
+        this.emitEvent()
+      },
+      selectedMonth(value){
+        this.emitEvent()
+      },
+    },
+    methods: {
+      emitEvent(){
+        let current_filters = {
+          contest: this.selectedContest,
+          year: this.selectedYear,
+          month: this.selectedMonth,
+        }
+        this.$emit("filterChanged", current_filters)
+      },
+      
     },
 }
 </script>
