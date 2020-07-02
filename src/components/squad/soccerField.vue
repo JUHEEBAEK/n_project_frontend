@@ -1,20 +1,88 @@
 <template>
   <div>
-    <section class="pitch">
-      <div class="field left">
-        <div class="penalty-area"></div>
-      </div>
-      <div class="field right">
-        <div class="penalty-area"></div>
-      </div>
-      <div class="center-circle"></div>
-    </section>
+    <v-container class="pitch__container">
+      <v-row
+        justify="space-around"
+        v-for="groupLine in positionLabel"
+        :key="groupLine"
+        :class="`group__${groupLine}`"
+      >
+        <v-col cols="4" class="position__area" v-for="item in groupLine" :key="item">
+          <div class="position__container">
+            <div class="position__label">{{ item }}</div>
+            <div class="position__content">
+              <v-btn small v-if="position[item]" fab depressed>{{ position[item] }}</v-btn>
+            </div>
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    positionLabel: {
+      type: Object,
+      default: {}
+    }
+  },
+  data: () => ({
+    position: {
+      GK: "",
+      LB: "",
+      CB: "",
+      RB: "",
+      LCM: "",
+      CM: "",
+      RCM: "",
+      LW: "",
+      FW: "",
+      RW: ""
+    }
+  }),
+  created() {
+    this.setPositionMember();
+  },
+  methods: {
+    setPositionMember: function() {
+      this.position.GK = "이종은";
+      this.position.CB = "이화인";
+      this.position.LW = "박채민";
+      this.position.RW = "이지윤";
+      this.position.CM = "백주희";
+    }
+  }
+};
 </script>
 
-<style>
+<style lang="scss">
+.pitch__container {
+  width: 100%;
+  background-color: #deeade;
+  padding: 0;
+  .position__midfilder {
+    border-top: solid 1px white;
+  }
+
+  .position__area {
+    padding: 5px 0;
+    min-height: 70px;
+    max-width: 100px;
+    align-self: center;
+    &.position__gk {
+      border: solid 1px white;
+      border-top: none;
+    }
+    .position__label {
+      font-weight: 700;
+      font-size: 16px;
+      color: #003819;
+    }
+    .position__content {
+      line-height: 80px;
+    }
+  }
+}
 </style>

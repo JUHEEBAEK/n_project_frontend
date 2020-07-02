@@ -1,0 +1,26 @@
+.report__content {
+  border: solid 20px white;
+  background-color: #d8b4b4;
+  // background-color: #065728;
+  min-height: 200px;
+}
+
+.event__time-text {
+  color: #d25f5f;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.event__type-text {
+  color: white;
+  font-weight: 800;
+  font-size: 1.8rem;
+  margin-bottom: 12px;
+}
+
+.event__subType-text {
+  color: white;
+  font-weight: 800;
+  font-size: 1.0rem;
+  margin-bottom: 12px;
+}

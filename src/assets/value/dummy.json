@@ -1,6 +1,5 @@
 {
-  "scheduleList": [
-    {
+  "scheduleList": [{
       "id": 1,
       "date": "2018-01-06",
       "type": "P",
@@ -10,8 +9,7 @@
       "stadium_id": 10,
       "stadium_name": "풀굿 FC 풋살장(봉천)",
       "address": "서울 관악구 은천로 86 두산아파트",
-      "attend_list": [
-        {
+      "attend_list": [{
           "name": "이화인",
           "id": 1
         },
@@ -71,8 +69,7 @@
       "stadium_id": 2,
       "stadium_name": "잠실 제 2구장",
       "address": "서울 송파구 올림픽로 25 잠실종합운동장 제2풋살장",
-      "attend_list": [
-        {
+      "attend_list": [{
           "name": "이화인",
           "id": 1
         },
@@ -116,8 +113,7 @@
       "stadium_id": 3,
       "stadium_name": "잠실 제 3구장",
       "address": "서울 송파구 올림픽로 25 잠실종합운동장 제3풋살장",
-      "attend_list": [
-        {
+      "attend_list": [{
           "name": "이화인",
           "id": 1
         },
@@ -165,8 +161,7 @@
       "stadium_id": 10,
       "stadium_name": "풀굿 FC 풋살장(봉천)",
       "address": "서울 관악구 은천로 86 두산아파트",
-      "attend_list": [
-        {
+      "attend_list": [{
           "name": "이화인",
           "id": 1
         },
@@ -206,8 +201,7 @@
       "stadium_id": 8,
       "stadium_name": "로꼬아레나(구디)",
       "address": "서울 영등포구 시흥대로 675 삼성YJ그랜드빌딩 지하1층",
-      "attend_list": [
-        {
+      "attend_list": [{
           "name": "이화인",
           "id": 1,
           "color": "grey",
@@ -258,8 +252,7 @@
       ]
     }
   ],
-  "match_homeTeam": [
-    {
+  "match_homeTeam": [{
       "name": "이화인",
       "id": 1,
       "position": null,
@@ -324,8 +317,7 @@
   "firstDivideTeam": {
     "1": {
       "teamNumber": "1",
-      "members": [
-        {
+      "members": [{
           "name": "이화인",
           "id": 1,
           "position": null
@@ -359,8 +351,7 @@
     },
     "2": {
       "teamNumber": "2",
-      "members": [
-        {
+      "members": [{
           "name": "조명선",
           "id": 3,
           "position": null,
@@ -400,8 +391,7 @@
     },
     "3": {
       "teamNumber": "3",
-      "members": [
-        {
+      "members": [{
           "name": "남영은",
           "id": 17,
           "position": null
@@ -446,8 +436,7 @@
       ]
     }
   },
-  "teamList": [
-    {
+  "teamList": [{
       "id": "1",
       "date": "2020-04-05",
       "number": 1,
@@ -498,8 +487,7 @@
     }
   ],
 
-  "MatchInput_scheduleList": [
-    {
+  "MatchInput_scheduleList": [{
       "id": 1,
       "date": "2018-01-07",
       "type": "P",
@@ -548,8 +536,7 @@
       "quarterCount": 3
     }
   ],
-  "homeTeamPlayers": [
-    {
+  "homeTeamPlayers": [{
       "name": "이화인",
       "member_id": 1,
       "position": null,
@@ -586,8 +573,7 @@
       "team": "H"
     }
   ],
-  "awayTeamPlayers": [
-    {
+  "awayTeamPlayers": [{
       "name": "조명선",
       "member_id": 3,
       "position": null,
@@ -624,9 +610,9 @@
       "team": "A"
     }
   ],
-  "gameEventList": [
-    {
+  "gameEventList": [{
       "event_id": 1,
+      "event_time": "02:15",
       "team_type": "H",
       "event_type": "Goal",
       "firstPlayer": "백주희",
@@ -634,24 +620,35 @@
     },
     {
       "event_id": 2,
+      "event_time": "05:15",
       "team_type": "A",
-      "event_type": "Change",
+      "event_type": "Out",
       "firstPlayer": "류새아라",
       "lastPlayer": "이종은"
     },
     {
       "event_id": 3,
+      "event_time": "05:41",
       "team_type": "A",
-      "event_type": "Goal",
+      "event_type": "K.O",
       "firstPlayer": "이종은",
-      "lastPlayer": "김나경"
+      "lastPlayer": "박아린"
     },
     {
       "event_id": 4,
+      "event_time": "08:59",
       "team_type": "H",
       "event_type": "Goal",
       "firstPlayer": "이화인",
       "lastPlayer": "백주희"
+    },
+    {
+      "event_id": 5,
+      "event_time": "09:23",
+      "team_type": "H",
+      "event_type": "Goal",
+      "firstPlayer": "이화인",
+      "lastPlayer": ""
     }
   ]
 }

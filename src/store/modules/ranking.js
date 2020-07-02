@@ -1,7 +1,10 @@
 import {
     getGoalRanking,
+    getGoalRankingFilter,
     getAssistRanking,
+    getAssistRankingFilter,
     getCleanSheetRanking,
+    getCleanSheetRankingFilter,
 } from "../../api/ranking.js";
 
 const state = {
@@ -93,7 +96,33 @@ const actions = {
             console.log(e);
         }
     },
-
+    async get_goal_ranking_filter(context, condition){
+      try {
+          const response = await getGoalRankingFilter(condition);
+          context.commit("SET_GOAL_RANKING_DATA", response.data);
+          return response.data;
+      } catch (e) {
+          console.log(e);
+      }
+    },
+    async get_assist_ranking_filter(context, condition){
+        try {
+            const response = await getAssistRankingFilter(condition);
+            context.commit("SET_ASSIST_RANKING_DATA", response.data);
+            return response.data;
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    async get_clean_sheet_ranking_filter(context, condition){
+        try {
+            const response = await getCleanSheetRankingFilter(condition);
+            context.commit("SET_CLEAN_SHEET_RANKING_DATA", response.data);
+            return response.data;
+        } catch (e) {
+            console.log(e);
+        }
+    },
 }
 
 export default {
