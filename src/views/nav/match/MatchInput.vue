@@ -2,14 +2,9 @@
   <div class="match__container">
     <!-- 스케쥴 리스트 영역 -->
     <v-contatner fluid>
-      <schedule-date-list
-        :scheduleId="schedule_id"
-        @changeDate="setScheduleData"
-      ></schedule-date-list>
+      <schedule-date-list :scheduleId="schedule_id" @changeDate="setScheduleData"></schedule-date-list>
       <!-- 쿼터 리스트 영역 -->
-      <squad-quarter
-        @changeQuarterAndParams="changeQuarterAndParams"
-      ></squad-quarter>
+      <squad-quarter @changeQuarterAndParams="changeQuarterAndParams"></squad-quarter>
     </v-contatner>
 
     <!-- 경기 기록 이벤트 타입 설정 부분 -->
@@ -21,6 +16,7 @@
           :isUpdate="isUpdate"
           :toggle="toggle"
           @setGameReport="setGameReport"
+          @setGameId="setGameId"
           @initSaveButton="initSaveButton"
           @getHomeAwayMemberList="getHomeAwayMemberList"
           @selectEventList="selectEventList"
@@ -31,11 +27,11 @@
           @changeUpdateButton="changeUpdateButton"
         ></match-event-list>
       </v-row>
-      <v-row>
+      <!-- <v-row>
         <v-col>
           <v-btn @click="saveGame" color="primary">저장</v-btn>
         </v-col>
-      </v-row>
+      </v-row>-->
     </v-container>
   </div>
 </template>
@@ -140,7 +136,6 @@ export default {
     }
   },
   async created() {
-    console.log("MatchInput created", this.schedule_id);
     this.SET_QAURTER_INDEX(Number(this.quarter));
   },
   methods: {
@@ -148,7 +143,7 @@ export default {
     ...squadActions(["getSplitTeamListWithSchedule"]),
     ...prepareMatchMutations(["SET_QAURTER_INDEX"]),
     ...prepareMatchActions(["getHomeAwayMember"]),
-    ...gameActions(["getGameId", "updateGameScore"]),
+    ...gameActions(["getGameId"]),
     ...gameReportMutations(["SET_HOME_SCORE", "SET_AWAY_SCORE"]),
     ...gameReportActions(["getEventList"]),
 
@@ -194,18 +189,6 @@ export default {
     },
     initSaveButton() {
       this.isUpdate = false;
-    },
-    saveGame: async function() {
-      let body = {
-        game_id: this.gameInfo.id,
-        game: {
-          quarter: this.gameInfo.quarter,
-          away_score: this.awayScore,
-          home_score: this.homeScore
-        }
-      };
-      await this.updateGameScore(body);
-      this.setGameId(body.game_id);
     },
     selectEventList: async function() {
       this.gameEventList = await this.getEventList(this.gameInfo.id);
