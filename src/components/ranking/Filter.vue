@@ -27,6 +27,7 @@
               :value="contest.value"
               v-model="selectedContest"
             />
+            
           </div>
         </v-col>
         <v-col>
@@ -68,7 +69,7 @@ export default {
     },
     data () {
       return {
-        contests: [{label:"자체경기", value:'P'}, {label:"대회", value:'C'}, {label:"친선", value:'M'}, {label:"훈련", value:'T'}, {label:"리그 경기", value:'L'}],
+        contests: [{label:"자체경기", value:'P'}, {label:"훈련", value:'T'}, {label:"대회", value:'C'}, {label:"친선", value:'M'},  {label:"리그 경기", value:'L'}],
         years: [{label:"전체", value: 0},
                 {label:"2018", value: 2018},
                 {label:"2019", value: 2019},
@@ -88,7 +89,7 @@ export default {
                  {label:"12", value: "12"},
                  ],
 
-        selectedContest: ['P'],
+        selectedContest: ['P', 'T'],
         selectedYear: 0,
         selectedMonth: "0"
       }
