@@ -2,7 +2,7 @@
   <v-container class="match__container" fluid>
     <v-row class justify="center">
       <v-col cols="12">
-        <schedule-date-list @changeDate="setScheduleData"></schedule-date-list>
+        <schedule-date-list :scheduleId="schedule_id" @changeDate="setScheduleData"></schedule-date-list>
       </v-col>
       <v-col cols="12">
         <squad-quarter @changeQuarterAndParams="setScheduleData"></squad-quarter>
@@ -44,6 +44,16 @@ const {
 } = createNamespacedHelpers("prepareMatch");
 
 export default {
+  props: {
+    schedule_id: {
+      type: [String, Number],
+      default: null
+    },
+    quarter: {
+      type: [String, Number],
+      default: null
+    }
+  },
   data: () => ({
     members: null
   }),
@@ -52,26 +62,27 @@ export default {
       "selectedSplitedTeam",
       "homeTeam",
       "awayTeam",
+      "jocker",
       "homeMembers",
-      "awayMembers"
+      "awayMembers",
+      "quarterIndex"
     ]),
     ...prepareMatchGetters(["currentQuarterString", "currentQuarterNumber"]),
+    ...calendarMapState(["scheduleIndex"]),
     ...calendarMapGetters(["current_schedule_id"])
   },
   async created() {
-    await this.select_schedule();
-    let params = this.$route.params;
-    if (Object.keys(params).length) {
-      this.SET_SCHEDULE_INDEX(params["scheduleIndex"]);
-      this.setSelectedSplitedTeam(params["team_split_index"]);
-    } else {
-      this.CHOOSE_LATEST_SCHEDULE();
-    }
+    this.SET_QAURTER_INDEX(Number(this.quarter) - 1);
   },
   methods: {
     ...squadActions(["getSplitTeamListWithSchedule"]),
     ...calendarMapActions(["select_schedule", "load_member"]),
     ...calendarMapMutations(["CHOOSE_LATEST_SCHEDULE", "SET_SCHEDULE_INDEX"]),
+    ...prepareMatchMutations([
+      "SET_QAURTER_INDEX",
+      "ADD_HOME_JOCKER",
+      "ADD_AWAY_JOCKER"
+    ]),
     ...prepareMatchActions([
       "setSplitTeamList",
       "setSummarySplitTeamList",
@@ -84,6 +95,10 @@ export default {
       "setSelectedSplitedTeam",
       "getHomeAwayMember"
     ]),
+    addJockerTeam: function() {
+      this.ADD_HOME_JOCKER(this.jocker);
+      this.ADD_AWAY_JOCKER(this.jocker);
+    },
     async save() {
       if (!this.homeTeam) {
         return;
@@ -99,6 +114,8 @@ export default {
       formSearchGame["schedule_id"] = this.current_schedule_id;
       formSearchGame["quarter"] = this.currentQuarterNumber;
       let searchedGame = await this.checkGameAlreadyExist(formSearchGame);
+
+      this.addJockerTeam();
 
       // 해당 스케쥴, 쿼터에 해당하는 게임이 있는지 확인 Action
       if (searchedGame) {
@@ -192,7 +209,6 @@ export default {
         gameForm["result"] = "N";
         await this.createGame(gameForm);
       }
-
       this.$router.push({
         name: "matchInput",
         params: {
@@ -203,6 +219,13 @@ export default {
     },
     async setScheduleData() {
       if (this.scheduleIndex == -1) return;
+      this.$router.replace({
+        name: "matchPrepare",
+        params: {
+          schedule_id: this.current_schedule_id,
+          quarter: this.currentQuarterNumber
+        }
+      });
 
       // db에서 불러오는 부분
       await this.getSplitTeamListWithSchedule(this.current_schedule_id);

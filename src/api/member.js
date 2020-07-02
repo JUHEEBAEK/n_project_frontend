@@ -20,9 +20,9 @@ export const detailsMember = async(id) => {
   return response;
 };
 
-export const deleteMember = async(member_id) => {
+export const deleteMember = async(member_id_form) => {
   try {
-    const response = await generalReq("delete", "/api/member/delete", member_id);
+    const response = await generalReq("delete", "/api/member/delete", member_id_form);
     return response;
   } catch (e) {
     console.log(e);

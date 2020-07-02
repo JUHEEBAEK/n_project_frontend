@@ -37,6 +37,10 @@ const state = {
       name: null
     }]
   },
+  jocker: {
+    member_id: null,
+    name: null
+  },
   splitTeamList: {},
   summarySplitTeamList: [{
       "splitTeamIndex": 1,
@@ -70,9 +74,10 @@ const mutations = {
   [constants.setDate]: set("date"),
   [constants.setHomeTeam]: set("homeTeam"),
   [constants.setAwayTeam]: set("awayTeam"),
+  [constants.setJocker]: set("jocker"),
   [constants.setIsHome]: set("isHome"),
   [constants.setType]: set("selectType"),
-  [constants.quarterIndex]: set("quarterIndex"),
+  [constants.setQuarterIndex]: set("quarterIndex"),
   SET_SPLIT_TEAM_LIST(state, splitTeam) {
     state.splitTeamList = {}
     for (let team_split_index in splitTeam) {
@@ -146,6 +151,22 @@ const mutations = {
       state.selectedSplitedTeam[team_number]["members"].push(member)
     }
   },
+  ADD_HOME_JOCKER(state, jockerMember) {
+    state.homeTeam.members.push({
+      member_id: jockerMember.member_id,
+      name: jockerMember.name,
+      position: "JK",
+      isJocker: true
+    })
+  },
+  ADD_AWAY_JOCKER(state, jockerMember) {
+    state.awayTeam.members.push({
+      member_id: jockerMember.member_id,
+      name: jockerMember.name,
+      position: "JK",
+      isJocker: true
+    })
+  },
   SET_HOME_MEMBERS(state, homeMembers) {
     state.homeMembers = homeMembers
     state.homeTeam = {
@@ -157,7 +178,7 @@ const mutations = {
         member_id: member.member_id,
         name: member.name,
         position: member.position
-      })
+      });
     }
   },
   SET_AWAY_MEMBERS(state, awayMembers) {
@@ -171,24 +192,24 @@ const mutations = {
         member_id: member.member_id,
         name: member.name,
         position: member.position
-      })
+      });
     }
   },
 };
 
 const actions = {
   setSplitTeamList(context) {
-    let splitTeam = context.rootState.squad.splitTeam
-    context.commit("SET_SPLIT_TEAM_LIST", splitTeam)
+    let splitTeam = context.rootState.squad.splitTeam;
+    context.commit("SET_SPLIT_TEAM_LIST", splitTeam);
   },
   setSummarySplitTeamList(context) {
-    let splitTeam = context.rootState.squad.splitTeam
-    context.commit("SET_SUMMARY_SPLIT_TEAM_LIST", splitTeam)
+    let splitTeam = context.rootState.squad.splitTeam;
+    context.commit("SET_SUMMARY_SPLIT_TEAM_LIST", splitTeam);
 
 
   },
   setSelectedSplitedTeam(context, selected_index) {
-    let splitTeam = context.rootState.squad.splitTeam
+    let splitTeam = context.rootState.squad.splitTeam;
     let payload = {
       splitTeam: splitTeam,
       selected_index: selected_index,

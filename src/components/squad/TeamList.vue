@@ -5,9 +5,17 @@
         <v-divider />
         <v-sheet v-if="selectedSplitedTeam !== null">
           <v-slide-group show-arrows>
-            <v-slide-item v-for="(teamDict, index) in selectedSplitedTeam" :key="index" v-slot:default="{ toggle }">
+            <v-slide-item
+              v-for="(teamDict, index) in selectedSplitedTeam"
+              :key="index"
+              v-slot:default="{ toggle }"
+            >
               <template v-if="teamDict.teamNumber != 0">
-                <v-card  class="team__box" @click.native="set_home_away_team(teamDict)" @click="toggle">
+                <v-card
+                  class="team__box"
+                  @click.native="set_home_away_team(teamDict)"
+                  @click="toggle"
+                >
                   <v-card-title>{{teamDict.teamNumber}}</v-card-title>
                   <v-card-text class="member__box">
                     <span
@@ -19,8 +27,8 @@
                 </v-card>
               </template>
               <template v-else>
-                <v-card  class="team__box">
-                  <v-card-title> 조커 </v-card-title>
+                <v-card class="team__box">
+                  <v-card-title>조커</v-card-title>
                   <v-card-text class="member__box">
                     <span
                       v-for="member in teamDict.members"
@@ -62,7 +70,7 @@
         <div class="selectTeam__box">
           <div class="team__home">
             <v-card color="grey lighten-2" width="150" height="150">
-              <v-card-title class="justify-center">{{homeTeam.teamNumber}}</v-card-title>
+              <v-card-title class="justify-center">home {{homeTeam.teamNumber}}</v-card-title>
               <v-card-text class="member__box justify-center">
                 <span
                   v-for="(member, index) in homeTeam.members"
@@ -77,7 +85,7 @@
           </div>
           <div class="team__away">
             <v-card color="grey lighten-2" width="150" height="150">
-              <v-card-title class="justify-center">{{awayTeam.teamNumber}}</v-card-title>
+              <v-card-title class="justify-center">away {{awayTeam.teamNumber}}</v-card-title>
               <v-card-text class="member__box justify-center">
                 <span
                   v-for="(member, index) in awayTeam.members"
@@ -89,6 +97,16 @@
           </div>
         </div>
       </v-col>
+      <v-col cols="12" v-if="jocker.name !== null">
+        <div class="team__jocker">
+          <v-card class="mx-auto" color="grey lighten-2" width="200" height="100">
+            <v-card-text>JOCKER</v-card-text>
+            <v-card-text class="member__box justify-center">
+              <span class="team__member">{{ jocker.name }}</span>
+            </v-card-text>
+          </v-card>
+        </div>
+      </v-col>
     </v-row>
     <dialog-squad-team-list v-if="dialog===true && type==='teamList'" @saveTeam="saveTeam"></dialog-squad-team-list>
   </div>
@@ -98,14 +116,23 @@
 import dialog from "../../mixin/dialog.js";
 import dummy from "../../assets/value/dummy.json";
 import { createNamespacedHelpers } from "vuex";
-const { mapState, mapMutations, mapActions } = createNamespacedHelpers("prepareMatch");
+const { mapState, mapMutations, mapActions } = createNamespacedHelpers(
+  "prepareMatch"
+);
 
 export default {
   mixins: [dialog],
-  data: () => ({
-  }),
+  data: () => ({}),
   computed: {
-    ...mapState(["isHome", "teamList", "homeTeam", "awayTeam", "splitTeamList","selectedSplitedTeam"]),
+    ...mapState([
+      "isHome",
+      "teamList",
+      "homeTeam",
+      "jocker",
+      "awayTeam",
+      "splitTeamList",
+      "selectedSplitedTeam"
+    ]),
     setStatus() {
       if (this.isHome) {
         this.SET_TYPE("Home");
@@ -128,6 +155,7 @@ export default {
     ...mapMutations([
       "SET_HOME_TEAM",
       "SET_AWAY_TEAM",
+      "SET_JOCKER",
       "SET_IS_HOME",
       "SET_TYPE",
       "SET_SELECTED_SPLIT_TEAM"
@@ -170,11 +198,18 @@ export default {
     removeTeam() {
       this.SET_HOME_TEAM("");
       this.SET_AWAY_TEAM("");
-      this.SET_SELECTED_SPLIT_TEAM(null);     
+      this.SET_JOCKER("");
+      this.SET_SELECTED_SPLIT_TEAM(null);
     },
     saveTeam(team) {
       this.setSelectedSplitedTeam(team.splitTeamIndex);
+      let jockerMember = this.selectedSplitedTeam[0].members[0];
+      this.setJockerMember(jockerMember);
       this.setDialogAndType({ dialog: false, type: null });
+    },
+    setJockerMember: function(jockerInfo) {
+      this.SET_JOCKER(jockerInfo);
+      console.log("jocker", this.jocker);
     }
   }
 };

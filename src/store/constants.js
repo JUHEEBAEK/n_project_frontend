@@ -23,11 +23,11 @@ export const get_schedule_info = "GET_SCHEDULE_INFO"
 export const setDate = "SET_DATE";
 export const setHomeTeam = "SET_HOME_TEAM";
 export const setAwayTeam = "SET_AWAY_TEAM";
+export const setJocker = "SET_JOCKER";
 export const setIsHome = "SET_IS_HOME";
 export const setType = "SET_TYPE";
-export const quarterIndex = "QAURTER_INDEX";
+export const setQuarterIndex = "SET_QAURTER_INDEX";
 
 // gameReport 부분
 export const setHomeScore = "SET_HOME_SCORE";
 export const setAwayScore = "SET_AWAY_SCORE";
-

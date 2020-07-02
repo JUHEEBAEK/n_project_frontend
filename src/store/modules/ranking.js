@@ -1,7 +1,10 @@
 import {
     getGoalRanking,
+    getGoalRankingFilter,
     getAssistRanking,
+    getAssistRankingFilter,
     getCleanSheetRanking,
+    getCleanSheetRankingFilter,
 } from "../../api/ranking.js";
 
 const state = {
@@ -34,7 +37,7 @@ const state = {
             score: 11,
           },
         ], 
-        'CLEAN SHEET': [
+        'CLEAN_SHEET': [
           {
             name: '상추',
             score: 11159,
@@ -54,13 +57,13 @@ const state = {
 }
 const mutations = {
     SET_GOAL_RANKING_DATA(state, goalData){
-        state.rankingData['GOAL'] = goalData
+      state.rankingData['GOAL'] = goalData
     },
     SET_ASSIST_RANKING_DATA(state, assistData){
-        state.rankingData['ASSIST'] = assistData
+      state.rankingData['ASSIST'] = assistData
     },
     SET_CLEAN_SHEET_RANKING_DATA(state, cleanSheetData){
-        state.rankingData['CLEAN_SHEET'] = cleanSheetData
+      state.rankingData['CLEAN_SHEET'] = cleanSheetData
     },
 
 }
@@ -93,7 +96,33 @@ const actions = {
             console.log(e);
         }
     },
-
+    async get_goal_ranking_filter(context, condition){
+      try {
+          const response = await getGoalRankingFilter(condition);
+          context.commit("SET_GOAL_RANKING_DATA", response.data);
+          return response.data;
+      } catch (e) {
+          console.log(e);
+      }
+    },
+    async get_assist_ranking_filter(context, condition){
+        try {
+            const response = await getAssistRankingFilter(condition);
+            context.commit("SET_ASSIST_RANKING_DATA", response.data);
+            return response.data;
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    async get_clean_sheet_ranking_filter(context, condition){
+        try {
+            const response = await getCleanSheetRankingFilter(condition);
+            context.commit("SET_CLEAN_SHEET_RANKING_DATA", response.data);
+            return response.data;
+        } catch (e) {
+            console.log(e);
+        }
+    },
 }
 
 export default {

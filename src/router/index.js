@@ -4,6 +4,7 @@ import Router from "vue-router";
 import Home from "../views/Home.vue";
 import Attend from "../views/footer/Attend.vue";
 import SquadView from "../views/footer/Squad.vue";
+import GameReport from "../views/footer/GameReport.vue";
 import Ranking from "../views/footer/Ranking.vue";
 
 import Team from "../views/nav/TeamView.vue";
@@ -16,6 +17,7 @@ import Squad from "../views/nav/squad/Squad.vue";
 import MatchPrepare from "../views/nav/squad/MatchPrepare.vue";
 
 import MatchInput from "../views/nav/match/MatchInput.vue";
+import NotFound from "../views/NotFound.vue";
 
 Vue.use(Router);
 
@@ -28,13 +30,18 @@ const routes = [{
   {
     path: "/attend",
     name: "attend",
-     component: Attend
+    component: Attend
   },
   {
-    path: "/squadView",
-    name: "squad",
-    component: SquadView
+    path: "/gameReport",
+    name: "gameReport",
+    component: GameReport
   },
+  // {
+  //   path: "/squadView",
+  //   name: "squad",
+  //   component: SquadView
+  // },
   {
     path: "/ranking",
     name: "ranking",
@@ -71,10 +78,15 @@ const routes = [{
     component: Squad
   },
   {
-    path: "/matchPrepare",
+    path: "/matchPrepare/schedule/:schedule_id/quarter/:quarter",
     name: "matchPrepare",
     component: MatchPrepare,
     props: true
+  },
+  {
+    path: "/matchPrepare",
+    name: "matchPrepareBasic",
+    component: MatchPrepare,
   },
   {
     path: "/matchInput/schedule/:schedule_id/quarter/:quarter",
@@ -85,7 +97,7 @@ const routes = [{
   {
     path: "*",
     name: "notFound",
-    component: () => import("../views/Home.vue")
+    component: NotFound
   }
 ]
 
