@@ -93,12 +93,12 @@ export default {
                  ],
 
         selectedContest: 'P',
-        selectedYear: 0,
-        selectedMonth: "0",
+        selectedYear: 2020,
+        selectedMonth: "07",
         current_filters:{
           contest:'T',
-          year:0,
-          month:"0",
+          year: 2020,
+          month: "07",
         }
       }
     },
