@@ -37,7 +37,7 @@ const state = {
             score: 11,
           },
         ], 
-        'CLEAN SHEET': [
+        'CLEAN_SHEET': [
           {
             name: '상추',
             score: 11159,
