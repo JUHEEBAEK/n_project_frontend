@@ -140,7 +140,7 @@ export default {
       this.$router.go(-1);
     },
     deleteMember(memberId) {
-      let formData = { data: { memberId } };
+      let formData = { member_id: memberId };
       this.delete_member(formData);
     },
     moveDetails(item) {
