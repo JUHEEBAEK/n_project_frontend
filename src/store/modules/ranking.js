@@ -37,7 +37,7 @@ const state = {
             score: 11,
           },
         ], 
-        'CLEAN SHEET': [
+        'CLEAN_SHEET': [
           {
             name: '상추',
             score: 11159,
@@ -57,13 +57,13 @@ const state = {
 }
 const mutations = {
     SET_GOAL_RANKING_DATA(state, goalData){
-        state.rankingData['GOAL'] = goalData
+      state.rankingData['GOAL'] = goalData
     },
     SET_ASSIST_RANKING_DATA(state, assistData){
-        state.rankingData['ASSIST'] = assistData
+      state.rankingData['ASSIST'] = assistData
     },
     SET_CLEAN_SHEET_RANKING_DATA(state, cleanSheetData){
-        state.rankingData['CLEAN_SHEET'] = cleanSheetData
+      state.rankingData['CLEAN_SHEET'] = cleanSheetData
     },
 
 }
