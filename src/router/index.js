@@ -17,6 +17,7 @@ import Squad from "../views/nav/squad/Squad.vue";
 import MatchPrepare from "../views/nav/squad/MatchPrepare.vue";
 
 import MatchInput from "../views/nav/match/MatchInput.vue";
+import NotFound from "../views/NotFound.vue";
 
 Vue.use(Router);
 
@@ -36,11 +37,11 @@ const routes = [{
     name: "gameReport",
     component: GameReport
   },
-  {
-    path: "/squadView",
-    name: "squad",
-    component: SquadView
-  },
+  // {
+  //   path: "/squadView",
+  //   name: "squad",
+  //   component: SquadView
+  // },
   {
     path: "/ranking",
     name: "ranking",
@@ -96,7 +97,7 @@ const routes = [{
   {
     path: "*",
     name: "notFound",
-    component: () => import("../views/Home.vue")
+    component: NotFound
   }
 ]
 
