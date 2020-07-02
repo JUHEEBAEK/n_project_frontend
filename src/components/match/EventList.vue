@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="12" xl="12" lg="12" sm="12">
+  <v-col cols="12" xl="6" lg="6" sm="12">
     <v-card class="report__container" elevation="1" color="#cfead0">
       <v-card-title class="report__header">
         <span class="report__title">게임 기록</span>

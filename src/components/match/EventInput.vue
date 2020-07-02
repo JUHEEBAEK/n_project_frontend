@@ -54,6 +54,9 @@
           <v-icon class="pl-2" dark small>fas fa-pencil-alt</v-icon>
         </v-btn>
       </v-card-text>
+      <v-card-text>
+        <v-checkbox v-model="isOwnGoal" :label="`자살골: ${isOwnGoal.toString()}`"></v-checkbox>
+      </v-card-text>
       <v-card-text v-if="isGoal === false">
         <v-checkbox v-model="isKeepChange" :label="`키퍼교체: ${isKeepChange.toString()}`"></v-checkbox>
       </v-card-text>
@@ -106,10 +109,6 @@ export default {
     isUpdate: {
       type: Boolean,
       default: false
-    },
-    toggle: {
-      type: Boolean,
-      default: false
     }
   },
   data: () => ({
@@ -117,6 +116,7 @@ export default {
     buttonName: "추가",
     isGoal: true,
     isKeepChange: false,
+    isOwnGoal: false,
     firstEventType: "Goal",
     lastEventType: "Assist",
     firstPlayer: null,
@@ -148,7 +148,7 @@ export default {
     }
   },
   watch: {
-    toggle: async function() {
+    isUpdate: async function() {
       if (this.isUpdate) {
         this.buttonName = "수정";
         // 상태를 맞춰준다.
@@ -223,6 +223,10 @@ export default {
       };
       if (this.isKeepChange) {
         event.event_type = "K.O";
+      }
+
+      if (this.isOwnGoal) {
+        event.event_type = "O.G";
       }
 
       if (this.isUpdate) {

@@ -86,4 +86,4 @@ export default {
 };
 </script>
 
-<style lang="scss" src="../../styles/components/report/eventList.scss"></style>
+<style lang="scss" scoped src="../../styles/components/report/eventList.scss"></style>
