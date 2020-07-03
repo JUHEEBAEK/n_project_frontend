@@ -1,8 +1,13 @@
 <template>
   <v-col cols="12" xl="6" lg="6" sm="12">
-    <div class="event__header">
-      <v-switch class="mt-0" v-model="isGoal" hide-details :label="`Status: ${setStatus}`"></v-switch>
-    </div>
+    <!-- <div class="event__header">
+      <v-switch
+        class="mt-0"
+        v-model="isGoal"
+        hide-details
+        :label="`Status: ${setStatus}`"
+      ></v-switch>
+    </div>-->
     <v-card class="home__container" elevation="1">
       <v-card-title class="home__header">HOME</v-card-title>
       <v-card-text class="home__content">
@@ -12,7 +17,11 @@
               <v-btn
                 rounded
                 small
-                :color="player.position !== 'JK' ? 'lime lighten-2' : 'light blue lighten-2'"
+                :color="
+                  player.position !== 'JK'
+                    ? 'lime lighten-2'
+                    : 'light blue lighten-2'
+                "
                 @click="clickPlayer(player, 'H')"
               >{{ player.name }}</v-btn>
             </div>
@@ -21,6 +30,18 @@
       </v-card-text>
     </v-card>
     <v-card class="input__container" outlined evalation="2">
+      <v-card-text>
+        <v-row justify="center">
+          <v-col v-for="eventType in eventTypeList" :key="eventType" cols="3" align-self="center">
+            <div>
+              <v-btn dark rounded small color="tertiary" @click="clickEventButton(eventType.type)">
+                {{ eventType.name }}
+                <v-icon right dark :class="eventIcon[eventType.type]" :color="eventIconColor[eventType.type]"></v-icon></v-icon>
+              </v-btn>
+            </div>
+          </v-col>
+        </v-row>
+      </v-card-text>
       <v-card-text>
         <span class="data__text">
           <v-text-field
@@ -46,16 +67,22 @@
       </v-card-text>
       <v-card-text class="data__container">
         <span class="data__text fixed__type">{{ firstEventType }}</span>
-        <span class="data__text">{{ firstPlayer }}</span>
+        <v-chip class="ma-2" close @click:close="deleteFirstPlayer">{{ firstPlayer }}</v-chip>
         <span class="data__text fixed__type">{{ lastEventType }}</span>
-        <span class="data__text">{{ lastPlayer }}</span>
+        <v-chip
+          v-if="
+            firstEventType === 'Goal' ||
+              firstEventType === 'Out' ||
+              firstEventType === 'K.O'
+          "
+          class="ma-2"
+          close
+          @click:close="deleteLastPlayer"
+        >{{ lastPlayer }}</v-chip>
         <v-btn class="my-1" small color="primary" @click="clickButton()">
           {{ buttonName }}
           <v-icon class="pl-2" dark small>fas fa-pencil-alt</v-icon>
         </v-btn>
-      </v-card-text>
-      <v-card-text v-if="isGoal === false">
-        <v-checkbox v-model="isKeepChange" :label="`키퍼교체: ${isKeepChange.toString()}`"></v-checkbox>
       </v-card-text>
     </v-card>
     <v-card class="away__container" elevation="1">
@@ -66,7 +93,11 @@
             <v-btn
               rounded
               small
-              :color="player.position !== 'JK' ? 'lime lighten-2' : 'light blue lighten-2'"
+              :color="
+                player.position !== 'JK'
+                  ? 'lime lighten-2'
+                  : 'light blue lighten-2'
+              "
               @click="clickPlayer(player, 'A')"
             >{{ player.name }}</v-btn>
           </v-col>
@@ -106,49 +137,41 @@ export default {
     isUpdate: {
       type: Boolean,
       default: false
-    },
-    toggle: {
-      type: Boolean,
-      default: false
     }
   },
   data: () => ({
     // 이벤트 기록 영역
     buttonName: "추가",
     isGoal: true,
-    isKeepChange: false,
     firstEventType: "Goal",
     lastEventType: "Assist",
     firstPlayer: null,
     lastPlayer: null,
+    firstPlayerChip: true,
+    lastPlayerChip: true,
     firstPlayerId: null,
     lastPlayerId: null,
     teamType: null,
     time: "",
     homePlayerList: [],
-    awayPlayerList: []
+    awayPlayerList: [],
+    eventTypeList: matchValue.eventTypeList,
+    eventTypePair: matchValue.eventTypePair,
+    eventIcon: matchValue.gameReportEventTimeLineIcon,
+    eventIconColor: matchValue.gameReportEventIconColor
   }),
   computed: {
     ...prepareMatchState(["homeMembers", "awayMembers"]),
-    ...gameReportState(["eventList", "gameReportEventInfo"]),
-    ...gameState(["gameInfo"]),
-    setStatus() {
-      if (!this.isUpdate) {
-        this.init();
-      }
-      if (this.isGoal) {
-        this.firstEventType = "Goal";
-        this.lastEventType = "Assist";
-        return "Goal/Assist";
-      } else {
-        this.firstEventType = "Out";
-        this.lastEventType = "In";
-        return "Change Player";
-      }
-    }
+    ...gameReportState([
+      "eventList",
+      "gameReportEventInfo",
+      "homeScore",
+      "awayScore"
+    ]),
+    ...gameState(["gameInfo"])
   },
   watch: {
-    toggle: async function() {
+    isUpdate: async function() {
       if (this.isUpdate) {
         this.buttonName = "수정";
         // 상태를 맞춰준다.
@@ -221,9 +244,6 @@ export default {
         last_player: this.lastPlayerId,
         team_type: this.teamType
       };
-      if (this.isKeepChange) {
-        event.event_type = "K.O";
-      }
 
       if (this.isUpdate) {
         await this.clickUpdateButton(event);
@@ -235,6 +255,10 @@ export default {
       this.init();
       // 경기기록 리스트 다시 불러와주기
       this.$emit("selectEventList");
+    },
+    clickEventButton: function(eventfirstType) {
+      this.firstEventType = eventfirstType;
+      this.lastEventType = this.eventTypePair[eventfirstType];
     },
     clickSaveButton: async function(event) {
       event.game_id = this.gameInfo.id;
@@ -253,7 +277,7 @@ export default {
       let beforeEventType = this.gameReportEventInfo.event_type;
       // 경기 기록 추가 actions
       let updateGameEventresult = await this.updateGameEvent(gameReportform);
-      /* 이벤트 타입이 변경된 경우 
+      /* 이벤트 타입이 변경된 경우
       골  => 다른 걸로 변경된 경우 점수 뺴기
       다른거에서 => 골로 변경된 경우 점수 추가
      */
@@ -266,8 +290,17 @@ export default {
       if (updateGameEventresult && isGoalChangeOtehrEvent) {
         this.subtractGameScore(event);
       } else if (updateGameEventresult && isOtherChangeGoalEvent) {
+        console.log(isOtherChangeGoalEvent && updateGameEventresult);
         this.addGameScore(event);
       }
+    },
+    deleteFirstPlayer: function() {
+      this.firstPlayerChip = false;
+      this.firstPlayer = null;
+    },
+    deleteLastPlayer: function() {
+      this.lastPlayerChip = false;
+      this.lastPlayer = null;
     },
     init() {
       this.firstPlayer = null;
@@ -276,7 +309,6 @@ export default {
       this.teamType = null;
       this.time = null;
       this.lastPlayerId = null;
-      this.isKeepChange = false;
       this.$emit("initSaveButton");
     },
     setEventType: function() {
@@ -286,7 +318,6 @@ export default {
         this.isGoal = false;
       } else {
         this.isGoal = false;
-        this.isKeepChange = true;
       }
     },
     setGameReportInfo: function() {
@@ -301,6 +332,7 @@ export default {
       return matchValue.event_type[firstType];
     },
     updateGameInfo: function() {
+      console.log("updateGameInfo");
       let gameResult = this.setGameResult();
       let body = {
         game_id: this.gameInfo.id,
@@ -311,6 +343,7 @@ export default {
           result: gameResult
         }
       };
+      console.log(body);
       this.updateGameScore(body);
       this.$emit("setGameId");
     },

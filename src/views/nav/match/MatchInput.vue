@@ -103,7 +103,6 @@ export default {
     // 이벤트 기록 영역
     isGoal: true,
     isUpdate: false,
-    toggle: true,
     firstEventType: "Goal",
     lastEventType: "Assist",
     firstPlayer: null,
@@ -175,10 +174,8 @@ export default {
       });
       this.initializeGame();
     },
-
     changeUpdateButton: function() {
       this.isUpdate = true;
-      this.toggle = !this.toggle;
     },
     getHomeAwayMemberList: async function() {
       let scheduleAndQuarter = {
