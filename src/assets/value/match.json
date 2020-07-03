@@ -61,7 +61,37 @@
     "Red": "",
     "Injury": ""
   },
-  "eventTypeList": [
-    "Goal", "Change", "Keep", "O.G", "Faul", "Yellow", "Red", "Injury"
+  "eventTypeList": [{
+      "name": "Goal",
+      "type": "Goal"
+    },
+    {
+      "name": "Change",
+      "type": "Out"
+    },
+    {
+      "name": "Keep",
+      "type": "K.O"
+    },
+    {
+      "name": "O.G",
+      "type": "O.G"
+    },
+    {
+      "name": "Faul",
+      "type": "Faul"
+    },
+    {
+      "name": "Yellow",
+      "type": "Yellow"
+    },
+    {
+      "name": "Red",
+      "type": "Red"
+    },
+    {
+      "name": "Injury",
+      "type": "Injury"
+    }
   ]
 }

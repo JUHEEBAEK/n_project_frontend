@@ -1,13 +1,13 @@
 <template>
   <v-col cols="12" xl="6" lg="6" sm="12">
-    <div class="event__header">
+    <!-- <div class="event__header">
       <v-switch
         class="mt-0"
         v-model="isGoal"
         hide-details
         :label="`Status: ${setStatus}`"
       ></v-switch>
-    </div>
+    </div> -->
     <v-card class="home__container" elevation="1">
       <v-card-title class="home__header">HOME</v-card-title>
       <v-card-text class="home__content">
@@ -41,15 +41,16 @@
           <v-col
             v-for="eventType in eventTypeList"
             :key="eventType"
-            cols="2"
+            cols="3"
             align-self="center"
           >
             <div>
               <v-btn
+                dark
                 rounded
                 small
-                color="lime lighten-2"
-                @click="clickEventButton"
+                color="tertiary"
+                @click="clickEventButton(eventType.type)"
                 >{{ eventType.name }}</v-btn
               >
             </div>
@@ -84,10 +85,17 @@
         <v-chip class="ma-2" close @click:close="deleteFirstPlayer">
           {{ firstPlayer }}
         </v-chip>
-        <!-- <span class="data__text">{{ firstPlayer }}</span> -->
         <span class="data__text fixed__type">{{ lastEventType }}</span>
-        <!-- <span class="data__text">{{ lastPlayer }}</span> -->
-        <v-chip class="ma-2" close @click:close="deleteLastPlayer">
+        <v-chip
+          v-if="
+            firstEventType === 'Goal' ||
+              firstEventType === 'Out' ||
+              firstEventType === 'K.O'
+          "
+          class="ma-2"
+          close
+          @click:close="deleteLastPlayer"
+        >
           {{ lastPlayer }}
         </v-chip>
         <v-btn class="my-1" small color="primary" @click="clickButton()">
@@ -186,26 +194,13 @@ export default {
     time: "",
     homePlayerList: [],
     awayPlayerList: [],
-    eventTypeList: matchValue.eventTypeList
+    eventTypeList: matchValue.eventTypeList,
+    eventTypePair: matchValue.eventTypePair
   }),
   computed: {
     ...prepareMatchState(["homeMembers", "awayMembers"]),
     ...gameReportState(["eventList", "gameReportEventInfo"]),
-    ...gameState(["gameInfo"]),
-    setStatus() {
-      if (!this.isUpdate) {
-        this.init();
-      }
-      if (this.isGoal) {
-        this.firstEventType = "Goal";
-        this.lastEventType = "Assist";
-        return "Goal/Assist";
-      } else {
-        this.firstEventType = "Out";
-        this.lastEventType = "In";
-        return "Change Player";
-      }
-    }
+    ...gameState(["gameInfo"])
   },
   watch: {
     isUpdate: async function() {
@@ -299,6 +294,10 @@ export default {
       this.init();
       // 경기기록 리스트 다시 불러와주기
       this.$emit("selectEventList");
+    },
+    clickEventButton: function(eventfirstType) {
+      this.firstEventType = eventfirstType;
+      this.lastEventType = this.eventTypePair[eventfirstType];
     },
     clickSaveButton: async function(event) {
       event.game_id = this.gameInfo.id;

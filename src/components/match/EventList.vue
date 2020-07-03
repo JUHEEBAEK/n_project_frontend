@@ -19,7 +19,7 @@
             :right="gameReport.team_type === 'A' ? true : false"
             :left="gameReport.team_type === 'H' ? true : false"
             :icon="eventTimeLineIcon[gameReport.event_type]"
-            icon-color="black"
+            :icon-color="eventIconColor[gameReport.event_type]"
           >
             <v-chip
               class="firstEvent ma-2"
