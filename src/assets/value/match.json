@@ -19,21 +19,49 @@
   "gameReportEventTimeLineIcon": {
     "Goal": "fas fa-futbol",
     "Out": "fas fa-exchange-alt fa-rotate-270",
-    "K.O": "fab fa-kickstarter"
+    "K.O": "fab fa-kickstarter",
+    "O.G": "fas fa-futbol",
+    "Faul": "fas fa-exclamation-circle",
+    "Yellow": "fas fa-square",
+    "Red": "fas fa-square",
+    "Injury": "fas fa-crutch"
   },
   "gameReportEventChipFirstIcon": {
     "Goal": "fas fa-futbol",
     "Out": "fas fa-long-arrow-alt-down",
-    "K.O": "fas fa-long-arrow-alt-down"
+    "K.O": "fas fa-long-arrow-alt-down",
+    "O.G": "fas fa-futbol",
+    "Faul": "fas fa-exclamation-circle",
+    "Yellow": "fas fa-square",
+    "Red": "fas fa-square",
+    "Injury": "fas fa-crutch"
   },
   "gameReportEventChipSecondIcon": {
     "Goal": "fas fa-shoe-prints fa-rotate-270",
     "Out": "fas fa-long-arrow-alt-up",
     "K.O": "fas fa-long-arrow-alt-up"
   },
-  "eventType": {
+  "gameReportEventIconColor": {
+    "Goal": "black",
+    "Out": "black",
+    "K.O": "black",
+    "O.G": "red",
+    "Faul": "red",
+    "Yellow": "yellow",
+    "Red": "red",
+    "Injury": "black"
+  },
+  "eventTypePair": {
     "Goal": "Assist",
     "Out": "In",
-    "K.O": "K.I"
-  }
+    "K.O": "K.I",
+    "O.G": "",
+    "Faul": "",
+    "Yellow": "",
+    "Red": "",
+    "Injury": ""
+  },
+  "eventTypeList": [
+    "Goal", "Change", "Keep", "O.G", "Faul", "Yellow", "Red", "Injury"
+  ]
 }

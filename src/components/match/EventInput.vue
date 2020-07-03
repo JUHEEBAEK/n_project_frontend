@@ -37,6 +37,26 @@
     </v-card>
     <v-card class="input__container" outlined evalation="2">
       <v-card-text>
+        <v-row justify="center">
+          <v-col
+            v-for="eventType in eventTypeList"
+            :key="eventType"
+            cols="2"
+            align-self="center"
+          >
+            <div>
+              <v-btn
+                rounded
+                small
+                color="lime lighten-2"
+                @click="clickEventButton"
+                >{{ eventType.name }}</v-btn
+              >
+            </div>
+          </v-col>
+        </v-row>
+      </v-card-text>
+      <v-card-text>
         <span class="data__text">
           <v-text-field
             class="data__time"
@@ -165,7 +185,8 @@ export default {
     teamType: null,
     time: "",
     homePlayerList: [],
-    awayPlayerList: []
+    awayPlayerList: [],
+    eventTypeList: matchValue.eventTypeList
   }),
   computed: {
     ...prepareMatchState(["homeMembers", "awayMembers"]),

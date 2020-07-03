@@ -3,10 +3,9 @@
     <v-card class="report__container" elevation="1" color="#cfead0">
       <v-card-title class="report__header">
         <span class="report__title">게임 기록</span>
-        <span
-          class="report__score"
-          v-if="homeScore !== undefined"
-        >{{ `${homeScore} : ${awayScore} `}}</span>
+        <span class="report__score" v-if="homeScore !== undefined">{{
+          `${homeScore} : ${awayScore} `
+        }}</span>
       </v-card-title>
       <v-card-text class="report__content">
         <v-timeline class="report__timeline">
@@ -19,7 +18,7 @@
             color="white"
             :right="gameReport.team_type === 'A' ? true : false"
             :left="gameReport.team_type === 'H' ? true : false"
-            :icon="searchProperTimelineIcon(gameReport.event_type)"
+            :icon="eventTimeLineIcon[gameReport.event_type]"
             icon-color="black"
           >
             <v-chip
@@ -31,15 +30,28 @@
               @click="clickUpdateEvent(gameReport)"
               @click:close="deleteButton(gameReport)"
             >
-              <span class="d-none d-sm-flex px-2">{{ gameReport.first_player_name }}</span>
-              <span class="d-flex d-sm-none">{{ showTwoCharAt(gameReport.first_player_name) }}</span>
-              <v-icon x-small>{{ searchProperChipIcon(gameReport.event_type, "first")}}</v-icon>
-              <span class="d-none d-sm-flex px-2">{{ gameReport.last_player_name }}</span>
-              <span class="d-flex d-sm-none">{{ showTwoCharAt(gameReport.last_player_name) }}</span>
+              <span class="d-none d-sm-flex px-2">{{
+                gameReport.first_player_name
+              }}</span>
+              <span class="d-flex d-sm-none">{{
+                showTwoCharAt(gameReport.first_player_name)
+              }}</span>
               <v-icon
                 x-small
-                v-if="gameReport.last_player_name"
-              >{{ searchProperChipIcon(gameReport.event_type, "second")}}</v-icon>
+                :style="{
+                  color: eventIconColor[gameReport.event_type]
+                }"
+                :class="eventChipFirstIcon[gameReport.event_type]"
+              ></v-icon>
+              <span class="d-none d-sm-flex px-2">{{
+                gameReport.last_player_name
+              }}</span>
+              <span class="d-flex d-sm-none">{{
+                showTwoCharAt(gameReport.last_player_name)
+              }}</span>
+              <v-icon x-small v-if="gameReport.last_player_name">{{
+                eventChipSecondIcon[gameReport.event_type]
+              }}</v-icon>
             </v-chip>
           </v-timeline-item>
         </v-timeline>
@@ -73,7 +85,14 @@ export default {
       type: Object
     }
   },
-  data: () => ({}),
+  data: () => ({
+    eventIconColor: matchValue.gameReportEventIconColor,
+    eventTimeLineIcon: matchValue.gameReportEventTimeLineIcon,
+    eventChipFirstIcon: matchValue.gameReportEventChipFirstIcon,
+    eventChipSecondIcon: matchValue.gameReportEventChipSecondIcon,
+    eventTypePair: matchValue.eventTypePair,
+    eventTypeList: matchValue.eventTypeList
+  }),
   computed: {
     ...gameState(["gameInfo"]),
     ...gameReportState(["homeScore", "awayScore"])
