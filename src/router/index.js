@@ -20,6 +20,7 @@ import MatchInput from "../views/nav/match/MatchInput.vue";
 import NotFound from "../views/NotFound.vue";
 
 import Stadium from "../views/extra/Stadium.vue"
+import StadiumAdd from "../views/extra/StadiumAdd.vue"
 
 Vue.use(Router);
 
@@ -102,11 +103,15 @@ const routes = [{
     component: Stadium  
   },
   {
+    path: "/StadiumAdd",
+    name: "stadiumAdd",
+    component: StadiumAdd 
+  },
+  {
     path: "*",
     name: "notFound",
     component: NotFound
   },
-  
 ]
 
 const router = new Router({

@@ -4,16 +4,21 @@ import {
   getStadiumList,
   deleteStadium,
   updateStadium,
+  detailsStadium
 } from "../../api/stadium.js";
 
 const state = {
-  stadiumList: []
+  stadiumList: [],
+  stadiumProfile:{}
 };
 
 const getters = {};
 const mutations = {
   [constants.SELECT_STADIUM](state, stadiumList) {
     state.stadiumList = stadiumList;
+  },
+  DETAILS_STADIUM(state, stadiumProfile){
+    state.stadiumProfile = stadiumProfile;
   }
 };
 
@@ -47,6 +52,18 @@ const actions = {
       console.log(e);
     }
   },
+  async details_stadium({
+    commit
+  }, payload) {
+    try {
+      const response = await detailsStadium(payload);
+      commit("DETAILS_STADIUM", response.data);
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  
   async delete_stadium({
     commit
   }, payload) {
