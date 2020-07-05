@@ -50,16 +50,20 @@ export default {
   },
   methods: {
     ...stadiumMapActions(['select_stadium', 'delete_stadium']),
-    moveDetails(item){
-      
-    },
+    
     async deleteStadium(stadium_id){
       let formData = { stadium_id: stadium_id };
       if (confirm("정말 정말로 삭제하시겠습니까??")) {
         await this.delete_stadium(formData);
         this.select_stadium();
       }
-    }
+    },
+    moveDetails(item){
+      this.$router.push({
+        name: "stadiumUpdate",
+        params: { stadiumId: item.id }
+      });
+    },
   },
 }
 </script>

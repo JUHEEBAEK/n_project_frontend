@@ -21,6 +21,7 @@ import NotFound from "../views/NotFound.vue";
 
 import Stadium from "../views/extra/Stadium.vue"
 import StadiumAdd from "../views/extra/StadiumAdd.vue"
+import StadiumUpdate from "../views/extra/StadiumUpdate.vue"
 
 Vue.use(Router);
 
@@ -106,6 +107,12 @@ const routes = [{
     path: "/StadiumAdd",
     name: "stadiumAdd",
     component: StadiumAdd 
+  },
+  {
+    name: "stadiumUpdate",
+    path: "/stadium/:stadiumId",
+    component: StadiumUpdate,
+    props: true
   },
   {
     path: "*",
