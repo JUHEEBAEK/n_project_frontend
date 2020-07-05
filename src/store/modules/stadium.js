@@ -1,6 +1,9 @@
 import * as constants from "../constants";
 import {
-  getStadiumList
+  createStadium,
+  getStadiumList,
+  deleteStadium,
+  updateStadium,
 } from "../../api/stadium.js";
 
 const state = {
@@ -15,6 +18,14 @@ const mutations = {
 };
 
 const actions = {
+  async add_stadium(context, form) {
+    try {
+      const response = await createStadium(form);
+      return response;
+    } catch (e) {
+      console.log(e);
+    }
+  },
   async select_stadium({
     commit
   }) {
@@ -25,7 +36,29 @@ const actions = {
     } catch (e) {
       console.log(e);
     }
-  }
+  },
+  async update_stadium({
+    commit
+  }, payload) {
+    try {
+      const response = await updateStadium(payload);
+      commit("UPDATE_MEMBER", response);
+      return response;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async delete_stadium({
+    commit
+  }, payload) {
+    try {
+      const response = await deleteStadium(payload);
+      commit("DELETE_MEMBER", response);
+      return response;
+    } catch (e) {
+      console.log(e);
+    }
+  },
 };
 
 export default {
