@@ -42,7 +42,6 @@ const actions = {
   }, payload) {
     try {
       const response = await updateStadium(payload);
-      commit("UPDATE_MEMBER", response);
       return response;
     } catch (e) {
       console.log(e);
@@ -53,7 +52,6 @@ const actions = {
   }, payload) {
     try {
       const response = await deleteStadium(payload);
-      commit("DELETE_MEMBER", response);
       return response;
     } catch (e) {
       console.log(e);
