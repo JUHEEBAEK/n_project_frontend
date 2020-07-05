@@ -19,6 +19,8 @@ import MatchPrepare from "../views/nav/squad/MatchPrepare.vue";
 import MatchInput from "../views/nav/match/MatchInput.vue";
 import NotFound from "../views/NotFound.vue";
 
+import Stadium from "../views/extra/Stadium.vue"
+
 Vue.use(Router);
 
 const routes = [{
@@ -95,10 +97,16 @@ const routes = [{
     props: true
   },
   {
+    path: "/stadium",
+    name: "stadium",
+    component: Stadium  
+  },
+  {
     path: "*",
     name: "notFound",
     component: NotFound
-  }
+  },
+  
 ]
 
 const router = new Router({
