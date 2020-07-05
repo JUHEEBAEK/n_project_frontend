@@ -20,7 +20,7 @@
           </v-card-text>
           <v-card-actions class="justify-center">
             <v-btn color="primary" text @click="moveDetails(item)">UPDATE</v-btn>
-            <v-btn color="red" text @click="deleteMember(item.id)">DELETE</v-btn>
+            <v-btn color="red" text @click="deleteStadium(item.id)">DELETE</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -49,12 +49,16 @@ export default {
     this.select_stadium();
   },
   methods: {
-    ...stadiumMapActions(['select_stadium']),
+    ...stadiumMapActions(['select_stadium', 'delete_stadium']),
     moveDetails(item){
-
+      
     },
-    deleteMember(id){
-
+    async deleteStadium(stadium_id){
+      let formData = { stadium_id: stadium_id };
+      if (confirm("정말 정말로 삭제하시겠습니까??")) {
+        await this.delete_stadium(formData);
+        this.select_stadium();
+      }
     }
   },
 }
