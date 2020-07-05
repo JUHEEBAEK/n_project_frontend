@@ -20,7 +20,7 @@ export const getStadiumList = async() => {
 };
 
 export const detailsStadium = async(id) => {
-  const response = await generalReq("get", "/api/stadium/" + id);
+  const response = await generalReq("get", "/api/stadium/stadium/" + id);
   return response;
 };
 
