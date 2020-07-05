@@ -192,6 +192,14 @@ export default {
     ...gameState(["gameInfo"])
   },
   watch: {
+    isUpdate: function() {
+      if (this.isUpdate) {
+        this.buttonName = "수정";
+      } else {
+        this.init();
+        this.buttonName = "추가";
+      }
+    },
     gameReportEventInfo: function() {
       if (this.isUpdate) {
         this.buttonName = "수정";
@@ -213,13 +221,7 @@ export default {
       "getEventInfo",
       "updateGameEvent"
     ]),
-    ...gameReportMutations([
-      "ADD_EVENT",
-      "ADD_HOME_SCORE",
-      "ADD_AWAY_SCORE",
-      "SUBTRACT_HOME_SCORE",
-      "SUBTRACT_AWAY_SCORE"
-    ]),
+    ...gameReportMutations(["ADD_EVENT", "ADD_HOME_SCORE", "ADD_AWAY_SCORE"]),
     ...gameActions(["updateGameScore"]),
     addGameScore: function(eventInfo) {
       if (eventInfo.team_type === "H") {
@@ -227,15 +229,7 @@ export default {
       } else if (eventInfo.team_type === "A") {
         this.ADD_AWAY_SCORE(1);
       }
-      this.updateGameInfo();
-    },
-    subtractGameScore: function(eventInfo) {
-      if (eventInfo.team_type === "H") {
-        this.SUBTRACT_HOME_SCORE(1);
-      } else if (eventInfo.team_type === "A") {
-        this.SUBTRACT_HOME_SCORE(1);
-      }
-      this.updateGameInfo();
+      this.$emit("updateGameInfo");
     },
     clickPlayer: function(val, type) {
       if (this.teamType !== null && this.teamType !== type) {
@@ -306,7 +300,7 @@ export default {
         beforeEventType !== "Goal" && event.event_type === "Goal";
 
       if (updateGameEventresult && isGoalChangeOtehrEvent) {
-        this.subtractGameScore(event);
+        this.$emit("subtractGameScore", event);
       } else if (updateGameEventresult && isOtherChangeGoalEvent) {
         this.addGameScore(event);
       }
@@ -342,31 +336,6 @@ export default {
     },
     setLastEvent: function(firstType) {
       return matchValue.event_type[firstType];
-    },
-    updateGameInfo: function() {
-      let gameResult = this.setGameResult();
-      let body = {
-        game_id: this.gameInfo.id,
-        game: {
-          quarter: this.gameInfo.quarter,
-          away_score: this.awayScore,
-          home_score: this.homeScore,
-          result: gameResult
-        }
-      };
-      console.log(body);
-      this.updateGameScore(body);
-      this.$emit("setGameId");
-    },
-    setGameResult() {
-      let caculateScore = this.homeScore - this.away_score;
-      if (caculateScore > 0) {
-        return "H";
-      } else if (caculateScore < 0) {
-        return "A";
-      } else {
-        return "D";
-      }
     }
   }
 };

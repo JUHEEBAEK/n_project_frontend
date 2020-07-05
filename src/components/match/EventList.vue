@@ -111,20 +111,8 @@ export default {
   },
   methods: {
     ...gameReportActions(["deleteGameEvent"]),
-    ...gameReportMutations([
-      "SET_EVENT_INFO",
-      "SUBTRACT_HOME_SCORE",
-      "SUBTRACT_AWAY_SCORE"
-    ]),
-    subtractScore: function(gameEvent) {
-      if (gameEvent.team_type === "H") {
-        this.SUBTRACT_HOME_SCORE(1);
-      } else if (gameEvent.team_type === "A") {
-        this.SUBTRACT_AWAY_SCORE(1);
-      }
-    },
+    ...gameReportMutations(["SET_EVENT_INFO"]),
     clickUpdateEvent: function(gameReport) {
-      console.log("gameReport", gameReport);
       this.SET_EVENT_INFO(gameReport);
       this.$emit("changeUpdateButton");
     },
@@ -138,7 +126,8 @@ export default {
           let result = await this.deleteGameEvent(body);
           // 이벤트가 정상적으로 삭제 될 경우에만 실행이 된다.
           if (result && gameEvent.event_type === "Goal") {
-            this.subtractScore(gameEvent);
+            console.log("list ---");
+            this.$emit("subtractGameScore", gameEvent);
           }
           this.$emit("selectEventList");
         }
