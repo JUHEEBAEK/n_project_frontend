@@ -3,9 +3,11 @@
     <v-card class="report__container" elevation="1" color="#cfead0">
       <v-card-title class="report__header">
         <span class="report__title">게임 기록</span>
-        <span class="report__score" v-if="homeScore !== undefined">{{
+        <span class="report__score" v-if="homeScore !== undefined">
+          {{
           `${homeScore} : ${awayScore} `
-        }}</span>
+          }}
+        </span>
       </v-card-title>
       <v-card-text class="report__content">
         <v-timeline class="report__timeline">
@@ -30,12 +32,16 @@
               @click="clickUpdateEvent(gameReport)"
               @click:close="deleteButton(gameReport)"
             >
-              <span class="d-none d-sm-flex px-2">{{
+              <span class="d-none d-sm-flex px-2">
+                {{
                 gameReport.first_player_name
-              }}</span>
-              <span class="d-flex d-sm-none">{{
+                }}
+              </span>
+              <span class="d-flex d-sm-none">
+                {{
                 showTwoCharAt(gameReport.first_player_name)
-              }}</span>
+                }}
+              </span>
               <v-icon
                 x-small
                 :style="{
@@ -43,15 +49,21 @@
                 }"
                 :class="eventChipFirstIcon[gameReport.event_type]"
               ></v-icon>
-              <span class="d-none d-sm-flex px-2">{{
+              <span class="d-none d-sm-flex px-2">
+                {{
                 gameReport.last_player_name
-              }}</span>
-              <span class="d-flex d-sm-none">{{
+                }}
+              </span>
+              <span class="d-flex d-sm-none">
+                {{
                 showTwoCharAt(gameReport.last_player_name)
-              }}</span>
-              <v-icon x-small v-if="gameReport.last_player_name">{{
+                }}
+              </span>
+              <v-icon x-small v-if="gameReport.last_player_name">
+                {{
                 eventChipSecondIcon[gameReport.event_type]
-              }}</v-icon>
+                }}
+              </v-icon>
             </v-chip>
           </v-timeline-item>
         </v-timeline>
@@ -99,18 +111,7 @@ export default {
   },
   methods: {
     ...gameReportActions(["deleteGameEvent"]),
-    ...gameReportMutations([
-      "SET_EVENT_INFO",
-      "SUBTRACT_HOME_SCORE",
-      "SUBTRACT_AWAY_SCORE"
-    ]),
-    subtractScore: function(gameEvent) {
-      if (gameEvent.team_type === "H") {
-        this.SUBTRACT_HOME_SCORE(1);
-      } else if (gameEvent.team_type === "A") {
-        this.SUBTRACT_AWAY_SCORE(1);
-      }
-    },
+    ...gameReportMutations(["SET_EVENT_INFO"]),
     clickUpdateEvent: function(gameReport) {
       this.SET_EVENT_INFO(gameReport);
       this.$emit("changeUpdateButton");
@@ -125,7 +126,8 @@ export default {
           let result = await this.deleteGameEvent(body);
           // 이벤트가 정상적으로 삭제 될 경우에만 실행이 된다.
           if (result && gameEvent.event_type === "Goal") {
-            this.subtractScore(gameEvent);
+            console.log("list ---");
+            this.$emit("subtractGameScore", gameEvent);
           }
           this.$emit("selectEventList");
         }

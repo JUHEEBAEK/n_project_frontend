@@ -14,16 +14,17 @@
         <!-- 경기 기록 페이지 -->
         <match-event-input
           :isUpdate="isUpdate"
-          :toggle="toggle"
           @setGameReport="setGameReport"
           @setGameId="setGameId"
           @initSaveButton="initSaveButton"
           @getHomeAwayMemberList="getHomeAwayMemberList"
+          @subtractGameScore="subtractGameScore"
           @selectEventList="selectEventList"
         ></match-event-input>
         <match-event-list
           :gameEventList="eventList"
           @selectEventList="selectEventList"
+          @subtractGameScore="subtractGameScore"
           @changeUpdateButton="changeUpdateButton"
         ></match-event-list>
       </v-row>
@@ -142,9 +143,14 @@ export default {
     ...squadActions(["getSplitTeamListWithSchedule"]),
     ...prepareMatchMutations(["SET_QAURTER_INDEX"]),
     ...prepareMatchActions(["getHomeAwayMember"]),
-    ...gameActions(["getGameId"]),
-    ...gameReportMutations(["SET_HOME_SCORE", "SET_AWAY_SCORE"]),
-    ...gameReportActions(["getEventList"]),
+    ...gameActions(["updateGameScore", "getGameId"]),
+    ...gameReportMutations([
+      "SET_HOME_SCORE",
+      "SET_AWAY_SCORE",
+      "SUBTRACT_HOME_SCORE",
+      "SUBTRACT_AWAY_SCORE"
+    ]),
+    ...gameReportActions(["getEventList", "updateGameEvent"]),
 
     async setScheduleData(selected_schedule) {
       let changedScheduleId = selected_schedule.id;
@@ -208,6 +214,40 @@ export default {
         this.SET_HOME_SCORE(0);
         this.SET_AWAY_SCORE(0);
       }
+    },
+    setGameResult() {
+      let caculateScore = this.homeScore - this.away_score;
+      if (caculateScore > 0) {
+        return "H";
+      } else if (caculateScore < 0) {
+        return "A";
+      } else {
+        return "D";
+      }
+    },
+    subtractGameScore: function(eventInfo) {
+      console.log("??????");
+      if (eventInfo.team_type === "H") {
+        this.SUBTRACT_HOME_SCORE(1);
+      } else if (eventInfo.team_type === "A") {
+        this.SUBTRACT_HOME_SCORE(1);
+      }
+      this.updateGameInfo();
+    },
+    updateGameInfo: function() {
+      let gameResult = this.setGameResult();
+      let body = {
+        game_id: this.gameInfo.id,
+        game: {
+          quarter: this.gameInfo.quarter,
+          away_score: this.awayScore,
+          home_score: this.homeScore,
+          result: gameResult
+        }
+      };
+      console.log("update: ", body);
+      this.updateGameScore(body);
+      this.$emit("setGameId");
     }
   }
 };

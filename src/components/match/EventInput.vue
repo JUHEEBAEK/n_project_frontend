@@ -1,13 +1,5 @@
 <template>
   <v-col cols="12" xl="6" lg="6" sm="12">
-    <!-- <div class="event__header">
-      <v-switch
-        class="mt-0"
-        v-model="isGoal"
-        hide-details
-        :label="`Status: ${setStatus}`"
-      ></v-switch>
-    </div>-->
     <v-card class="home__container" elevation="1">
       <v-card-title class="home__header">HOME</v-card-title>
       <v-card-text class="home__content">
@@ -32,11 +24,24 @@
     <v-card class="input__container" outlined evalation="2">
       <v-card-text>
         <v-row justify="center">
-          <v-col v-for="eventType in eventTypeList" :key="eventType" cols="3" align-self="center">
+          <v-col
+            v-for="eventType in eventTypeList"
+            :key="eventType"
+            cols="6"
+            xl="3"
+            lg="3"
+            md="3"
+            align-self="center"
+          >
             <div>
               <v-btn dark rounded small color="tertiary" @click="clickEventButton(eventType.type)">
                 {{ eventType.name }}
-                <v-icon right dark :class="eventIcon[eventType.type]" :color="eventIconColor[eventType.type]"></v-icon></v-icon>
+                <v-icon
+                  right
+                  dark
+                  :class="eventIcon[eventType.type]"
+                  :color="eventIconColor[eventType.type]"
+                ></v-icon>
               </v-btn>
             </div>
           </v-col>
@@ -56,33 +61,49 @@
         </span>
       </v-card-text>
       <v-card-text class="label__container">
-        <span class="label__text">상태</span>
-        <span class="label__text">선수1</span>
-        <span class="label__text">상태</span>
-        <span class="label__text">선수2</span>
-        <v-btn class="my-1" small @click="init">
-          취소
-          <v-icon class="pl-2" dark small>fas fa-eraser</v-icon>
-        </v-btn>
-      </v-card-text>
-      <v-card-text class="data__container">
-        <span class="data__text fixed__type">{{ firstEventType }}</span>
-        <v-chip class="ma-2" close @click:close="deleteFirstPlayer">{{ firstPlayer }}</v-chip>
-        <span class="data__text fixed__type">{{ lastEventType }}</span>
-        <v-chip
-          v-if="
-            firstEventType === 'Goal' ||
-              firstEventType === 'Out' ||
-              firstEventType === 'K.O'
-          "
-          class="ma-2"
-          close
-          @click:close="deleteLastPlayer"
-        >{{ lastPlayer }}</v-chip>
-        <v-btn class="my-1" small color="primary" @click="clickButton()">
-          {{ buttonName }}
-          <v-icon class="pl-2" dark small>fas fa-pencil-alt</v-icon>
-        </v-btn>
+        <v-container class="pa-0">
+          <v-row>
+            <v-col cols="6" md="3">
+              <div class="label__text">상태</div>
+              <div class="data__text fixed__type">{{ firstEventType }}</div>
+            </v-col>
+            <v-col cols="6" md="3">
+              <div class="label__text">선수1</div>
+              <v-chip class="ma-2" close @click:close="deleteFirstPlayer">{{ firstPlayer }}</v-chip>
+            </v-col>
+            <v-col cols="6" md="3">
+              <div class="label__text">상태</div>
+              <div class="data__text fixed__type">{{ lastEventType }}</div>
+            </v-col>
+            <v-col cols="6" md="3">
+              <div class="label__text">선수2</div>
+              <v-chip
+                v-if="
+                firstEventType === 'Goal' ||
+                  firstEventType === 'Out' ||
+                  firstEventType === 'K.O'
+              "
+                class="ma-2"
+                close
+                @click:close="deleteLastPlayer"
+              >{{ lastPlayer }}</v-chip>
+            </v-col>
+          </v-row>
+          <v-row class="action__container">
+            <v-col cols="6">
+              <v-btn class="my-1" @click="init">
+                취소
+                <v-icon class="pl-2" small dark>fas fa-eraser</v-icon>
+              </v-btn>
+            </v-col>
+            <v-col cols="6">
+              <v-btn class="my-1" color="primary" @click="clickButton()">
+                {{ buttonName }}
+                <v-icon class="pl-2" small dark>fas fa-pencil-alt</v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-container>
       </v-card-text>
     </v-card>
     <v-card class="away__container" elevation="1">
@@ -171,13 +192,19 @@ export default {
     ...gameState(["gameInfo"])
   },
   watch: {
-    isUpdate: async function() {
+    isUpdate: function() {
       if (this.isUpdate) {
         this.buttonName = "수정";
-        // 상태를 맞춰준다.
-        await this.setEventType();
+      } else {
+        this.init();
+        this.buttonName = "추가";
+      }
+    },
+    gameReportEventInfo: function() {
+      if (this.isUpdate) {
+        this.buttonName = "수정";
         // 상태를 변경하고 데이터를 세팅해준다.
-        this.setGameReportInfo();
+        this.setGameReportInfo(this.gameReportEventInfo);
       } else {
         this.init();
         this.buttonName = "추가";
@@ -194,13 +221,7 @@ export default {
       "getEventInfo",
       "updateGameEvent"
     ]),
-    ...gameReportMutations([
-      "ADD_EVENT",
-      "ADD_HOME_SCORE",
-      "ADD_AWAY_SCORE",
-      "SUBTRACT_HOME_SCORE",
-      "SUBTRACT_AWAY_SCORE"
-    ]),
+    ...gameReportMutations(["ADD_EVENT", "ADD_HOME_SCORE", "ADD_AWAY_SCORE"]),
     ...gameActions(["updateGameScore"]),
     addGameScore: function(eventInfo) {
       if (eventInfo.team_type === "H") {
@@ -208,15 +229,7 @@ export default {
       } else if (eventInfo.team_type === "A") {
         this.ADD_AWAY_SCORE(1);
       }
-      this.updateGameInfo();
-    },
-    subtractGameScore: function(eventInfo) {
-      if (eventInfo.team_type === "H") {
-        this.SUBTRACT_HOME_SCORE(1);
-      } else if (eventInfo.team_type === "A") {
-        this.SUBTRACT_HOME_SCORE(1);
-      }
-      this.updateGameInfo();
+      this.$emit("updateGameInfo");
     },
     clickPlayer: function(val, type) {
       if (this.teamType !== null && this.teamType !== type) {
@@ -250,7 +263,6 @@ export default {
       } else {
         await this.clickSaveButton(event);
       }
-
       // input 창 초기화
       this.init();
       // 경기기록 리스트 다시 불러와주기
@@ -288,19 +300,20 @@ export default {
         beforeEventType !== "Goal" && event.event_type === "Goal";
 
       if (updateGameEventresult && isGoalChangeOtehrEvent) {
-        this.subtractGameScore(event);
+        this.$emit("subtractGameScore", event);
       } else if (updateGameEventresult && isOtherChangeGoalEvent) {
-        console.log(isOtherChangeGoalEvent && updateGameEventresult);
         this.addGameScore(event);
       }
     },
     deleteFirstPlayer: function() {
       this.firstPlayerChip = false;
       this.firstPlayer = null;
+      this.firstPlayerId = "";
     },
     deleteLastPlayer: function() {
       this.lastPlayerChip = false;
       this.lastPlayer = null;
+      this.lastPlayerId = "";
     },
     init() {
       this.firstPlayer = null;
@@ -311,51 +324,18 @@ export default {
       this.lastPlayerId = null;
       this.$emit("initSaveButton");
     },
-    setEventType: function() {
-      if (this.gameReportEventInfo.event_type === "Goal") {
-        this.isGoal = true;
-      } else if (this.gameReportEventInfo.event_type === "Out") {
-        this.isGoal = false;
-      } else {
-        this.isGoal = false;
-      }
-    },
-    setGameReportInfo: function() {
-      this.time = this.gameReportEventInfo.time;
-      this.teamType = this.gameReportEventInfo.team_type;
-      this.firstPlayer = this.gameReportEventInfo.first_player_name;
-      this.firstPlayerId = this.gameReportEventInfo.first_player;
-      this.lastPlayer = this.gameReportEventInfo.last_player_name;
-      this.lastPlayerId = this.gameReportEventInfo.last_player;
+    setGameReportInfo: function(selectedEvent) {
+      this.time = selectedEvent.time;
+      this.firstEventType = selectedEvent.event_type;
+      this.lastEventType = matchValue.eventTypePair[selectedEvent.event_type];
+      this.teamType = selectedEvent.team_type;
+      this.firstPlayer = selectedEvent.first_player_name;
+      this.firstPlayerId = selectedEvent.first_player;
+      this.lastPlayer = selectedEvent.last_player_name;
+      this.lastPlayerId = selectedEvent.last_player;
     },
     setLastEvent: function(firstType) {
       return matchValue.event_type[firstType];
-    },
-    updateGameInfo: function() {
-      console.log("updateGameInfo");
-      let gameResult = this.setGameResult();
-      let body = {
-        game_id: this.gameInfo.id,
-        game: {
-          quarter: this.gameInfo.quarter,
-          away_score: this.awayScore,
-          home_score: this.homeScore,
-          result: gameResult
-        }
-      };
-      console.log(body);
-      this.updateGameScore(body);
-      this.$emit("setGameId");
-    },
-    setGameResult() {
-      let caculateScore = this.homeScore - this.away_score;
-      if (caculateScore > 0) {
-        return "H";
-      } else if (caculateScore < 0) {
-        return "A";
-      } else {
-        return "D";
-      }
     }
   }
 };

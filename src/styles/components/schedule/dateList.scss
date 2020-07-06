@@ -27,6 +27,10 @@
     .date__card {
       background-color: #fafafa;
 
+      .v-badge__badge {
+        font-weight: 900 !important;
+      }
+
       .date__Mon {
         color: #666;
         font-weight: 500;
