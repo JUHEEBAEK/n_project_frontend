@@ -25,10 +25,10 @@
               <v-row class="fill-height" align="center" justify="center">
                 <v-scale-transition>
                   <div>
-                    <p class="date__Mon my-2">
-                      {{ item.date | setMomentMonth }}
-                    </p>
-                    <p class="date__day mb-0">{{ item.date.substr(8, 2) }}</p>
+                    <v-badge :color="scheduleColor[item.type]" left :content="item.game_count">
+                      <p class="date__Mon my-2">{{ item.date | setMomentMonth }}</p>
+                      <p class="date__day mb-0">{{ item.date.substr(8, 2) }}</p>
+                    </v-badge>
                   </div>
                 </v-scale-transition>
               </v-row>
@@ -42,6 +42,8 @@
 
 <script>
 import moment from "moment";
+import scheduleValue from "../../assets/value/Schedule.json";
+
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: calendarMapState,
@@ -61,12 +63,14 @@ export default {
       return moment(val).format("MMM");
     }
   },
+  mounted() {},
   data: () => ({
     month: null,
     slide_index: null,
     setMonth: moment().format("MMMM"),
     setYear: moment().format("YYYY"),
-    setDay: moment().format("DD")
+    setDay: moment().format("DD"),
+    scheduleColor: scheduleValue.colorAndType
   }),
   computed: {
     ...calendarMapState(["scheduleIndex", "scheduleList"]),
