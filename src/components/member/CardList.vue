@@ -54,7 +54,7 @@ export default {
   methods: {
     ...memberMapActions(["select_member", "delete_member"]),
     async deleteMember(member_id) {
-      let formData = { data: { member_id } };
+      let formData = { member_id: member_id };
       if (confirm("정말 정말로 삭제하시겠습니까??")) {
         await this.delete_member(formData);
         this.select_member();
