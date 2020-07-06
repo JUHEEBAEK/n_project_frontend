@@ -25,7 +25,7 @@
               <v-row class="fill-height" align="center" justify="center">
                 <v-scale-transition>
                   <div>
-                    <v-badge :color="scheduleColor[item.type]" left>
+                    <v-badge :color="scheduleColor[item.type]" left :content="item.game_count">
                       <p class="date__Mon my-2">{{ item.date | setMomentMonth }}</p>
                       <p class="date__day mb-0">{{ item.date.substr(8, 2) }}</p>
                     </v-badge>
