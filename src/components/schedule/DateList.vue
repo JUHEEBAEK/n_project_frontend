@@ -63,10 +63,7 @@ export default {
       return moment(val).format("MMM");
     }
   },
-  mounted() {
-    console.log("mounted");
-    console.log(this.scheduleList);
-  },
+  mounted() {},
   data: () => ({
     month: null,
     slide_index: null,
