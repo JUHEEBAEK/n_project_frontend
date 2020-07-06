@@ -10,6 +10,11 @@
       "icon": "team.png"
     },
     {
+      "title": "STADIUM",
+      "to": "/stadium",
+      "icon": "stadium.png"
+    },
+    {
       "title": "CALENDAR",
       "to": "/calendar",
       "icon": "deadline.png"

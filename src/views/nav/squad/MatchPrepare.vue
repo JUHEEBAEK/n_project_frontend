@@ -209,7 +209,7 @@ export default {
         gameForm["result"] = "N";
         await this.createGame(gameForm);
       }
-      this.$router.push({
+      this.$router.replace({
         name: "matchInput",
         params: {
           schedule_id: this.current_schedule_id,
