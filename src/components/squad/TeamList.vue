@@ -203,14 +203,12 @@ export default {
     },
     saveTeam(team) {
       this.setSelectedSplitedTeam(team.splitTeamIndex);
-      let jockerMember = this.selectedSplitedTeam[0].members[0];
-      this.setJockerMember(jockerMember);
+      if (this.selectedSplitedTeam[0]){
+        let jockerMember = this.selectedSplitedTeam[0].members[0];
+        this.SET_JOCKER(jockerMember);
+      }
       this.setDialogAndType({ dialog: false, type: null });
     },
-    setJockerMember: function(jockerInfo) {
-      this.SET_JOCKER(jockerInfo);
-      console.log("jocker", this.jocker);
-    }
   }
 };
 </script>
