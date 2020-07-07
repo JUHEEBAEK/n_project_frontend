@@ -7,7 +7,7 @@
         md="4"
         lg="3"
         class="pa-0"
-        v-for="(item, idx) in stadiumList"
+        v-for="(item, idx) in searchResult"
         :key="idx"
       >
         <v-card class="stadium__container px-0 py-1 ma-1">
@@ -44,7 +44,7 @@ export default {
     return {};
   },
   computed: {
-    ...stadiuMapState(["stadiumList"])
+    ...stadiuMapState(["searchResult"])
   },
   created() {
     this.select_stadium();

@@ -6,7 +6,7 @@
       v-model="search"
       hide-details
       :loading="isLoading"
-      placeholder="경기장명으로 검색"
+      placeholder="경기장명 또는 주소명으로 검색"
       prepend-icon="fas fa-search"
       single-line
     />
@@ -17,7 +17,17 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from "vuex";
+
+const {
+  mapState: stadiuMapState,
+  mapMutations: stadiumMapMutations
+} = createNamespacedHelpers("stadium");
+
 export default {
+  computed: {
+    ...stadiuMapState(["stadiumList", "searchResult"])
+  },
   data: () => ({
     model: null,
     search: null,
@@ -29,10 +39,23 @@ export default {
     }
   },
   methods: {
+    ...stadiumMapMutations(["SET_SEARCH_RESULT"]),
     moveAddPage() {
       this.$router.push({
         name: "stadiumAdd"
       });
+    },
+    searchList(val) {
+      if (val !== "" && val.length !== 0) {
+        const result = this.stadiumList.filter(item => {
+          let name = item.name;
+          let address = item.address;
+          return name.indexOf(val) > -1 || address.indexOf(val) > -1;
+        });
+        this.SET_SEARCH_RESULT(result);
+      } else {
+        this.SET_SEARCH_RESULT(this.stadiumList);
+      }
     }
   }
 };
