@@ -19,9 +19,9 @@ import MatchPrepare from "../views/nav/squad/MatchPrepare.vue";
 import MatchInput from "../views/nav/match/MatchInput.vue";
 import NotFound from "../views/NotFound.vue";
 
-import Stadium from "../views/extra/Stadium.vue"
-import StadiumAdd from "../views/extra/StadiumAdd.vue"
-import StadiumUpdate from "../views/extra/StadiumUpdate.vue"
+import Stadium from "../views/nav/stadium/Stadium.vue"
+import StadiumAdd from "../views/nav/stadium/StadiumAdd.vue"
+import StadiumUpdate from "../views/nav/stadium/StadiumUpdate.vue"
 
 Vue.use(Router);
 

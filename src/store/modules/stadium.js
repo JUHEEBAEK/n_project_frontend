@@ -9,16 +9,21 @@ import {
 
 const state = {
   stadiumList: [],
-  stadiumProfile:{}
+  stadiumProfile:{},
+  searchResult: []
 };
 
 const getters = {};
 const mutations = {
   [constants.SELECT_STADIUM](state, stadiumList) {
     state.stadiumList = stadiumList;
+    state.searchResult = stadiumList;
   },
   DETAILS_STADIUM(state, stadiumProfile){
     state.stadiumProfile = stadiumProfile;
+  },
+  SET_SEARCH_RESULT(state, searchResult) {
+    state.searchResult = searchResult;
   }
 };
 
