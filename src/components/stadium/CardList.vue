@@ -15,12 +15,13 @@
             <div class="text text__title">{{ item.name }}</div>
           </v-card-title>
           <v-card-text class="stadium__description pa-2">
-            <v-tooltip top>
+            <v-tooltip top v-if="item.address.length > 32">
               <template v-slot:activator="{ on, attrs }">
                 <div class="text text__caption" v-bind="attrs" v-on="on">{{ item.address }}</div>
               </template>
               <span>{{ item.address }}</span>
             </v-tooltip>
+            <div v-else class="text text__caption" v-bind="attrs" v-on="on">{{ item.address }}</div>
           </v-card-text>
           <v-card-actions class="justify-center">
             <v-btn color="primary" text @click="moveDetails(item)">UPDATE</v-btn>
