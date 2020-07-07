@@ -11,7 +11,7 @@
     />
     <chart-bar-inverse
       class="chart"
-      :data-set="chartData2"
+      :data-set="chartData"
       :margin-left="80"
       :margin-top="40"
       :tick-count="5"

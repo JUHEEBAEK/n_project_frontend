@@ -31,7 +31,7 @@
           :transform="`translate(0, ${bar.y + bar.height / 2})`"
         >
           <line stroke="currentColor" x2="-6"></line>
-          <text fill="currentColor" x="-18" dy="0.32em">{{ bar.xLabel }}</text>
+          <text fill="currentColor" x="-24" dy="0.32em">{{ bar.xLabel }}</text>
         </g>
         
       </g>
@@ -56,7 +56,7 @@ import { scaleLinear, scaleBand } from "d3-scale";
 export default {
   name: "BarChart",
   props: {
-    height: { default: 200 },
+    height: { default: 500 },
     width: { default: 500 },
     dataSet: { default: [] },
     marginLeft: { default: 40 },
