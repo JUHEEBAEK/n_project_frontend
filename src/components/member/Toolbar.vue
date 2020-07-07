@@ -3,7 +3,6 @@
     <v-app-bar flat color="white">
       <v-toolbar-title class="member__count grey--text">총 {{ searchResult.length }} 명</v-toolbar-title>
       <v-spacer />
-
       <v-text-field
         v-model="search"
         hide-details

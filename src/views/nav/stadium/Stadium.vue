@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn @click="moveAddPage"> 추가 </v-btn>
+    <stadium-toolbar />
     <stadium-cardList />
   </div>
 </template>
@@ -10,14 +10,7 @@ export default {
   name: "stadiumList",
   data: () => ({
     title: "STADIUM"
-  }),
-  methods: {
-    moveAddPage(){
-      this.$router.push({
-        name: "stadiumAdd",
-      });
-    }
-  },
+  })
 };
 </script>
 

@@ -1,0 +1,18 @@
+.stadium__container {
+  min-height: 150px;
+
+  .stadium__title {
+    .text__title {}
+  }
+
+  .stadium__description {
+    .text__caption {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+  }
+
+
+}
