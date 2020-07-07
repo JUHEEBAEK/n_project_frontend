@@ -650,5 +650,65 @@
       "firstPlayer": "이화인",
       "lastPlayer": ""
     }
-  ]
+  ],
+  "gameReportList": [{
+    "id": 1,
+    "date": "2020-06-18",
+    "gameList": [{
+      "quarter": "Q1",
+      "result": "H",
+      "homeScore": 4,
+      "awayScore": 4,
+      "homeMember": "['주희', '화인', '종은', '나경', '소연']",
+      "awayMember": "['명선', '채린', '솔잎', '지우', '지윤']"
+    }, {
+      "quarter": "Q2",
+      "result": "A",
+      "HomeMember": "['명선', '채린', '솔잎', '지우', '지윤']",
+      "AwayMember": "['주희', '화인', '종은', '나경', '소연']"
+    }, {
+      "quarter": "Q3",
+      "result": "A",
+      "HomeMember": "['주희', '화인', '종은', '나경', '소연']",
+      "AwayMember": "['명선', '채린', '솔잎', '지우', '지윤']"
+    }]
+  }, {
+    "id": 2,
+    "date": "2020-06-25",
+    "gameList": [{
+      "quarter": "Q1",
+      "result": "H",
+      "HomeMember": "['주희', '채민' '종은', '솔잎', '아란']",
+      "AwayMember": "['명선', '화인', '나경', '소연', '지윤']"
+    }, {
+      "quarter": "Q2",
+      "result": "A",
+      "HomeMember": "['명선', '화인', '나경', '소연', '지윤']",
+      "AwayMember": "['주희', '채민' '종은', '솔잎', '아란']"
+    }, {
+      "quarter": "Q3",
+      "result": "H",
+      "HomeMember": "['주희', '화인', '종은', '나경', '소연']",
+      "AwayMember": "['명선', '채린', '솔잎', '지우', '지윤']"
+    }]
+  }, {
+    "id": 3,
+    "date": "2020-07-02",
+    "gameList": [{
+      "quarter": "Q1",
+      "result": "H",
+      "HomeMember": "['영임', '화인', '종은', '나경', '소연']",
+      "AwayMember": "['주희', '예린', '솔잎', '아란', '지윤']"
+    }, {
+      "quarter": "Q2",
+      "result": "H",
+      "HomeMember": "['주희', '예린', '솔잎', '아란', '지윤']",
+      "AwayMember": "['영임', '화인', '종은', '나경', '소연']"
+    }, {
+      "quarter": "Q3",
+      "result": "A",
+      "HomeMember": "['영임', '화인', '종은', '나경', '소연']",
+      "AwayMember": "['주희', '화인', '종은', '나경', '소연']"
+    }]
+  }]
 }
