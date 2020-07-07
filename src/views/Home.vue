@@ -9,6 +9,14 @@
       :tick-count="5"
       :bar-padding="0.5"
     />
+    <chart-bar-inverse
+      class="chart"
+      :data-set="chartData2"
+      :margin-left="80"
+      :margin-top="40"
+      :tick-count="5"
+      :bar-padding="0.5"
+    />
   </div>
 </template>
 
@@ -23,6 +31,16 @@ const {
 export default {
   data: () => ({
     chartData: [
+        ["Bob", 33],
+        ["Robin", 24],
+        ["Mark", 22],
+        ["Joe", 29],
+        ["Eve", 38],
+        ["Karen", 21],
+        ["Kirsty", 25],
+        ["Chris", 30]
+      ],
+    chartData2: [
         ["Bob", 33],
         ["Robin", 24],
         ["Mark", 22],
@@ -51,7 +69,6 @@ export default {
           this.chartData.push([name, count])
         }
       }
-      console.log(this.chartData)
     }
   },
 };
