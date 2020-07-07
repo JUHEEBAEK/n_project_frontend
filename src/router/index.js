@@ -5,6 +5,7 @@ import Home from "../views/Home.vue";
 import Attend from "../views/footer/Attend.vue";
 import SquadView from "../views/footer/Squad.vue";
 import GameReport from "../views/footer/GameReport.vue";
+import GameReportDetail from "../views/footer/GameReportDetail.vue";
 import Ranking from "../views/footer/Ranking.vue";
 
 import Team from "../views/nav/TeamView.vue";
@@ -40,6 +41,11 @@ const routes = [{
     path: "/gameReport",
     name: "gameReport",
     component: GameReport
+  },
+  {
+    path: "/gameReport/details:gameId",
+    name: "gameDetails",
+    component: GameReportDetail
   },
   // {
   //   path: "/squadView",
