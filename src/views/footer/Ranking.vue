@@ -17,6 +17,7 @@
         </v-tab-item>
       </v-tabs-items>
     </v-card>
+    
   </div>
 </template>
 
@@ -33,6 +34,7 @@ export default {
     return {
       tab: null,
       tabItems: ["GOAL", "ASSIST", "CLEAN_SHEET"],
+      
     };
   },
   computed: {
