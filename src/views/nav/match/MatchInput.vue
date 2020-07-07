@@ -155,13 +155,17 @@ export default {
     async setScheduleData(selected_schedule) {
       let changedScheduleId = selected_schedule.id;
       this.setDateString(selected_schedule);
+      console.log(this.$router.currentRoute.params,this.$router.currentRoute.params.schedule_id, changedScheduleId)
 
-      this.$router.replace({
-        name: "matchInput",
-        params: {
-          schedule_id: changedScheduleId
-        }
-      });
+      if (this.$router.currentRoute.params.schedule_id != changedScheduleId){
+        console.log("change")
+        this.$router.replace({
+          name: "matchInput",
+          params: {
+            schedule_id: changedScheduleId
+          }
+        });
+      }
       this.initializeGame();
     },
     async initializeGame() {
