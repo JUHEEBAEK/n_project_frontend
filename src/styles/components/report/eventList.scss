@@ -12,9 +12,10 @@
   font-weight: 700;
   font-size: 1.2rem;
 
-  @include sm-down {
-    font-size: 0.7rem;
+  @include xs {
+    font-size: 1rem;
   }
+
 }
 
 .event__type-text {
@@ -23,8 +24,12 @@
   font-size: 1.4rem;
   margin-bottom: 12px;
 
-  @include sm-down {
-    font-size: 0.9rem;
+  @include sm {
+    font-size: 1.2rem;
+  }
+
+  @include xs {
+    font-size: 1rem;
   }
 }
 
@@ -34,7 +39,11 @@
   font-size: 1.0rem;
   margin-bottom: 12px;
 
-  @include sm-down {
-    font-size: 0.5rem;
+  @include sm {
+    font-size: 1rem;
+  }
+
+  @include xs {
+    font-size: 0.8rem;
   }
 }
