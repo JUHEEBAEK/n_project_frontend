@@ -10,19 +10,17 @@
           <v-timeline-item
             v-for="(event, i) in gameEventList"
             :key="i"
-            color="#d25f5f"
+            color="#187c5a"
             fill-dot
+            small
             :right="event.team_type === 'A' ? true : false"
             :left="event.team_type === 'H' ? true : false"
-            :icon="searchProperTimelineIcon(event.event_type)"
           >
             <template v-slot:opposite>
               <span class="event__time-text" v-text="event.event_time"></span>
             </template>
-            <div
-              class="py-4"
-              :class="event.team_type === 'A'? `text-left pl-10`: `text-right pr-10`"
-            >
+            <div class="py-4" :class="event.team_type === 'A'? `text-left pl-4`: `text-right pr-4`">
+              <v-icon class="mb-2 mr-2">{{searchProperTimelineIcon(event.event_type)}}</v-icon>
               <span class="event__type-text">{{ event.event_type}}</span>
               <span
                 v-if="event.lastPlayer"
@@ -80,7 +78,7 @@ export default {
       return matchValue.gameReportEventTimeLineIcon[iconType];
     },
     searchProperEventType: function(eventType) {
-      return matchValue.eventType[eventType];
+      return matchValue.eventTypePair[eventType];
     }
   }
 };
