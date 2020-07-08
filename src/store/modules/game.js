@@ -1,10 +1,12 @@
 import {
   searchWithScheduleIdAndQuarter,
-  updateGame
+  updateGame,
+  selectGameList
 } from "../../api/game.js";
 
 const state = {
   gameInfo: {},
+  gameList: [],
 };
 
 const getters = {
@@ -14,6 +16,9 @@ const getters = {
 const mutations = {
   SET_GAME_INFO(state, gameInfo){
     state.gameInfo = gameInfo
+  },
+  SET_GAME_LIST(state, gameList){
+    state.gameList = gameList
   },
 };
 
@@ -28,6 +33,32 @@ const actions = {
           commit("SET_GAME_INFO", response.data[0])  
         }
         
+        return response.data.insertId
+      }else{
+        return false;
+      } 
+    }catch (e) {
+        console.log(e);
+    }
+  },
+  async selectGameList({commit}, payload) {
+    try {
+      let response = await selectGameList(payload);
+      if (response.data){
+        commit("SET_GAME_LIST", response.data)  
+        return response.data.insertId
+      }else{
+        return false;
+      } 
+    }catch (e) {
+        console.log(e);
+    }
+  },
+  async getGameListWithScheduleId({commit}, payload) {
+    try {
+      let response = await searchWithScheduleId(payload);
+      if (response.data){
+        commit("SET_GAME_LIST", response.data[0])  
         return response.data.insertId
       }else{
         return false;

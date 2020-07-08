@@ -18,6 +18,15 @@ export const searchWithScheduleIdAndQuarter = async(form) => {
     }
 };
 
+export const searchWithScheduleId = async(form) => {
+    try {
+        const response = await generalReq("post", "/api/game/searchWithScheduleId", form);
+        return response;
+    } catch (e) {
+        console.log(e);
+    }
+};
+
 export const createGame = async(form) => {
     try {
         const response = await generalReq("post", "/api/game/create", form);
@@ -36,7 +45,7 @@ export const deleteGame = async(form) => {
     }
 };
 
-export const getGameList = async() => {
+export const selectGameList = async() => {
     try {
         const response = await generalReq("get", "/api/game/list");
         return response;
