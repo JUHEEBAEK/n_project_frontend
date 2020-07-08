@@ -38,7 +38,7 @@
       <g class="bars" fill="none">
         <rect
           v-for="(bar, index) in bars"
-          fill="#2196f3"
+          fill="url(#mainGradient)"
           :key="index"
           :height="bar.height"
           :width="bar.width"
@@ -51,6 +51,16 @@
       </g>
     </g>
     <text ref="tooltip" fill="currentColor" x="-100" y="-100" dx="1.5em" dy="1em"> {{ tooltipContent }}</text>
+    <defs>
+      <linearGradient id='mainGradient'>
+        <stop class='stop-left' offset='0'> </stop>
+        <stop class='stop-right' offset='1'> </stop>
+      </linearGradient> 
+      <linearGradient id="Gradient2" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0%" stop-color="red"/>
+        <stop offset="100%" stop-color="yellow"/>
+      </linearGradient>
+    </defs>
   </svg>
 </template>
 
@@ -124,4 +134,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.stop-left {
+    stop-color: #3f51b5;  /* Indigo */
+}
+
+.stop-right {
+    stop-color: #009688;  /* Teal */
+}
+</style>
