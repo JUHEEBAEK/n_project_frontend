@@ -28,7 +28,7 @@
               <v-card-text>
                 <v-badge class="mr-3" color="#ccda11" dot></v-badge>
                 <v-chip
-                  v-for="(item, idx) in gameInfo.homeMember"
+                  v-for="(item, idx) in homeMember"
                   :key="idx"
                   class="mx-1"
                   x-small
@@ -38,7 +38,7 @@
               <v-card-text>
                 <v-badge class="mr-3" color="#da8c11" dot></v-badge>
                 <v-chip
-                  v-for="(item, idx) in gameInfo.awayMember"
+                  v-for="(item, idx) in awayMember"
                   :key="idx"
                   class="mx-1"
                   x-small
@@ -95,7 +95,9 @@ export default {
   data() {
     return {
       model: null,
-      filteredSchedule: []
+      filteredSchedule: [],
+      homeMember: ["주희", "채민", "종은", "솔잎", "아란"],
+      awayMember: ["명선", "화인", "나경", "소연", "지윤"]
     };
   },
   methods: {
