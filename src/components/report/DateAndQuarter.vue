@@ -1,7 +1,8 @@
 <template>
   <div class="mx-0">
     <v-row justify="center">
-      <v-col cols="12" xs="12" sm="12" md="12" lg="6" xl="6">
+      <v-spacer />
+      <v-col cols="12" xs="12" sm="12" md="6" lg="3" xl="3">
         <v-menu
           v-model="menu"
           :close-on-content-click="false"
@@ -16,6 +17,8 @@
               label="Picker without buttons"
               prepend-icon="fas fa-calendar-day"
               readonly
+              solo
+              rounded
               v-bind="attrs"
               v-on="on"
             ></v-text-field>
@@ -29,19 +32,8 @@
           ></v-date-picker>
         </v-menu>
       </v-col>
-      <v-col cols="12" xs="12" sm="12" md="12" lg="6" xl="6">
-        <v-slide-group v-model="model" class="pa-2" active-class="primary" show-arrows>
-          <v-slide-item v-for="n in 10" :key="n" v-slot:default="{ active, toggle }">
-            <v-card
-              dark
-              :color="active ? 'primary' : 'grey lighten-1'"
-              class="ma-2 pt-1"
-              height="30"
-              width="50"
-              @click="toggle"
-            >{{ `Q${n}` }}</v-card>
-          </v-slide-item>
-        </v-slide-group>
+      <v-col cols="12" xs="12" sm="12" md="6" lg="3" xl="3">
+        <v-autocomplete v-model="values" :items="quarterList" solo rounded></v-autocomplete>
       </v-col>
     </v-row>
   </div>
@@ -52,8 +44,9 @@ export default {
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
     menu: false,
+    values: 1,
     arrayEvents: [],
-    quarterList: [1, 2, 3, 4, 5, 6],
+    quarterList: [1, 2, 3, 4, 5, 6, 7, 8],
     model: null
   }),
   mounted() {

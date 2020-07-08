@@ -57,7 +57,6 @@ export default {
   },
   methods: {
     clickGame: function(gameInfo) {
-      console.log("clickGame", gameInfo);
       this.$router.push({
         path: "/gameReport/details/" + gameInfo.id,
         name: "gameDetails",
@@ -68,41 +67,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.gameReport__list {
-  .gameReport__item {
-    .item__title {
-      text-align: left;
-      font-weight: 700;
-      font-size: 1.4rem;
-      color: #34558b;
-    }
-    .item__content {
-      display: flex;
-      flex-direction: row;
-      .game__card {
-        margin: 5px;
-        .game__title {
-          display: flex;
-          justify-content: space-between;
-          .text__quarter {
-            font-weight: 300;
-          }
-          .text__result {
-            font-size: 1.3rem;
-            font-weight: 600;
-            .text__caption {
-              font-weight: 300;
-              font-size: 1rem;
-              color: #666666;
-            }
-          }
-        }
-        .text__score {
-          font-size: 2.4rem;
-        }
-      }
-    }
-  }
-}
-</style>
+<style lang="scss" scoped src="../../styles/components/report/gameList.scss"></style>

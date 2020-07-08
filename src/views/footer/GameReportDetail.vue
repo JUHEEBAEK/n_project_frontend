@@ -1,6 +1,6 @@
 <template>
   <div>
-    <report-date-and-quarter></report-date-and-quarter>
+    <report-game-info></report-game-info>
     <report-position-view></report-position-view>
     <report-event-list></report-event-list>
   </div>
