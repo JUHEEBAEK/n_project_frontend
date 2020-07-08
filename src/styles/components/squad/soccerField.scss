@@ -1,0 +1,50 @@
+@import "../../global/mediaQuery.scss";
+
+.pitch__container {
+  width: 100%;
+  background-color: #deeade;
+  padding: 0;
+
+  .position__midfilder {
+    border-top: solid 1px white;
+  }
+
+  .position__area {
+    padding: 5px 0;
+    min-height: 70px;
+    max-width: 100px;
+    align-self: center;
+
+    &.position__gk {
+      border: solid 1px white;
+      border-top: none;
+    }
+
+    .position__label {
+      font-weight: 700;
+      font-size: 16px;
+      color: #003819;
+
+      @include sm-down {
+        font-weight: 600;
+        font-size: 12px;
+      }
+    }
+
+    .position__content {
+      line-height: 80px;
+
+      @include sm-down {
+        line-height: 50px;
+      }
+
+      .position__name {
+        @include sm-down {
+          width: 32px;
+          height: 32px;
+          font-size: 10px;
+        }
+      }
+    }
+  }
+}

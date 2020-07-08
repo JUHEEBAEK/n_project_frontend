@@ -11,7 +11,13 @@
           <div class="position__container">
             <div class="position__label">{{ item }}</div>
             <div class="position__content">
-              <v-btn small v-if="position[item]" fab depressed>{{ position[item] }}</v-btn>
+              <v-btn
+                class="position__name"
+                small
+                v-if="position[item]"
+                fab
+                depressed
+              >{{ position[item] }}</v-btn>
             </div>
           </div>
         </v-col>
@@ -57,32 +63,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.pitch__container {
-  width: 100%;
-  background-color: #deeade;
-  padding: 0;
-  .position__midfilder {
-    border-top: solid 1px white;
-  }
-
-  .position__area {
-    padding: 5px 0;
-    min-height: 70px;
-    max-width: 100px;
-    align-self: center;
-    &.position__gk {
-      border: solid 1px white;
-      border-top: none;
-    }
-    .position__label {
-      font-weight: 700;
-      font-size: 16px;
-      color: #003819;
-    }
-    .position__content {
-      line-height: 80px;
-    }
-  }
-}
-</style>
+<style lang="scss" scoped src="../../styles/components/squad/soccerField.scss"></style>
