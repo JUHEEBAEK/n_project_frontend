@@ -11,6 +11,10 @@
   color: #187c5a;
   font-weight: 700;
   font-size: 1.2rem;
+
+  @include sm-down {
+    font-size: 0.7rem;
+  }
 }
 
 .event__type-text {
@@ -18,6 +22,10 @@
   font-weight: 800;
   font-size: 1.4rem;
   margin-bottom: 12px;
+
+  @include sm-down {
+    font-size: 0.9rem;
+  }
 }
 
 .event__subType-text {
@@ -25,4 +33,8 @@
   font-weight: 800;
   font-size: 1.0rem;
   margin-bottom: 12px;
+
+  @include sm-down {
+    font-size: 0.5rem;
+  }
 }
