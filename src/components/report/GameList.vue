@@ -1,8 +1,8 @@
 <template>
   <div class="gameReport__list">
-    <div class="gameReport__item" v-for="(game, idx) in gameList" :key="idx">
-      <div class="item__title">{{ game.date }}</div>
-      <div class="item__content">
+    <div class="gameReport__item" v-for="(schedule, idx) in filteredSchedule" :key="idx">
+      <div class="item__title">{{ schedule.date }}</div>
+      <!-- <div class="item__content">
         <v-slide-group v-model="model" center-active class="pa-4" show-arrows>
           <v-slide-item v-for="(gameInfo, idx) in game.gameList" :key="idx">
             <v-card class="game__card" @click="clickGame(gameInfo)">
@@ -39,7 +39,7 @@
             </v-card>
           </v-slide-item>
         </v-slide-group>
-      </div>
+      </div>-->
       <v-divider class="mt-3" />
     </div>
   </div>
@@ -47,21 +47,57 @@
 
 <script>
 import dummy from "../../assets/value/dummy.json";
+import { createNamespacedHelpers } from "vuex";
+
+const {
+  mapState: calendarMapState,
+  mapActions: calendarMapActions
+} = createNamespacedHelpers("calendar");
 
 export default {
+  props: {
+    selectedYear: String,
+    selectedMonth: String
+  },
+  computed: {
+    ...calendarMapState(["scheduleList"])
+  },
+  async created() {
+    this.getScheduleList();
+  },
+  watch: {
+    selectedYear() {
+      this.filteredSchedule = this.selectedFilterlingDate(this.scheduleList);
+    },
+    selectedMonth() {
+      this.filteredSchedule = this.selectedFilterlingDate(this.scheduleList);
+    }
+  },
   data() {
     return {
+      gameList: dummy.gameReportList,
       model: null,
-      gameList: dummy.gameReportList
+      filteredSchedule: []
     };
   },
   methods: {
+    ...calendarMapActions(["select_schedule"]),
     clickGame: function(gameInfo) {
       this.$router.push({
         path: "/gameReport/details/" + gameInfo.id,
         name: "gameDetails",
         params: { gameId: gameInfo.id }
       });
+    },
+    getScheduleList: async function() {
+      this.scheduleList = await this.select_schedule();
+      this.filteredSchedule = this.selectedFilterlingDate(this.scheduleList);
+    },
+    selectedFilterlingDate: function(scheduleList) {
+      let filteringDate = this.selectedYear + "-" + this.selectedMonth;
+      return scheduleList.filter(
+        scheduleInfo => scheduleInfo.date.indexOf(filteringDate) > -1
+      );
     }
   }
 };
