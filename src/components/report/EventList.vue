@@ -57,8 +57,8 @@ export default {
   created() {},
   props: {},
   data: () => ({
-    homeScore: 2,
-    awayScore: 0,
+    homeScore: 3,
+    awayScore: 2,
     gameEventList: dummy.gameEventList,
     years: [
       {
