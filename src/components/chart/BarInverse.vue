@@ -1,6 +1,6 @@
 <template>
-  <svg class="barchart" :width="width + marginLeft / 2" :height="height + marginTop">
-    <g :transform="`translate(${marginLeft / 2}, ${marginTop / 2})`">
+  <svg class="barchart" :width="width + marginLeft + marginRight" :height="height + marginTop + marginBottom">
+    <g :transform="`translate(${marginLeft}, ${marginTop})`">
       <g class="x-axis" fill="none" :transform="`translate(0, ${height})`" style="color: #888">
         <path class="domain" stroke="currentColor" :d="`M0.5,6V0.5H${width}.5V6`"></path>
         <g
@@ -50,7 +50,7 @@
         ></rect>
       </g>
     </g>
-    <text ref="tooltip" fill="currentColor" x="-100" y="-100" dx="1.5em" dy="1em"> {{ tooltipContent }}</text>
+    <text ref="tooltip" fill="currentColor" x="-100" y="-100" dx="0em" dy="0em"> {{ tooltipContent }}</text>
     <defs>
       <linearGradient id='mainGradient'>
         <stop class='stop-left' offset='0'> </stop>
@@ -120,8 +120,10 @@ export default {
   methods: {
     enterEvent(bar){
       let tooltip = d3.select(this.$refs.tooltip)
-      tooltip.attr('x', bar.x + bar.width)
-      tooltip.attr('y', bar.y)
+      let padding = 2
+      let textSize = 10 
+      tooltip.attr('x', bar.x + bar.width + this.marginLeft + padding)
+      tooltip.attr('y', bar.y + this.marginTop + textSize)
       tooltip.text(bar.value)
     },
     outEvent(){

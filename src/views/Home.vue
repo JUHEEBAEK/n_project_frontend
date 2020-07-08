@@ -1,15 +1,6 @@
 <template>
   <div>
     <h2> 2020년 출석횟수 </h2>
-    
-    <chart-bar
-      class="chart"
-      :data-set="chartData"
-      :margin-left="40"
-      :margin-top="40"
-      :tick-count="5"
-      :bar-padding="0.3"
-    />
     <chart-bar-inverse
       class="chart"
       :data-set="chartData"
