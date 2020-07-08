@@ -24,3 +24,8 @@ export const getScheduleList = async() => {
 export const countThreeMonths = async(form) => {
     return await generalReq("post", "/api/attend/count/threeMonths", form);
 };
+
+export const countByYear = async(form) => {
+    return await generalReq("post", "/api/attend/countByYear", form);
+};
+
