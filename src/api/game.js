@@ -9,6 +9,15 @@ export const getinfoGame = async(id) => {
     }
 };
 
+export const getMultiplexInfo = async(gameId) => {
+    try {
+      const response = await generalReq("get", "/api/game/getMultiplexInfo/" + gameId);
+      return response;
+    } catch (e) {
+        console.log(e);
+    }
+};
+
 export const searchWithScheduleIdAndQuarter = async(form) => {
     try {
         const response = await generalReq("post", "/api/game/searchWithScheduleIdAndQuarter", form);

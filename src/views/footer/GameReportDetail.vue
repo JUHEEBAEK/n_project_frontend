@@ -1,6 +1,6 @@
 <template>
   <div>
-    <report-game-info></report-game-info>
+    <report-game-info :game_id="game_id"></report-game-info>
     <report-position-view></report-position-view>
     <report-event-list></report-event-list>
   </div>
@@ -8,7 +8,14 @@
 
 <script>
 export default {
-  name: "TesmSetting"
+  name: "TesmSetting",
+  props: {
+    game_id: {
+      type: [String, Number],
+      default: null
+    }
+  },
+  created() {}
 };
 </script>
 

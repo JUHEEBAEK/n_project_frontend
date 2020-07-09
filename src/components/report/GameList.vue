@@ -1,17 +1,10 @@
 <template>
   <div class="gameReport__list">
-    <div
-      class="gameReport__item"
-      v-for="schedule in filteredSchedule"
-      :key="schedule.id"
-    >
+    <div class="gameReport__item" v-for="schedule in filteredSchedule" :key="schedule.id">
       <div class="item__title">{{ schedule.date }}</div>
       <div class="item__content">
         <v-slide-group v-model="model" center-active class="pa-4" show-arrows>
-          <v-slide-item
-            v-for="(gameInfo, index) in schedule.gameList"
-            :key="index"
-          >
+          <v-slide-item v-for="(gameInfo, index) in schedule.gameList" :key="index">
             <v-card class="game__card" @click="clickGame(gameInfo)">
               <v-card-title class="game__title">
                 <span class="text__quarter">{{ gameInfo.quarter }}</span>
@@ -27,23 +20,11 @@
               </v-card-text>
               <v-card-text>
                 <v-badge class="mr-3" color="#ccda11" dot></v-badge>
-                <v-chip
-                  v-for="(item, idx) in homeMember"
-                  :key="idx"
-                  class="mx-1"
-                  x-small
-                  >{{ item }}</v-chip
-                >
+                <v-chip v-for="(item, idx) in homeMember" :key="idx" class="mx-1" x-small>{{ item }}</v-chip>
               </v-card-text>
               <v-card-text>
                 <v-badge class="mr-3" color="#da8c11" dot></v-badge>
-                <v-chip
-                  v-for="(item, idx) in awayMember"
-                  :key="idx"
-                  class="mx-1"
-                  x-small
-                  >{{ item }}</v-chip
-                >
+                <v-chip v-for="(item, idx) in awayMember" :key="idx" class="mx-1" x-small>{{ item }}</v-chip>
               </v-card-text>
             </v-card>
           </v-slide-item>
@@ -105,9 +86,8 @@ export default {
     ...gameActions(["selectGameList"]),
     clickGame: function(gameInfo) {
       this.$router.push({
-        path: "/gameReport/details/" + gameInfo.id,
         name: "gameDetails",
-        params: { gameId: gameInfo.id }
+        params: { game_id: gameInfo.id }
       });
     },
     getGameList: async function() {
