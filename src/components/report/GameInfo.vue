@@ -1,6 +1,5 @@
 <template>
   <div class="gameInfo__container">
-    <v-progress-linear v-show="isLoading" indeterminate color="primary"></v-progress-linear>
     <div class="gameInfo__header">
       <div class="header__first">
         <span class="px-1 text__type">{{ formatGameType(gameInfo.type) }}</span>
@@ -42,42 +41,24 @@
 <script>
 import gameValue from "../../assets/value/gameReport.json";
 
-import { createNamespacedHelpers } from "vuex";
-const {
-  mapState: gameMapState,
-  mapActions: gameMapAction
-} = createNamespacedHelpers("game");
-
 export default {
   props: {
-    game_id: {
-      type: [String, Number],
+    gameInfo: {
+      type: Object,
       default: null
     }
   },
-  computed: {
-    ...gameMapState(["gameInfo"])
-  },
   created() {
-    this.getGameInfo(this.game_id);
+    // this.getGameInfo(this.game_id);
   },
   data() {
     return {
       homeEmblem: "emblem/nnnn_emblem01.jpg",
-      awayEmblem: "emblem/nnnn_emblem02.jpg",
-      isLoading: false
+      awayEmblem: "emblem/nnnn_emblem02.jpg"
     };
   },
   methods: {
-    ...gameMapAction(["getMultiplexGameInfo"]),
-    getGameInfo: async function(gameId) {
-      this.isLoading = true;
-      this.gameInfo = await this.getMultiplexGameInfo(gameId);
-      console.log("gameInfo.vue ; ", this.gameInfo);
-      this.isLoading = false;
-    },
     formatGameType(gameType) {
-      console.log(gameType);
       return gameValue.gameTypeFormat[gameType];
     }
   }
