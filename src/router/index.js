@@ -5,6 +5,7 @@ import Home from "../views/Home.vue";
 import Attend from "../views/footer/Attend.vue";
 import SquadView from "../views/footer/Squad.vue";
 import GameReport from "../views/footer/GameReport.vue";
+import GameReportDetail from "../views/footer/GameReportDetail.vue";
 import Ranking from "../views/footer/Ranking.vue";
 
 import Team from "../views/nav/TeamView.vue";
@@ -19,9 +20,9 @@ import MatchPrepare from "../views/nav/squad/MatchPrepare.vue";
 import MatchInput from "../views/nav/match/MatchInput.vue";
 import NotFound from "../views/NotFound.vue";
 
-import Stadium from "../views/extra/Stadium.vue"
-import StadiumAdd from "../views/extra/StadiumAdd.vue"
-import StadiumUpdate from "../views/extra/StadiumUpdate.vue"
+import Stadium from "../views/nav/stadium/Stadium.vue"
+import StadiumAdd from "../views/nav/stadium/StadiumAdd.vue"
+import StadiumUpdate from "../views/nav/stadium/StadiumUpdate.vue"
 
 Vue.use(Router);
 
@@ -40,6 +41,12 @@ const routes = [{
     path: "/gameReport",
     name: "gameReport",
     component: GameReport
+  },
+  {
+    path: "/gameReport/details/:game_id",
+    name: "gameDetails",
+    component: GameReportDetail,
+    props: true
   },
   // {
   //   path: "/squadView",

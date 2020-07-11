@@ -9,9 +9,45 @@ export const getinfoGame = async(id) => {
     }
 };
 
+export const getMultiplexInfo = async(gameId) => {
+    try {
+      const response = await generalReq("get", "/api/game/getMultiplexInfo/" + gameId);
+      return response;
+    } catch (e) {
+        console.log(e);
+    }
+};
+
+export const getHomeTeamInfoWithGameId = async(gameId) => {
+    try {
+        const response = await generalReq("get", "/api/game/getHomeTeamInfoWithGameId/" + gameId);
+        return response;
+    } catch (e) {
+        console.log(e);
+    }
+};
+
+export const getAwayTeamInfoWithGameId = async(gameId) => {
+    try {
+      const response = await generalReq("get", "/api/game/getAwayTeamInfoWithGameId/" + gameId);
+      return response;
+    } catch (e) {
+        console.log(e);
+    }
+};
+
 export const searchWithScheduleIdAndQuarter = async(form) => {
     try {
         const response = await generalReq("post", "/api/game/searchWithScheduleIdAndQuarter", form);
+        return response;
+    } catch (e) {
+        console.log(e);
+    }
+};
+
+export const searchWithScheduleId = async(form) => {
+    try {
+        const response = await generalReq("post", "/api/game/searchWithScheduleId", form);
         return response;
     } catch (e) {
         console.log(e);
@@ -36,7 +72,7 @@ export const deleteGame = async(form) => {
     }
 };
 
-export const getGameList = async() => {
+export const selectGameList = async() => {
     try {
         const response = await generalReq("get", "/api/game/list");
         return response;

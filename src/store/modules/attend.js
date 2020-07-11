@@ -3,6 +3,7 @@ import {
     createAttend,
     countThreeMonths,
     deleteAttend,
+    countByYear,
 } from "../../api/attend.js";
 import moment from "moment";
 
@@ -103,6 +104,10 @@ const actions = {
         const response = await attendList(schedule_id);
         commit("SET_ATTEND", response.data);
         commit("UPDATE_ATTEND");
+    },
+    async countByYear(context){
+        const response = await countByYear();
+        return response.data
     },
     async get_attend_rate({
         commit

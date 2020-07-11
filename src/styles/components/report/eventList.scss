@@ -1,21 +1,36 @@
+@import "../../global/mediaQuery.scss";
+
 .report__content {
   border: solid 20px white;
-  background-color: #d8b4b4;
+  background-color: #c5cdc9;
   // background-color: #065728;
   min-height: 200px;
 }
 
 .event__time-text {
-  color: #d25f5f;
+  color: #187c5a;
   font-weight: 700;
   font-size: 1.2rem;
+
+  @include xs {
+    font-size: 1rem;
+  }
+
 }
 
 .event__type-text {
   color: white;
   font-weight: 800;
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   margin-bottom: 12px;
+
+  @include sm {
+    font-size: 1.2rem;
+  }
+
+  @include xs {
+    font-size: 1rem;
+  }
 }
 
 .event__subType-text {
@@ -23,4 +38,12 @@
   font-weight: 800;
   font-size: 1.0rem;
   margin-bottom: 12px;
+
+  @include sm {
+    font-size: 1rem;
+  }
+
+  @include xs {
+    font-size: 0.8rem;
+  }
 }
