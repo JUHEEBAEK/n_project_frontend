@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>2020년 출석횟수</h2>
+    <h2>2020년 출석횟수!!</h2>
     <chart-bar-inverse
       class="chart"
       :data-set="chartData"
