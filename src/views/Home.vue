@@ -1,10 +1,6 @@
 <template>
   <div>
-<<<<<<< HEAD
-    <h2>hello tester {{ message }}</h2>
-    <h2>Good!!!!</h2>
-=======
-    <h2> 2020년 출석횟수 </h2>
+    <h2>2020년 출석횟수</h2>
     <chart-bar-inverse
       class="chart"
       :data-set="chartData"
@@ -13,12 +9,10 @@
       :tick-count="5"
       :bar-padding="0.3"
     />
->>>>>>> develop
   </div>
 </template>
 
 <script>
-
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: attendMapState,
@@ -27,43 +21,38 @@ const {
 
 export default {
   data: () => ({
-<<<<<<< HEAD
-    message: "Wolrd!! second test!"
-  })
-=======
     chartData: [
-        ["Bob", 33],
-        ["Robin", 24],
-        ["Mark", 22],
-        ["Joe", 29],
-        ["Eve", 38],
-        ["Karen", 21],
-        ["Kirsty", 25],
-        ["Chris", 30]
-      ],
+      ["Bob", 33],
+      ["Robin", 24],
+      ["Mark", 22],
+      ["Joe", 29],
+      ["Eve", 38],
+      ["Karen", 21],
+      ["Kirsty", 25],
+      ["Chris", 30]
+    ]
   }),
   async mounted() {
     // 출석횟수 가져오기
-    this.getAttendRate("2020")
+    this.getAttendRate("2020");
   },
   methods: {
-    ...attendMapActions(['countByYear']),
-    async getAttendRate(selectedYear){
-      let yeardata = await this.countByYear()
-      if (yeardata.lenth == 0) return
-      
-      this.chartData = []
-      for (let i in yeardata){
-        let year = yeardata[i].year
-        if (year == selectedYear){
-          let name = yeardata[i].name
-          let count = Number(yeardata[i].count)
-          this.chartData.push([name, count])
+    ...attendMapActions(["countByYear"]),
+    async getAttendRate(selectedYear) {
+      let yeardata = await this.countByYear();
+      if (yeardata.lenth == 0) return;
+
+      this.chartData = [];
+      for (let i in yeardata) {
+        let year = yeardata[i].year;
+        if (year == selectedYear) {
+          let name = yeardata[i].name;
+          let count = Number(yeardata[i].count);
+          this.chartData.push([name, count]);
         }
       }
     }
-  },
->>>>>>> develop
+  }
 };
 </script>
 
