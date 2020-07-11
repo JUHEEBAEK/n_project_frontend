@@ -24,9 +24,13 @@
           </v-col>
 
           <v-col cols="12" class="py-2">
-            <v-text-field v-model="nickName" label="닉네임" hide-details outlined />
+            <v-text-field
+              v-model="nickName"
+              label="닉네임"
+              hide-details
+              outlined
+            />
           </v-col>
-          
         </v-row>
         <v-row>
           <v-col cols="12" class="text-right">
@@ -61,45 +65,37 @@ export default {
     title: "STADIUM UPDATE",
     name: "",
     address: "",
-    nickName: "",
+    nickName: ""
   }),
   async created() {
     // stadiumId로 name, address, nickName을 할당할 것
-    let stadium = await this.details_stadium(this.stadiumId)
-    console.log('stadium', stadium)
-    if (stadium){
+    let stadium = await this.details_stadium(this.stadiumId);
+    if (stadium) {
       this.name = stadium.name;
       this.address = stadium.address;
       this.nickName = stadium.nick_name;
     }
   },
-  methods:{
-    ...stadiumMapActions(['details_stadium', 'update_stadium']),
+  methods: {
+    ...stadiumMapActions(["details_stadium", "update_stadium"]),
     submit() {
       if (this.$refs.formStadiumUpdate.validate()) {
-        
         let _srcData = {
-          "stadium_id": this.stadiumId,
-          "stadium":{
-            "name": this.name,
-            "nick_name": this.nickName,
-            "address": this.address
+          stadium_id: this.stadiumId,
+          stadium: {
+            name: this.name,
+            nick_name: this.nickName,
+            address: this.address
           }
         };
-        // _srcData["stadiumId"] = this.stadiumId
-        // _srcData["name"] = this.name;
-        // _srcData["nick_name"] = this.nickName;
-        // _srcData["address"] = this.address;
-        console.log('submitData: ', _srcData)
         this.update_stadium(_srcData).then(() => {
           this.setSnackBar(this.snackBarSuccess, "정상적으로 수정되었습니다");
-          history.back()
+          history.back();
         });
       }
-    },
+    }
   }
-}
-
+};
 </script>
 
 <style scoped>

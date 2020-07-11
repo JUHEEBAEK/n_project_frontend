@@ -4,9 +4,7 @@
       <v-card-title class="report__header">
         <span class="report__title">게임 기록</span>
         <span class="report__score" v-if="homeScore !== undefined">
-          {{
-          `${homeScore} : ${awayScore} `
-          }}
+          {{ `${homeScore} : ${awayScore} ` }}
         </span>
       </v-card-title>
       <v-card-text class="report__content">
@@ -33,14 +31,10 @@
               @click:close="deleteButton(gameReport)"
             >
               <span class="d-none d-sm-flex px-2">
-                {{
-                gameReport.first_player_name
-                }}
+                {{ gameReport.first_player_name }}
               </span>
               <span class="d-flex d-sm-none">
-                {{
-                showTwoCharAt(gameReport.first_player_name)
-                }}
+                {{ showTwoCharAt(gameReport.first_player_name) }}
               </span>
               <v-icon
                 x-small
@@ -50,19 +44,13 @@
                 :class="eventChipFirstIcon[gameReport.event_type]"
               ></v-icon>
               <span class="d-none d-sm-flex px-2">
-                {{
-                gameReport.last_player_name
-                }}
+                {{ gameReport.last_player_name }}
               </span>
               <span class="d-flex d-sm-none">
-                {{
-                showTwoCharAt(gameReport.last_player_name)
-                }}
+                {{ showTwoCharAt(gameReport.last_player_name) }}
               </span>
               <v-icon x-small v-if="gameReport.last_player_name">
-                {{
-                eventChipSecondIcon[gameReport.event_type]
-                }}
+                {{ eventChipSecondIcon[gameReport.event_type] }}
               </v-icon>
             </v-chip>
           </v-timeline-item>
@@ -126,7 +114,6 @@ export default {
           let result = await this.deleteGameEvent(body);
           // 이벤트가 정상적으로 삭제 될 경우에만 실행이 된다.
           if (result && gameEvent.event_type === "Goal") {
-            console.log("list ---");
             this.$emit("subtractGameScore", gameEvent);
           }
           this.$emit("selectEventList");

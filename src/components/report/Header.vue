@@ -8,11 +8,6 @@ export default {
     selectedYear: Number,
     selectedMonth: String
   },
-  // watch: {
-  //   selectedYear() {
-  //     console.log("?????");
-  //   }
-  // },
   data: () => ({
     years: gameReportData.years,
     months: gameReportData.months

@@ -32,7 +32,6 @@ const mutations = {
         state.gameReportEventInfo = gameReportEventInfo;
     },
     ADD_HOME_SCORE(state, homeScore) {
-        console.log("homeScore", homeScore);
         state.homeScore += homeScore;
     },
     ADD_AWAY_SCORE(state, awayScore) {

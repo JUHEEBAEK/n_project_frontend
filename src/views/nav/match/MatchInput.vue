@@ -2,9 +2,14 @@
   <div class="match__container">
     <!-- 스케쥴 리스트 영역 -->
     <v-contatner fluid>
-      <schedule-date-list :scheduleId="schedule_id" @changeDate="setScheduleData"></schedule-date-list>
+      <schedule-date-list
+        :scheduleId="schedule_id"
+        @changeDate="setScheduleData"
+      ></schedule-date-list>
       <!-- 쿼터 리스트 영역 -->
-      <squad-quarter @changeQuarterAndParams="changeQuarterAndParams"></squad-quarter>
+      <squad-quarter
+        @changeQuarterAndParams="changeQuarterAndParams"
+      ></squad-quarter>
     </v-contatner>
 
     <!-- 경기 기록 이벤트 타입 설정 부분 -->
@@ -155,10 +160,8 @@ export default {
     async setScheduleData(selected_schedule) {
       let changedScheduleId = selected_schedule.id;
       this.setDateString(selected_schedule);
-      console.log(this.$router.currentRoute.params,this.$router.currentRoute.params.schedule_id, changedScheduleId)
 
-      if (this.$router.currentRoute.params.schedule_id != changedScheduleId){
-        console.log("change")
+      if (this.$router.currentRoute.params.schedule_id != changedScheduleId) {
         this.$router.replace({
           name: "matchInput",
           params: {
@@ -230,7 +233,6 @@ export default {
       }
     },
     subtractGameScore: function(eventInfo) {
-      console.log("??????");
       if (eventInfo.team_type === "H") {
         this.SUBTRACT_HOME_SCORE(1);
       } else if (eventInfo.team_type === "A") {
@@ -249,7 +251,6 @@ export default {
           result: gameResult
         }
       };
-      console.log("update: ", body);
       this.updateGameScore(body);
       this.$emit("setGameId");
     }
