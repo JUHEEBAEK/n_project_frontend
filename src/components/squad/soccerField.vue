@@ -14,10 +14,10 @@
               <v-btn
                 class="position__name"
                 small
-                v-if="position[item]"
+                v-if="memberSquad[item]"
                 fab
                 depressed
-              >{{ position[item] }}</v-btn>
+              >{{ memberSquad[item] }}</v-btn>
             </div>
           </div>
         </v-col>
@@ -27,12 +27,25 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from "vuex";
+
+const {
+  mapState: prepareMatchState,
+  mapGetters: prepareMatchGetters,
+  mapMutations: prepareMatchMutations,
+  mapActions: prepareMatchActions
+} = createNamespacedHelpers("prepareMatch");
+
 export default {
   props: {
     positionLabel: {
       type: Object,
       default: {}
-    }
+    },
+    memberSquad: Object
+  },
+  computed: {
+    ...prepareMatchState(["homeMembers", "awayMembers"])
   },
   data: () => ({
     position: {
@@ -48,18 +61,8 @@ export default {
       RW: ""
     }
   }),
-  created() {
-    this.setPositionMember();
-  },
-  methods: {
-    setPositionMember: function() {
-      this.position.GK = "이종은";
-      this.position.CB = "이화인";
-      this.position.LW = "박채민";
-      this.position.RW = "이지윤";
-      this.position.CM = "백주희";
-    }
-  }
+  created() {},
+  methods: {}
 };
 </script>
 

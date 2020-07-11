@@ -11,7 +11,7 @@
         </v-col>
       </v-row>
     </v-app-bar>
-    <report-game-list :selectedYear="nowYear" :selectedMonth="nowMonth"></report-game-list>
+    <report-game-list :game_id="game_id" :selectedYear="nowYear" :selectedMonth="nowMonth"></report-game-list>
   </div>
 </template>
 
@@ -19,6 +19,12 @@
 import gameReportData from "../../assets/value/gameReport.json";
 
 export default {
+  props: {
+    game_id: {
+      type: [String, Number],
+      default: null
+    }
+  },
   data: () => ({
     years: gameReportData.years,
     months: gameReportData.months,

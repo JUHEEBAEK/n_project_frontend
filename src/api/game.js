@@ -18,6 +18,24 @@ export const getMultiplexInfo = async(gameId) => {
     }
 };
 
+export const getHomeTeamInfoWithGameId = async(gameId) => {
+    try {
+        const response = await generalReq("get", "/api/game/getHomeTeamInfoWithGameId/" + gameId);
+        return response;
+    } catch (e) {
+        console.log(e);
+    }
+};
+
+export const getAwayTeamInfoWithGameId = async(gameId) => {
+    try {
+      const response = await generalReq("get", "/api/game/getAwayTeamInfoWithGameId/" + gameId);
+      return response;
+    } catch (e) {
+        console.log(e);
+    }
+};
+
 export const searchWithScheduleIdAndQuarter = async(form) => {
     try {
         const response = await generalReq("post", "/api/game/searchWithScheduleIdAndQuarter", form);

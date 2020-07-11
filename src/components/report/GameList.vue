@@ -7,7 +7,7 @@
           <v-slide-item v-for="(gameInfo, index) in schedule.gameList" :key="index">
             <v-card class="game__card" @click="clickGame(gameInfo)">
               <v-card-title class="game__title">
-                <span class="text__quarter">{{ gameInfo.quarter }}</span>
+                <span class="text__quarter">Q{{ gameInfo.quarter }}</span>
                 <span class="text__result">
                   {{ gameInfo.result }}
                   <span class="text__caption">- WIN</span>
@@ -19,12 +19,24 @@
                 <span class="text__score">{{ gameInfo.away_score }}</span>
               </v-card-text>
               <v-card-text>
-                <v-badge class="mr-3" color="#ccda11" dot></v-badge>
-                <v-chip v-for="(item, idx) in homeMember" :key="idx" class="mx-1" x-small>{{ item }}</v-chip>
+                <!-- <v-badge class="mr-3" color="#ccda11" dot></v-badge> -->
+                <v-chip
+                  color="white"
+                  v-for="(item, idx) in homeMember"
+                  :key="idx"
+                  class="mx-1"
+                  x-small
+                >{{ item }}</v-chip>
               </v-card-text>
               <v-card-text>
-                <v-badge class="mr-3" color="#da8c11" dot></v-badge>
-                <v-chip v-for="(item, idx) in awayMember" :key="idx" class="mx-1" x-small>{{ item }}</v-chip>
+                <!-- <v-badge class="mr-3" color="#da8c11" dot></v-badge> -->
+                <v-chip
+                  color="white"
+                  v-for="(item, idx) in awayMember"
+                  :key="idx"
+                  class="mx-1"
+                  x-small
+                >{{ item }}</v-chip>
               </v-card-text>
             </v-card>
           </v-slide-item>
@@ -52,12 +64,13 @@ const {
 
 export default {
   props: {
+    game_id: [String, Number],
     selectedYear: String,
     selectedMonth: String
   },
   computed: {
     ...calendarMapState(["scheduleList"]),
-    ...gameMapState(["gameList"])
+    ...gameMapState(["gameList", "homeSquad", "awaySquad"])
   },
   async beforeMount() {
     await this.getScheduleList();
@@ -77,13 +90,17 @@ export default {
     return {
       model: null,
       filteredSchedule: [],
-      homeMember: ["주희", "채민", "종은", "솔잎", "아란"],
-      awayMember: ["명선", "화인", "나경", "소연", "지윤"]
+      homeMember: ["", "", "", "", ""],
+      awayMember: ["", "", "", "", ""]
     };
   },
   methods: {
     ...calendarMapActions(["select_schedule"]),
-    ...gameActions(["selectGameList"]),
+    ...gameActions([
+      "selectGameList",
+      "getHomeTeamSquadInfo",
+      "getAwayTeamSquadInfo"
+    ]),
     clickGame: function(gameInfo) {
       this.$router.push({
         name: "gameDetails",
@@ -116,7 +133,6 @@ export default {
       });
       this.filteredSchedule.push({});
       this.filteredSchedule.pop();
-      console.log(this.filteredSchedule);
     }
   }
 };
