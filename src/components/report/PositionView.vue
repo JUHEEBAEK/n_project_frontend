@@ -5,7 +5,7 @@
         <v-card class="home__container">
           <v-card-title>HOME</v-card-title>
           <v-card-text>
-            <squad-soccer-field :positionLabel="homePositionLabel"></squad-soccer-field>
+            <squad-soccer-field :positionLabel="homePositionLabel" :memberSquad="homeMemberSquad"></squad-soccer-field>
           </v-card-text>
         </v-card>
       </v-col>
@@ -16,7 +16,7 @@
         <v-card class="away__container">
           <v-card-title>AWAY</v-card-title>
           <v-card-text>
-            <squad-soccer-field :positionLabel="awayPositionLabel"></squad-soccer-field>
+            <squad-soccer-field :positionLabel="awayPositionLabel" :memberSquad="awayMemberSquad"></squad-soccer-field>
           </v-card-text>
         </v-card>
       </v-col>
@@ -27,11 +27,53 @@
 <script>
 import positionValue from "../../assets/value/Postion.json";
 
+import { createNamespacedHelpers } from "vuex";
+const {
+  mapState: gameMapState,
+  mapActions: gameMapAction
+} = createNamespacedHelpers("game");
+
 export default {
+  props: {
+    game_id: [String, Number],
+    positionLabel: Array
+  },
+  computed: {
+    ...gameMapState(["homeSquad", "awaySquad"])
+  },
+  created() {
+    this.getHomeTeamMembers(this.game_id);
+    this.getAwayTeamMembers(this.game_id);
+  },
   data: () => ({
+    homeMemberSquad: {},
+    awayMemberSquad: {},
     homePositionLabel: positionValue.homePosition,
     awayPositionLabel: positionValue.awayPosition
-  })
+  }),
+  methods: {
+    ...gameMapAction(["getHomeTeamSquadInfo", "getAwayTeamSquadInfo"]),
+    getHomeTeamMembers: async function(game_id) {
+      await this.getHomeTeamSquadInfo(game_id);
+      this.translateKeyPosition(this.homeSquad, "H");
+    },
+    getAwayTeamMembers: async function(game_id) {
+      await this.getAwayTeamSquadInfo(game_id);
+      this.translateKeyPosition(this.awaySquad, "A");
+    },
+    translateKeyPosition: function(squadArry, teamType) {
+      let squad = {};
+      squadArry.forEach(squadInfo => {
+        let position = squadInfo.position;
+        squad[position] = squadInfo.name;
+      });
+      if (teamType === "H") {
+        this.homeMemberSquad = squad;
+      } else if (teamType === "A") {
+        this.awayMemberSquad = squad;
+      }
+    }
+  }
 };
 </script>
 

@@ -43,9 +43,10 @@ const routes = [{
     component: GameReport
   },
   {
-    path: "/gameReport/details:gameId",
+    path: "/gameReport/details/:game_id",
     name: "gameDetails",
-    component: GameReportDetail
+    component: GameReportDetail,
+    props: true
   },
   // {
   //   path: "/squadView",

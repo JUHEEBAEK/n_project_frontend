@@ -3,7 +3,7 @@
     <v-card class="report__container" elevation="1">
       <v-card-title class="report__header">
         <span class="report__title">게임 기록</span>
-        <span class="report__score">{{ `${homeScore} : ${awayScore} `}}</span>
+        <span class="report__score">{{ `${gameInfo.home_score} : ${gameInfo.away_score} `}}</span>
       </v-card-title>
       <v-card-text class="report__content">
         <v-row v-resize="onResize">
@@ -19,7 +19,7 @@
                 :left="event.team_type === 'H' ? true : false"
               >
                 <template v-slot:opposite>
-                  <span class="event__time-text" v-text="event.event_time"></span>
+                  <span class="event__time-text" v-text="event.time"></span>
                 </template>
                 <div
                   class="py-4 text-left"
@@ -32,12 +32,12 @@
                   >{{searchProperTimelineIcon(event.event_type)}}</v-icon>
                   <span class="event__type-text">{{ event.event_type}}</span>
                   <span
-                    v-if="event.lastPlayer"
+                    v-if="event.first_player_name"
                     class="event__subType-text"
                   >- {{ searchProperEventType(event.event_type) }}</span>
                   <div class="white--text">
-                    <span>{{ event.firstPlayer}}</span>
-                    <span v-if="event.lastPlayer">- {{ event.lastPlayer}}</span>
+                    <span>{{ event.first_player_name}}</span>
+                    <span v-if="event.first_player_name">- {{ event.last_player_name}}</span>
                   </div>
                 </div>
               </v-timeline-item>
@@ -55,33 +55,11 @@ import matchValue from "../../assets/value/match.json";
 
 export default {
   created() {},
-  props: {},
+  props: {
+    gameEventList: Array,
+    gameInfo: Object
+  },
   data: () => ({
-    homeScore: 3,
-    awayScore: 2,
-    gameEventList: dummy.gameEventList,
-    years: [
-      {
-        color: "cyan",
-        year: "1960"
-      },
-      {
-        color: "green",
-        year: "1970"
-      },
-      {
-        color: "pink",
-        year: "1980"
-      },
-      {
-        color: "amber",
-        year: "1990"
-      },
-      {
-        color: "orange",
-        year: "2000"
-      }
-    ],
     windowSize: {
       x: 0,
       y: 0
