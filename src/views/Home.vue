@@ -9,6 +9,7 @@
       :tick-count="5"
       :bar-padding="0.3"
     />
+    <stadium-map />
   </div>
 </template>
 
