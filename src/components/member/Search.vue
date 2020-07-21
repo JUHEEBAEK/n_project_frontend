@@ -1,6 +1,7 @@
 <template>
   <div>
-    <v-app-bar flat color="white">
+    <v-app-bar flat color="white" class="pa-0">
+      <h3 class="mr-5">{{ title }}</h3>
       <v-toolbar-title class="member__count grey--text">총 {{ searchResult.length }} 명</v-toolbar-title>
       <v-spacer />
       <v-text-field
@@ -10,7 +11,15 @@
         prepend-icon="fas fa-search"
         single-line
       />
-      <v-btn class="mx-2" fab dark small color="primary" @click="moveMemverAdd()">
+      <v-btn
+        v-if="isAddButton"
+        class="mx-2"
+        fab
+        dark
+        small
+        color="primary"
+        @click="moveMemverAdd()"
+      >
         <v-icon dark>fas fa-plus</v-icon>
       </v-btn>
     </v-app-bar>
@@ -24,6 +33,13 @@ const {
   mapMutations: memberMapMutations
 } = createNamespacedHelpers("member");
 export default {
+  props: {
+    title: String,
+    isAddButton: {
+      type: Boolean,
+      default: false
+    }
+  },
   data: () => ({
     model: null,
     search: null,

@@ -6,8 +6,13 @@
     },
     {
       "title": "MEMBER",
-      "to": "/member",
+      "to": "/member-admin",
       "icon": "team.png"
+    },
+    {
+      "title": "ATTEND",
+      "to": "/attend",
+      "icon": "046-calendar.png"
     },
     {
       "title": "STADIUM",
@@ -30,9 +35,9 @@
     }
   ],
   "footerItems": [{
-      "title": "ATTEND",
-      "to": "/attend",
-      "icon": "046-calendar.png"
+      "title": "MEMBER",
+      "to": "/member",
+      "icon": "team.png"
     },
     {
       "title": "SQUAD",

@@ -1,7 +1,8 @@
 import * as constants from "../constants";
 import {
   createMember,
-  getMember,
+  getReqularMember,
+  getAllMember,
   deleteMember,
   updateMember,
   detailsMember
@@ -21,6 +22,10 @@ const state = {
 const getters = {};
 const mutations = {
   [constants.SELECT_MEMBER](state, memberList) {
+    state.memberList = memberList;
+    state.searchResult = memberList;
+  },
+  SELECT_ALL_MEMBER(state, memberList){
     state.memberList = memberList;
     state.searchResult = memberList;
   },
@@ -47,8 +52,20 @@ const actions = {
     commit
   }) {
     try {
-      const response = await getMember();
+      const response = await getReqularMember();
       commit("SELECT_MEMBER", response);
+      return response;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+
+  async select_all_member({
+    commit
+  }) {
+    try {
+      const response = await getAllMember();
+      commit("SELECT_ALL_MEMBER", response);
       return response;
     } catch (e) {
       console.log(e);
