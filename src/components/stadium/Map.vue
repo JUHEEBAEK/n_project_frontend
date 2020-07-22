@@ -72,6 +72,7 @@ export default {
       this.map.relayout();
     },
     displayMarker(markerPositions) {
+      // 마커 등록 https://apis.map.kakao.com/web/sample/addMarkerClickEvent/
       if (this.markers.length > 0) {
         this.markers.forEach(marker => marker.setMap(null));
       }
@@ -84,10 +85,13 @@ export default {
         this.markers = positions.map(
           position =>
             new kakao.maps.Marker({
-              map: this.map,
-              position
+              map: this.map, // marker.setMap(map)하는 과정을 생략
+              position,
+              clickable: true
             })
         );
+        console.log('markers가 marker리스트를 과연 반환할까?', this.markers)
+        
         // 모든 포지션을 lat lng 으로 변환해서 bounds(array)에 집어넣어주고
         // bounds를 인자로 Bounds를 잡는다
         // 남서쪽 북동쪽 좌표가 아마 순서대로 와야하지 않을까 싶다 (증명하려면 bounds가 2개의 값을 가지고 있어야한다?)
@@ -98,6 +102,20 @@ export default {
 
         this.map.setBounds(bounds);
       }
+    },
+    displayAllMarker(){
+      // this.stadiumList 을 가져온다
+      // 1. 마커 생성 
+      // 2. iwContent 만들기
+      // https://apis.map.kakao.com/web/sample/markerWithInfoWindow/
+      // 2-1. 일단 단순하게 경기장 이름을 표시해주자 (폰트 선택, 글씨 굵기 조정)
+
+
+      // 3. 이벤트 등록 
+      // https://apis.map.kakao.com/web/sample/addMarkerClickEvent/
+
+      // etc. 다른 마커 클릭시, 기존 열린 윈도우 닫기 (인포 윈도우 관리법)
+      // https://devtalk.kakao.com/t/topic/87779/3
     },
     searchWithKeyword(){
       // backend에서 주소 받아오기
@@ -119,7 +137,7 @@ export default {
           if (status === kakao.maps.services.Status.OK) {
               // console.log('searchWithAddress', result);
               if (result[0]){
-                _this.new_markers.push([result[0].x, result[0].y])
+                _this.new_markers.push([result[0].y, result[0].x])
                 return { 
                   longitude: result[0].x, 
                   latitude: result[0].y
