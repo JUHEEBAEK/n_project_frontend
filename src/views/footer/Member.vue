@@ -1,6 +1,6 @@
 <template>
   <div>
-    <member-toolbar />
+    <member-search />
     <member-cardList />
   </div>
 </template>

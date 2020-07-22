@@ -9,8 +9,14 @@ export const createMember = async(form) => {
   }
 };
 
-export const getMember = async() => {
+export const getReqularMember = async() => {
   const response = await generalReq("get", "/api/member/list");
+  return response.data;
+  
+};
+
+export const getAllMember = async() => {
+  const response = await generalReq("get", "/api/member/allMemberList");
   return response.data;
   
 };
