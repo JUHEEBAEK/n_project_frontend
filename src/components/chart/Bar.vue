@@ -92,8 +92,8 @@ import * as d3 from "d3";
 export default {
   name: "BarChart",
   props: {
-    height: { default: 200 },
-    width: { default: 500 },
+    height: { default: 150 },
+    width: { default: 400 },
     dataSet: { default: [] },
     marginLeft: { default: 60 },
     marginTop: { default: 40 },
