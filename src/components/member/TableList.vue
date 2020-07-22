@@ -196,7 +196,7 @@ export default {
 
       this.editedItem.grade = memberValue["gradeNumber"][item.grade];
       this.editedItem.uniform_number = Number(item.uniform_number);
-      console.log("editedItem", this.editedItem);
+      console.log(this.editedItem.grade);
       this.dialog = true;
     },
     close() {
