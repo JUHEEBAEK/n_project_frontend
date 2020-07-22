@@ -92,13 +92,13 @@ import * as d3 from "d3";
 export default {
   name: "BarChart",
   props: {
-    height: { default: 500 },
-    width: { default: 500 },
+    height: { default: 450 },
+    width: { default: 300 },
     dataSet: { default: [] },
-    marginLeft: { default: 60 },
+    marginLeft: { default: 40 },
     marginTop: { default: 40 },
     marginBottom: { default: 40 },
-    marginRight: { default: 60 },
+    marginRight: { default: 40 },
     tickCount: { default: 5 },
     barPadding: { default: 0.3 }
   },

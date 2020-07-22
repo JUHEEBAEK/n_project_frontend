@@ -1,15 +1,20 @@
 <template>
-  <div>
-    <h2>2020년 출석횟수!!</h2>
-    <chart-bar-inverse
-      class="chart"
-      :data-set="chartData"
-      :margin-left="80"
-      :margin-top="40"
-      :tick-count="5"
-      :bar-padding="0.3"
-    />
-  </div>
+  <v-container>
+    <v-row>
+      <v-col cols="12" sm="6" md="6" lg="6" xl="6">
+        <widget-basic :headerTitle="title">
+          <chart-bar-inverse
+            class="chart"
+            :data-set="chartData"
+            :margin-left="40"
+            :margin-top="0"
+            :tick-count="5"
+            :bar-padding="0.3"
+          />
+        </widget-basic>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -21,16 +26,8 @@ const {
 
 export default {
   data: () => ({
-    chartData: [
-      ["Bob", 33],
-      ["Robin", 24],
-      ["Mark", 22],
-      ["Joe", 29],
-      ["Eve", 38],
-      ["Karen", 21],
-      ["Kirsty", 25],
-      ["Chris", 30]
-    ]
+    chartData: [],
+    title: "2020 출석횟수"
   }),
   async mounted() {
     // 출석횟수 가져오기

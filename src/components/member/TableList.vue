@@ -2,6 +2,7 @@
   <v-data-table
     :headers="headers"
     :items="searchResult"
+    :loading="tableLoading"
     :footer-props="memberPaging"
     sort-by="name"
     hide-default-footer
@@ -18,7 +19,10 @@
             <v-container>
               <v-row>
                 <v-col cols="12" sm="6">
-                  <v-text-field v-model="editedItem.name" label="이름"></v-text-field>
+                  <v-text-field
+                    v-model="editedItem.name"
+                    label="이름"
+                  ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-menu
@@ -39,7 +43,10 @@
                         v-on="on"
                       />
                     </template>
-                    <v-date-picker v-model="editedItem.join_date" @input="menu2 = false" />
+                    <v-date-picker
+                      v-model="editedItem.join_date"
+                      @input="menu2 = false"
+                    />
                   </v-menu>
                 </v-col>
                 <v-col cols="12" sm="6">
@@ -51,10 +58,19 @@
                   />
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-text-field v-model="editedItem.nick_name" label="닉네임"></v-text-field>
+                  <v-text-field
+                    v-model="editedItem.nick_name"
+                    label="닉네임"
+                  ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-text-field type="number" min="1" max="3" v-model="editedItem.grade" label="등급"></v-text-field>
+                  <v-text-field
+                    type="number"
+                    min="1"
+                    max="3"
+                    v-model="editedItem.grade"
+                    label="등급"
+                  ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-menu
@@ -76,7 +92,10 @@
                         v-on="on"
                       />
                     </template>
-                    <v-date-picker v-model="editedItem.withdraw_date" @input="menu = false" />
+                    <v-date-picker
+                      v-model="editedItem.withdraw_date"
+                      @input="menu = false"
+                    />
                   </v-menu>
                 </v-col>
               </v-row>
@@ -86,13 +105,17 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-            <v-btn color="blue darken-1" text @click="save(editedItem)">Save</v-btn>
+            <v-btn color="blue darken-1" text @click="save(editedItem)"
+              >Save</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-dialog>
     </template>
     <template v-slot:item.actions="{ item }">
-      <v-icon small class="mr-2" @click="editItem(item)">fas fa-pencil-alt</v-icon>
+      <v-icon small class="mr-2" @click="editItem(item)"
+        >fas fa-pencil-alt</v-icon
+      >
       <v-icon small @click="deleteMember(item.id)">fas fa-trash-alt</v-icon>
     </template>
   </v-data-table>
@@ -135,8 +158,10 @@ export default {
   },
   mixins: [util],
   async mounted() {
+    this.tableLoading = true;
     await this.select_all_member();
     this.setAllMemberList(this.searchResult);
+    this.tableLoading = false;
   },
   data: () => ({
     menu: false,
@@ -168,7 +193,8 @@ export default {
       uniform_number: 0,
       withdraw_date: null
     },
-    memberPaging: { "items-per-page-options": [10000] }
+    memberPaging: { "items-per-page-options": [10000] },
+    tableLoading: false
   }),
   watch: {
     dialog(val) {
