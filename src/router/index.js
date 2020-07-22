@@ -2,16 +2,18 @@ import Vue from "vue";
 import Router from "vue-router";
 
 import Home from "../views/Home.vue";
-import Attend from "../views/footer/Attend.vue";
+
+import Member from "../views/footer/Member.vue";
 import SquadView from "../views/footer/Squad.vue";
 import GameReport from "../views/footer/GameReport.vue";
 import GameReportDetail from "../views/footer/GameReportDetail.vue";
 import Ranking from "../views/footer/Ranking.vue";
 
 import Team from "../views/nav/TeamView.vue";
-import Member from "../views/nav/member/Member.vue";
 import Profile from "../views/nav/member/Profile.vue";
 import MemberAdd from "../views/nav/member/MemberAdd.vue";
+import MemberAdmin from "../views/nav/member/MemberAdmin.vue";
+import Attend from "../views/nav/Attend.vue";
 import Calendar from "../views/nav/Schedule.vue";
 
 import Squad from "../views/nav/squad/Squad.vue";
@@ -33,9 +35,8 @@ const routes = [{
   },
   // footer view
   {
-    path: "/attend",
-    name: "attend",
-    component: Attend
+    path: "/member",
+    component: Member,
   },
   {
     path: "/gameReport",
@@ -64,8 +65,13 @@ const routes = [{
     component: Team,
   },
   {
-    path: "/member",
-    component: Member,
+    path: "/member-admin",
+    component: MemberAdmin,
+  },
+  {
+    path: "/attend",
+    name: "attend",
+    component: Attend
   },
   {
     name: "memberUpdatePage",

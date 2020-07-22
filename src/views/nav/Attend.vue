@@ -98,7 +98,7 @@ export default {
       await this.get_attend(item.id);
     },
     setFormatMemberList: async function(countMember) {
-      this.memberList = await getMember();
+      this.memberList = await geRequlartMember();
     }
   }
 };

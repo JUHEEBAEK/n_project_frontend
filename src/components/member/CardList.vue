@@ -26,7 +26,6 @@
           </v-card-text>
           <v-card-actions class="justify-center">
             <v-btn color="primary" text @click="moveDetails(item)">UPDATE</v-btn>
-            <v-btn color="red" text @click="deleteMember(item.id)">DELETE</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -50,16 +49,8 @@ export default {
   mounted() {
     this.select_member();
   },
-
   methods: {
-    ...memberMapActions(["select_member", "delete_member"]),
-    async deleteMember(member_id) {
-      let formData = { member_id: member_id };
-      if (confirm("정말 정말로 삭제하시겠습니까??")) {
-        await this.delete_member(formData);
-        this.select_member();
-      }
-    },
+    ...memberMapActions(["select_member"]),
     moveDetails(item) {
       this.$router.push({
         name: "memberUpdatePage",
