@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div id="map"></div>
+    <div id="map" style="width:800px; height: 800px"></div>
     <div class="button-group">
       <v-btn @click="changeSize(0)">Hide</v-btn>
       <v-btn @click="changeSize(1000)">show</v-btn>
       <v-btn @click="displayMarker(markerPositions1)">marker set 1</v-btn>
       <v-btn @click="displayMarker(markerPositions2)">marker set 2</v-btn>
-      <v-btn @click="displayMarker(new_markers)">marker set 3 (empty)</v-btn>
+      <v-btn @click="displayAllMarker(stadiumList)">NNNN 경기장 가져오기</v-btn>
       <v-btn @click="processingDBdata()"> 경기장 위치들 확인 </v-btn>
       <v-btn @click="updateDB()"> 디비 업데이트 </v-btn>
     </div>
@@ -60,7 +60,7 @@ export default {
       console.log("initMap", kakao.maps);
       const container = document.getElementById("map");
       const options = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
+        center: new kakao.maps.LatLng(37.5642, 127.001),
         level: 10
       };
       this.map = new kakao.maps.Map(container, options);
@@ -103,9 +103,35 @@ export default {
         this.map.setBounds(bounds);
       }
     },
-    displayAllMarker(){
+    // TODO: 여기 
+    displayAllMarker(markerPositions){
+      // stadium list has latitude, longitude, nick_name, name
       // this.stadiumList 을 가져온다
+      // 유사배열 핸들링 https://medium.com/@yerin22/190703-%EC%9C%A0%EC%82%AC%EB%B0%B0%EC%97%B4%EC%9D%84-%EC%A7%84%EC%A7%9C-%EB%B0%B0%EC%97%B4%EB%A1%9C-%EB%B0%94%EA%BE%B8%EB%8A%94-%EB%B0%A9%EB%B2%95-fdd29f82ec48
+      // console.log(markerPositions, Array.from(markerPositions))
+      // console.log(this.markers, (this.markers.length > 0))
       // 1. 마커 생성 
+      if (this.markers.length > 0) {
+        this.markers.forEach(marker => marker.setMap(null));
+      }
+      let positions = []
+      for (let i = 0; i < markerPositions.length; i++){
+        let position = new kakao.maps.LatLng(Number(markerPositions[i].latitude), Number(markerPositions[i].longitude))
+        positions.push(position)
+      }
+
+      if (positions.length > 0) {
+        this.markers = positions.map(
+          position =>
+            new kakao.maps.Marker({
+              map: this.map, // marker.setMap(map)하는 과정을 생략
+              position,
+              clickable: true
+            })
+        );
+      }
+
+      
       // 2. iwContent 만들기
       // https://apis.map.kakao.com/web/sample/markerWithInfoWindow/
       // 2-1. 일단 단순하게 경기장 이름을 표시해주자 (폰트 선택, 글씨 굵기 조정)
@@ -150,6 +176,7 @@ export default {
       //경기 성남시 분당구 삼평동 661
       await geocoder.addressSearch(address, callback);
     },
+    // TODO: 여기 밑에는 경기장 등록시 재활용 예정
     async processingDBdata(){
       // address: "서울 송파구 올림픽로 25 잠실종합운동장 제1풋살장"
       // id: (...)
