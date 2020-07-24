@@ -27,6 +27,7 @@ export default {
     return {
       map: null,
       places: null,
+      infowWindows: null, 
       new_markers:[],
       markerPositions1: [
         [33.452278, 126.567803],
@@ -136,6 +137,7 @@ export default {
       // 2. iwContent 만들기
       // https://apis.map.kakao.com/web/sample/markerWithInfoWindow/
       // 2-1. TODO: 일단 단순하게 경기장 이름을 표시해주자 (폰트 선택, 글씨 굵기 조정)
+      this.infowWindows = []
       for (let i = 0; i < markerPositions.length; i++){
         let iwContent = `<div style="padding:5px;"> ${markerPositions[i].nick_name} </div>`
         let iwPosition = new kakao.maps.LatLng(Number(markerPositions[i].latitude), Number(markerPositions[i].longitude))
@@ -144,6 +146,7 @@ export default {
             content : iwContent, 
             removable: true
         });
+        this.infowWindows.push(infowindow)
         // 모든 윈도우를 열 필요가 있을 때 주석 해제
         // infowindow.open(this.map, this.markers[i])
 
@@ -151,6 +154,9 @@ export default {
         // https://apis.map.kakao.com/web/sample/addMarkerClickEvent/
         // 마커에 클릭이벤트를 등록합니다
         kakao.maps.event.addListener(this.markers[i], 'click', function() {
+          _this.infowWindows.forEach(infowindow => {
+            infowindow.close()
+          })
           // 마커 위에 인포윈도우를 표시합니다
           infowindow.open(_this.map, _this.markers[i]);  
         });
