@@ -1,6 +1,8 @@
 <template>
   <div>
+    <stadium-map />
     <h2>2020년 출석횟수!!</h2>
+    
     <chart-bar-inverse
       class="chart"
       :data-set="chartData"
@@ -9,7 +11,7 @@
       :tick-count="5"
       :bar-padding="0.3"
     />
-    <stadium-map />
+    
   </div>
 </template>
 
