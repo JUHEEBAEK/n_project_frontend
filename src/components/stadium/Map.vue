@@ -139,7 +139,14 @@ export default {
       // 2-1. TODO: 일단 단순하게 경기장 이름을 표시해주자 (폰트 선택, 글씨 굵기 조정)
       this.infowWindows = []
       for (let i = 0; i < markerPositions.length; i++){
-        let iwContent = `<div style="padding:5px;"> ${markerPositions[i].nick_name} </div>`
+        let name = markerPositions[i].nick_name
+        let lat = markerPositions[i].latitude
+        let long = markerPositions[i].longitude
+        
+
+        let iwContent = `<div style="padding:5px;"> ${markerPositions[i].nick_name} <br>
+                        <a href="https://map.kakao.com/link/to/${name},${lat},${long}" style="color:blue" target="_blank">길찾기</a></div> 
+                        </div>`
         let iwPosition = new kakao.maps.LatLng(Number(markerPositions[i].latitude), Number(markerPositions[i].longitude))
         let infowindow = new kakao.maps.InfoWindow({
             position : iwPosition, 
