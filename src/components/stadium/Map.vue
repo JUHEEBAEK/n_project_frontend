@@ -104,11 +104,11 @@ export default {
         this.map.setBounds(bounds);
       }
     },
-    // TODO: 여기 
+    
     displayAllMarker(markerPositions){
       // stadium list has latitude, longitude, nick_name, name
       // this.stadiumList 을 가져온다
-
+      let _this = this;
       // 1. 마커 생성 
       if (this.markers.length > 0) {
         this.markers.forEach(marker => marker.setMap(null));
@@ -135,21 +135,26 @@ export default {
       
       // 2. iwContent 만들기
       // https://apis.map.kakao.com/web/sample/markerWithInfoWindow/
-      // 2-1. 일단 단순하게 경기장 이름을 표시해주자 (폰트 선택, 글씨 굵기 조정)
+      // 2-1. TODO: 일단 단순하게 경기장 이름을 표시해주자 (폰트 선택, 글씨 굵기 조정)
       for (let i = 0; i < markerPositions.length; i++){
         let iwContent = `<div style="padding:5px;"> ${markerPositions[i].nick_name} </div>`
         let iwPosition = new kakao.maps.LatLng(Number(markerPositions[i].latitude), Number(markerPositions[i].longitude))
         let infowindow = new kakao.maps.InfoWindow({
             position : iwPosition, 
-            content : iwContent 
+            content : iwContent, 
+            removable: true
         });
-        infowindow.open(this.map, this.markers[i])
+        // 모든 윈도우를 열 필요가 있을 때 주석 해제
+        // infowindow.open(this.map, this.markers[i])
+
+        // 3. 이벤트 등록 
+        // https://apis.map.kakao.com/web/sample/addMarkerClickEvent/
+        // 마커에 클릭이벤트를 등록합니다
+        kakao.maps.event.addListener(this.markers[i], 'click', function() {
+          // 마커 위에 인포윈도우를 표시합니다
+          infowindow.open(_this.map, _this.markers[i]);  
+        });
       }
-
-      
-
-      // 3. 이벤트 등록 
-      // https://apis.map.kakao.com/web/sample/addMarkerClickEvent/
 
       // etc. 다른 마커 클릭시, 기존 열린 윈도우 닫기 (인포 윈도우 관리법)
       // https://devtalk.kakao.com/t/topic/87779/3
