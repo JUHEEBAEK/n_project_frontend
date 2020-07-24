@@ -48,9 +48,10 @@ export default {
   computed: {
     ...stadiuMapState(['stadiumList']),
   },
-  mounted() {
+  async mounted() {
     this.initMap();    
-    this.select_stadium();
+    await this.select_stadium();
+    this.displayAllMarker(this.stadiumList)
     // this.searchWithKeyword()
     // this.searchWithAddress()
   },
@@ -107,13 +108,13 @@ export default {
     displayAllMarker(markerPositions){
       // stadium list has latitude, longitude, nick_name, name
       // this.stadiumList 을 가져온다
-      // 유사배열 핸들링 https://medium.com/@yerin22/190703-%EC%9C%A0%EC%82%AC%EB%B0%B0%EC%97%B4%EC%9D%84-%EC%A7%84%EC%A7%9C-%EB%B0%B0%EC%97%B4%EB%A1%9C-%EB%B0%94%EA%BE%B8%EB%8A%94-%EB%B0%A9%EB%B2%95-fdd29f82ec48
-      // console.log(markerPositions, Array.from(markerPositions))
-      // console.log(this.markers, (this.markers.length > 0))
+
       // 1. 마커 생성 
       if (this.markers.length > 0) {
         this.markers.forEach(marker => marker.setMap(null));
       }
+
+      // markerPositions가 유사배열일 수 있어서 forEach를 쓰지 않음
       let positions = []
       for (let i = 0; i < markerPositions.length; i++){
         let position = new kakao.maps.LatLng(Number(markerPositions[i].latitude), Number(markerPositions[i].longitude))
@@ -135,7 +136,17 @@ export default {
       // 2. iwContent 만들기
       // https://apis.map.kakao.com/web/sample/markerWithInfoWindow/
       // 2-1. 일단 단순하게 경기장 이름을 표시해주자 (폰트 선택, 글씨 굵기 조정)
+      for (let i = 0; i < markerPositions.length; i++){
+        let iwContent = `<div style="padding:5px;"> ${markerPositions[i].nick_name} </div>`
+        let iwPosition = new kakao.maps.LatLng(Number(markerPositions[i].latitude), Number(markerPositions[i].longitude))
+        let infowindow = new kakao.maps.InfoWindow({
+            position : iwPosition, 
+            content : iwContent 
+        });
+        infowindow.open(this.map, this.markers[i])
+      }
 
+      
 
       // 3. 이벤트 등록 
       // https://apis.map.kakao.com/web/sample/addMarkerClickEvent/
