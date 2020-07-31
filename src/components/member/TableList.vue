@@ -10,7 +10,7 @@
   >
     <template v-slot:top>
       <v-dialog v-model="dialog" max-width="500px">
-        <v-card>
+        <v-card :loading="isLoading">
           <v-card-title>
             <span class="headline">{{ formTitle }}</span>
           </v-card-title>
@@ -19,10 +19,7 @@
             <v-container>
               <v-row>
                 <v-col cols="12" sm="6">
-                  <v-text-field
-                    v-model="editedItem.name"
-                    label="이름"
-                  ></v-text-field>
+                  <v-text-field v-model="editedItem.name" label="이름"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-menu
@@ -43,10 +40,7 @@
                         v-on="on"
                       />
                     </template>
-                    <v-date-picker
-                      v-model="editedItem.join_date"
-                      @input="menu2 = false"
-                    />
+                    <v-date-picker v-model="editedItem.join_date" @input="menu2 = false" />
                   </v-menu>
                 </v-col>
                 <v-col cols="12" sm="6">
@@ -58,19 +52,10 @@
                   />
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-text-field
-                    v-model="editedItem.nick_name"
-                    label="닉네임"
-                  ></v-text-field>
+                  <v-text-field v-model="editedItem.nick_name" label="닉네임"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-text-field
-                    type="number"
-                    min="1"
-                    max="3"
-                    v-model="editedItem.grade"
-                    label="등급"
-                  ></v-text-field>
+                  <v-text-field type="number" min="1" max="3" v-model="editedItem.grade" label="등급"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-menu
@@ -92,10 +77,7 @@
                         v-on="on"
                       />
                     </template>
-                    <v-date-picker
-                      v-model="editedItem.withdraw_date"
-                      @input="menu = false"
-                    />
+                    <v-date-picker v-model="editedItem.withdraw_date" @input="menu = false" />
                   </v-menu>
                 </v-col>
               </v-row>
@@ -105,17 +87,13 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-            <v-btn color="blue darken-1" text @click="save(editedItem)"
-              >Save</v-btn
-            >
+            <v-btn color="blue darken-1" text @click="save(editedItem)">Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
     </template>
     <template v-slot:item.actions="{ item }">
-      <v-icon small class="mr-2" @click="editItem(item)"
-        >fas fa-pencil-alt</v-icon
-      >
+      <v-icon small class="mr-2" @click="editItem(item)">fas fa-pencil-alt</v-icon>
       <v-icon small @click="deleteMember(item.id)">fas fa-trash-alt</v-icon>
     </template>
   </v-data-table>
@@ -167,6 +145,7 @@ export default {
     menu: false,
     menu2: false,
     dialog: false,
+    isLoading: false,
     headers: [
       {
         text: "Name",
@@ -201,7 +180,6 @@ export default {
       val || this.close();
     }
   },
-
   methods: {
     ...memberMapMutations(["SET_SEARCH_RESULT"]),
     ...memberMapActions([
@@ -232,11 +210,27 @@ export default {
         this.editedIndex = -1;
       });
     },
-    save(editedItem) {
+    save: async function(editedItem) {
+      this.isLoading = true;
       let formData = { member_id: editedItem.id, member: editedItem };
-      this.update_member(formData);
+      const result = await this.update_member(formData);
+      console.log(result.status);
+      switch (result.status) {
+        case 200:
+          this.$emit("setSnackBar", "showSuccess", "정상적으로 수정되었습니다");
+          break;
+        case 401:
+          this.$emit("setSnackBar", "showFail", "인증 실패");
+          break;
+        case 500:
+          this.$emit("setSnackBar", "showFail", "서버 에러");
+          break;
+        default:
+          this.$emit("setSnackBar", "showFail", "네트워크 에러");
+          break;
+      }
+      this.isLoading = false;
 
-      this.setSnackBar(this.snackBarSuccess, "정상적으로 수정되었습니다");
       this.select_all_member();
       this.close();
     },

@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12" sm="6" md="6" lg="6" xl="6">
-        <widget-basic :headerTitle="title">
+        <widget-basic :headerTitle="title" :isLoading="isLoading">
           <chart-bar-inverse
             class="chart"
             :data-set="chartData"
@@ -27,7 +27,8 @@ const {
 export default {
   data: () => ({
     chartData: [],
-    title: "2020 출석횟수"
+    title: "2020 출석횟수",
+    isLoading: false
   }),
   async mounted() {
     // 출석횟수 가져오기
@@ -36,9 +37,9 @@ export default {
   methods: {
     ...attendMapActions(["countByYear"]),
     async getAttendRate(selectedYear) {
+      this.isLoading = true;
       let yeardata = await this.countByYear();
       if (yeardata.lenth == 0) return;
-
       this.chartData = [];
       for (let i in yeardata) {
         let year = yeardata[i].year;
@@ -48,6 +49,7 @@ export default {
           this.chartData.push([name, count]);
         }
       }
+      this.isLoading = false;
     }
   }
 };

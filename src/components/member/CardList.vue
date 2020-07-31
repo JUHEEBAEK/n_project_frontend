@@ -30,6 +30,7 @@
         </v-card>
       </v-col>
     </v-row>
+    <util-spinner :isLoading="isLoading"></util-spinner>
   </div>
 </template>
 
@@ -41,13 +42,37 @@ const {
   mapActions: memberMapActions
 } = createNamespacedHelpers("member");
 
+import util from "../../mixin/util.js";
+
 export default {
-  data: () => ({}),
+  mixins: [util],
+  data: () => ({
+    isLoading: true
+  }),
   computed: {
     ...memberMapState(["searchResult"])
   },
-  mounted() {
-    this.select_member();
+  async mounted() {
+    this.isLoading = true;
+    const result = await this.select_member();
+    switch (result.status) {
+      case 200:
+        this.setSnackBar(this.snackBarSuccess, "정상적으로 수정되었습니다");
+        this.isLoading = false;
+        break;
+      case 401:
+        this.setSnackBar(this.snackBarFail, "인증 실패");
+        break;
+      case 500:
+        this.setSnackBar(this.snackBarFail, "서버 에러");
+        break;
+      case undefined:
+        this.setSnackBar(
+          this.snackBarFail,
+          "네트워크가 연결이 되지 않았습니다."
+        );
+        break;
+    }
   },
   methods: {
     ...memberMapActions(["select_member"]),

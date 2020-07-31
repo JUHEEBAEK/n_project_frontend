@@ -17,10 +17,19 @@ const util = {
     // snackBar 성공 메세지
     snackBarSuccess: "showSuccess"
   }),
+  computed: {
+    ...mapGetters("common", {
+      loading: "loading"
+    }),
+    ...mapGetters("common", {
+      snackBar: "snackBar"
+    })
+  },
   methods: {
     ...commonMapMutations(["SET_SNACK_BAR"]),
     // snackBar 를 여는 함수. (snackBar 는 자동으로 닫히기 때문에 SnackBar 를 닫는 함수는 필요없다)
     setSnackBar(purpose, message) {
+      console.log("???????");
       // purpose : showSuccess or showFail
       this.snackBarPurpose = purpose;
       this.snackBarMessage = message;

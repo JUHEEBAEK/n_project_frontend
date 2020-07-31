@@ -10,9 +10,13 @@ export const createMember = async(form) => {
 };
 
 export const getReqularMember = async() => {
-  const response = await generalReq("get", "/api/member/list");
-  return response.data;
-  
+
+  try {
+    const response = await generalReq("get", "/api/member/list");
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 export const getAllMember = async() => {

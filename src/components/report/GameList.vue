@@ -1,10 +1,10 @@
 <template>
   <div class="gameReport__list">
-    <div class="gameReport__item" v-for="schedule in filteredSchedule" :key="schedule.id">
+    <div class="gameReport__item" v-for="(schedule, index) in filteredSchedule" :key="schedule.id">
       <div class="item__title">{{ schedule.date }}</div>
       <div class="item__content">
         <v-slide-group v-model="model" center-active class="pa-4" show-arrows>
-          <v-slide-item v-for="(gameInfo, index) in schedule.gameList" :key="index">
+          <v-slide-item v-for="(gameInfo, idx) in schedule.gameList" :key="idx">
             <v-card class="game__card" @click="clickGame(gameInfo)">
               <v-card-title class="game__title">
                 <span class="text__quarter">Q{{ gameInfo.quarter }}</span>
@@ -19,24 +19,25 @@
                 <span class="text__score">{{ gameInfo.away_score }}</span>
               </v-card-text>
               <v-card-text>
-                <!-- <v-badge class="mr-3" color="#ccda11" dot></v-badge> -->
-                <v-chip
-                  color="white"
-                  v-for="(item, idx) in homeMember"
-                  :key="idx"
-                  class="mx-1"
-                  x-small
-                >{{ item }}</v-chip>
+                <v-badge class="mr-3" color="#ccda11" dot></v-badge>
+                <template>
+                  <v-chip
+                    color="white"
+                    v-for="(item, i) in gameIdList[index]['home'][idx]"
+                    :key="`home_${gameInfo.id}_${i}`"
+                    class
+                    x-small
+                  >{{ item.name }}</v-chip>
+                </template>
               </v-card-text>
               <v-card-text>
-                <!-- <v-badge class="mr-3" color="#da8c11" dot></v-badge> -->
+                <v-badge class="mr-3" color="#da8c11" dot></v-badge>
                 <v-chip
                   color="white"
-                  v-for="(item, idx) in awayMember"
-                  :key="idx"
-                  class="mx-1"
+                  v-for="(item, i) in gameIdList[index]['away'][idx]"
+                  :key="`away_${gameInfo.id}_${i}`"
                   x-small
-                >{{ item }}</v-chip>
+                >{{ item.name }}</v-chip>
               </v-card-text>
             </v-card>
           </v-slide-item>
@@ -70,9 +71,9 @@ export default {
   },
   computed: {
     ...calendarMapState(["scheduleList"]),
-    ...gameMapState(["gameList", "homeSquad", "awaySquad"])
+    ...gameMapState(["gameList"])
   },
-  async beforeMount() {
+  async created() {
     await this.getScheduleList();
     this.getGameList();
   },
@@ -91,16 +92,13 @@ export default {
       model: null,
       filteredSchedule: [],
       homeMember: ["", "", "", "", ""],
-      awayMember: ["", "", "", "", ""]
+      awayMember: ["", "", "", "", ""],
+      gameIdList: []
     };
   },
   methods: {
-    ...calendarMapActions(["select_schedule"]),
-    ...gameActions([
-      "selectGameList",
-      "getHomeTeamSquadInfo",
-      "getAwayTeamSquadInfo"
-    ]),
+    ...calendarMapActions(["select_schedule", "get_member_squad_info"]),
+    ...gameActions(["selectGameList", "getHomeTeamSquad", "getAwayTeamSquad"]),
     clickGame: function(gameInfo) {
       this.$router.push({
         name: "gameDetails",
@@ -110,6 +108,7 @@ export default {
     getGameList: async function() {
       this.gameList = await this.selectGameList();
       this.divideSchduleIdInGame();
+      this.setscheduleList(this.filteredSchedule);
     },
     getScheduleList: async function() {
       this.scheduleList = await this.select_schedule();
@@ -125,6 +124,20 @@ export default {
       return this.gameList.filter(
         gameInfo => gameInfo.schedule_id == schedule_id
       );
+    },
+    setscheduleList: function(scheduleList) {
+      let _this = this;
+      scheduleList.forEach(function(dayList, idx) {
+        _this.gameIdList.push({ home: [], away: [] });
+        let homeSquadList = [];
+        let awaySquadList = [];
+        dayList.gameList.forEach(async function(item) {
+          homeSquadList.push(await _this.getHomeTeamSquad(item.id));
+          awaySquadList.push(await _this.getAwayTeamSquad(item.id));
+        });
+        _this.gameIdList[idx]["home"] = homeSquadList;
+        _this.gameIdList[idx]["away"] = awaySquadList;
+      });
     },
     divideSchduleIdInGame: function() {
       this.filteredSchedule.forEach(element => {
