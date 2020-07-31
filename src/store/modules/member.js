@@ -53,10 +53,10 @@ const actions = {
   }) {
     try {
       const response = await getReqularMember();
-      commit("SELECT_MEMBER", response);
+      commit("SELECT_MEMBER", response.data);
       return response;
     } catch (e) {
-      console.log(e);
+      console.log("error", e);
     }
   },
 
