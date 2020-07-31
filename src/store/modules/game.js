@@ -85,6 +85,18 @@ const actions = {
         console.log(e);
     }
   },
+  async getHomeTeamSquad({commit}, payload) {
+    try {
+      let response = await getHomeTeamInfoWithGameId(payload);
+      if (response.data){
+        return response.data;
+      }else{
+        return false;
+      } 
+    }catch (e) {
+        console.log(e);
+    }
+  },
   async getAwayTeamSquadInfo({commit}, payload) {
     try {
       let response = await getAwayTeamInfoWithGameId(payload);
@@ -95,6 +107,18 @@ const actions = {
           commit("SET_AWAY_SQUAD", response.data)  
         }
         return response.data.insertId
+      }else{
+        return false;
+      } 
+    }catch (e) {
+        console.log(e);
+    }
+  },
+  async getAwayTeamSquad({commit}, payload) {
+    try {
+      let response = await getAwayTeamInfoWithGameId(payload);
+      if (response.data){
+        return response.data;
       }else{
         return false;
       } 

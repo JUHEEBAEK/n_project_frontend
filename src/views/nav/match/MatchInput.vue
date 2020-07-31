@@ -2,14 +2,9 @@
   <div class="match__container">
     <!-- 스케쥴 리스트 영역 -->
     <v-contatner fluid>
-      <schedule-date-list
-        :scheduleId="schedule_id"
-        @changeDate="setScheduleData"
-      ></schedule-date-list>
+      <schedule-date-list :scheduleId="schedule_id" @changeDate="setScheduleData"></schedule-date-list>
       <!-- 쿼터 리스트 영역 -->
-      <squad-quarter
-        @changeQuarterAndParams="changeQuarterAndParams"
-      ></squad-quarter>
+      <squad-quarter @changeQuarterAndParams="changeQuarterAndParams"></squad-quarter>
     </v-contatner>
 
     <!-- 경기 기록 이벤트 타입 설정 부분 -->
@@ -23,6 +18,7 @@
           @setGameId="setGameId"
           @initSaveButton="initSaveButton"
           @getHomeAwayMemberList="getHomeAwayMemberList"
+          @updateGameInfo="updateGameInfo"
           @subtractGameScore="subtractGameScore"
           @selectEventList="selectEventList"
         ></match-event-input>
@@ -223,7 +219,7 @@ export default {
       }
     },
     setGameResult() {
-      let caculateScore = this.homeScore - this.away_score;
+      let caculateScore = this.homeScore - this.awayScore;
       if (caculateScore > 0) {
         return "H";
       } else if (caculateScore < 0) {

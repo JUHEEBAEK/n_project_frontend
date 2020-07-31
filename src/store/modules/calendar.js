@@ -6,6 +6,7 @@ import {
   getScheduleList,
   deleteSchedule,
   updateSchedule,
+  getMemberSquadInfo,
   getInfo
 } from "../../api/schedule.js";
 import {
@@ -223,6 +224,15 @@ const actions = {
       console.log(e);
     }
   },
+  async get_member_squad_info(context, form) {
+    try {
+      const response = await getMemberSquadInfo(form.year, form.month);
+      console.log("actions: ", response.data);
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
 };
 
