@@ -17,7 +17,7 @@ const { mapMutations: commonMapMutations } = createNamespacedHelpers("common");
 export default {
   name: "Toolbar.vue",
   data: () => ({
-    title: "눈누난나"
+    title: "Home"
   }),
   computed: {},
   watch: {},
