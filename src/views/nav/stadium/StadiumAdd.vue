@@ -4,16 +4,6 @@
     <v-card class="card__addForm pa-4">
       <v-form ref="formStadiumAdd" class="form">
         <v-row>
-          <v-col cols="12" class="py-2">
-            <v-text-field
-              v-model="name"
-              label="이름"
-              hide-details
-              outlined
-              :rules="[(v) => !!v || '입력해주십시오.']"
-            />
-          </v-col>
-
           <v-col cols="9">
             <v-text-field v-model="searchKeyword" label="주소 검색어" />
           </v-col>
@@ -51,12 +41,11 @@
 
           <v-col cols="12" class="py-2">
             <v-text-field
-              v-model="placeName"
+              v-model="name"
               label="장소명"
               hide-details
               outlined
               :rules="[(v) => !!v || '입력해주십시오.']"
-              disabled
             />
           </v-col>
           <v-col cols="12" class="py-2">
@@ -109,6 +98,8 @@ export default {
     placeName: "",
     address: "",
     nickName: "",
+    latitude: 0,
+    longitude: 0,
   }),
 
   methods: {
@@ -117,8 +108,10 @@ export default {
       if (this.$refs.formStadiumAdd.validate()) {
         let _srcData = {};
         _srcData["name"] = this.name;
-        _srcData["nick_name"] = this.nickName;
         _srcData["address"] = this.address;
+        _srcData["nick_name"] = this.nickName;
+        _srcData["latitude"] = this.latitude;
+        _srcData["longitude"] = this.longitude;
 
         this.add_stadium(_srcData).then(() => {
           this.setSnackBar(this.snackBarSuccess, "정상적으로 추가되었습니다");
@@ -127,17 +120,14 @@ export default {
       }
     },
     searchWithKeyword(keyWord) {
-      // backend에서 주소 받아오기
-      // 주소마다 kakao에 쿼리 보내기
       let _this = this;
       const places = new kakao.maps.services.Places();
       var callback = function(result, status) {
         if (status === kakao.maps.services.Status.OK) {
           console.log("searchWithKeyword", result);
           _this.serachlist = result;
-          // result를 어디다가 담은다음에 리스트로 쭉 보여주고
-          // list가 클릭되면
 
+          // list item 내용 예시
           // address_name: "서울 용산구 이촌동 300-19"
           // category_group_code: "FD6"
           // category_group_name: "음식점"
@@ -157,7 +147,9 @@ export default {
     },
     setAddress(new_address) {
       this.address = new_address.address_name;
-      this.placeName = new_address.place_name;
+      this.name = new_address.place_name;
+      this.latitude = new_address.y;
+      this.longitude = new_address.x;
       this.serachlist = [];
     },
   },
