@@ -47,21 +47,6 @@
                 </v-list-item-action>
               </v-list-item>
             </v-list>
-            <div v-for="value in serachlist" :key="value.id">
-              {{ value.place_name }}
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                :href="value.place_url"
-              >
-                링크
-              </a>
-              <v-btn @click="setAddress(value)">
-                선택
-              </v-btn>
-
-              <br />
-            </div>
           </v-col>
 
           <v-col cols="12" class="py-2">
@@ -81,7 +66,6 @@
               hide-details
               outlined
               :rules="[(v) => !!v || '입력해주십시오.']"
-              disabled
             />
           </v-col>
 
