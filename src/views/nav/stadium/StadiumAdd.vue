@@ -5,19 +5,22 @@
       <v-form ref="formStadiumAdd" class="form">
         <v-row>
           <v-col cols="9">
-            <v-text-field v-model="searchKeyword" label="주소 검색어" />
+            <v-text-field
+              v-model="searchKeyword"
+              label="주소 검색어"
+              v-on:keyup.enter="searchWithKeyword(searchKeyword)"
+            />
           </v-col>
           <v-col cols="3">
             <v-btn @click="searchWithKeyword(searchKeyword)">주소 검색 </v-btn>
           </v-col>
           <v-col>
             <v-list>
-              <v-list-item
-                v-for="item in serachlist"
-                :key="item.id"
-                @click="setAddress(item)"
-              >
-                <v-list-item-content>
+              <v-list-item v-for="item in serachlist" :key="item.id">
+                <v-list-item-content
+                  class="item__list"
+                  @click="setAddress(item)"
+                >
                   <v-list-item-title
                     v-text="item.place_name"
                   ></v-list-item-title>
@@ -31,9 +34,15 @@
                   https://vuetifyjs.com/ko/components/lists/
                   TODO: 돋보기 대신에 카카오맵 아이콘 들어가면 괜찮을 듯
                   -->
-                  <v-icon>
-                    fas fa-search
-                  </v-icon>
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    :href="item.place_url"
+                  >
+                    <v-icon>
+                      fas fa-search
+                    </v-icon>
+                  </a>
                 </v-list-item-action>
               </v-list-item>
             </v-list>
@@ -168,5 +177,11 @@ export default {
 .input__white {
   background: #fff;
   border: solid 1px secondary;
+}
+
+.item__list:hover {
+  cursor: pointer;
+  background-color: #abd;
+  color: #fff;
 }
 </style>
