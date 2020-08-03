@@ -27,6 +27,16 @@ export const getInfo = async(schduleId) => {
   }
 };
 
+export const getMemberSquadInfo = async(year, month) => {
+  try {
+    const response = await generalReq("get", "/api/schedule/getAttendList/" + year + "/" + month);
+    console.log("api: ", response)
+    return response;
+  } catch (e) {
+      console.log(e);
+  }
+};
+
 export const deleteSchedule = async(schedule_id_form) => {
   try {
     const response = await generalReq("delete", "/api/schedule/delete", schedule_id_form);

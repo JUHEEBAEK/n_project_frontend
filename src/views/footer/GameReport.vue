@@ -30,7 +30,7 @@ export default {
     months: gameReportData.months,
     scheduleList: [],
     nowYear: new Date().getFullYear(),
-    nowMonth: "0" + new Date().getMonth()
+    nowMonth: "0" + (new Date().getMonth() + 1)
   }),
   watch: {
     nowYear() {

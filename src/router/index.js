@@ -26,6 +26,9 @@ import Stadium from "../views/nav/stadium/Stadium.vue"
 import StadiumAdd from "../views/nav/stadium/StadiumAdd.vue"
 import StadiumUpdate from "../views/nav/stadium/StadiumUpdate.vue"
 
+
+import Training from "../views/training/print.vue"
+
 Vue.use(Router);
 
 const routes = [{
@@ -132,6 +135,11 @@ const routes = [{
     name: "notFound",
     component: NotFound
   },
+  {
+    path: "/training",
+    name: "training",
+    component: Training
+  }
 ]
 
 const router = new Router({

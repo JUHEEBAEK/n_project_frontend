@@ -138,16 +138,16 @@ export default {
 
         this.add_member(_srcData).then(() => {
           this.setSnackBar(this.snackBarSuccess, "정상적으로 추가되었습니다");
-          history.back()
+          history.back();
         });
       }
-    },
+    }
   }
 };
 </script>
 
 <style scoped>
-.bg__primary {
+ㅣ.bg__primary {
   background-color: #002d5d;
 }
 
