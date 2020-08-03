@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="map" style="width:500px; height: 500px"></div>
-    
+    <!-- 마커가 선택되면 id를 매개값으로 MapSelected Event 발생 $emit('MapSelected', markerPositions[i].id) -->
   </div>
 </template>
 
@@ -158,6 +158,8 @@ export default {
           })
           // 마커 위에 인포윈도우를 표시합니다
           infowindow.open(_this.map, _this.markers[i]);  
+
+          _this.$emit('MapSelected', markerPositions[i].id)
         });
       }
 
