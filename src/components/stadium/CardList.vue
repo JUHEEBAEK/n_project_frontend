@@ -10,7 +10,7 @@
         v-for="(item, idx) in searchResult"
         :key="idx"
       >
-        <v-card class="stadium__container px-0 py-1 ma-1">
+        <v-card class="stadium__container px-0 py-1 ma-1" @click="cardClickEvent(item)">
           <v-card-title class="stadium__title">
             <div class="text text__title">{{ item.name }}</div>
           </v-card-title>
@@ -65,6 +65,10 @@ export default {
         name: "stadiumUpdate",
         params: { stadiumId: item.id }
       });
+    },
+    cardClickEvent(stadium) {
+      console.log(stadium);
+      this.$emit("emit", stadium);
     }
   }
 };
