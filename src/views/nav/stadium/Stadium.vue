@@ -4,11 +4,11 @@
     <v-row>
       <v-col cols="6">
         <div class="scrollable">
-          <stadium-cardList />
+          <stadium-cardList @selectStadium="handleSelect" />
         </div>
       </v-col>
       <v-col cols="6">
-        <stadium-map />
+        <stadium-map :selectedStadiumIndex="selectedStadiumIndex" />
       </v-col>
     </v-row>
   </div>
@@ -18,9 +18,15 @@
 export default {
   name: "stadiumList",
   data: () => ({
-    title: "STADIUM"
+    title: "STADIUM",
+    selectedStadiumIndex: null
   }),
-  methods: {}
+  methods: {
+    handleSelect(index) {
+      console.log(index);
+      this.selectedStadiumIndex = index;
+    }
+  }
 };
 </script>
 

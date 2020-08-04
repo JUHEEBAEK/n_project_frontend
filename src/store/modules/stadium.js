@@ -11,7 +11,6 @@ const state = {
   stadiumList: [],
   stadiumProfile: {},
   searchResult: [],
-  selectedStadiumIndex: null,
 };
 
 const getters = {};

@@ -13,6 +13,12 @@ const {
 
 export default {
   name: "KakaoMap",
+  props: {
+    selectedStadiumIndex: {
+      type: Number,
+      default: null
+    }
+  },
   data() {
     return {
       map: null,
@@ -36,7 +42,8 @@ export default {
       markers: [], // 여기다가 풋살장 위치 정보 받아와야함
       imageSrc:
         "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
-      markerImage: null
+      markerImage: null,
+      highlightIndex: null
     };
   },
   computed: {
@@ -47,7 +54,6 @@ export default {
     this.initMarkerImage();
     await this.select_stadium();
     this.displayAllMarker(this.searchResult);
-    this.redisplayMarker(3, true);
     this.addInfowindowToMarkers(this.searchResult);
   },
   watch: {
@@ -58,6 +64,16 @@ export default {
       this.makers = [];
       this.displayAllMarker(this.searchResult);
       this.addInfowindowToMarkers(this.searchResult);
+      this.highlightIndex = null;
+    },
+    selectedStadiumIndex(val) {
+      console.log("selectedStadiumIndex Changed", val);
+      if (this.highlightIndex != null) {
+        console.log("highlightIndex", this.highlightIndex);
+        this.redisplayMarker(this.highlightIndex, false);
+      }
+      this.redisplayMarker(val, true);
+      this.highlightIndex = val;
     }
   },
   methods: {
@@ -79,10 +95,11 @@ export default {
       this.markerImage = new kakao.maps.MarkerImage(this.imageSrc, imageSize);
     },
     remove() {
-      this.markers[3].setMap(null);
+      console.log("highlightIndex", this.highlightIndex);
+      this.markers[this.highlightIndex].setMap(null);
     },
     show() {
-      let markerPosition = this.searchResult[3];
+      let markerPosition = this.searchResult[this.highlightIndex];
       const kakaoPosition = new kakao.maps.LatLng(
         Number(markerPosition.latitude),
         Number(markerPosition.longitude)
