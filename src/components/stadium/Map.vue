@@ -67,13 +67,12 @@ export default {
       this.highlightIndex = null;
     },
     selectedStadiumIndex(val) {
-      console.log("selectedStadiumIndex Changed", val);
       if (this.highlightIndex != null) {
-        console.log("highlightIndex", this.highlightIndex);
         this.redisplayMarker(this.highlightIndex, false);
       }
       this.redisplayMarker(val, true);
       this.highlightIndex = val;
+      this.reAddInfowindowToMarker(val);
     }
   },
   methods: {
@@ -95,7 +94,6 @@ export default {
       this.markerImage = new kakao.maps.MarkerImage(this.imageSrc, imageSize);
     },
     remove() {
-      console.log("highlightIndex", this.highlightIndex);
       this.markers[this.highlightIndex].setMap(null);
     },
     show() {
@@ -104,7 +102,6 @@ export default {
         Number(markerPosition.latitude),
         Number(markerPosition.longitude)
       );
-      console.log(kakaoPosition);
       let new_maker = new kakao.maps.Marker({
         map: this.map, // marker.setMap(map)하는 과정을 생략
         position: kakaoPosition,
@@ -154,7 +151,43 @@ export default {
       // 여기서 마커를 다시 설정해줘야 marker가 바뀐다
       this.markers[index] = marker;
     },
+    reAddInfowindowToMarker(index) {
+      let _this = this;
+      let markerPosition = this.searchResult[index];
+      let marker = this.markers[index];
 
+      let name = markerPosition.nick_name;
+      let lat = markerPosition.latitude;
+      let long = markerPosition.longitude;
+
+      let iwContent = `<div style="padding:5px;"> 
+                        ${markerPosition.nick_name} <br>
+                        <a href="https://map.kakao.com/link/to/${name},${lat},${long}" style="color:blue" target="_blank">길찾기</a>
+                      </div> `;
+      let iwPosition = new kakao.maps.LatLng(
+        Number(markerPosition.latitude),
+        Number(markerPosition.longitude)
+      );
+      let infowindow = new kakao.maps.InfoWindow({
+        position: iwPosition,
+        content: iwContent,
+        removable: true
+      });
+      this.infowWindows.push(infowindow);
+      // 모든 윈도우를 열 필요가 있을 때 주석 해제
+      // infowindow.open(this.map, this.markers[i])
+
+      // 3. 이벤트 등록
+      // https://apis.map.kakao.com/web/sample/addMarkerClickEvent/
+      // 마커에 클릭이벤트를 등록합니다
+      kakao.maps.event.addListener(marker, "click", function() {
+        _this.infowWindows.forEach(infowindow => {
+          infowindow.close();
+        });
+        // 마커 위에 인포윈도우를 표시합니다
+        infowindow.open(_this.map, marker);
+      });
+    },
     displayAllMarker(markerPositions) {
       // stadium list has latitude, longitude, nick_name, name
       // this.searchResult 을 가져온다
@@ -163,7 +196,6 @@ export default {
       if (this.markers.length > 0) {
         this.markers.forEach(marker => marker.setMap(null));
       }
-      console.log(markerPositions);
       // markerPositions가 유사배열일 수 있어서 forEach를 쓰지 않음
       let positions = [];
       for (let i = 0; i < markerPositions.length; i++) {
@@ -171,7 +203,6 @@ export default {
           Number(markerPositions[i].latitude),
           Number(markerPositions[i].longitude)
         );
-        console.log(position);
         positions.push(position);
       }
 
@@ -194,18 +225,22 @@ export default {
         let lat = markerPositions[i].latitude;
         let long = markerPositions[i].longitude;
 
-        let iwContent = `<div style="padding:5px;"> ${markerPositions[i].nick_name} <br>
-                        <a href="https://map.kakao.com/link/to/${name},${lat},${long}" style="color:blue" target="_blank">길찾기</a></div> 
+        let iwContent = `<div class="customoverlay"> 
+                          <a href="https://map.kakao.com/link/to/${name},${lat},${long}" target="_blank">
+                             <span class="title"> ${markerPositions[i].nick_name} </span>
+                          </a> 
                         </div>`;
         let iwPosition = new kakao.maps.LatLng(
           Number(markerPositions[i].latitude),
           Number(markerPositions[i].longitude)
         );
-        let infowindow = new kakao.maps.InfoWindow({
+
+        let infowindow = new kakao.maps.CustomOverlay({
           position: iwPosition,
-          content: iwContent,
-          removable: true
+          content: iwContent
+          // yAnchor: 1 // 위치를 y축방향으로 이동 시킨다
         });
+        // infowindow.setMap(this.map);
         this.infowWindows.push(infowindow);
         // 모든 윈도우를 열 필요가 있을 때 주석 해제
         // infowindow.open(this.map, this.markers[i])
@@ -215,10 +250,12 @@ export default {
         // 마커에 클릭이벤트를 등록합니다
         kakao.maps.event.addListener(this.markers[i], "click", function() {
           _this.infowWindows.forEach(infowindow => {
-            infowindow.close();
+            infowindow.setMap(null);
           });
           // 마커 위에 인포윈도우를 표시합니다
-          infowindow.open(_this.map, _this.markers[i]);
+          // infowindow.open(_this.map, _this.markers[i]);
+          console.log("click ", i);
+          infowindow.setMap(_this.map);
         });
       }
       // etc. 다른 마커 클릭시, 기존 열린 윈도우 닫기 (인포 윈도우 관리법)
@@ -242,7 +279,6 @@ export default {
 
       var callback = function(result, status) {
         if (status === kakao.maps.services.Status.OK) {
-          // console.log('searchWithAddress', result);
           if (result[0]) {
             _this.new_markers[i] = [result[0].x, result[0].y];
             return {
@@ -297,13 +333,5 @@ export default {
 #map {
   width: 400px;
   height: 400px;
-}
-
-.button-group {
-  margin: 10px 0px;
-}
-
-button {
-  margin: 0 3px;
 }
 </style>
