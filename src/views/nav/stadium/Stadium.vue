@@ -18,14 +18,9 @@
 export default {
   name: "stadiumList",
   data: () => ({
-    title: "STADIUM",
-    scrollInvoked: 0
+    title: "STADIUM"
   }),
-  methods: {
-    onScroll() {
-      this.scrollInvoked++;
-    }
-  }
+  methods: {}
 };
 </script>
 
