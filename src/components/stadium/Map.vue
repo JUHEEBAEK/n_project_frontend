@@ -47,10 +47,8 @@ export default {
     this.initMarkerImage();
     await this.select_stadium();
     this.displayAllMarker(this.stadiumList);
+    this.redisplayMarker(3, true);
     this.addInfowindowToMarkers(this.stadiumList);
-    // this.searchWithKeyword()
-    // this.searchWithAddress()
-    console.log(this.markers);
   },
   methods: {
     ...stadiumMapActions(["select_stadium", "update_stadium"]),
@@ -70,32 +68,64 @@ export default {
       // 마커 이미지를 생성합니다
       this.markerImage = new kakao.maps.MarkerImage(this.imageSrc, imageSize);
     },
+    remove() {
+      this.markers[3].setMap(null);
+    },
+    show() {
+      let markerPosition = this.stadiumList[3];
+      const kakaoPosition = new kakao.maps.LatLng(
+        Number(markerPosition.latitude),
+        Number(markerPosition.longitude)
+      );
+      console.log(kakaoPosition);
+      let new_maker = new kakao.maps.Marker({
+        map: this.map, // marker.setMap(map)하는 과정을 생략
+        position: kakaoPosition,
+        clickable: true,
+        image: this.markerImage
+      });
+    },
+    addMarker(position) {
+      // 마커를 생성합니다
+      var marker = new kakao.maps.Marker({
+        position: position
+      });
+
+      // 마커가 지도 위에 표시되도록 설정합니다
+      marker.setMap(this.map);
+    },
     changeSize(size) {
       const container = document.getElementById("map");
       container.style.width = `${size}px`;
       container.style.height = `${size}px`;
       this.map.relayout();
     },
-    redisplayMarker(marker, position, image) {
+    redisplayMarker(index, isStarImage) {
+      let marker = this.markers[index];
+      let markerPosition = this.stadiumList[index];
       // 마커 등록 https://apis.map.kakao.com/web/sample/addMarkerClickEvent/
-      if (this.markers.length > 0) {
-        this.markers.forEach(marker => marker.setMap(null));
-      }
 
-      const positions = markerPositions.map(
-        position => new kakao.maps.LatLng(...position)
+      marker.setMap(null);
+      const kakaoPosition = new kakao.maps.LatLng(
+        Number(markerPosition.latitude),
+        Number(markerPosition.longitude)
       );
-
-      if (positions.length > 0) {
-        this.markers = positions.map(
-          position =>
-            new kakao.maps.Marker({
-              map: this.map, // marker.setMap(map)하는 과정을 생략
-              position,
-              clickable: true
-            })
-        );
+      if (isStarImage) {
+        marker = new kakao.maps.Marker({
+          map: this.map, // marker.setMap(map)하는 과정을 생략
+          position: kakaoPosition,
+          clickable: true,
+          image: this.markerImage
+        });
+      } else {
+        marker = new kakao.maps.Marker({
+          map: this.map, // marker.setMap(map)하는 과정을 생략
+          position: kakaoPosition,
+          clickable: true
+        });
       }
+      // 여기서 마커를 다시 설정해줘야 marker가 바뀐다
+      this.markers[index] = marker;
     },
 
     displayAllMarker(markerPositions) {
@@ -114,6 +144,7 @@ export default {
           Number(markerPositions[i].latitude),
           Number(markerPositions[i].longitude)
         );
+        console.log(position);
         positions.push(position);
       }
 
@@ -123,8 +154,7 @@ export default {
             new kakao.maps.Marker({
               map: this.map, // marker.setMap(map)하는 과정을 생략
               position,
-              clickable: true,
-              image: this.markerImage
+              clickable: true
             })
         );
       }
