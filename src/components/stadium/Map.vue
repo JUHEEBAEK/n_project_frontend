@@ -40,15 +40,25 @@ export default {
     };
   },
   computed: {
-    ...stadiuMapState(["stadiumList"])
+    ...stadiuMapState(["searchResult"])
   },
   async mounted() {
     this.initMap();
     this.initMarkerImage();
     await this.select_stadium();
-    this.displayAllMarker(this.stadiumList);
+    this.displayAllMarker(this.searchResult);
     this.redisplayMarker(3, true);
-    this.addInfowindowToMarkers(this.stadiumList);
+    this.addInfowindowToMarkers(this.searchResult);
+  },
+  watch: {
+    searchResult(val) {
+      this.markers.forEach(marker => {
+        marker.setMap(null);
+      });
+      this.makers = [];
+      this.displayAllMarker(this.searchResult);
+      this.addInfowindowToMarkers(this.searchResult);
+    }
   },
   methods: {
     ...stadiumMapActions(["select_stadium", "update_stadium"]),
@@ -72,7 +82,7 @@ export default {
       this.markers[3].setMap(null);
     },
     show() {
-      let markerPosition = this.stadiumList[3];
+      let markerPosition = this.searchResult[3];
       const kakaoPosition = new kakao.maps.LatLng(
         Number(markerPosition.latitude),
         Number(markerPosition.longitude)
@@ -102,7 +112,7 @@ export default {
     },
     redisplayMarker(index, isStarImage) {
       let marker = this.markers[index];
-      let markerPosition = this.stadiumList[index];
+      let markerPosition = this.searchResult[index];
       // 마커 등록 https://apis.map.kakao.com/web/sample/addMarkerClickEvent/
 
       marker.setMap(null);
@@ -130,7 +140,7 @@ export default {
 
     displayAllMarker(markerPositions) {
       // stadium list has latitude, longitude, nick_name, name
-      // this.stadiumList 을 가져온다
+      // this.searchResult 을 가져온다
       let _this = this;
       // 1. 마커 생성
       if (this.markers.length > 0) {
@@ -238,10 +248,9 @@ export default {
       // longitude: (...)
       // name: (...)
       // nick_name: (...)
-      console.log(this.stadiumList);
-      this.new_markers = new Array(this.stadiumList.length);
-      for (var i in this.stadiumList) {
-        let stadium = this.stadiumList[i];
+      this.new_markers = new Array(this.searchResult.length);
+      for (var i in this.searchResult) {
+        let stadium = this.searchResult[i];
         const result_coordinate = await this.searchWithAddress(
           stadium.address,
           i
@@ -251,8 +260,8 @@ export default {
     async updateDB() {
       // 합치기
       console.log(this.new_markers);
-      for (var i in this.stadiumList) {
-        let stadium = this.stadiumList[i];
+      for (var i in this.searchResult) {
+        let stadium = this.searchResult[i];
         let coordinate = this.new_markers[i];
         stadium["longitude"] = coordinate[0];
         stadium["latitude"] = coordinate[1];
