@@ -3,14 +3,14 @@
     <v-row>
       <v-col
         cols="12"
-        sm="6"
-        md="4"
-        lg="3"
+        sm="12"
+        md="6"
+        lg="4"
         class="pa-0"
         v-for="(item, idx) in searchResult"
         :key="idx"
       >
-        <v-card class="stadium__container px-0 py-1 ma-1">
+        <v-card class="stadium__container px-0 py-1 ma-1" @click="cardClickEvent(item, idx)">
           <v-card-title class="stadium__title">
             <div class="text text__title">{{ item.name }}</div>
           </v-card-title>
@@ -65,6 +65,10 @@ export default {
         name: "stadiumUpdate",
         params: { stadiumId: item.id }
       });
+    },
+    cardClickEvent(stadium, index) {
+      console.log(stadium, index);
+      this.$emit("selectStadium", index);
     }
   }
 };

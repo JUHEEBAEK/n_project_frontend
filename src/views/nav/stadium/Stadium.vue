@@ -1,7 +1,16 @@
 <template>
   <div>
     <stadium-toolbar />
-    <stadium-cardList />
+    <v-row>
+      <v-col cols="6">
+        <div class="scrollable">
+          <stadium-cardList @selectStadium="handleSelect" />
+        </div>
+      </v-col>
+      <v-col cols="6">
+        <stadium-map :selectedStadiumIndex="selectedStadiumIndex" />
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -9,9 +18,20 @@
 export default {
   name: "stadiumList",
   data: () => ({
-    title: "STADIUM"
-  })
+    title: "STADIUM",
+    selectedStadiumIndex: null
+  }),
+  methods: {
+    handleSelect(index) {
+      this.selectedStadiumIndex = index;
+    }
+  }
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.scrollable {
+  overflow: auto;
+  max-height: 100vh;
+}
+</style>

@@ -4,13 +4,13 @@ import {
   getStadiumList,
   deleteStadium,
   updateStadium,
-  detailsStadium
+  detailsStadium,
 } from "../../api/stadium.js";
 
 const state = {
   stadiumList: [],
-  stadiumProfile:{},
-  searchResult: []
+  stadiumProfile: {},
+  searchResult: [],
 };
 
 const getters = {};
@@ -19,12 +19,12 @@ const mutations = {
     state.stadiumList = stadiumList;
     state.searchResult = stadiumList;
   },
-  DETAILS_STADIUM(state, stadiumProfile){
+  DETAILS_STADIUM(state, stadiumProfile) {
     state.stadiumProfile = stadiumProfile;
   },
   SET_SEARCH_RESULT(state, searchResult) {
     state.searchResult = searchResult;
-  }
+  },
 };
 
 const actions = {
@@ -36,9 +36,7 @@ const actions = {
       console.log(e);
     }
   },
-  async select_stadium({
-    commit
-  }) {
+  async select_stadium({ commit }) {
     try {
       const response = await getStadiumList();
       commit("SELECT_STADIUM", response.data);
@@ -47,9 +45,7 @@ const actions = {
       console.log(e);
     }
   },
-  async update_stadium({
-    commit
-  }, payload) {
+  async update_stadium({ commit }, payload) {
     try {
       const response = await updateStadium(payload);
       return response;
@@ -57,9 +53,7 @@ const actions = {
       console.log(e);
     }
   },
-  async details_stadium({
-    commit
-  }, payload) {
+  async details_stadium({ commit }, payload) {
     try {
       const response = await detailsStadium(payload);
       commit("DETAILS_STADIUM", response.data);
@@ -68,10 +62,8 @@ const actions = {
       console.log(e);
     }
   },
-  
-  async delete_stadium({
-    commit
-  }, payload) {
+
+  async delete_stadium({ commit }, payload) {
     try {
       const response = await deleteStadium(payload);
       return response;
@@ -85,5 +77,5 @@ export default {
   state,
   getters,
   mutations,
-  actions
+  actions,
 };
