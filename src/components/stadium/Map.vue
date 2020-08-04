@@ -1,7 +1,6 @@
 <template>
   <div>
     <div id="map" style="width:500px; height: 500px"></div>
-    
   </div>
 </template>
 
@@ -12,15 +11,14 @@ const {
   mapActions: stadiumMapActions
 } = createNamespacedHelpers("stadium");
 
-
 export default {
   name: "KakaoMap",
   data() {
     return {
       map: null,
       places: null,
-      infowWindows: null, 
-      new_markers:[],
+      infowWindows: null,
+      new_markers: [],
       markerPositions1: [
         [33.452278, 126.567803],
         [33.452671, 126.574792],
@@ -35,21 +33,27 @@ export default {
         [37.49754540521486, 127.02546694890695],
         [37.49646391248451, 127.02675574250912]
       ],
-      markers: [] // 여기다가 풋살장 위치 정보 받아와야함
+      markers: [], // 여기다가 풋살장 위치 정보 받아와야함
+      imageSrc:
+        "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
+      markerImage: null
     };
   },
   computed: {
-    ...stadiuMapState(['stadiumList']),
+    ...stadiuMapState(["stadiumList"])
   },
   async mounted() {
-    this.initMap();    
+    this.initMap();
+    this.initMarkerImage();
     await this.select_stadium();
-    this.displayAllMarker(this.stadiumList)
+    this.displayAllMarker(this.stadiumList);
+    this.addInfowindowToMarkers(this.stadiumList);
     // this.searchWithKeyword()
     // this.searchWithAddress()
+    console.log(this.markers);
   },
   methods: {
-    ...stadiumMapActions(["select_stadium", 'update_stadium']),
+    ...stadiumMapActions(["select_stadium", "update_stadium"]),
     initMap() {
       console.log("initMap", kakao.maps);
       const container = document.getElementById("map");
@@ -59,13 +63,20 @@ export default {
       };
       this.map = new kakao.maps.Map(container, options);
     },
+    initMarkerImage() {
+      // 마커 이미지의 이미지 크기 입니다
+      var imageSize = new kakao.maps.Size(24, 35);
+
+      // 마커 이미지를 생성합니다
+      this.markerImage = new kakao.maps.MarkerImage(this.imageSrc, imageSize);
+    },
     changeSize(size) {
       const container = document.getElementById("map");
       container.style.width = `${size}px`;
       container.style.height = `${size}px`;
       this.map.relayout();
     },
-    displayMarker(markerPositions) {
+    redisplayMarker(marker, position, image) {
       // 마커 등록 https://apis.map.kakao.com/web/sample/addMarkerClickEvent/
       if (this.markers.length > 0) {
         this.markers.forEach(marker => marker.setMap(null));
@@ -84,34 +95,26 @@ export default {
               clickable: true
             })
         );
-        console.log('markers가 marker리스트를 과연 반환할까?', this.markers)
-        
-        // 모든 포지션을 lat lng 으로 변환해서 bounds(array)에 집어넣어주고
-        // bounds를 인자로 Bounds를 잡는다
-        // 남서쪽 북동쪽 좌표가 아마 순서대로 와야하지 않을까 싶다 (증명하려면 bounds가 2개의 값을 가지고 있어야한다?)
-        const bounds = positions.reduce(
-          (bounds, latlng) => bounds.extend(latlng),
-          new kakao.maps.LatLngBounds()
-        );
-
-        this.map.setBounds(bounds);
       }
     },
-    
-    displayAllMarker(markerPositions){
+
+    displayAllMarker(markerPositions) {
       // stadium list has latitude, longitude, nick_name, name
       // this.stadiumList 을 가져온다
       let _this = this;
-      // 1. 마커 생성 
+      // 1. 마커 생성
       if (this.markers.length > 0) {
         this.markers.forEach(marker => marker.setMap(null));
       }
-      console.log(markerPositions)
+      console.log(markerPositions);
       // markerPositions가 유사배열일 수 있어서 forEach를 쓰지 않음
-      let positions = []
-      for (let i = 0; i < markerPositions.length; i++){
-        let position = new kakao.maps.LatLng(Number(markerPositions[i].latitude), Number(markerPositions[i].longitude))
-        positions.push(position)
+      let positions = [];
+      for (let i = 0; i < markerPositions.length; i++) {
+        let position = new kakao.maps.LatLng(
+          Number(markerPositions[i].latitude),
+          Number(markerPositions[i].longitude)
+        );
+        positions.push(position);
       }
 
       if (positions.length > 0) {
@@ -120,110 +123,113 @@ export default {
             new kakao.maps.Marker({
               map: this.map, // marker.setMap(map)하는 과정을 생략
               position,
-              clickable: true
+              clickable: true,
+              image: this.markerImage
             })
         );
       }
-
-      
-      // 2. iwContent 만들기
-      // https://apis.map.kakao.com/web/sample/markerWithInfoWindow/
-      // 2-1. TODO: 일단 단순하게 경기장 이름을 표시해주자 (폰트 선택, 글씨 굵기 조정)
-      this.infowWindows = []
-      for (let i = 0; i < markerPositions.length; i++){
-        let name = markerPositions[i].nick_name
-        let lat = markerPositions[i].latitude
-        let long = markerPositions[i].longitude
-        
+    },
+    addInfowindowToMarkers(markerPositions) {
+      let _this = this;
+      this.infowWindows = [];
+      for (let i = 0; i < markerPositions.length; i++) {
+        let name = markerPositions[i].nick_name;
+        let lat = markerPositions[i].latitude;
+        let long = markerPositions[i].longitude;
 
         let iwContent = `<div style="padding:5px;"> ${markerPositions[i].nick_name} <br>
                         <a href="https://map.kakao.com/link/to/${name},${lat},${long}" style="color:blue" target="_blank">길찾기</a></div> 
-                        </div>`
-        let iwPosition = new kakao.maps.LatLng(Number(markerPositions[i].latitude), Number(markerPositions[i].longitude))
+                        </div>`;
+        let iwPosition = new kakao.maps.LatLng(
+          Number(markerPositions[i].latitude),
+          Number(markerPositions[i].longitude)
+        );
         let infowindow = new kakao.maps.InfoWindow({
-            position : iwPosition, 
-            content : iwContent, 
-            removable: true
+          position: iwPosition,
+          content: iwContent,
+          removable: true
         });
-        this.infowWindows.push(infowindow)
+        this.infowWindows.push(infowindow);
         // 모든 윈도우를 열 필요가 있을 때 주석 해제
         // infowindow.open(this.map, this.markers[i])
 
-        // 3. 이벤트 등록 
+        // 3. 이벤트 등록
         // https://apis.map.kakao.com/web/sample/addMarkerClickEvent/
         // 마커에 클릭이벤트를 등록합니다
-        kakao.maps.event.addListener(this.markers[i], 'click', function() {
+        kakao.maps.event.addListener(this.markers[i], "click", function() {
           _this.infowWindows.forEach(infowindow => {
-            infowindow.close()
-          })
+            infowindow.close();
+          });
           // 마커 위에 인포윈도우를 표시합니다
-          infowindow.open(_this.map, _this.markers[i]);  
+          infowindow.open(_this.map, _this.markers[i]);
         });
       }
-
       // etc. 다른 마커 클릭시, 기존 열린 윈도우 닫기 (인포 윈도우 관리법)
       // https://devtalk.kakao.com/t/topic/87779/3
     },
-    searchWithKeyword(){
+    searchWithKeyword() {
       // backend에서 주소 받아오기
       // 주소마다 kakao에 쿼리 보내기
       const places = new kakao.maps.services.Places();
       var callback = function(result, status) {
-          if (status === kakao.maps.services.Status.OK) {
-              console.log('searchWithKeyword', result);
-          }
+        if (status === kakao.maps.services.Status.OK) {
+          console.log("searchWithKeyword", result);
+        }
       };
 
-      places.keywordSearch('판교 치킨', callback, {size: 2});
+      places.keywordSearch("판교 치킨", callback, { size: 2 });
     },
-    async searchWithAddress(address, i){
-      let _this = this
+    async searchWithAddress(address, i) {
+      let _this = this;
       var geocoder = new kakao.maps.services.Geocoder();
 
       var callback = function(result, status) {
-          if (status === kakao.maps.services.Status.OK) {
-              // console.log('searchWithAddress', result);
-              if (result[0]){
-                _this.new_markers[i] = [result[0].x, result[0].y]
-                return { 
-                  longitude: result[0].x, 
-                  latitude: result[0].y
-                }
-              }
-          } else{
-            console.error('에러남', address, result)
+        if (status === kakao.maps.services.Status.OK) {
+          // console.log('searchWithAddress', result);
+          if (result[0]) {
+            _this.new_markers[i] = [result[0].x, result[0].y];
+            return {
+              longitude: result[0].x,
+              latitude: result[0].y
+            };
           }
+        } else {
+          console.error("에러남", address, result);
+        }
       };
       //경기 성남시 분당구 삼평동 661
       await geocoder.addressSearch(address, callback);
     },
     // TODO: 여기 밑에는 경기장 등록시 재활용 예정
-    async processingDBdata(){
+    async processingDBdata() {
       // address: "서울 송파구 올림픽로 25 잠실종합운동장 제1풋살장"
       // id: (...)
       // latitude: (...)
       // longitude: (...)
       // name: (...)
       // nick_name: (...)
-      console.log(this.stadiumList)
-      this.new_markers = new Array(this.stadiumList.length)
-      for (var i in this.stadiumList){
-        let stadium = this.stadiumList[i]
-        const result_coordinate = await this.searchWithAddress(stadium.address, i)
+      console.log(this.stadiumList);
+      this.new_markers = new Array(this.stadiumList.length);
+      for (var i in this.stadiumList) {
+        let stadium = this.stadiumList[i];
+        const result_coordinate = await this.searchWithAddress(
+          stadium.address,
+          i
+        );
       }
     },
-    async updateDB(){
-      // 합치기 
-      console.log(this.new_markers)
-      for (var i in this.stadiumList){
-        let stadium = this.stadiumList[i]
-        let coordinate = this.new_markers[i]
-        stadium['longitude'] = coordinate[0]
-        stadium['latitude'] = coordinate[1]
+    async updateDB() {
+      // 합치기
+      console.log(this.new_markers);
+      for (var i in this.stadiumList) {
+        let stadium = this.stadiumList[i];
+        let coordinate = this.new_markers[i];
+        stadium["longitude"] = coordinate[0];
+        stadium["latitude"] = coordinate[1];
         this.update_stadium({
-          stadium_id: stadium.id, 
-          stadium:stadium
-        })
+          stadium_id: stadium.id,
+          stadium: stadium
+        });
       }
     }
   }
