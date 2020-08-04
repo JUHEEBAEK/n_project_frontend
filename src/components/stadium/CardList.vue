@@ -3,9 +3,9 @@
     <v-row>
       <v-col
         cols="12"
-        sm="6"
-        md="4"
-        lg="3"
+        sm="12"
+        md="6"
+        lg="4"
         class="pa-0"
         v-for="(item, idx) in searchResult"
         :key="idx"
