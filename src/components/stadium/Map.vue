@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div id="map" style="width:500px; height: 500px"></div><<<<<<< HEAD
-    <!-- 마커가 선택되면 id를 매개값으로 MapSelected Event 발생 $emit('MapSelected', markerPositions[i].id) -->
-    =======
-    >>>>>>> feature/#50
+    <div id="map" style="width:500px; height: 500px"></div>
   </div>
 </template>
 
