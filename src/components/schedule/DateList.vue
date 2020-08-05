@@ -18,8 +18,8 @@
             <v-card
               class="date__card ma-2"
               :class="{ active: active }"
-              height="70"
-              width="50"
+              height="90"
+              width="60"
               @click="toggle"
             >
               <v-row class="fill-height" align="center" justify="center">
@@ -28,6 +28,10 @@
                     <v-badge :color="scheduleColor[item.type]" left :content="item.game_count">
                       <p class="date__Mon my-2">{{ item.date | setMomentMonth }}</p>
                       <p class="date__day mb-0">{{ item.date.substr(8, 2) }}</p>
+                      <v-chip
+                        :color="item.stadium_type === 'O' ? 'yellow darken-2' : ''"
+                        x-small
+                      >{{ item.stadium_type === 'O' ? '실외' : '실내'}}</v-chip>
                     </v-badge>
                   </div>
                 </v-scale-transition>
@@ -103,6 +107,8 @@ export default {
       this.slide_index = this.SET_SCHEDULE_INDEX_WITH_SCHEDULE_ID(
         this.scheduleId
       );
+
+    console.log(this.scheduleList);
 
     // 연동 필수
     this.slide_index = this.scheduleIndex;

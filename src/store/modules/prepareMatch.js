@@ -217,7 +217,7 @@ const actions = {
 
     context.commit("PARSE_SELECTED_SPLIT_TEAM", payload)
   },
-  async checkGameAlreadyExist(context, fame) {
+  async checkGameAlreadyExist(context, form) {
     try {
       const response = await searchWithScheduleIdAndQuarter(form);
       if (response.data) {
