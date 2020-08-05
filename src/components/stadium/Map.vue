@@ -160,15 +160,16 @@ export default {
       let lat = markerPosition.latitude;
       let long = markerPosition.longitude;
 
-      let iwContent = `<div style="padding:5px;"> 
-                        ${markerPosition.nick_name} <br>
-                        <a href="https://map.kakao.com/link/to/${name},${lat},${long}" style="color:blue" target="_blank">길찾기</a>
-                      </div> `;
+      let iwContent = `<div class="customoverlay"> 
+                          <a href="https://map.kakao.com/link/to/${name},${lat},${long}" target="_blank">
+                             <span class="title"> ${markerPositions[i].nick_name} </span>
+                          </a> 
+                        </div>`;
       let iwPosition = new kakao.maps.LatLng(
         Number(markerPosition.latitude),
         Number(markerPosition.longitude)
       );
-      let infowindow = new kakao.maps.InfoWindow({
+      let infowindow = new kakao.maps.CustomOverlay({
         position: iwPosition,
         content: iwContent,
         removable: true
@@ -182,10 +183,10 @@ export default {
       // 마커에 클릭이벤트를 등록합니다
       kakao.maps.event.addListener(marker, "click", function() {
         _this.infowWindows.forEach(infowindow => {
-          infowindow.close();
+          infowindow.setMap(null);
         });
         // 마커 위에 인포윈도우를 표시합니다
-        infowindow.open(_this.map, marker);
+        infowindow.setMap(_this.map);
       });
     },
     displayAllMarker(markerPositions) {
