@@ -51,14 +51,21 @@ export default {
       this.displayAllMarker(this.searchResult);
       this.addInfowindowToMarkers(this.searchResult);
       this.highlightIndex = null;
+      this.selectedStadiumIndex = null;
     },
     selectedStadiumIndex(val) {
       if (this.highlightIndex != null) {
         this.redisplayMarker(this.highlightIndex, false);
       }
-      this.redisplayMarker(val, true);
       this.highlightIndex = val;
-      this.reAddInfowindowToMarker(val);
+      
+      this.redisplayMarker(val, true);
+      
+      this.infowWindows.forEach(infowindow => {
+        infowindow.setMap(null);
+      });
+      this.map.setCenter(this.markers[val].getPosition())
+      this.map.setLevel(3)
     }
   },
   methods: {
@@ -111,70 +118,23 @@ export default {
       this.map.relayout();
     },
     redisplayMarker(index, isStarImage) {
+      // TODO: https://apis.map.kakao.com/web/documentation/#Marker 
+      // setImage method를 이용해서 다시 짤 것
       let marker = this.markers[index];
-      let markerPosition = this.searchResult[index];
-      // 마커 등록 https://apis.map.kakao.com/web/sample/addMarkerClickEvent/
-
-      marker.setMap(null);
-      const kakaoPosition = new kakao.maps.LatLng(
-        Number(markerPosition.latitude),
-        Number(markerPosition.longitude)
-      );
-      if (isStarImage) {
-        marker = new kakao.maps.Marker({
-          map: this.map, // marker.setMap(map)하는 과정을 생략
-          position: kakaoPosition,
-          clickable: true,
-          image: this.markerImage
-        });
-      } else {
-        marker = new kakao.maps.Marker({
-          map: this.map, // marker.setMap(map)하는 과정을 생략
-          position: kakaoPosition,
-          clickable: true
-        });
+      if (isStarImage){
+        marker.setImage(this.markerImage);
+      }else{
+        marker.setImage(null);
       }
-      // 여기서 마커를 다시 설정해줘야 marker가 바뀐다
-      this.markers[index] = marker;
+      
+      // 마커 등록 https://apis.map.kakao.com/web/sample/addMarkerClickEvent/
+      
+      
     },
-    reAddInfowindowToMarker(index) {
-      let _this = this;
-      let markerPosition = this.searchResult[index];
-      let marker = this.markers[index];
+    reAddInfowindowToMarker(index){
 
-      let name = markerPosition.nick_name;
-      let lat = markerPosition.latitude;
-      let long = markerPosition.longitude;
-
-      let iwContent = `<div class="customoverlay"> 
-                          <a href="https://map.kakao.com/link/to/${name},${lat},${long}" target="_blank">
-                             <span class="title"> ${markerPosition.nick_name} </span>
-                          </a> 
-                        </div>`;
-      let iwPosition = new kakao.maps.LatLng(
-        Number(markerPosition.latitude),
-        Number(markerPosition.longitude)
-      );
-      let infowindow = new kakao.maps.CustomOverlay({
-        position: iwPosition,
-        content: iwContent,
-        removable: true
-      });
-      this.infowWindows.push(infowindow);
-      // 모든 윈도우를 열 필요가 있을 때 주석 해제
-      // infowindow.open(this.map, this.markers[i])
-
-      // 3. 이벤트 등록
-      // https://apis.map.kakao.com/web/sample/addMarkerClickEvent/
-      // 마커에 클릭이벤트를 등록합니다
-      kakao.maps.event.addListener(marker, "click", function() {
-        _this.infowWindows.forEach(infowindow => {
-          infowindow.setMap(null);
-        });
-        // 마커 위에 인포윈도우를 표시합니다
-        infowindow.setMap(_this.map);
-      });
     },
+
     displayAllMarker(markerPositions) {
       // stadium list has latitude, longitude, nick_name, name
       // this.searchResult 을 가져온다
