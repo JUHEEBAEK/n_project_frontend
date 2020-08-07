@@ -9,7 +9,7 @@ const state = {
   snackBar: false,
   /* 1. fullScreen : true ( AppBar 와 nav 가 없는 상태 )
     2. fullScreen : null or false */
-    fullScreen: null,
+  fullScreen: null,
   alert: false,
   colorIndex: ["#000","#ccda11", "#da8c11", "#118eda", "#da1175", "#11da76", "#8f11da"],
    // 1. dialog : true ( Dialog 이 열린 상태 )

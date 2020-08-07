@@ -1,5 +1,13 @@
+.scrollable {
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
 .stadium__container {
   min-height: 150px;
+  padding: 4px 0;
+  margin: 4px;
 
   .stadium__description {
     .text__caption {

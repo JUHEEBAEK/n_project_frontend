@@ -6,7 +6,6 @@
       </v-col>
       <v-col cols="12" sm="12" md="5">
         <schedule-info-card
-          :cardInfoLoading="loading"
           :scheduleName="scheduleName"
           :scheduleStart="scheduleStart"
           :scheduleEnd="scheduleEnd"
@@ -21,8 +20,6 @@
         <squad-team-split />
       </v-col>
     </v-row>
-
-    <util-snack-bar :purpose="snackBarPurpose" :message="snackBarMessage" />
   </v-container>
 </template>
 

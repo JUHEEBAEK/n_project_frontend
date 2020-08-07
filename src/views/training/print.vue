@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="pa-1">
+  <v-container fluid class="px-5 py-0">
     <v-row class="py-0" justify="center">
       <v-col cols="1" class="col__fist pa-0">
         <div class="background__label"></div>
@@ -15,7 +15,7 @@
         <div class="label__text label__text-durations">Durations</div>
         <v-avatar class="avatar__item avatar__item-durations" size="56"></v-avatar>
       </v-col>
-      <v-col cols="11" class="pa-0">
+      <v-col cols="11" class="col__second pa-0">
         <v-row class="low__first pa-1">
           <v-col cols="6" class="py-0">
             <v-text-field label="Theme" hide-details />
@@ -38,7 +38,16 @@
             <v-text-field label="Team Objectives" autocomplete="off" hide-details />
           </v-col>
           <v-col cols="7" class="py-0">
-            <v-file-input multiple label="File input"></v-file-input>
+            <div class="file__image">
+              <v-file-input
+                v-model="file"
+                hide-input
+                clearable
+                accept="image/*"
+                @change="uploadImage"
+              ></v-file-input>
+              <v-img v-if="imageUrl" :src="imageUrl" max-height="300" contain></v-img>
+            </div>
           </v-col>
           <v-divider class="mx-5" color="#8BC34A" vertical></v-divider>
           <v-col cols="3.5" class="py-1">
@@ -95,10 +104,20 @@ export default {
   async created() {
     this.$store.commit("common/setFullScreen", true);
   },
+  data: () => ({
+    file: null,
+    imageUrl: null
+  }),
   computed: {
     ...mapGetters("components/layout", {
       fullScreen: "fullScreen"
     })
+  },
+  methods: {
+    uploadImage: function(val) {
+      console.log("upload", val);
+      this.imageUrl = URL.createObjectURL(val);
+    }
   }
 };
 </script>
@@ -124,6 +143,15 @@ export default {
     transform: rotate(-90deg);
     font-weight: 700;
     font-size: 12px;
+  }
+}
+.col__second {
+  .low__second {
+    .file__image {
+      display: flex;
+      align-self: center;
+      flex-direction: row;
+    }
   }
 }
 </style>

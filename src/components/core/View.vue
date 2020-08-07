@@ -1,9 +1,9 @@
 <template>
-  <v-main>
+  <v-content>
     <v-container fluid fill-height class="main__container">
       <router-view class="main__router-view"></router-view>
     </v-container>
-  </v-main>
+  </v-content>
 </template>
 
 <script>
