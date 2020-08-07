@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="map" style="width:70vw; height: 70vh"></div>
+    <div id="map" class="map__container"></div>
   </div>
 </template>
 
@@ -281,9 +281,4 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-#map {
-  width: 400px;
-  height: 400px;
-}
-</style>
+<style lang="scss" src="../../styles/components/stadium/map.scss"></style>
