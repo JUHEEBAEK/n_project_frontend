@@ -1,15 +1,7 @@
 <template>
   <div>
     <v-row>
-      <v-col
-        cols="12"
-        sm="12"
-        md="6"
-        lg="4"
-        class="pa-0"
-        v-for="(item, idx) in searchResult"
-        :key="idx"
-      >
+      <v-col class="py-1" cols="12" v-for="(item, idx) in searchResult" :key="idx">
         <v-card class="stadium__container px-0 py-1 ma-1" @click="cardClickEvent(item, idx)">
           <v-card-title class="stadium__title">
             <div class="text text__title">{{ item.name }}</div>

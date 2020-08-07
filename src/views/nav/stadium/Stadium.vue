@@ -2,13 +2,13 @@
   <div>
     <stadium-toolbar />
     <v-row>
-      <v-col cols="6">
+      <v-col cols="9" sm="12" md="10" lg="9" xl="9">
+        <stadium-map :selectedStadiumIndex="selectedStadiumIndex" />
+      </v-col>
+      <v-col cols="3" sm="12" md="2" lg="3" xl="3">
         <div class="scrollable">
           <stadium-cardList @selectStadium="handleSelect" />
         </div>
-      </v-col>
-      <v-col cols="6">
-        <stadium-map :selectedStadiumIndex="selectedStadiumIndex" />
       </v-col>
     </v-row>
   </div>
@@ -31,7 +31,7 @@ export default {
 
 <style scoped>
 .scrollable {
-  overflow: auto;
+  overflow-y: auto;
   max-height: 100vh;
 }
 </style>

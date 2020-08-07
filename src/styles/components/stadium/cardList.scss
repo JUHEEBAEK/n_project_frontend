@@ -3,7 +3,7 @@
 
   .stadium__description {
     .text__caption {
-      overflow: hidden;
+      overflow-y: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }

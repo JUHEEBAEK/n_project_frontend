@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="map" style="width:500px; height: 500px"></div>
+    <div id="map" style="width:70vw; height: 70vh"></div>
   </div>
 </template>
 
@@ -26,9 +26,12 @@ export default {
       infowWindows: null,
       new_markers: [],
       markers: [], // 여기다가 풋살장 위치 정보 받아와야함
+      defaultImageSrc:
+        "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/map/maps-and-location.png",
       imageSrc:
-        "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
+        "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/map/red-pin.png",
       markerImage: null,
+      defaultMarkerImage: null,
       highlightIndex: null
     };
   },
@@ -58,14 +61,14 @@ export default {
         this.redisplayMarker(this.highlightIndex, false);
       }
       this.highlightIndex = val;
-      
+
       this.redisplayMarker(val, true);
-      
+
       this.infowWindows.forEach(infowindow => {
         infowindow.setMap(null);
       });
-      this.map.setCenter(this.markers[val].getPosition())
-      this.map.setLevel(3)
+      this.map.setCenter(this.markers[val].getPosition());
+      this.map.setLevel(3);
     }
   },
   methods: {
@@ -75,16 +78,20 @@ export default {
       const container = document.getElementById("map");
       const options = {
         center: new kakao.maps.LatLng(37.5642, 127.001),
-        level: 10
+        level: 8
       };
       this.map = new kakao.maps.Map(container, options);
     },
     initMarkerImage() {
       // 마커 이미지의 이미지 크기 입니다
-      var imageSize = new kakao.maps.Size(24, 35);
+      var imageSize = new kakao.maps.Size(48, 48);
 
       // 마커 이미지를 생성합니다
       this.markerImage = new kakao.maps.MarkerImage(this.imageSrc, imageSize);
+      this.defaultMarkerImage = new kakao.maps.MarkerImage(
+        this.defaultImageSrc,
+        imageSize
+      );
     },
     remove() {
       this.markers[this.highlightIndex].setMap(null);
@@ -118,22 +125,18 @@ export default {
       this.map.relayout();
     },
     redisplayMarker(index, isStarImage) {
-      // TODO: https://apis.map.kakao.com/web/documentation/#Marker 
+      // TODO: https://apis.map.kakao.com/web/documentation/#Marker
       // setImage method를 이용해서 다시 짤 것
       let marker = this.markers[index];
-      if (isStarImage){
+      if (isStarImage) {
         marker.setImage(this.markerImage);
-      }else{
+      } else {
         marker.setImage(null);
       }
-      
-      // 마커 등록 https://apis.map.kakao.com/web/sample/addMarkerClickEvent/
-      
-      
-    },
-    reAddInfowindowToMarker(index){
 
+      // 마커 등록 https://apis.map.kakao.com/web/sample/addMarkerClickEvent/
     },
+    reAddInfowindowToMarker(index) {},
 
     displayAllMarker(markerPositions) {
       // stadium list has latitude, longitude, nick_name, name
@@ -159,7 +162,8 @@ export default {
             new kakao.maps.Marker({
               map: this.map, // marker.setMap(map)하는 과정을 생략
               position,
-              clickable: true
+              clickable: true,
+              image: this.defaultMarkerImage
             })
         );
       }
