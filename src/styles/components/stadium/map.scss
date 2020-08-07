@@ -1,0 +1,17 @@
+@import "../../global/mediaQuery.scss";
+
+.map__container {
+  width: 70vw;
+  height: 70vh;
+
+  @include sm {
+    width: 88vw;
+    height: 30vh;
+  }
+
+  @include xs {
+    width: 94vw;
+    height: 30vh;
+  }
+
+}
