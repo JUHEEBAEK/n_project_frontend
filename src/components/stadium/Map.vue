@@ -143,7 +143,7 @@ export default {
     },
 
     addEventMakeMarkerWithClick(){
-      let {map, value, markerDefualt} = this
+      let {map, markerDefualt} = this
       let _this = this
       // 지도에 클릭 이벤트를 등록합니다
       // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
@@ -156,7 +156,8 @@ export default {
           markerDefualt.setPosition(latlng);
           
           _this.value = {latitude: latlng.getLat(),longitude: latlng.getLng()}
-          _this.$emit('value', value)
+          console.log('value emit', _this.value)
+          _this.$emit('input', _this.value)
       });
     },
     initMarkerImage() {
