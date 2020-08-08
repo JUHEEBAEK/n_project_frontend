@@ -158,7 +158,6 @@ export default {
           markerDefualt.setPosition(latlng);
           
           _this.value = {latitude: latlng.getLat(),longitude: latlng.getLng()}
-          console.log('value emit', _this.value)
           _this.$emit('input', _this.value)
       });
     },
@@ -208,10 +207,12 @@ export default {
       // https://apis.map.kakao.com/web/documentation/#Marker
       // setImage method를 이용해서 다시 짤 것
       let marker = this.markers[index];
-      if (isStarImage) {
-        marker.setImage(this.selectedMarkerImage);
-      } else {
-        marker.setImage(this.defaultMarkerImage);
+      if (marker){
+        if (isStarImage) {
+          marker.setImage(this.selectedMarkerImage);
+        } else {
+          marker.setImage(this.defaultMarkerImage);
+        }
       }
     },
 
