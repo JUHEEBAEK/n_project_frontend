@@ -103,6 +103,8 @@ export default {
         );
         // 마커 위치를 클릭한 위치로 옮깁니다
         markerDefualt.setPosition(kakaoPosition);
+        
+        this.map.setCenter(kakaoPosition);
       }
     }
   },
