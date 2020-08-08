@@ -17,6 +17,18 @@ export default {
     selectedStadiumIndex: {
       type: Number,
       default: null
+    },
+    showStadium:{
+      type: Boolean,
+      default: false
+    },
+    makeMarkerWithClick:{
+      type: Boolean,
+      default: false
+    },
+    value:{ //{latitude: ..., longitude: ...}
+      type: Object,
+      default: undefined
     }
   },
   data() {
@@ -26,6 +38,7 @@ export default {
       infowWindows: null,
       new_markers: [],
       markers: [], // 여기다가 풋살장 위치 정보 받아와야함
+      markerDefualt: null, // 지도 클릭시 보여주는 마커 value와 연동 할 것
 
       defaultImageSrc:
         "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/map/maps-and-location.png",
@@ -40,22 +53,32 @@ export default {
     ...stadiuMapState(["searchResult"])
   },
   async mounted() {
-    this.initMap();
     this.initMarkerImage();
-    await this.select_stadium();
-    this.displayAllMarker(this.searchResult);
-    this.addInfowindowToMarkers(this.searchResult);
+
+    this.initMap();
+    this.initMarker();
+
+    if (this.showStadium){
+      await this.select_stadium();
+      this.displayAllMarker(this.searchResult);
+      this.addInfowindowToMarkers(this.searchResult);
+    }
+    if (this.makeMarkerWithClick){
+      this.addEventMakeMarkerWithClick()
+    }
   },
   watch: {
     searchResult(val) {
-      this.markers.forEach(marker => {
-        marker.setMap(null);
-      });
-      this.makers = [];
-      this.displayAllMarker(this.searchResult);
-      this.addInfowindowToMarkers(this.searchResult);
-      this.selectedMarkerIndex = null;
-      this.selectedStadiumIndex = null;
+      if (this.showStadium){
+        this.markers.forEach(marker => {
+          marker.setMap(null);
+        });
+        this.makers = [];
+        this.displayAllMarker(this.searchResult);
+        this.addInfowindowToMarkers(this.searchResult);
+        this.selectedMarkerIndex = null;
+        this.selectedStadiumIndex = null;
+      }
     },
     selectedStadiumIndex(val) {
       if (this.selectedMarkerIndex != null) {
@@ -70,12 +93,26 @@ export default {
       });
       this.map.setCenter(this.markers[val].getPosition());
       this.map.setLevel(3);
+    },
+    value(val){
+      let {markerDefualt} = this
+      if (val != undefined){
+        let kakaoPosition = new kakao.maps.LatLng(
+          Number(val.latitude),
+          Number(val.longitude)
+        );
+        // 마커 위치를 클릭한 위치로 옮깁니다
+        markerDefualt.setPosition(kakaoPosition);
+        
+        this.map.setCenter(kakaoPosition);
+      }
     }
   },
   methods: {
     ...stadiumMapActions(["select_stadium"]),
     initMap() {
-      console.log("initMap", kakao.maps);
+      let {map, defaultMarkerImage, value} = this
+
       const container = document.getElementById("map");
       const options = {
         center: new kakao.maps.LatLng(37.5642, 127.001),
@@ -86,6 +123,43 @@ export default {
 
       var zoomControl = new kakao.maps.ZoomControl();
       this.map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+    },
+    initMarker(){
+      let {map, defaultMarkerImage, value} = this
+      let kakaoPosition = map.getCenter() 
+      let markerMap = null
+      if (value != undefined){
+        kakaoPosition = new kakao.maps.LatLng(
+          Number(value.latitude),
+          Number(value.longitude)
+        );
+        markerMap = map
+      }
+      
+      this.markerDefualt = new kakao.maps.Marker({ 
+          // 지도 중심좌표에 마커를 생성합니다 
+          position: kakaoPosition,
+          image: defaultMarkerImage,
+          map: markerMap
+      }); 
+    },
+
+    addEventMakeMarkerWithClick(){
+      let {map, markerDefualt} = this
+      let _this = this
+      // 지도에 클릭 이벤트를 등록합니다
+      // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+      kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+          markerDefualt.setMap(map)
+          // 클릭한 위도, 경도 정보를 가져옵니다 
+          var latlng = mouseEvent.latLng; 
+          
+          // 마커 위치를 클릭한 위치로 옮깁니다
+          markerDefualt.setPosition(latlng);
+          
+          _this.value = {latitude: latlng.getLat(),longitude: latlng.getLng()}
+          _this.$emit('input', _this.value)
+      });
     },
     initMarkerImage() {
       // 마커 이미지의 이미지 크기 입니다
@@ -133,10 +207,12 @@ export default {
       // https://apis.map.kakao.com/web/documentation/#Marker
       // setImage method를 이용해서 다시 짤 것
       let marker = this.markers[index];
-      if (isStarImage) {
-        marker.setImage(this.selectedMarkerImage);
-      } else {
-        marker.setImage(this.defaultMarkerImage);
+      if (marker){
+        if (isStarImage) {
+          marker.setImage(this.selectedMarkerImage);
+        } else {
+          marker.setImage(this.defaultMarkerImage);
+        }
       }
     },
 
