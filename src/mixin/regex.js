@@ -53,7 +53,10 @@ const regex = {
         //     v
         //   ) || "Invalid Password format"
       ],
-      userTypeRules: [v => !!v || "Type is required"]
+      userTypeRules: [v => !!v || "Type is required"],
+      trainingsPlayerRules: [
+        v => (v && v.length <= 7) || "이름은 7글자 넘을 수 없음."
+      ],
     };
   },
   methods: {
