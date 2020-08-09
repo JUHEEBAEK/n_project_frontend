@@ -24,14 +24,12 @@
           </v-col>
 
           <v-col cols="12" class="py-2">
-            <v-text-field
-              v-model="nickName"
-              label="닉네임"
-              hide-details
-              outlined
-            />
+            <v-text-field v-model="nickName" label="닉네임" hide-details outlined />
           </v-col>
         </v-row>
+        <v-col cols="12" md="9" lg="9" xl="9">
+          <stadium-map :makeMarkerWithClick="true" v-model="markerPosition" />
+        </v-col>
         <v-row>
           <v-col cols="12" class="text-right">
             <v-btn color="primary" large @click="submit">저장</v-btn>
@@ -65,7 +63,11 @@ export default {
     title: "STADIUM UPDATE",
     name: "",
     address: "",
-    nickName: ""
+    nickName: "",
+    markerPosition: {
+      latitude: null,
+      longitude: null
+    }
   }),
   async created() {
     // stadiumId로 name, address, nickName을 할당할 것
@@ -74,6 +76,10 @@ export default {
       this.name = stadium.name;
       this.address = stadium.address;
       this.nickName = stadium.nick_name;
+      this.markerPosition = {
+        latitude: stadium.latitude,
+        longitude: stadium.longitude
+      };
     }
   },
   methods: {
@@ -85,7 +91,8 @@ export default {
           stadium: {
             name: this.name,
             nick_name: this.nickName,
-            address: this.address
+            address: this.address,
+            ...this.markerPosition
           }
         };
         this.update_stadium(_srcData).then(() => {
