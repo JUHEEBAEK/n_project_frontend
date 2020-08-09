@@ -54,20 +54,30 @@
             <v-text-field label="팀 목표" autocomplete="off" hide-details />
           </v-col>
           <v-col cols="7" class="py-0">
+            <div>
+              <input
+                class="file__input"
+                ref="hiddenInputFile"
+                type="file"
+                accept="image/png, image/jpeg"
+                @change="onChangeImages"
+              />
+            </div>
             <div class="file__image">
-              <v-file-input
-                v-model="file"
-                hide-input
-                clearable
-                accept="image/*"
-                @change="uploadImage"
-              ></v-file-input>
-              <v-img v-if="imageUrl" :src="imageUrl" max-height="300" contain></v-img>
+              <div>
+                <v-img v-if="imageUrl" :src="imageUrl" height="300px" width="600px" contain></v-img>
+              </div>
             </div>
           </v-col>
-          <v-divider class="mx-5" color="#93278f" vertical></v-divider>
-          <v-col cols="3.5" class="py-1">
-            <v-img src="@/assets/field.png" contain aspect-ratio="1.2"></v-img>
+          <v-divider class="mx-3" color="#93278f" vertical></v-divider>
+          <v-col cols="3.5" class="py-1 img__field">
+            <v-btn icon fab small @click="clickFileUpload">
+              <v-icon>fas fa-image</v-icon>
+            </v-btn>
+            <v-btn icon fab small @click="clearImage">
+              <v-icon>fas fa-trash-alt</v-icon>
+            </v-btn>
+            <v-img class="pa-0" src="@/assets/field.png" contain aspect-ratio="1.15"></v-img>
           </v-col>
         </v-row>
         <v-row class="low__third">
@@ -247,9 +257,16 @@ export default {
     })
   },
   methods: {
-    uploadImage: function(val) {
-      console.log("upload", val);
-      this.imageUrl = URL.createObjectURL(val);
+    clearImage: function() {
+      this.imageUrl = null;
+    },
+    clickFileUpload: function() {
+      this.$refs.hiddenInputFile.click();
+    },
+    onChangeImages(e) {
+      console.log(e);
+      const file = e.target.files[0]; // Get first index in files
+      this.imageUrl = URL.createObjectURL(file); // Create File URL
     }
   }
 };
@@ -329,5 +346,12 @@ $downColor: #00c0ff;
 }
 .theme--light.v-data-table thead tr:last-child th {
   height: 15px !important;
+}
+.img__field {
+  display: flex;
+  flex-direction: row;
+}
+.file__input {
+  display: none;
 }
 </style>
