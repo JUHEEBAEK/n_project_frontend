@@ -14,6 +14,9 @@
           <v-col cols="3">
             <v-btn @click="searchWithKeyword(searchKeyword)">주소 검색 </v-btn>
           </v-col>
+          <v-col cols="12" md="9" lg="9" xl="9">
+            <stadium-map :makeMarkerWithClick="true" v-model="markerPosition" />
+          </v-col>
           <v-col>
             <v-list>
               <v-list-item v-for="item in serachlist" :key="item.id">
@@ -107,10 +110,11 @@ export default {
     placeName: "",
     address: "",
     nickName: "",
-    latitude: 0,
-    longitude: 0,
+    markerPosition:{
+      latitude: null,
+      longitude: null
+    }
   }),
-
   methods: {
     ...stadiumMapActions(["add_stadium"]),
     submit() {
@@ -119,8 +123,8 @@ export default {
         _srcData["name"] = this.name;
         _srcData["address"] = this.address;
         _srcData["nick_name"] = this.nickName;
-        _srcData["latitude"] = this.latitude;
-        _srcData["longitude"] = this.longitude;
+        _srcData["latitude"] = this.markerPosition.latitude;
+        _srcData["longitude"] = this.markerPosition.longitude;
 
         this.add_stadium(_srcData).then(() => {
           this.setSnackBar(this.snackBarSuccess, "정상적으로 추가되었습니다");
@@ -133,7 +137,6 @@ export default {
       const places = new kakao.maps.services.Places();
       var callback = function(result, status) {
         if (status === kakao.maps.services.Status.OK) {
-          console.log("searchWithKeyword", result);
           _this.serachlist = result;
 
           // list item 내용 예시
@@ -157,8 +160,10 @@ export default {
     setAddress(new_address) {
       this.address = new_address.address_name;
       this.name = new_address.place_name;
-      this.latitude = new_address.y;
-      this.longitude = new_address.x;
+      this.markerPosition = {
+        latitude: Number(new_address.y), 
+        longitude: Number(new_address.x)
+      };
       this.serachlist = [];
     },
   },
