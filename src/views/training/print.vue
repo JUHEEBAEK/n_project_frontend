@@ -65,7 +65,7 @@
             </div>
             <div class="file__image">
               <div>
-                <v-img v-if="imageUrl" :src="imageUrl" height="300px" width="600px" contain></v-img>
+                <v-img v-if="imageUrl" :src="imageUrl" height="240px" width="480px" contain></v-img>
               </div>
             </div>
           </v-col>
@@ -190,7 +190,7 @@
         </v-simple-table>
       </v-col>
 
-      <v-col cols="9">
+      <v-col cols="9" class="py-1">
         <v-simple-table class="table__simple-down">
           <template v-slot:default>
             <thead>
@@ -224,9 +224,9 @@
           </template>
         </v-simple-table>
       </v-col>
-      <v-col cols="3">
+      <v-col cols="3" class="py-1">
         <v-img src="@/assets/field.png" contain aspect-ratio="0.8"></v-img>
-        <v-textarea class="py-3" label="결론" outlined value rows="3" hide-details />
+        <v-textarea class="py-2" label="결론" outlined value rows="3" hide-details />
       </v-col>
     </v-row>
   </v-container>
