@@ -50,8 +50,7 @@
 </template>
 
 <script>
-import dummy from "../../assets/value/dummy.json";
-import matchValue from "../../assets/value/match.json";
+import matchValue from "@/assets/value/match.json";
 
 export default {
   created() {},

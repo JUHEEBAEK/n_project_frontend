@@ -102,7 +102,7 @@
 <script>
 import moment from "moment";
 import util from "../../mixin/util.js";
-import memberValue from "../../assets/value/member.json";
+import memberValue from "@/assets/value/member.json";
 
 import { createNamespacedHelpers } from "vuex";
 const {

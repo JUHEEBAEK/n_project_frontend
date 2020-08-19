@@ -49,7 +49,6 @@
 </template>
 
 <script>
-import dummy from "../../assets/value/dummy.json";
 import { createNamespacedHelpers } from "vuex";
 
 const {

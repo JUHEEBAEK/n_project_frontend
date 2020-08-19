@@ -46,7 +46,7 @@
 
 <script>
 import moment from "moment";
-import scheduleValue from "../../assets/value/Schedule.json";
+import scheduleValue from "@/assets/value/Schedule.json";
 
 import { createNamespacedHelpers } from "vuex";
 const {

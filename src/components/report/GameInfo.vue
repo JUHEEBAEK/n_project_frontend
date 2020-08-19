@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import gameValue from "../../assets/value/gameReport.json";
+import gameValue from "@/assets/value/gameReport.json";
 
 export default {
   props: {

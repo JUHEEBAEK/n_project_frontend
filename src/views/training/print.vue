@@ -77,7 +77,7 @@
             <v-btn icon fab small @click="clearImage">
               <v-icon>fas fa-trash-alt</v-icon>
             </v-btn>
-            <v-img class="pa-0" src="@/assets/field.png" contain aspect-ratio="1.15"></v-img>
+            <v-img class="pa-0" src="@/assets/images/field.png" contain aspect-ratio="1.15"></v-img>
           </v-col>
         </v-row>
         <v-row class="low__third">
@@ -225,7 +225,7 @@
         </v-simple-table>
       </v-col>
       <v-col cols="3" class="py-1">
-        <v-img src="@/assets/field.png" contain aspect-ratio="0.8"></v-img>
+        <v-img src="@/assets/images/field.png" contain aspect-ratio="0.8"></v-img>
         <v-textarea class="py-2" label="결론" outlined value rows="3" hide-details />
       </v-col>
     </v-row>
