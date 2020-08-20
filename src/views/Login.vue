@@ -2,32 +2,43 @@
   <div align-center justify-center class="login__main">
     <v-card class="elevation-0 login__container">
       <v-card-title class="login__header">
-        <div class="header__logo-image">Logo</div>
+        <div class="header__logo-image">
+          <v-img src="@/assets/images/fsnnnn_emblem_official2.png" width="150px" contain />
+        </div>
         <div class="header__logo-text">Log in to your account</div>
       </v-card-title>
-      <v-card-text>
+      <div>
         <v-form class="login__content" ref="form" lazy-validation>
           <v-text-field
             v-model="username"
-            label="Username"
+            autocomplete="off"
             class="login__input"
+            color="#03a27c"
+            dark
+            dense
+            label="Username"
+            outlined
             :rules="userNameRules"
             @keydown.enter="submit"
           ></v-text-field>
           <v-text-field
             v-model="pwd"
-            label="Password"
+            autocomplete="off"
             class="login__input"
+            color="#03a27c"
+            dark
+            dense
+            label="Password"
+            outlined
             type="password"
             :rules="pwdRules"
-            autocomplete="off"
             @keydown.enter="submit"
           ></v-text-field>
         </v-form>
-      </v-card-text>
-      <v-card-actions class="login__actions">
-        <v-btn class="login__button" dark block rounded @click="submit">Login</v-btn>
-      </v-card-actions>
+      </div>
+      <div class="login__actions">
+        <v-btn class="login__button" dark block @click="submit">Login</v-btn>
+      </div>
     </v-card>
     <!-- util -->
     <util-snack-bar v-if="snackBar" :purpose="snackBarPurpose" :message="snackBarMessage" />
@@ -36,6 +47,9 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
+import regex from "../mixin/regex";
 import util from "../mixin/util.js";
 
 import { createNamespacedHelpers } from "vuex";
@@ -45,7 +59,15 @@ const {
 } = createNamespacedHelpers("attend");
 
 export default {
-  mixins: [util],
+  mixins: [regex, util],
+  created() {
+    this.$store.commit("common/setFullScreen", true);
+  },
+  computed: {
+    ...mapGetters("components/layout", {
+      fullScreen: "fullScreen"
+    })
+  },
   data: () => ({
     chartData: [],
     title: "2020 출석횟수",
@@ -63,14 +85,14 @@ export default {
 .login__main {
   padding: 0;
   background-image: url("../assets/images/section02_bg.jpg");
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 
   .login__container {
     padding: 30px;
-    width: 24vw;
-    height: 38vh;
     background-color: #0000005e;
     color: white;
 
@@ -97,8 +119,7 @@ export default {
         border: none;
         font-size: 14px;
         font-weight: 700;
-        border-bottom: solid 1px #fff;
-        margin: 20px 0;
+        border-radius: 10px;
       }
     }
 
@@ -107,9 +128,11 @@ export default {
       display: flex;
       flex-direction: column;
       .login__button {
-        background: #00ebb2;
         border: solid 1px #03a27c;
-        color: #463b3b;
+        background-color: none;
+        color: #00ebb2;
+        height: 40px;
+        border-radius: 10px;
       }
       .find__button {
         margin: 20px 0;
