@@ -66,4 +66,4 @@ export default {
 };
 </script>
 
-<style lang="scss" src="../../styles/components/stadium/cardList.scss"></style>
+<style lang="scss" src="@/assets/scss/components/stadium/cardList.scss"></style>

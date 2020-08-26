@@ -150,8 +150,4 @@ export default {
 };
 </script>
 
-<style
-  lang="scss"
-  scoped
-  src="../../styles/components/report/gameList.scss"
-></style>
+<style lang="scss" scoped src="@/assets/scss/components/report/gameList.scss"></style>

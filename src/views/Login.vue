@@ -22,7 +22,7 @@
             @keydown.enter="submit"
           ></v-text-field>
           <v-text-field
-            v-model="pwd"
+            v-model="password"
             autocomplete="off"
             class="login__input"
             color="#03a27c"
@@ -38,16 +38,17 @@
       </div>
       <div class="login__actions">
         <v-btn class="login__button" dark block @click="submit">Login</v-btn>
+        <v-btn dark text @click="join">회원가입</v-btn>
       </div>
     </v-card>
     <!-- util -->
     <util-snack-bar v-if="snackBar" :purpose="snackBarPurpose" :message="snackBarMessage" />
-    <util-loading v-if="loading" :size="100" :title="loadingTitle" />
+    <util-spinner v-if="loading"></util-spinner>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 import regex from "../mixin/regex";
 import util from "../mixin/util.js";
@@ -58,88 +59,53 @@ const {
   mapActions: attendMapActions
 } = createNamespacedHelpers("attend");
 
+const { mapState: commonState } = createNamespacedHelpers("common");
+const { mapActions: accountActions } = createNamespacedHelpers("account");
+
 export default {
   mixins: [regex, util],
   created() {
-    this.$store.commit("common/setFullScreen", true);
+    this.$store.commit("common/SET_FULL_SCREEN", true);
   },
   computed: {
+    ...commonState(["common"]),
     ...mapGetters("components/layout", {
       fullScreen: "fullScreen"
     })
   },
   data: () => ({
-    chartData: [],
-    title: "2020 출석횟수",
-    isLoading: false
+    username: "",
+    password: null
   }),
   methods: {
+    ...accountActions(["loginProcess"]),
     submit: function() {
       console.log("login");
+
+      if (this.$refs.form.validate()) {
+        this.setLoadingBar(true);
+        let formData = {
+          username: this.username,
+          password: this.password
+        };
+
+        // const formData = new FormData();
+        // formData.append("userName", this.username);
+        // formData.append("password", this.password);
+        this.loginProcess(formData);
+        this.setLoadingBar(false);
+      }
+      // Validation(email,pwd) Fail
+      else {
+        console.log("실패");
+        this.setSnackBar(
+          this.snackBarFail,
+          "이메일과 비밀번호를 형식에 맞게 입력해주세요"
+        );
+      }
     }
   }
 };
 </script>
 
-<style lang="scss" scoped>
-.login__main {
-  padding: 0;
-  background-image: url("../assets/images/section02_bg.jpg");
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .login__container {
-    padding: 30px;
-    background-color: #0000005e;
-    color: white;
-
-    .login__header {
-      padding: 30px 100px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      .header__logo-image {
-        margin: 10px 0;
-      }
-      .header__logo-text {
-      }
-    }
-    .login__content {
-      padding: 0px 30px;
-      display: flex;
-      flex-direction: column;
-
-      .login__input {
-        width: 100%;
-        background: none;
-        color: #fff;
-        border: none;
-        font-size: 14px;
-        font-weight: 700;
-        border-radius: 10px;
-      }
-    }
-
-    .login__actions {
-      padding: 20px 30px;
-      display: flex;
-      flex-direction: column;
-      .login__button {
-        border: solid 1px #03a27c;
-        background-color: none;
-        color: #00ebb2;
-        height: 40px;
-        border-radius: 10px;
-      }
-      .find__button {
-        margin: 20px 0;
-        background: #455a64;
-        border: solid 1px #2d3a41;
-      }
-    }
-  }
-}
-</style>
+<style lang="scss" src="@/assets/scss/views/login.scss" scoped></style>

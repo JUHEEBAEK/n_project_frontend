@@ -120,7 +120,7 @@ export default {
     }
   },
   created() {
-    this.$store.commit("common/setFullScreen", true);
+    this.$store.commit("common/SET_FULL_SCREEN", true);
   },
   async mounted() {
     this.select_member();

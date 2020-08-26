@@ -238,7 +238,7 @@ import regex from "../../mixin/regex";
 
 export default {
   async created() {
-    this.$store.commit("common/setFullScreen", true);
+    this.$store.commit("common/SET_FULL_SCREEN", true);
   },
   data: () => ({
     date: new Date().toISOString().substr(0, 10),

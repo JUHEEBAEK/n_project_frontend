@@ -22,9 +22,9 @@ export default {
   computed: {},
   watch: {},
   methods: {
-    ...commonMapMutations(["setDrawer"]),
+    ...commonMapMutations(["SET_DRAWER"]),
     onClickBtn() {
-      this.setDrawer(!this.$store.state.common.drawer);
+      this.SET_DRAWER(!this.$store.state.common.drawer);
     }
   }
 };

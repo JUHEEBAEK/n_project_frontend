@@ -256,5 +256,5 @@ export default {
 
 <style
   lang="scss"
-  src="../../../styles/views/nav/match/matchInput.scss"
+  src="@/assets/scss/views/nav/match/matchInput.scss"
 ></style>

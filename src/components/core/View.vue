@@ -10,4 +10,4 @@
 export default {};
 </script>
 
-<style scoped lang="scss" src="../../styles/components/core/view.scss"></style>
+<style scoped lang="scss" src="@/assets/scss/components/core/view.scss"></style>

@@ -341,4 +341,4 @@ export default {
 };
 </script>
 
-<style lang="scss" src="../../styles/components/match/eventInput.scss"></style>
+<style lang="scss" src="@/assets/scss/components/match/eventInput.scss"></style>

@@ -128,4 +128,4 @@ export default {
 };
 </script>
 
-<style lang="scss" src="../../styles/components/schedule/dateList.scss"></style>
+<style lang="scss" src="@/assets/scss/components/schedule/dateList.scss"></style>

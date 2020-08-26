@@ -18,15 +18,16 @@ export default {
       type: Number,
       default: null
     },
-    showStadium:{
+    showStadium: {
       type: Boolean,
       default: false
     },
-    makeMarkerWithClick:{
+    makeMarkerWithClick: {
       type: Boolean,
       default: false
     },
-    value:{ //{latitude: ..., longitude: ...}
+    value: {
+      //{latitude: ..., longitude: ...}
       type: Object,
       default: undefined
     }
@@ -58,18 +59,18 @@ export default {
     this.initMap();
     this.initMarker();
 
-    if (this.showStadium){
+    if (this.showStadium) {
       await this.select_stadium();
       this.displayAllMarker(this.searchResult);
       this.addInfowindowToMarkers(this.searchResult);
     }
-    if (this.makeMarkerWithClick){
-      this.addEventMakeMarkerWithClick()
+    if (this.makeMarkerWithClick) {
+      this.addEventMakeMarkerWithClick();
     }
   },
   watch: {
     searchResult(val) {
-      if (this.showStadium){
+      if (this.showStadium) {
         this.markers.forEach(marker => {
           marker.setMap(null);
         });
@@ -94,16 +95,16 @@ export default {
       this.map.setCenter(this.markers[val].getPosition());
       this.map.setLevel(3);
     },
-    value(val){
-      let {markerDefualt} = this
-      if (val != undefined){
+    value(val) {
+      let { markerDefualt } = this;
+      if (val != undefined) {
         let kakaoPosition = new kakao.maps.LatLng(
           Number(val.latitude),
           Number(val.longitude)
         );
         // 마커 위치를 클릭한 위치로 옮깁니다
         markerDefualt.setPosition(kakaoPosition);
-        
+
         this.map.setCenter(kakaoPosition);
       }
     }
@@ -111,54 +112,54 @@ export default {
   methods: {
     ...stadiumMapActions(["select_stadium"]),
     initMap() {
-      let {map, defaultMarkerImage, value} = this
+      let { map, defaultMarkerImage, value } = this;
 
       const container = document.getElementById("map");
       const options = {
         center: new kakao.maps.LatLng(37.5642, 127.001),
         level: 8
       };
-      
+
       this.map = new kakao.maps.Map(container, options);
 
       var zoomControl = new kakao.maps.ZoomControl();
       this.map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
     },
-    initMarker(){
-      let {map, defaultMarkerImage, value} = this
-      let kakaoPosition = map.getCenter() 
-      let markerMap = null
-      if (value != undefined){
+    initMarker() {
+      let { map, defaultMarkerImage, value } = this;
+      let kakaoPosition = map.getCenter();
+      let markerMap = null;
+      if (value != undefined) {
         kakaoPosition = new kakao.maps.LatLng(
           Number(value.latitude),
           Number(value.longitude)
         );
-        markerMap = map
+        markerMap = map;
       }
-      
-      this.markerDefualt = new kakao.maps.Marker({ 
-          // 지도 중심좌표에 마커를 생성합니다 
-          position: kakaoPosition,
-          image: defaultMarkerImage,
-          map: markerMap
-      }); 
+
+      this.markerDefualt = new kakao.maps.Marker({
+        // 지도 중심좌표에 마커를 생성합니다
+        position: kakaoPosition,
+        image: defaultMarkerImage,
+        map: markerMap
+      });
     },
 
-    addEventMakeMarkerWithClick(){
-      let {map, markerDefualt} = this
-      let _this = this
+    addEventMakeMarkerWithClick() {
+      let { map, markerDefualt } = this;
+      let _this = this;
       // 지도에 클릭 이벤트를 등록합니다
       // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
-      kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
-          markerDefualt.setMap(map)
-          // 클릭한 위도, 경도 정보를 가져옵니다 
-          var latlng = mouseEvent.latLng; 
-          
-          // 마커 위치를 클릭한 위치로 옮깁니다
-          markerDefualt.setPosition(latlng);
-          
-          _this.value = {latitude: latlng.getLat(),longitude: latlng.getLng()}
-          _this.$emit('input', _this.value)
+      kakao.maps.event.addListener(map, "click", function(mouseEvent) {
+        markerDefualt.setMap(map);
+        // 클릭한 위도, 경도 정보를 가져옵니다
+        var latlng = mouseEvent.latLng;
+
+        // 마커 위치를 클릭한 위치로 옮깁니다
+        markerDefualt.setPosition(latlng);
+
+        _this.value = { latitude: latlng.getLat(), longitude: latlng.getLng() };
+        _this.$emit("input", _this.value);
       });
     },
     initMarkerImage() {
@@ -166,7 +167,10 @@ export default {
       var imageSize = new kakao.maps.Size(48, 48);
 
       // 마커 이미지를 생성합니다
-      this.selectedMarkerImage = new kakao.maps.MarkerImage(this.imageSrc, imageSize);
+      this.selectedMarkerImage = new kakao.maps.MarkerImage(
+        this.imageSrc,
+        imageSize
+      );
       this.defaultMarkerImage = new kakao.maps.MarkerImage(
         this.defaultImageSrc,
         imageSize
@@ -207,7 +211,7 @@ export default {
       // https://apis.map.kakao.com/web/documentation/#Marker
       // setImage method를 이용해서 다시 짤 것
       let marker = this.markers[index];
-      if (marker){
+      if (marker) {
         if (isStarImage) {
           marker.setImage(this.selectedMarkerImage);
         } else {
@@ -217,13 +221,12 @@ export default {
     },
 
     displayAllMarker(markerPositions) {
-      
       if (this.markers.length > 0) {
         this.markers.forEach(marker => marker.setMap(null));
       }
-      
-      let kakaoPositions = this.makeKakaoPositions(markerPositions)
-      
+
+      let kakaoPositions = this.makeKakaoPositions(markerPositions);
+
       this.markers = kakaoPositions.map(
         position =>
           new kakao.maps.Marker({
@@ -234,31 +237,30 @@ export default {
           })
       );
     },
-    makeKakaoPositions(positions){
+    makeKakaoPositions(positions) {
       let kakaoPositions = [];
-      
-      for (let i = 0; i < positions.length; i++) { 
+
+      for (let i = 0; i < positions.length; i++) {
         let position = new kakao.maps.LatLng(
           Number(positions[i].latitude),
           Number(positions[i].longitude)
         );
         kakaoPositions.push(position);
       }
-      return kakaoPositions
+      return kakaoPositions;
     },
     addInfowindowToMarkers(markerPositions) {
       let _this = this;
       this.infowWindows = [];
       for (let i = 0; i < markerPositions.length; i++) {
-        let {id, nick_name, latitude, longitude} = markerPositions[i];
-        let marker = this.markers[i]
-        let infoWindow = this.makeInfoWindow(nick_name, latitude, longitude)
+        let { id, nick_name, latitude, longitude } = markerPositions[i];
+        let marker = this.markers[i];
+        let infoWindow = this.makeInfoWindow(nick_name, latitude, longitude);
         this.infowWindows.push(infoWindow);
 
         // 클릭 이벤트 등록
         // https://apis.map.kakao.com/web/sample/addMarkerClickEvent/
         kakao.maps.event.addListener(marker, "click", function() {
-
           // 기존 윈도우 닫기
           _this.infowWindows.forEach(infoWindow => {
             infoWindow.setMap(null);
@@ -270,7 +272,7 @@ export default {
         });
       }
     },
-    makeInfoWindow(nick_name, latitude, longitude){
+    makeInfoWindow(nick_name, latitude, longitude) {
       let iwContent = `<div class="customoverlay"> 
                           <a href="https://map.kakao.com/link/to/${nick_name},${latitude},${longitude}" target="_blank">
                              <span class="title"> ${nick_name} </span>
@@ -281,15 +283,15 @@ export default {
         Number(longitude)
       );
       let infoWindow = new kakao.maps.CustomOverlay({
-          position: iwPosition,
-          content: iwContent,
-          yAnchor: 2 // 위치를 y축방향으로 이동 시킨다
-        });
-      return infoWindow
-    },
+        position: iwPosition,
+        content: iwContent,
+        yAnchor: 2 // 위치를 y축방향으로 이동 시킨다
+      });
+      return infoWindow;
+    }
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" src="../../styles/components/stadium/map.scss"></style>
+<style lang="scss" src="@/assets/scss/components/stadium/map.scss"></style>

@@ -65,4 +65,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped src="../../styles/components/report/gameInfo.scss"></style>
+<style lang="scss" scoped src="@/assets/scss/components/report/gameInfo.scss"></style>
