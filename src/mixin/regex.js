@@ -54,6 +54,10 @@ const regex = {
         //   ) || "Invalid Password format"
       ],
       userTypeRules: [v => !!v || "Type is required"],
+      userNameRules: [
+        v => !!v || "userName is required",
+        v => (v && v.length <= 50) || "userName must be less than 50 characters"
+      ],
       trainingsPlayerRules: [
         v => (v && v.length <= 7) || "이름은 7글자 넘을 수 없음."
       ],

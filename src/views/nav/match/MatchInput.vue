@@ -40,7 +40,7 @@
 
 <script>
 import moment from "moment";
-import Position from "../../../assets/value/Postion.json";
+import Position from "@/assets/value/position.json";
 import regex from "../../../mixin/regex.js";
 
 import { createNamespacedHelpers } from "vuex";
@@ -256,5 +256,5 @@ export default {
 
 <style
   lang="scss"
-  src="../../../styles/views/nav/match/matchInput.scss"
+  src="@/assets/scss/views/nav/match/matchInput.scss"
 ></style>

@@ -4,18 +4,19 @@ import {
 import * as constants from "../constants";
 const state = {
   // navigation 의 상태 (들어가 있는지 나와있는지)
-  drawer: false,
-  setting: false,
-  snackBar: false,
-  /* 1. fullScreen : true ( AppBar 와 nav 가 없는 상태 )
-    2. fullScreen : null or false */
-  fullScreen: null,
   alert: false,
   colorIndex: ["#000","#ccda11", "#da8c11", "#118eda", "#da1175", "#11da76", "#8f11da"],
-   // 1. dialog : true ( Dialog 이 열린 상태 )
-  // 2. dialog : null or false ( Dialog 이 닫힌 상태 )
+  // 1. dialog : true ( Dialog 이 열린 상태 )
+ // 2. dialog : null or false ( Dialog 이 닫힌 상태 )
+ // dialog 종류 : Confirm.vue 인지 혹은 Manager.vue 인지
   dialog: null,
-  // dialog 종류 : Confirm.vue 인지 혹은 Manager.vue 인지
+  drawer: false,
+  /* 1. fullScreen : true ( AppBar 와 nav 가 없는 상태 )
+  2. fullScreen : null or false */
+  fullScreen: null,
+  loading: false,
+  setting: false,
+  snackBar: false,
   type: null
 };
 
@@ -23,6 +24,13 @@ const getters = {
   snackBar(state) {
     if (state.snackBar) {
       return state.snackBar;
+    } else {
+      return null;
+    }
+  },
+  loading(state) {
+    if (state.loading) {
+      return state.loading;
     } else {
       return null;
     }
@@ -55,41 +63,47 @@ const mutations = {
   [constants.setSetting]: set("setting"),
   [constants.setSnackBar]: set("snackBar"),
   [constants.setAlert]: set("alert"),
-  setFullScreen(state, value) {
-    state.fullScreen = value;
-  },
-  setDialog(state, value) {
+  SET_DIALOG(state, value) {
     state.dialog = value;
   },
-  setType(state, value) {
+  SET_FULL_SCREEN(state, value) {
+    state.fullScreen = value;
+  },
+  SET_LOADING_BAR(state, value) {
+    state.loading = value;
+  },
+  SET_TYPE(state, value) {
     state.type = value;
   },
   // dialog 의 2가지 state 를 한 번에 변경하기 위한 함수
   // 여기서의 value 는 object  ex) { dialog:true, type:"manager" }
-  setDialogAndType(state, value) {
+  SET_DIALOG_AND_TYPE(state, value) {
     state.type = value.type;
     state.dialog = value.dialog;
   }
 };
 
 const actions = {
-  async set_SnackBar({
-    commit
-  }, value) {
-    commit("SET_SNACKBAR", value);
-  },
   async setDialog({ commit }, value) {
-    commit("setDialog", value);
-  },
-  async setType({ commit }, value) {
-    commit("setType", value);
-  },
-  async setFullScreen({ commit }, value) {
-    commit("setFullScreen", value);
+    commit("SET_DIALOG", value);
   },
   // dialog 의 2가지 state 를 한 번에 변경하기 위한 함수
   async setDialogAndType({ commit }, value) {
-    commit("setDialogAndType", value);
+    commit("SET_DIALOG_AND_TYPE", value);
+  },
+  async setFullScreen({ commit }, value) {
+    commit("SET_FULL_SCREEN", value);
+  },
+  async setLoading({ commit }, value) {
+    commit("SET_LOADING_BAR", value);
+  },
+  async set_SnackBar({
+    commit
+  }, value) {
+    commit("SET_SNACK_BAR", value);
+  },
+  async setType({ commit }, value) {
+    commit("SET_TYPE", value);
   }
 };
 

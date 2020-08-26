@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import gameReportData from "../../assets/value/gameReport.json";
+import gameReportData from "@/assets/value/gameReport.json";
 
 export default {
   props: {

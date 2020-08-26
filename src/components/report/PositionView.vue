@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import positionValue from "../../assets/value/Postion.json";
+import positionValue from "@/assets/value/position.json";
 
 import { createNamespacedHelpers } from "vuex";
 const {

@@ -49,7 +49,6 @@
 </template>
 
 <script>
-import dummy from "../../assets/value/dummy.json";
 import { createNamespacedHelpers } from "vuex";
 
 const {
@@ -151,8 +150,4 @@ export default {
 };
 </script>
 
-<style
-  lang="scss"
-  scoped
-  src="../../styles/components/report/gameList.scss"
-></style>
+<style lang="scss" scoped src="@/assets/scss/components/report/gameList.scss"></style>

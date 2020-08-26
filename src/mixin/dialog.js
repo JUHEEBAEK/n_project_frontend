@@ -10,7 +10,7 @@ const dialog = {
         return this.$store.state["common"].dialog;
       },
       set(value) {
-        this.$store.commit("common/setDialog", value);
+        this.$store.commit("common/SET_DIALOG", value);
       }
     },
     type: {
@@ -18,16 +18,16 @@ const dialog = {
         return this.$store.state["common"].type;
       },
       set(value) {
-        this.$store.commit("common/setType", value);
+        this.$store.commit("common/SET_TYPE", value);
       }
     }
   },
   methods: {
     setDialog(value) {
-      this.$store.commit("common/setDialog", value);
+      this.$store.commit("common/SET_DIALOG", value);
     },
     setType(value) {
-      this.$store.commit("common/setType", value);
+      this.$store.commit("common/SET_TYPE", value);
     },
     // Dialog 와 Type 을 한 번에 변경시키는 함수
     // 여기서의 value 는 object  ex) { dialog:true, type:"manager" }

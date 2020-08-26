@@ -29,9 +29,9 @@
 </template>
 
 <script>
-import matchValue from "../../../assets/value/match.json";
-import squad from "../../../assets/value/squad.json";
-import dialog from "../../../mixin/dialog.js";
+import matchValue from "@/assets/value/match.json";
+import squad from "@/assets/value/squad.json";
+import dialog from "@/mixin/dialog.js";
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: prepareMatchMapState,

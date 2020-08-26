@@ -3,9 +3,10 @@
     <v-card class="report__container" elevation="1" color="#cfead0">
       <v-card-title class="report__header">
         <span class="report__title">게임 기록</span>
-        <span class="report__score" v-if="homeScore !== undefined">
-          {{ `${homeScore} : ${awayScore} ` }}
-        </span>
+        <span
+          class="report__score"
+          v-if="homeScore !== undefined"
+        >{{ `${homeScore} : ${awayScore} ` }}</span>
       </v-card-title>
       <v-card-text class="report__content">
         <v-timeline class="report__timeline">
@@ -30,12 +31,8 @@
               @click="clickUpdateEvent(gameReport)"
               @click:close="deleteButton(gameReport)"
             >
-              <span class="d-none d-sm-flex px-2">
-                {{ gameReport.first_player_name }}
-              </span>
-              <span class="d-flex d-sm-none">
-                {{ showTwoCharAt(gameReport.first_player_name) }}
-              </span>
+              <span class="d-none d-sm-flex px-2">{{ gameReport.first_player_name }}</span>
+              <span class="d-flex d-sm-none">{{ showTwoCharAt(gameReport.first_player_name) }}</span>
               <v-icon
                 x-small
                 :style="{
@@ -43,15 +40,12 @@
                 }"
                 :class="eventChipFirstIcon[gameReport.event_type]"
               ></v-icon>
-              <span class="d-none d-sm-flex px-2">
-                {{ gameReport.last_player_name }}
-              </span>
-              <span class="d-flex d-sm-none">
-                {{ showTwoCharAt(gameReport.last_player_name) }}
-              </span>
-              <v-icon x-small v-if="gameReport.last_player_name">
-                {{ eventChipSecondIcon[gameReport.event_type] }}
-              </v-icon>
+              <span class="d-none d-sm-flex px-2">{{ gameReport.last_player_name }}</span>
+              <span class="d-flex d-sm-none">{{ showTwoCharAt(gameReport.last_player_name) }}</span>
+              <v-icon
+                x-small
+                v-if="gameReport.last_player_name"
+              >{{ eventChipSecondIcon[gameReport.event_type] }}</v-icon>
             </v-chip>
           </v-timeline-item>
         </v-timeline>
@@ -61,7 +55,7 @@
 </template>
 
 <script>
-import matchValue from "../../assets/value/match.json";
+import matchValue from "@/assets/value/match.json";
 
 import { createNamespacedHelpers } from "vuex";
 const {
@@ -139,4 +133,4 @@ export default {
 };
 </script>
 
-<style lang="scss" src="../../styles/components/match/eventList.scss"></style>
+<style lang="scss" src="@/assets/scss/components/match/eventList.scss"></style>

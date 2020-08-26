@@ -1,22 +1,29 @@
 <template>
-  <div class="text-center ma-2" v-show="isLoading">
+  <v-dialog v-model="loading">
     <div class="spinnerCard">
       <div id="liftingSpinner">
-        <v-img id="liftingPlayer1" src="../../assets/player2.png" aspect-ratio="1" width="60"></v-img>
-        <v-img id="liftingPlayer2" src="../../assets/player1.png" width="60"></v-img>
-        <v-img id="liftingBall" src="../../assets/football.png" width="30" aspect-ratio="1"></v-img>
+        <v-img
+          id="liftingPlayer1"
+          src="../../assets/images/player2.png"
+          aspect-ratio="1"
+          width="60"
+        ></v-img>
+        <v-img id="liftingPlayer2" src="../../assets/images/player1.png" width="60"></v-img>
+        <v-img id="liftingBall" src="../../assets/images/football.png" width="30" aspect-ratio="1"></v-img>
       </div>
     </div>
-  </div>
+  </v-dialog>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  props: {
-    isLoading: Boolean
-  },
   data: () => ({}),
   computed: {
+    ...mapGetters("common", {
+      loading: "loading"
+    }),
     snackBar: {
       get() {
         return this.$store.state["common"].snackBar;
@@ -36,12 +43,18 @@ export default {
 </script>
 
 <style scoped>
+.spinner__container {
+  position: absolute;
+  width: 300px;
+  text-align: center;
+  margin: 8px;
+}
 .spinnerCard {
   display: flex;
   width: 200px;
   height: 200px;
   margin: 0 auto;
-  background-color: #024a07;
+  background-color: #000000;
   border-radius: 30px;
 }
 #liftingPlayer1 {

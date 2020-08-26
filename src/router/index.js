@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 
 import Home from "../views/Home.vue";
+import Login from "../views/Login.vue";
 
 import Member from "../views/footer/Member.vue";
 import SquadView from "../views/footer/Squad.vue";
@@ -35,6 +36,11 @@ const routes = [{
     path: "/",
     name: "home",
     component: Home
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: Login
   },
   // footer view
   {

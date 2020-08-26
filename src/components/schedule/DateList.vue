@@ -46,7 +46,7 @@
 
 <script>
 import moment from "moment";
-import scheduleValue from "../../assets/value/Schedule.json";
+import scheduleValue from "@/assets/value/Schedule.json";
 
 import { createNamespacedHelpers } from "vuex";
 const {
@@ -128,4 +128,4 @@ export default {
 };
 </script>
 
-<style lang="scss" src="../../styles/components/schedule/dateList.scss"></style>
+<style lang="scss" src="@/assets/scss/components/schedule/dateList.scss"></style>

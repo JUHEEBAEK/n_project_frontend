@@ -9,7 +9,7 @@
               width="80"
               height="80"
               class="img__top"
-              src="../../../assets/linear/light/user.png"
+              src="../../../assets/images/linear/light/user.png"
             />
           </v-col>
         </v-row>
@@ -120,7 +120,7 @@ export default {
     }
   },
   created() {
-    this.$store.commit("common/setFullScreen", true);
+    this.$store.commit("common/SET_FULL_SCREEN", true);
   },
   async mounted() {
     this.select_member();

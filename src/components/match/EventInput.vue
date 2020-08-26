@@ -130,7 +130,7 @@
 
 <script>
 import moment from "moment";
-import matchValue from "../../assets/value/match.json";
+import matchValue from "@/assets/value/match.json";
 import { createNamespacedHelpers } from "vuex";
 
 const {
@@ -341,4 +341,4 @@ export default {
 };
 </script>
 
-<style lang="scss" src="../../styles/components/match/eventInput.scss"></style>
+<style lang="scss" src="@/assets/scss/components/match/eventInput.scss"></style>
