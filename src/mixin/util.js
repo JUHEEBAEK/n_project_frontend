@@ -26,10 +26,13 @@ const util = {
     })
   },
   methods: {
-    ...commonMapMutations(["SET_SNACK_BAR"]),
+    ...commonMapMutations(["SET_SNACK_BAR", "SET_LOADING_BAR"]),
+    // LoadingBar 를 제어하는 함수 ( value 가 true 면 로딩바 제공, false 면 로딩바 제거 )
+    setLoadingBar(value) {
+      this.SET_LOADING_BAR(value);
+    },
     // snackBar 를 여는 함수. (snackBar 는 자동으로 닫히기 때문에 SnackBar 를 닫는 함수는 필요없다)
     setSnackBar(purpose, message) {
-      console.log("???????");
       // purpose : showSuccess or showFail
       this.snackBarPurpose = purpose;
       this.snackBarMessage = message;
