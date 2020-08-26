@@ -23,3 +23,27 @@ export async function generalReq(method, url, data) {
     return err;
   }
 }
+
+export async function authReq(method, url, token, data) {
+  // 개발 환경인지 프로덕션 환경인지 구분
+  const DOMAIN = 
+    process.env.NODE_ENV === "development"
+  ? "http://localhost:3000"
+  : "http://52.78.180.164:3000";
+  
+  axios.defaults.baseURL = DOMAIN;
+  try {
+    console.log("token", token);
+    axios.defaults.headers.common = { "x-access-token": token };
+    const res = await axios({
+      method,
+      url,
+      data : data
+    });
+    return res;
+  } catch (err) {
+      console.log(err);
+    return err;
+  }
+}
+
