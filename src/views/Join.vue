@@ -2,10 +2,11 @@
   <div align-center justify-center class="login__main">
     <v-card class="elevation-0 login__container">
       <v-card-title class="login__header">
+        <div class="header__logo-text">Join Team</div>
+        <v-select v-model="selectedTeam" :items="teamList"></v-select>
         <div class="header__logo-image">
           <v-img src="@/assets/images/fsnnnn_emblem_official2.png" width="150px" contain />
         </div>
-        <div class="header__logo-text">Log in to your account</div>
       </v-card-title>
       <div>
         <v-form class="login__content" ref="form" lazy-validation>
@@ -74,8 +75,8 @@ export default {
     })
   },
   data: () => ({
-    username: "",
-    password: null
+    teamList: [],
+    selectedTeam: null
   }),
   methods: {
     ...accountActions(["loginProcess"]),
