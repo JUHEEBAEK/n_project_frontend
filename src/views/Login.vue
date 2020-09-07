@@ -13,8 +13,7 @@
             v-model="username"
             autocomplete="off"
             class="login__input"
-            color="#03a27c"
-            dark
+            color="#00ca88"
             dense
             label="Username"
             outlined
@@ -25,8 +24,7 @@
             v-model="password"
             autocomplete="off"
             class="login__input"
-            color="#03a27c"
-            dark
+            color="#00ca88"
             dense
             label="Password"
             outlined
@@ -37,8 +35,17 @@
         </v-form>
       </div>
       <div class="login__actions">
-        <v-btn class="login__button" dark block @click="submit">Login</v-btn>
-        <v-btn dark text @click="join">회원가입</v-btn>
+        <v-row>
+          <v-col cols="12">
+            <v-btn class="login__button" color="#00ca88" block @click="submit">Login</v-btn>
+          </v-col>
+          <v-col cols="6">
+            <v-btn color="#03a27c" text @click="join">회원가입</v-btn>
+          </v-col>
+          <v-col cols="6">
+            <v-btn color="#03a27c" text>비밀번호 찾기</v-btn>
+          </v-col>
+        </v-row>
       </div>
     </v-card>
     <!-- util -->
@@ -79,29 +86,31 @@ export default {
   }),
   methods: {
     ...accountActions(["loginProcess"]),
-    submit: function() {
+    join: function() {
+      console.log("join");
+      this.$router.push({ name: "join" });
+    },
+    submit: async function() {
       console.log("login");
 
       if (this.$refs.form.validate()) {
         this.setLoadingBar(true);
         let formData = {
-          username: this.username,
+          userId: this.username,
           password: this.password
         };
-
-        // const formData = new FormData();
-        // formData.append("userName", this.username);
-        // formData.append("password", this.password);
-        this.loginProcess(formData);
+        const res = await this.loginProcess(formData);
+        console.log("result@@@@@@", res);
+        if (res.status !== 400 && res.data.token) {
+          console.log(this.user);
+          this.$router.push({ path: "/" });
+        } else {
+          console.log("실패", res.data.message);
+          // FIXME: 오류를 여러번 이어서 냈을 때 처음만 스낵바 보이고 나머지는 안보임????
+          this.setSnackBar(this.snackBarFail, res.data.message);
+          console.log("@@@@@@@@@@@@@@ 스낵바 왜 안나옴", this.snackBar);
+        }
         this.setLoadingBar(false);
-      }
-      // Validation(email,pwd) Fail
-      else {
-        console.log("실패");
-        this.setSnackBar(
-          this.snackBarFail,
-          "이메일과 비밀번호를 형식에 맞게 입력해주세요"
-        );
       }
     }
   }

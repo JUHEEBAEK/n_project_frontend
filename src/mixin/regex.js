@@ -53,6 +53,14 @@ const regex = {
         //     v
         //   ) || "Invalid Password format"
       ],
+      identifyPwdRules: [
+        v => !!v || "password is required",
+        v =>
+          /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[`~!@#$%^&*()_+=-]).*$/.test(
+            v
+          ) || "Password must be valid",
+        v => !this.checkedSamePwd(v) || "Same as current password"
+      ],
       userTypeRules: [v => !!v || "Type is required"],
       userNameRules: [
         v => !!v || "userName is required",
@@ -70,8 +78,14 @@ const regex = {
     // 문자열에서 숫자만 추출
     extractNumberFromStr: function(str) {
       return str.replace(/[^0-9]/g,'');
+    },
+    checkedSamePwd: function() {
+      if (this.password === this.identifyPassword) {
+        return true;
+      } else {
+        return false;
+      }
     }
-    
   }
 }
 

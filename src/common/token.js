@@ -1,9 +1,10 @@
 import jwt_decode from "jwt-decode";
+import VueCookies from "vue-cookies";
 
 // cookie 상에 저장되어 있는 토큰이 있는지 확인
 export const getToken = () => {
-  if (window.$cookies.get("user_token")) {
-    return window.$cookies.get("user_token");
+  if (VueCookies.get("user_token")) {
+    return VueCookies.get("user_token");
   } else {
     return false;
   }
@@ -13,6 +14,7 @@ export const getToken = () => {
 export const getTokenPayload = token => {
   try {
     const payload = jwt_decode(token);
+    console.log(payload);
     return payload;
   } catch (err) {
     return err;
