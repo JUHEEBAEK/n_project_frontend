@@ -55,11 +55,7 @@ const regex = {
       ],
       identifyPwdRules: [
         v => !!v || "password is required",
-        v =>
-          /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[`~!@#$%^&*()_+=-]).*$/.test(
-            v
-          ) || "Password must be valid",
-        v => !this.checkedSamePwd(v) || "Same as current password"
+        v => this.checkedSamePwd(v) || "Same as current password"
       ],
       userTypeRules: [v => !!v || "Type is required"],
       userNameRules: [

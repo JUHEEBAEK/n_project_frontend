@@ -5,3 +5,8 @@ import { generalReq } from "./index.js";
 export const login = async (data) => {
   return await generalReq("post", "/api/user/login", data);
 };
+
+// join 기능
+export const join = async (data) => {
+  return await generalReq("post", "api/user/register", data);
+}

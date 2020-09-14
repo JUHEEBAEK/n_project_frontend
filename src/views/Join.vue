@@ -2,13 +2,13 @@
   <div align-center justify-center class="join__main">
     <v-card class="join__container">
       <v-row class="pa-0">
-        <v-col cols="4" align-self="end">
+        <v-col cols="4" align-self="center">
           <div class="left__box">
             <v-img aspect-ratio="3" contain src="@/assets/images/football.png"></v-img>
           </div>
         </v-col>
         <v-col cols="8">
-          <v-form class="join__content" ref="form" lazy-validation>
+          <v-form class="join__content" ref="join_form" lazy-validation>
             <v-row class="right__box">
               <v-col cols="6">
                 <v-text-field
@@ -58,7 +58,7 @@
                   dense
                   dark
                   label="비밀번호확인"
-                  :rules="emptyCheckRules"
+                  :rules="identifyPwdRules"
                   outlined
                   type="password"
                   required
@@ -89,24 +89,25 @@
                   label="회원 선택"
                   autocomplete="off"
                   item-text="name"
+                  item-value="id"
                   outlined
                   return-object
                 ></v-autocomplete>
               </v-col>
             </v-row>
           </v-form>
+          <div class="join__actions">
+            <v-row justify="end">
+              <v-col cols="2">
+                <v-btn class="join__button" color="#fff" outlined block @click="clear">Clear</v-btn>
+              </v-col>
+              <v-col cols="2">
+                <v-btn class="join__button" color="#000" block @click="submit">Join</v-btn>
+              </v-col>
+            </v-row>
+          </div>
         </v-col>
       </v-row>
-      <div class="join__actions">
-        <v-row justify="end">
-          <v-col cols="2">
-            <v-btn class="join__button" color="#fff" outlined block @click="clear">Clear</v-btn>
-          </v-col>
-          <v-col cols="2">
-            <v-btn class="join__button" color="#000" block @click="submit">Join</v-btn>
-          </v-col>
-        </v-row>
-      </div>
     </v-card>
     <!-- util -->
     <util-snack-bar v-if="snackBar" :purpose="snackBarPurpose" :message="snackBarMessage" />
@@ -161,25 +162,25 @@ export default {
     ...teamMapActions(["select_all_team"]),
     ...memberMapActions(["select_member"]),
     clear: function() {
-      console.log("clear");
+      this.$refs.join_form.reset();
     },
     submit: async function() {
       console.log("submit");
-      let body = {
-        userId: this.userId,
-        name: this.userName,
-        password: this.password,
-        member_id: this.memberId,
-        team_id: this.selectedTeam.idTeam
-      };
-      console.log("body", body);
+      if (this.$refs.join_form.validate()) {
+        let body = {
+          userId: this.userId,
+          name: this.userName,
+          password: this.password,
+          member_id: this.selectedMember.id,
+          team_id: this.selectedTeam.idTeam
+        };
+        console.log("body", body);
+      }
     },
     loadMemberList: function() {
-      console.log("memberLoad");
       this.select_member();
     },
     loadTeamList: function() {
-      console.log("load");
       this.select_all_team();
     }
   }
