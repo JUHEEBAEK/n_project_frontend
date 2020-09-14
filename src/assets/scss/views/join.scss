@@ -8,9 +8,8 @@
 
   .join__container {
     padding: 30px;
-    border: solid 2px #03a27c;
     border-radius: 4px;
-    // background-color: #03a27c;
+    background-color: #18422a;
     color: black;
 
     .join__header {
@@ -24,6 +23,10 @@
       }
 
       .header__logo-text {}
+    }
+
+    .left__box {
+      // height: 100%;
     }
 
     .join__content {
