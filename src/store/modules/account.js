@@ -1,5 +1,5 @@
 import router from "../../router";
-import { login } from "../../api/auth.js";
+import { login, join} from "../../api/auth.js";
 import { saveToken, deleteToken, getTokenPayload } from "../../common/token.js";
 import {
   saveUserInfo,
@@ -36,20 +36,6 @@ const actions = {
         // err 일때 
         return result.response;
       }else {
-        // 정상 동작할 때
-        if(result.data.token) {
-          const { idfAdmin, email, name, authority, exp } = getTokenPayload(
-            result.Authorization
-          );
-          let user = {};
-
-          user = { idfAdmin, email, name, authority, exp, image: null };
-
-          // 쿠키에 토큰 저장
-          saveToken(result.data.Authorization);
-          // LocalStorage 에 User 정보 저장
-          saveUserInfo(user);
-        }
         console.log("????????", response.data);
         commit("LOGIN", response.data);
         return result.data;
@@ -59,6 +45,19 @@ const actions = {
       console.log("err!!!!!!!!", error);
       return error;
     }
+  },
+  async join({commit}, data) {
+    console.log("commit", commit);
+    console.log("formData", data);
+    try {
+      const result = await join(data);
+      console.log("join res: ", result);
+      return result;
+    }catch (error) {
+      console.error(error);
+      return error;
+    }
+
   }
 
 };

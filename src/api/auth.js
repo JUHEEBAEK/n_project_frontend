@@ -8,5 +8,10 @@ export const login = async (data) => {
 
 // join 기능
 export const join = async (data) => {
-  return await generalReq("post", "api/user/register", data);
+  return await generalReq("post", "/api/user/register", data);
+}
+
+export const duplicateUserId = async (userId) => {
+  console.log(userId);
+  return await generalReq("get", "/api/user/dupulicated/" + userId);
 }
