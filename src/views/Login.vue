@@ -40,7 +40,7 @@
             <v-btn class="login__button" color="#00ca88" block @click="submit">Login</v-btn>
           </v-col>
           <v-col cols="6">
-            <v-btn color="#03a27c" text @click="join">회원가입</v-btn>
+            <v-btn color="#03a27c" text @click="goJoinPage">회원가입</v-btn>
           </v-col>
           <v-col cols="6">
             <v-btn color="#03a27c" text>비밀번호 찾기</v-btn>
@@ -73,9 +73,10 @@ export default {
   mixins: [regex, util],
   created() {
     this.$store.commit("common/SET_FULL_SCREEN", true);
+    console.log(this.snackBar);
   },
   computed: {
-    ...commonState(["common"]),
+    ...commonState(["snackBar"]),
     ...mapGetters("components/layout", {
       fullScreen: "fullScreen"
     })
@@ -86,7 +87,7 @@ export default {
   }),
   methods: {
     ...accountActions(["loginProcess"]),
-    join: function() {
+    goJoinPage: function() {
       console.log("join");
       this.$router.push({ name: "join" });
     },
@@ -108,7 +109,6 @@ export default {
           console.log("실패", res.data.message);
           // FIXME: 오류를 여러번 이어서 냈을 때 처음만 스낵바 보이고 나머지는 안보임????
           this.setSnackBar(this.snackBarFail, res.data.message);
-          console.log("@@@@@@@@@@@@@@ 스낵바 왜 안나옴", this.snackBar);
         }
         this.setLoadingBar(false);
       }
