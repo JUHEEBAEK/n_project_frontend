@@ -25,6 +25,9 @@ const {
 } = createNamespacedHelpers("attend");
 
 export default {
+  created() {
+    this.$store.commit("common/SET_FULL_SCREEN", false);
+  },
   data: () => ({
     chartData: [],
     title: "2020 출석횟수",

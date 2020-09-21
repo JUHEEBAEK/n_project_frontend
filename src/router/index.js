@@ -3,6 +3,7 @@ import Router from "vue-router";
 
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
+import Join from "../views/Join.vue";
 
 import Member from "../views/footer/Member.vue";
 import SquadView from "../views/footer/Squad.vue";
@@ -41,6 +42,11 @@ const routes = [{
     path: "/login",
     name: "login",
     component: Login
+  },
+  {
+    path: "/join",
+    name: "join",
+    component: Join
   },
   // footer view
   {

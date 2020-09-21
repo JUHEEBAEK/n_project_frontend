@@ -22,7 +22,6 @@ export const getReqularMember = async() => {
 export const getAllMember = async() => {
   const response = await generalReq("get", "/api/member/allMemberList");
   return response.data;
-  
 };
 
 export const detailsMember = async(id) => {

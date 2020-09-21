@@ -1,6 +1,6 @@
 <template>
-  <v-dialog v-model="loading">
-    <div class="spinnerCard">
+  <v-dialog v-model="loading" persistent width="200px">
+    <div class="spinner__card">
       <div id="liftingSpinner">
         <v-img
           id="liftingPlayer1"
@@ -43,19 +43,13 @@ export default {
 </script>
 
 <style scoped>
-.spinner__container {
-  position: absolute;
-  width: 300px;
-  text-align: center;
-  margin: 8px;
-}
-.spinnerCard {
+.spinner__card {
   display: flex;
   width: 200px;
   height: 200px;
   margin: 0 auto;
   background-color: #000000;
-  border-radius: 30px;
+  border-radius: 5px;
 }
 #liftingPlayer1 {
   left: 0;
