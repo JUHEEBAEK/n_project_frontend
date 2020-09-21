@@ -14,7 +14,7 @@
         <v-col cols="8" class="join__right">
           <v-form class="join__content" ref="join_form" lazy-validation>
             <v-row class="right__box">
-              <v-col cols="10">
+              <v-col cols="12">
                 <v-text-field
                   v-model="userId"
                   autocomplete="off"
@@ -24,9 +24,6 @@
                   outlined
                   required
                 />
-              </v-col>
-              <v-col cols="2">
-                <v-btn v-model="isCheked" color="primary" @click="checkDuplicated">중복체크</v-btn>
               </v-col>
               <v-col cols="12" md="6" lg="6" xl="6">
                 <v-text-field
@@ -162,12 +159,10 @@ export default {
     ...accountMapActions(["join"]),
     //FIXME: 아이디 중복체크 다시 확인
     checkDuplicated: async function() {
-      console.log("check");
       if (this.userId) {
         let result = await duplicateUserId(this.userId);
         let coutntSameId = result.data.length;
-        console.log(result.data.length);
-        if (coutntSameId === 1) {
+        if (coutntSameId > 0) {
           this.userIdValidate = false;
         }
       }
@@ -176,7 +171,8 @@ export default {
       this.$refs.join_form.reset();
     },
     submit: async function() {
-      console.log("submit");
+      console.log("submit", this.userIdValidate);
+      await this.checkDuplicated();
       if (this.$refs.join_form.validate()) {
         let body = {
           userId: this.userId,
