@@ -171,7 +171,6 @@ export default {
       this.$refs.join_form.reset();
     },
     submit: async function() {
-      console.log("submit", this.userIdValidate);
       await this.checkDuplicated();
       if (this.$refs.join_form.validate()) {
         let body = {
@@ -181,9 +180,7 @@ export default {
           member_id: this.selectedMember.id,
           team_id: this.selectedTeam.idTeam
         };
-        console.log("body", body);
         let joinResult = await this.join(body);
-        console.log("res:: ", joinResult);
         if (joinResult.status === 200) {
           this.$router.push({ path: "/login" });
           this.setSnackBar(

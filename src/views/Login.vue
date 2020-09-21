@@ -101,7 +101,6 @@ export default {
           password: this.password
         };
         const res = await this.loginProcess(formData);
-        console.log("result@@@@@@", res);
         if (res.status !== 400 && res.data.token) {
           console.log(this.user);
           this.$router.push({ path: "/" });
