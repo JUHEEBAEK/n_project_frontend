@@ -32,12 +32,13 @@ const actions = {
   async loginProcess({ commit }, formData) {
     try {
       const result = await login(formData);
+      console.log("0. result", result);
       if(result.response) {
         // err 일때 
         return result.response;
       }else {
-        console.log("????????", response.data);
-        commit("LOGIN", response.data);
+        console.log("1. ", result.data);
+        commit("LOGIN", result.data);
         return result.data;
       }
      
