@@ -19,7 +19,10 @@
             <v-container>
               <v-row>
                 <v-col cols="12" sm="6">
-                  <v-text-field v-model="editedItem.name" label="이름"></v-text-field>
+                  <v-text-field
+                    v-model="editedItem.name"
+                    label="이름"
+                  ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-menu
@@ -40,7 +43,10 @@
                         v-on="on"
                       />
                     </template>
-                    <v-date-picker v-model="editedItem.join_date" @input="menu2 = false" />
+                    <v-date-picker
+                      v-model="editedItem.join_date"
+                      @input="menu2 = false"
+                    />
                   </v-menu>
                 </v-col>
                 <v-col cols="12" sm="6">
@@ -52,10 +58,19 @@
                   />
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-text-field v-model="editedItem.nick_name" label="닉네임"></v-text-field>
+                  <v-text-field
+                    v-model="editedItem.nick_name"
+                    label="닉네임"
+                  ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-text-field type="number" min="1" max="3" v-model="editedItem.grade" label="등급"></v-text-field>
+                  <v-text-field
+                    type="number"
+                    min="1"
+                    max="3"
+                    v-model="editedItem.grade"
+                    label="등급"
+                  ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-menu
@@ -77,7 +92,10 @@
                         v-on="on"
                       />
                     </template>
-                    <v-date-picker v-model="editedItem.withdraw_date" @input="menu = false" />
+                    <v-date-picker
+                      v-model="editedItem.withdraw_date"
+                      @input="menu = false"
+                    />
                   </v-menu>
                 </v-col>
               </v-row>
@@ -87,13 +105,17 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-            <v-btn color="blue darken-1" text @click="save(editedItem)">Save</v-btn>
+            <v-btn color="blue darken-1" text @click="save(editedItem)"
+              >Save</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-dialog>
     </template>
-    <template v-slot:item.actions="{ item }">
-      <v-icon small class="mr-2" @click="editItem(item)">fas fa-pencil-alt</v-icon>
+    <template v-slot:[`item.actions`]="{ item }">
+      <v-icon small class="mr-2" @click="editItem(item)"
+        >fas fa-pencil-alt</v-icon
+      >
       <v-icon small @click="deleteMember(item.id)">fas fa-trash-alt</v-icon>
     </template>
   </v-data-table>
@@ -101,7 +123,7 @@
 
 <script>
 import moment from "moment";
-import util from "../../mixin/util.js";
+import util from "../../mixins/util.js";
 import memberValue from "@/assets/value/member.json";
 
 import { createNamespacedHelpers } from "vuex";

@@ -24,7 +24,12 @@
             />
           </v-col>
           <v-col cols="12" class="py-2">
-            <v-text-field v-model="nickName" label="닉네임" hide-details outlined />
+            <v-text-field
+              v-model="nickName"
+              label="닉네임"
+              hide-details
+              outlined
+            />
           </v-col>
           <v-col cols="12" class="py-2">
             <v-menu
@@ -81,7 +86,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import util from "../../../mixin/util.js";
+import util from "../../../mixins/util.js";
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: memberMapState,

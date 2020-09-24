@@ -33,6 +33,7 @@ export async function authReq(method, url, token, data) {
   
   axios.defaults.baseURL = DOMAIN;
   try {
+    console.log("~~~~~~~~~ authReq ~~~~~~~~");
     console.log("token", token);
     axios.defaults.headers.common = { "x-access-token": token };
     const res = await axios({

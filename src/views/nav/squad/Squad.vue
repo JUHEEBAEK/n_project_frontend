@@ -42,8 +42,8 @@ const {
   mapActions: squadActions
 } = createNamespacedHelpers("squad");
 
-import regex from "../../../mixin/regex.js";
-import util from "../../../mixin/util.js";
+import regex from "../../../mixins/regex.js";
+import util from "../../../mixins/util.js";
 
 export default {
   name: "Attendance.vue",

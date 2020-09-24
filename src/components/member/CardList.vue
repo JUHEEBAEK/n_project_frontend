@@ -15,17 +15,23 @@
             class="white--text align-end"
             aspect-ratio="2"
             cover
-            :src="`https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/bgImage/${item.bg_image}`"
+            :src="
+              `https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/bgImage/${item.bg_image}`
+            "
           />
           <v-card-text class="text--primary pa-1">
             <div class="text text__title">{{ item.name }}</div>
-            <div
-              class="text text__uniformNumber px-2 tertiary--text"
-            >{{ item.uniform_number ? item.uniform_number : "00" }}</div>
-            <div class="text text__caption">{{ $moment(item.join_date).format("YYYY-MM-DD") }}</div>
+            <div class="text text__uniformNumber px-2 tertiary--text">
+              {{ item.uniform_number ? item.uniform_number : "00" }}
+            </div>
+            <div class="text text__caption">
+              {{ $moment(item.join_date).format("YYYY-MM-DD") }}
+            </div>
           </v-card-text>
           <v-card-actions class="justify-center">
-            <v-btn color="primary" text @click="moveDetails(item)">UPDATE</v-btn>
+            <v-btn color="primary" text @click="moveDetails(item)"
+              >UPDATE</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-col>
@@ -42,7 +48,7 @@ const {
   mapActions: memberMapActions
 } = createNamespacedHelpers("member");
 
-import util from "../../mixin/util.js";
+import util from "../../mixins/util.js";
 
 export default {
   mixins: [util],

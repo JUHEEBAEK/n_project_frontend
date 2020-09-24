@@ -3,17 +3,32 @@
     <v-row class="py-0 page__first" justify="center">
       <v-col cols="1" class="col__fist pa-0">
         <div class="background__label"></div>
-        <v-avatar class="avatar__item avatar__item-top avatar__item-no" size="56"></v-avatar>
+        <v-avatar
+          class="avatar__item avatar__item-top avatar__item-no"
+          size="56"
+        ></v-avatar>
         <div class="label__text label__text-date">Session Date</div>
-        <v-avatar class="avatar__item avatar__item-top avatar__item-date" size="56"></v-avatar>
+        <v-avatar
+          class="avatar__item avatar__item-top avatar__item-date"
+          size="56"
+        ></v-avatar>
         <div class="label__text label__text-season">Season</div>
-        <v-avatar class="avatar__item avatar__item-top avatar__item-season" size="56"></v-avatar>
+        <v-avatar
+          class="avatar__item avatar__item-top avatar__item-season"
+          size="56"
+        ></v-avatar>
         <div class="label__text label__text-age">Age Group</div>
         <v-avatar class="avatar__item avatar__item-age" size="56"></v-avatar>
         <div class="label__text label__text-players">Players</div>
-        <v-avatar class="avatar__item avatar__item-players" size="56"></v-avatar>
+        <v-avatar
+          class="avatar__item avatar__item-players"
+          size="56"
+        ></v-avatar>
         <div class="label__text label__text-durations">Durations</div>
-        <v-avatar class="avatar__item avatar__item-durations" size="56"></v-avatar>
+        <v-avatar
+          class="avatar__item avatar__item-durations"
+          size="56"
+        ></v-avatar>
       </v-col>
       <v-col cols="11" class="col__second pa-0">
         <v-row class="low__first my-1 pa-2">
@@ -65,7 +80,13 @@
             </div>
             <div class="file__image">
               <div>
-                <v-img v-if="imageUrl" :src="imageUrl" height="240px" width="480px" contain></v-img>
+                <v-img
+                  v-if="imageUrl"
+                  :src="imageUrl"
+                  height="240px"
+                  width="480px"
+                  contain
+                ></v-img>
               </div>
             </div>
           </v-col>
@@ -77,12 +98,23 @@
             <v-btn icon fab small @click="clearImage">
               <v-icon>fas fa-trash-alt</v-icon>
             </v-btn>
-            <v-img class="pa-0" src="@/assets/images/field.png" contain aspect-ratio="1.15"></v-img>
+            <v-img
+              class="pa-0"
+              src="@/assets/images/field.png"
+              contain
+              aspect-ratio="1.15"
+            ></v-img>
           </v-col>
         </v-row>
         <v-row class="low__third">
           <v-col cols="6" class="py-0">
-            <v-textarea name="Set Up" label="Set Up / Organisation" outlined value rows="6" />
+            <v-textarea
+              name="Set Up"
+              label="Set Up / Organisation"
+              outlined
+              value
+              rows="6"
+            />
             <v-textarea
               name="Set Up"
               label="Key Coaching Points"
@@ -94,7 +126,13 @@
           </v-col>
           <v-divider color="#00c0ff" vertical></v-divider>
           <v-col cols="5.5" class="py-0" align-self="center">
-            <v-textarea name="Set Up" label="Progressions / Constraints" outlined value rows="4" />
+            <v-textarea
+              name="Set Up"
+              label="Progressions / Constraints"
+              outlined
+              value
+              rows="4"
+            />
             <v-textarea
               name="Set Up"
               label="Questions & Notes"
@@ -144,11 +182,23 @@
         </v-menu>
       </v-col>
       <v-col cols="4">
-        <v-autocomplete v-model="팀" :items="teamList" class="mx-4" flat label="팀"></v-autocomplete>
+        <v-autocomplete
+          v-model="팀"
+          :items="teamList"
+          class="mx-4"
+          flat
+          label="팀"
+        ></v-autocomplete>
         <!-- <v-text-field label="" hide-details /> -->
       </v-col>
       <v-col cols="4">
-        <v-autocomplete v-model="코치" :items="coachList" class="mx-4" flat label="코치/감독"></v-autocomplete>
+        <v-autocomplete
+          v-model="코치"
+          :items="coachList"
+          class="mx-4"
+          flat
+          label="코치/감독"
+        ></v-autocomplete>
         <!-- <v-text-field label="Coach" hide-details /> -->
       </v-col>
 
@@ -170,19 +220,44 @@
             <tbody>
               <tr v-for="n in 4" :key="n">
                 <td class="td__blank">
-                  <v-text-field dense counter="7" hide-details min-height="30px" />
+                  <v-text-field
+                    dense
+                    counter="7"
+                    hide-details
+                    min-height="30px"
+                  />
                 </td>
                 <td class="td__blank">
-                  <v-text-field dense counter="24" hide-details min-height="30px" />
+                  <v-text-field
+                    dense
+                    counter="24"
+                    hide-details
+                    min-height="30px"
+                  />
                 </td>
                 <td class="td__blank">
-                  <v-text-field dense counter="24" hide-details min-height="30px" />
+                  <v-text-field
+                    dense
+                    counter="24"
+                    hide-details
+                    min-height="30px"
+                  />
                 </td>
                 <td class="td__blank">
-                  <v-text-field dense counter="24" hide-details min-height="30px" />
+                  <v-text-field
+                    dense
+                    counter="24"
+                    hide-details
+                    min-height="30px"
+                  />
                 </td>
                 <td class="td__blank">
-                  <v-text-field dense counter="24" hide-details min-height="30px" />
+                  <v-text-field
+                    dense
+                    counter="24"
+                    hide-details
+                    min-height="30px"
+                  />
                 </td>
               </tr>
             </tbody>
@@ -225,8 +300,19 @@
         </v-simple-table>
       </v-col>
       <v-col cols="3" class="py-1">
-        <v-img src="@/assets/images/field.png" contain aspect-ratio="0.8"></v-img>
-        <v-textarea class="py-2" label="결론" outlined value rows="3" hide-details />
+        <v-img
+          src="@/assets/images/field.png"
+          contain
+          aspect-ratio="0.8"
+        ></v-img>
+        <v-textarea
+          class="py-2"
+          label="결론"
+          outlined
+          value
+          rows="3"
+          hide-details
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -234,7 +320,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import regex from "../../mixin/regex";
+import regex from "../../mixins/regex";
 
 export default {
   async created() {

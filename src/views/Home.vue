@@ -3,14 +3,14 @@
     <v-row>
       <v-col cols="12" sm="6" md="6" lg="6" xl="6">
         <widget-basic :headerTitle="title" :isLoading="isLoading">
-          <chart-bar-inverse
+          <!-- <chart-bar-inverse
             class="chart"
             :data-set="chartData"
             :margin-left="40"
             :margin-top="0"
             :tick-count="5"
             :bar-padding="0.3"
-          />
+          /> -->
         </widget-basic>
       </v-col>
     </v-row>

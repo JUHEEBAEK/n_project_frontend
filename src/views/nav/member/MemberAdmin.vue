@@ -2,12 +2,16 @@
   <div>
     <member-search :title="title" :isAddButton="isAddButton"></member-search>
     <member-table-list></member-table-list>
-    <util-snack-bar v-if="snackBar === true" :purpose="snackBarPurpose" :message="snackBarMessage" />
+    <util-snack-bar
+      v-if="snackBar === true"
+      :purpose="snackBarPurpose"
+      :message="snackBarMessage"
+    />
   </div>
 </template>
 
 <script>
-import util from "../../../mixin/util.js";
+import util from "../../../mixins/util.js";
 
 export default {
   mixins: [util],

@@ -3,7 +3,11 @@
     <v-card class="elevation-0 login__container">
       <v-card-title class="login__header">
         <div class="header__logo-image">
-          <v-img src="@/assets/images/fsnnnn_emblem_official2.png" width="150px" contain />
+          <!-- <v-img
+            src="@/assets/images/fsnnnn_emblem_official2.png"
+            width="150px"
+            contain
+          /> -->
         </div>
         <div class="header__logo-text">Log in to your account</div>
       </v-card-title>
@@ -37,7 +41,9 @@
       <div class="login__actions">
         <v-row>
           <v-col cols="12">
-            <v-btn class="login__button" color="#00ca88" block @click="submit">Login</v-btn>
+            <v-btn class="login__button" color="#00ca88" block @click="submit"
+              >Login</v-btn
+            >
           </v-col>
           <v-col cols="6">
             <v-btn color="#03a27c" text @click="goJoinPage">회원가입</v-btn>
@@ -49,16 +55,21 @@
       </div>
     </v-card>
     <!-- util -->
-    <util-snack-bar v-if="snackBar" :purpose="snackBarPurpose" :message="snackBarMessage" />
+    <util-snack-bar
+      v-if="snackBar"
+      :purpose="snackBarPurpose"
+      :message="snackBarMessage"
+    />
     <util-spinner v-if="loading"></util-spinner>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapState } from "vuex";
-
-import regex from "../mixin/regex";
-import util from "../mixin/util.js";
+// mixins
+import { login } from "../mixins/auth.js";
+import regex from "../mixins/regex";
+import util from "../mixins/util.js";
 
 import { createNamespacedHelpers } from "vuex";
 const {
@@ -86,30 +97,24 @@ export default {
     password: null
   }),
   methods: {
-    ...accountActions(["loginProcess"]),
     goJoinPage: function() {
       console.log("join");
       this.$router.push({ name: "join" });
     },
     submit: async function() {
-      console.log("login");
-
+      console.log("login button click");
       if (this.$refs.form.validate()) {
-        this.setLoadingBar(true);
-        let formData = {
-          userId: this.username,
-          password: this.password
-        };
-        const res = await this.loginProcess(formData);
-        if (res.status !== 400 && res.data.token) {
-          console.log(this.user);
+        // this.setLoadingBar(true);
+        const res = await login(this.username, this.password);
+        console.log("loginRes", res);
+        if (res.status !== 400 && res.Authorization) {
           this.$router.push({ path: "/" });
         } else {
           console.log("실패", res.data.message);
           // FIXME: 오류를 여러번 이어서 냈을 때 처음만 스낵바 보이고 나머지는 안보임????
           this.setSnackBar(this.snackBarFail, res.data.message);
         }
-        this.setLoadingBar(false);
+        // this.setLoadingBar(false);
       }
     }
   }

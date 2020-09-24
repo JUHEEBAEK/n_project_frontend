@@ -5,9 +5,18 @@
         <v-col cols="4" class="join__left">
           <div class="join__header">
             <span class="header__text">Join us</span>
-            <v-img width="140" contain src="@/assets/images/soccer-goal.png"></v-img>
+            <v-img
+              width="140"
+              contain
+              src="@/assets/images/soccer-goal.png"
+            ></v-img>
             <div class="header__image">
-              <v-img width="55" height="55" contain src="@/assets/images/football.png"></v-img>
+              <v-img
+                width="55"
+                height="55"
+                contain
+                src="@/assets/images/football.png"
+              ></v-img>
             </div>
           </div>
         </v-col>
@@ -91,10 +100,19 @@
           <div class="join__actions">
             <v-row justify="end">
               <v-col cols="2">
-                <v-btn class="join__button" outlined block @click="clear">Clear</v-btn>
+                <v-btn class="join__button" outlined block @click="clear"
+                  >Clear</v-btn
+                >
               </v-col>
               <v-col cols="2">
-                <v-btn class="join__button" color="#000" block dark @click="submit">Join</v-btn>
+                <v-btn
+                  class="join__button"
+                  color="#000"
+                  block
+                  dark
+                  @click="submit"
+                  >Join</v-btn
+                >
               </v-col>
             </v-row>
           </div>
@@ -102,7 +120,11 @@
       </v-row>
     </v-card>
     <!-- util -->
-    <util-snack-bar v-if="snackBar" :purpose="snackBarPurpose" :message="snackBarMessage" />
+    <util-snack-bar
+      v-if="snackBar"
+      :purpose="snackBarPurpose"
+      :message="snackBarMessage"
+    />
     <util-spinner v-if="loading"></util-spinner>
   </div>
 </template>
@@ -110,8 +132,8 @@
 <script>
 import { mapGetters, mapState } from "vuex";
 // mixins
-import regex from "../mixin/regex";
-import util from "../mixin/util.js";
+import regex from "../mixins/regex";
+import util from "../mixins/util.js";
 // api
 import { duplicateUserId } from "@/api/auth.js";
 

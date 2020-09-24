@@ -46,8 +46,8 @@
 </template>
 
 <script>
-import dialog from "../../mixin/dialog.js";
-import regex from "../../mixin/regex.js";
+import dialog from "../../mixins/dialog.js";
+import regex from "../../mixins/regex.js";
 import Position from "@/assets/value/position.json";
 
 import { createNamespacedHelpers } from "vuex";
