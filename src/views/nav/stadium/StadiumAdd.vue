@@ -57,7 +57,7 @@
               label="장소명"
               hide-details
               outlined
-              :rules="[(v) => !!v || '입력해주십시오.']"
+              :rules="[v => !!v || '입력해주십시오.']"
             />
           </v-col>
           <v-col cols="12" class="py-2">
@@ -66,7 +66,7 @@
               label="주소"
               hide-details
               outlined
-              :rules="[(v) => !!v || '입력해주십시오.']"
+              :rules="[v => !!v || '입력해주십시오.']"
             />
           </v-col>
 
@@ -92,11 +92,11 @@
 </template>
 
 <script>
-import util from "@/mixin/util.js";
+import util from "@/mixins/util.js";
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: stadiuMapState,
-  mapActions: stadiumMapActions,
+  mapActions: stadiumMapActions
 } = createNamespacedHelpers("stadium");
 
 export default {
@@ -110,7 +110,7 @@ export default {
     placeName: "",
     address: "",
     nickName: "",
-    markerPosition:{
+    markerPosition: {
       latitude: null,
       longitude: null
     }
@@ -161,12 +161,12 @@ export default {
       this.address = new_address.address_name;
       this.name = new_address.place_name;
       this.markerPosition = {
-        latitude: Number(new_address.y), 
+        latitude: Number(new_address.y),
         longitude: Number(new_address.x)
       };
       this.serachlist = [];
-    },
-  },
+    }
+  }
 };
 </script>
 
