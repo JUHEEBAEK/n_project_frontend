@@ -1,5 +1,3 @@
-import store from "../store/index.js";
-
 const dialog = {
   data: () => ({}),
   computed: {
