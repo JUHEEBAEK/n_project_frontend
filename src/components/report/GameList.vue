@@ -77,13 +77,15 @@ export default {
     this.getGameList();
   },
   watch: {
-    selectedYear() {
+    selectedYear(year) {
       this.filteredSchedule = this.selectedFilterlingDate(this.scheduleList);
       this.divideSchduleIdInGame();
+      this.setscheduleList(this.filteredSchedule);
     },
-    selectedMonth() {
+    selectedMonth(month) {
       this.filteredSchedule = this.selectedFilterlingDate(this.scheduleList);
       this.divideSchduleIdInGame();
+      this.setscheduleList(this.filteredSchedule);
     }
   },
   data() {
