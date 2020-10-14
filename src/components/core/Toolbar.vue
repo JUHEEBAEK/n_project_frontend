@@ -1,36 +1,46 @@
 <template>
   <div>
-    <v-app-bar app>
+    <v-app-bar app class="bar__contaniner">
       <v-app-bar-nav-icon @click.stop="onClickBtn" />
-      <router-link to="/">
+      <router-link to="/" class="bar__first-title">
         <v-toolbar-title class="black--text">{{ title }}</v-toolbar-title>
       </router-link>
       <v-spacer></v-spacer>
       <div class="bar__second-profile">
-        <span class="profile__text px-2 subtitle-2">{{ userInfo.id }} 님</span>
-        <v-menu class="profile__menu" offset-y>
-          <div class="profile__dropdown" align="center">
-            <div class="avatar__box">
-              <div class="avatar__box-info">
-                <span class="text__bold-main">{{ userInfo.name }}</span>
-              </div>
-              <div class="avatar__box-actions">
-                <v-btn
-                  class="button__item"
-                  outlined
-                  color="primary"
-                  small
-                  @click="movePage('my-profile')"
+        <v-menu
+          class="profile__menu"
+          v-model="menu"
+          :close-on-content-click="false"
+          :nudge-width="120"
+          offset-y
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <div v-bind="attrs" v-on="on">
+              <span class="profile__text">{{ userInfo.id }} 님</span>
+              <v-avatar class="mx-3">
+                <img
+                  src="https://cdn.vuetifyjs.com/images/john.jpg"
+                  alt="John"
                 >
-                  내 정보</v-btn
-                >
-              </div>
-              <v-divider class="avatar__box-divider" />
-              <div class="avatar__box-logout" @click="logout">
-                <span>로그아웃</span>
-              </div>
+              </v-avatar>
             </div>
-          </div>
+          </template>
+          <v-card class="profile__dropdown">
+            <div class="avatar__box-info">
+              <span class="text__bold-main">{{ userInfo.name }}</span>
+              <v-btn
+                class="button__item"
+                outlined
+                color="primary"
+                small
+                @click="movePage('my-profile')"
+              >내 정보</v-btn>
+            </div>
+            <v-divider class="avatar__box-divider" />
+            <v-card-actions class="avatar__box-logout" @click="logout">
+              <span>로그아웃</span>
+            </v-card-actions>
+          </v-card>
         </v-menu>
       </div>
     </v-app-bar>
@@ -41,6 +51,8 @@
 import { createNamespacedHelpers } from "vuex";
 const { mapMutations: commonMapMutations } = createNamespacedHelpers("common");
 const { mapGetters: accountMapGetters } = createNamespacedHelpers("account");
+
+import { logout } from "../../mixins/auth.js";
 
 export default {
   name: "Toolbar.vue",
@@ -61,9 +73,11 @@ export default {
     },
     logout() {
       console.log("logout");
+      logout();
     }
   }
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss" src="@/assets/scss/components/core/toolbar.scss"></style>
+

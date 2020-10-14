@@ -1,7 +1,8 @@
 import store from "../store";
+import router from "../router";
 import { singIn, join} from "../api/auth.js";
-import { getToken, getTokenPayload, saveToken } from "../common/token.js";
-import { saveUserInfo, getUsnnnn_user_infoerInfo } from "../common/user.js";
+import { getToken, getTokenPayload, saveToken, deleteToken } from "../common/token.js";
+import { getUserInfo, saveUserInfo, deleteUserInfo } from "../common/user.js";
 /* - 목적 : 인증되어(로그인 되어) 있는 사용자 인지 체크하는 로직  
    - 사용처 : App.vue & router/index.js */
 export const isAuthorization = () => {
@@ -73,7 +74,14 @@ export const joinProcess = async (data) => {
 
 export const logout = async () => {
   try {
+    // localStorage 초기화
+    deleteToken();
     deleteUserInfo();
+    // Vuex 초기화
+    store.commit("account/LOGOUT");
+    // login page 로 redirect
+    store.commit("common/SET_FULL_SCREEN", true);
+    router.push({ name: "login" });
   }catch (error) {
     console.error(error);
     return error;

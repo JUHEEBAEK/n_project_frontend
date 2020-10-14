@@ -35,7 +35,6 @@ new Vue({
   vuetify,
   created() {
     if(isAuthorization()) {
-      console.log(getUserInfo());
       store.commit("account/SET_INFO", getUserInfo());
     }
   },

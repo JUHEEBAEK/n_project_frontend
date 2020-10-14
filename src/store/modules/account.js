@@ -14,13 +14,20 @@ const getters = {
 
 const mutations = {
   SET_INFO(state, userInfo) {
-    console.log(userInfo);
     state.userInfo = userInfo;
-  }
+  },
+  LOGOUT(state) {
+    state.userInfo = null;
+  },
 };
 
 const actions = {
-
+  async setInfo({ commit }, userInfo) {
+    commit("SET_INFO", userInfo);
+  },
+  async logout({ commit }) {
+    commit("LOGOUT");
+  }
 };
 
 
