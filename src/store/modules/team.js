@@ -1,13 +1,10 @@
-import * as constants from "../constants";
 import {
+  getTeamList,
   getAllTeam
 } from "../../api/team.js";
 
 const state = {
-  teamList: [],
-  searchResult: [],
-  teamId: "",
-  res: ""
+  teamList: []
 };
 
 const getters = {};

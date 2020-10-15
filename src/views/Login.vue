@@ -46,7 +46,7 @@
             >
           </v-col>
           <v-col cols="6">
-            <v-btn color="#03a27c" text @click="goJoinPage">회원가입</v-btn>
+            <v-btn color="#03a27c" text @click="clickToJoin">회원가입</v-btn>
           </v-col>
           <v-col cols="6">
             <v-btn color="#03a27c" text>비밀번호 찾기</v-btn>
@@ -96,10 +96,15 @@ export default {
     password: null
   }),
   methods: {
-    goJoinPage: function() {
-      this.$router.push({ name: "join" });
+    ...accountActions(["loginProcess"]),
+    clickToJoin: function() {
+      console.log("click");
+      this.$router.push({
+        name: "join"
+      });
     },
     submit: async function() {
+      console.log("login");
       if (this.$refs.form.validate()) {
         this.setLoadingBar(true);
         const res = await login(this.username, this.password);
