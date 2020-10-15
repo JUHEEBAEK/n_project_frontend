@@ -1,0 +1,13 @@
+@import "../../global/mediaQuery.scss";
+
+.avatar__box-info {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.avatar__box-logout {
+  padding: 10px 16px;
+  text-align: center;
+  cursor: pointer;
+}

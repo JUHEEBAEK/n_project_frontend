@@ -3,11 +3,11 @@
     <v-card class="elevation-0 login__container">
       <v-card-title class="login__header">
         <div class="header__logo-image">
-          <!-- <v-img
+          <v-img
             src="@/assets/images/fsnnnn_emblem_official2.png"
             width="150px"
             contain
-          /> -->
+          />
         </div>
         <div class="header__logo-text">Log in to your account</div>
       </v-card-title>
@@ -84,7 +84,6 @@ export default {
   mixins: [regex, util],
   created() {
     this.$store.commit("common/SET_FULL_SCREEN", true);
-    console.log(this.snackBar);
   },
   computed: {
     ...commonState(["snackBar"]),
@@ -98,23 +97,20 @@ export default {
   }),
   methods: {
     goJoinPage: function() {
-      console.log("join");
       this.$router.push({ name: "join" });
     },
     submit: async function() {
-      console.log("login button click");
       if (this.$refs.form.validate()) {
-        // this.setLoadingBar(true);
+        this.setLoadingBar(true);
         const res = await login(this.username, this.password);
         console.log("loginRes", res);
-        if (res.status !== 400 && res.Authorization) {
+        if (res.status !== 400 && res === 200) {
           this.$router.push({ path: "/" });
         } else {
-          console.log("실패", res.data.message);
           // FIXME: 오류를 여러번 이어서 냈을 때 처음만 스낵바 보이고 나머지는 안보임????
           this.setSnackBar(this.snackBarFail, res.data.message);
         }
-        // this.setLoadingBar(false);
+        this.setLoadingBar(false);
       }
     }
   }
