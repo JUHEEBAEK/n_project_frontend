@@ -42,7 +42,6 @@ export const login = async (userId, password) => {
       // err 일때 
       return result.response;
     }else {
-      console.log("result.data", result.data);
       let token = result.data.Authorization;
       if(token) {
         const { id, name, member_id, team_id, exp } = getTokenPayload(token);
@@ -61,10 +60,8 @@ export const login = async (userId, password) => {
 };
 
 export const joinProcess = async (data) => {
-  console.log("formData", data);
   try {
     const result = await join(data);
-    console.log("join res: ", result);
     return result;
   }catch (error) {
     console.error(error);

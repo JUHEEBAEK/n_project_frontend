@@ -29,7 +29,6 @@ export const getTokenPayload = token => {
 
 // 백엔드 쪽에서 받은 토큰을 cookie 에 굽는 경우 ( 로그인 )
 export const saveToken = token => {
-  console.log("token", token);
   localStorage.setItem("access_token", token);
 };
 

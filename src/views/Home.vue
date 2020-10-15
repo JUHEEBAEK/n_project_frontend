@@ -35,7 +35,6 @@ const {
 export default {
   created() {
     this.$store.commit("common/SET_FULL_SCREEN", false);
-    console.log(this.userInfo);
   },
   data: () => ({
     chartData: [],
