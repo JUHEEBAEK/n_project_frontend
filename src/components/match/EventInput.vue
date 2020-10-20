@@ -189,7 +189,10 @@ export default {
       "homeScore",
       "awayScore"
     ]),
-    ...gameState(["gameInfo"])
+    ...gameState(["gameInfo"]),
+    isSingleType() {
+      return (this.lastEventType === "");
+    }
   },
   watch: {
     isUpdate: function() {
@@ -235,18 +238,20 @@ export default {
       if (this.teamType !== null && this.teamType !== type) {
         alert("같은 팀을 선택해주세요.");
         this.init();
-      } else if (this.firstPlayer !== null && this.firstPlayer === val.name) {
+        return;
+      }
+      if (this.firstPlayer !== null && this.firstPlayer === val.name) {
         alert("같은 사람을 선택할 수 없습니다.");
         this.init();
-      } else {
-        this.teamType = type;
-        if (this.firstPlayer === null) {
-          this.firstPlayer = val.name;
-          this.firstPlayerId = val.member_id;
-        } else {
-          this.lastPlayer = val.name;
-          this.lastPlayerId = val.member_id;
-        }
+        return;
+      } 
+      this.teamType = type;
+      if(this.isSingleType || this.firstPlayer === null) {
+        this.firstPlayer = val.name;
+        this.firstPlayerId = val.member_id;
+      }else {
+        this.lastPlayer = val.name;
+        this.lastPlayerId = val.member_id;
       }
     },
     clickButton: async function() {
@@ -254,10 +259,11 @@ export default {
         time: this.time,
         event_type: this.firstEventType,
         first_player: this.firstPlayerId,
-        last_player: this.lastPlayerId,
         team_type: this.teamType
-      };
-
+      };  
+      if(!this.isSingleType) {
+        event.last_player = this.lastPlayerId
+      }
       if (this.isUpdate) {
         await this.clickUpdateButton(event);
       } else {

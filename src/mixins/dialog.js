@@ -30,7 +30,7 @@ const dialog = {
     // Dialog 와 Type 을 한 번에 변경시키는 함수
     // 여기서의 value 는 object  ex) { dialog:true, type:"manager" }
     setDialogAndType(value) {
-      this.$store.commit("common/setDialogAndType", value);
+      this.$store.commit("common/SET_DIALOG_AND_TYPE", value);
     }
   }
 };

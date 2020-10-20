@@ -1,6 +1,6 @@
 <template>
   <v-card class="py-2">
-    <v-card-title>팀 나누기 목록</v-card-title>
+    <v-card-title>순번</v-card-title>
     <v-card-text>
       <v-select v-model="teamSplitSelected" :items="teamSplitList" />
     </v-card-text>

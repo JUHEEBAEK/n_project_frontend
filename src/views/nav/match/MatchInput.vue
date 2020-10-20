@@ -237,7 +237,7 @@ export default {
       if (eventInfo.team_type === "H") {
         this.SUBTRACT_HOME_SCORE(1);
       } else if (eventInfo.team_type === "A") {
-        this.SUBTRACT_HOME_SCORE(1);
+        this.SUBTRACT_AWAY_SCORE(1);
       }
       this.updateGameInfo();
     },
