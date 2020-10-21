@@ -16,10 +16,10 @@
         >
           <template v-slot:activator="{ on, attrs }">
             <div v-bind="attrs" v-on="on">
-              <span class="profile__text">{{ userInfo.id }} 님</span>
-              <v-avatar class="mx-3">
+              <span class="profile__text">{{ userInfo.name }} 님</span>
+              <v-avatar class="mx-3" color="grey">
                 <img
-                  src="https://cdn.vuetifyjs.com/images/john.jpg"
+                  src="@/assets/images/photo-default.png"
                   alt="John"
                 >
               </v-avatar>
@@ -27,7 +27,7 @@
           </template>
           <v-card class="profile__dropdown">
             <div class="avatar__box-info">
-              <span class="text__bold-main">{{ userInfo.name }}</span>
+              <span class="text__bold-main">{{ userInfo.id }}</span>
               <v-btn
                 class="button__item"
                 outlined

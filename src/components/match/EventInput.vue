@@ -227,6 +227,7 @@ export default {
     ...gameReportMutations(["ADD_EVENT", "ADD_HOME_SCORE", "ADD_AWAY_SCORE"]),
     ...gameActions(["updateGameScore"]),
     addGameScore: function(eventInfo) {
+      console.log(eventInfo);
       if (eventInfo.team_type === "H") {
         this.ADD_HOME_SCORE(1);
       } else if (eventInfo.team_type === "A") {
@@ -284,6 +285,8 @@ export default {
       let addGameEventresult = await this.addGameEvent(event);
       // 게임 이벤트추가 결과가 true이고 골일 경우에만 스코어를 추가시켜주기 위해서.
       if (addGameEventresult && event.event_type === "Goal") {
+        this.addGameScore(event);
+      } else if(addGameEventresult && event.event_type === "O.G") {
         this.addGameScore(event);
       }
     },
