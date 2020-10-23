@@ -278,6 +278,7 @@ export default {
         selected_schedule_id: this.scheduleList[this.scheduleIndex].id,
         team_split_data: this.attendMember
       };
+      console.log(payload);
       await this.saveTeamSplit(payload);
 
       this.$router.push({

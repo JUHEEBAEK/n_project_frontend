@@ -49,7 +49,6 @@
 </template>
 
 <script>
-import dummy from "../../assets/value/dummy.json";
 import { createNamespacedHelpers } from "vuex";
 
 const {
@@ -78,13 +77,15 @@ export default {
     this.getGameList();
   },
   watch: {
-    selectedYear() {
+    selectedYear(year) {
       this.filteredSchedule = this.selectedFilterlingDate(this.scheduleList);
       this.divideSchduleIdInGame();
+      this.setscheduleList(this.filteredSchedule);
     },
-    selectedMonth() {
+    selectedMonth(month) {
       this.filteredSchedule = this.selectedFilterlingDate(this.scheduleList);
       this.divideSchduleIdInGame();
+      this.setscheduleList(this.filteredSchedule);
     }
   },
   data() {
@@ -151,8 +152,4 @@ export default {
 };
 </script>
 
-<style
-  lang="scss"
-  scoped
-  src="../../styles/components/report/gameList.scss"
-></style>
+<style lang="scss" scoped src="@/assets/scss/components/report/gameList.scss"></style>

@@ -1,7 +1,10 @@
 import Vue from "vue";
 import Router from "vue-router";
+import { isAuthorization } from "../mixins/auth";
 
 import Home from "../views/Home.vue";
+import Login from "../views/Login.vue";
+import Join from "../views/Join.vue";
 
 import Member from "../views/footer/Member.vue";
 import SquadView from "../views/footer/Squad.vue";
@@ -26,20 +29,39 @@ import Stadium from "../views/nav/stadium/Stadium.vue"
 import StadiumAdd from "../views/nav/stadium/StadiumAdd.vue"
 import StadiumUpdate from "../views/nav/stadium/StadiumUpdate.vue"
 
-
 import Training from "../views/training/print.vue"
 
 Vue.use(Router);
 
+const requireAuth = () => (to, from, next) => {
+  if(isAuthorization()) {
+    return next();
+  }else {
+    next("/login");
+  }
+}
+
 const routes = [{
     path: "/",
     name: "home",
-    component: Home
+    component: Home,
+    beforeEnter: requireAuth()
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: Login
+  },
+  {
+    path: "/join",
+    name: "join",
+    component: Join
   },
   // footer view
   {
     path: "/member",
     component: Member,
+    beforeEnter: requireAuth()
   },
   {
     path: "/gameReport",

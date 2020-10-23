@@ -66,4 +66,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped src="../../styles/components/squad/soccerField.scss"></style>
+<style lang="scss" scoped src="@/assets/scss/components/squad/soccerField.scss"></style>

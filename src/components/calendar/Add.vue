@@ -14,12 +14,20 @@
           v-on="on"
           class="schedule__new muji"
           @click.stop="close()"
-        >{{ new_schedule_title }}</div>
+        >
+          {{ new_schedule_title }}
+        </div>
       </template>
 
       <v-card color="grey lighten-4" :slotData="slotData">
         <v-form class="form" ref="form" lazy-validation>
-          <v-toolbar class="popover__header" height="40" color="grey lighten-4" flat tile>
+          <v-toolbar
+            class="popover__header"
+            height="40"
+            color="grey lighten-4"
+            flat
+            tile
+          >
             <v-spacer />
             <v-btn icon small class="mx-1" @click="close()">
               <v-icon small>fas fa-times</v-icon>
@@ -80,7 +88,12 @@
                       :rules="emptyCheckRules"
                     />
                   </template>
-                  <v-date-picker v-model="selectedDate" dense no-title @input="menu_date = false" />
+                  <v-date-picker
+                    v-model="selectedDate"
+                    dense
+                    no-title
+                    @input="menu_date = false"
+                  />
                 </v-menu>
               </v-col>
             </v-row>
@@ -178,7 +191,7 @@
 
 <script>
 import stringSchedules from "../../assets/value/Schedule";
-import regex from "../../mixin/regex.js";
+import regex from "../../mixins/regex.js";
 
 import { createNamespacedHelpers } from "vuex";
 const {

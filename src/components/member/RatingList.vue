@@ -2,7 +2,7 @@
   <v-card outlined class="pa-3">
     <v-row wrap justify="center">
       <v-col cols="1" align-self="center">
-        <v-img src="../../assets/sun.png" contain width="30" height="30" />
+        <v-img src="@/assets/images/sun.png" contain width="30" height="30" />
       </v-col>
       <v-col cols="11">
         <div class="text-left">
@@ -21,7 +21,7 @@
     </v-row>
     <v-row wrap justify="center">
       <v-col cols="1" align-self="center">
-        <v-img src="../../assets/rainy.png" contain width="30" height="30" />
+        <v-img src="@/assets/images/rainy.png" contain width="30" height="30" />
       </v-col>
       <v-col cols="11">
         <div class="text-left">
@@ -40,7 +40,7 @@
     </v-row>
     <v-row wrap justify="center">
       <v-col cols="1" align-self="center">
-        <v-img src="../../assets/cemetery.png" contain width="30" height="30" />
+        <v-img src="@/assets/images/cemetery.png" contain width="30" height="30" />
       </v-col>
       <v-col cols="11">
         <div class="text-left">

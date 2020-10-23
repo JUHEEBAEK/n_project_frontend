@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import regex from "../../mixin/regex.js";
+import regex from "../../mixins/regex.js";
 import { createNamespacedHelpers } from "vuex";
 const { mapState, mapMutations } = createNamespacedHelpers("prepareMatch");
 

@@ -167,7 +167,7 @@
 </template>
 
 <script>
-import stringSchedules from "../../assets/value/Schedule";
+import stringSchedules from "../../assets/value/Schedule.json";
 
 import { createNamespacedHelpers } from "vuex";
 import moment from "moment";

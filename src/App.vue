@@ -16,15 +16,12 @@ export default {
     ...mapGetters("common", {
       fullScreen: "fullScreen"
     })
-  },
-  created() {
-    console.log("this");
   }
 };
 </script>
 
 <style lang="scss">
-@import "./styles/index.scss";
+@import "@/assets/scss/index.scss";
 
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;

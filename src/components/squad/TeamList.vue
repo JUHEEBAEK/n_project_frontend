@@ -16,13 +16,14 @@
                   @click.native="set_home_away_team(teamDict)"
                   @click="toggle"
                 >
-                  <v-card-title>{{teamDict.teamNumber}}</v-card-title>
+                  <v-card-title>{{ teamDict.teamNumber }}</v-card-title>
                   <v-card-text class="member__box">
                     <span
                       v-for="member in teamDict.members"
                       :key="member.id"
                       class="team__member"
-                    >{{ member.name }}</span>
+                      >{{ member.name }}</span
+                    >
                   </v-card-text>
                 </v-card>
               </template>
@@ -34,7 +35,8 @@
                       v-for="member in teamDict.members"
                       :key="member.id"
                       class="team__member"
-                    >{{ member.name }}</span>
+                      >{{ member.name }}</span
+                    >
                   </v-card-text>
                 </v-card>
               </template>
@@ -54,7 +56,12 @@
     </v-row>
     <v-row>
       <v-col cols="12" class="mx-2 py-1">
-        <v-switch class="mt-0" v-model="isHome" hide-details :label="`Status: ${setStatus}`"></v-switch>
+        <v-switch
+          class="mt-0"
+          v-model="isHome"
+          hide-details
+          :label="`Status: ${setStatus}`"
+        ></v-switch>
       </v-col>
     </v-row>
     <v-row row wrap justify="center" class="py-2">
@@ -70,13 +77,16 @@
         <div class="selectTeam__box">
           <div class="team__home">
             <v-card color="grey lighten-2" width="150" height="150">
-              <v-card-title class="justify-center">home {{homeTeam.teamNumber}}</v-card-title>
+              <v-card-title class="justify-center"
+                >home {{ homeTeam.teamNumber }}</v-card-title
+              >
               <v-card-text class="member__box justify-center">
                 <span
                   v-for="(member, index) in homeTeam.members"
                   :key="index"
                   class="team__member"
-                >{{ member.name }}</span>
+                  >{{ member.name }}</span
+                >
               </v-card-text>
             </v-card>
           </div>
@@ -85,13 +95,16 @@
           </div>
           <div class="team__away">
             <v-card color="grey lighten-2" width="150" height="150">
-              <v-card-title class="justify-center">away {{awayTeam.teamNumber}}</v-card-title>
+              <v-card-title class="justify-center"
+                >away {{ awayTeam.teamNumber }}</v-card-title
+              >
               <v-card-text class="member__box justify-center">
                 <span
                   v-for="(member, index) in awayTeam.members"
                   :key="index"
                   class="team__member"
-                >{{ member.name }}</span>
+                  >{{ member.name }}</span
+                >
               </v-card-text>
             </v-card>
           </div>
@@ -99,7 +112,12 @@
       </v-col>
       <v-col cols="12" v-if="jocker.name !== null">
         <div class="team__jocker">
-          <v-card class="mx-auto" color="grey lighten-2" width="200" height="100">
+          <v-card
+            class="mx-auto"
+            color="grey lighten-2"
+            width="200"
+            height="100"
+          >
             <v-card-text>JOCKER</v-card-text>
             <v-card-text class="member__box justify-center">
               <span class="team__member">{{ jocker.name }}</span>
@@ -108,13 +126,15 @@
         </div>
       </v-col>
     </v-row>
-    <dialog-squad-team-list v-if="dialog===true && type==='teamList'" @saveTeam="saveTeam"></dialog-squad-team-list>
+    <dialog-squad-team-list
+      v-if="dialog === true && type === 'teamList'"
+      @saveTeam="saveTeam"
+    ></dialog-squad-team-list>
   </div>
 </template>
 
 <script>
-import dialog from "../../mixin/dialog.js";
-import dummy from "../../assets/value/dummy.json";
+import dialog from "../../mixins/dialog.js";
 import { createNamespacedHelpers } from "vuex";
 const { mapState, mapMutations, mapActions } = createNamespacedHelpers(
   "prepareMatch"
@@ -203,12 +223,12 @@ export default {
     },
     saveTeam(team) {
       this.setSelectedSplitedTeam(team.splitTeamIndex);
-      if (this.selectedSplitedTeam[0]){
+      if (this.selectedSplitedTeam[0]) {
         let jockerMember = this.selectedSplitedTeam[0].members[0];
         this.SET_JOCKER(jockerMember);
       }
       this.setDialogAndType({ dialog: false, type: null });
-    },
+    }
   }
 };
 </script>
@@ -219,6 +239,11 @@ export default {
   overflow-y: scroll;
   max-width: 250px;
   max-height: 250px;
+}
+.team__select {
+  align-self: center;
+  padding: 0 10px;
+  max-width: 150px !important;
 }
 .member__box {
   display: flex;

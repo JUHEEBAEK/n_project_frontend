@@ -9,7 +9,7 @@
               width="80"
               height="80"
               class="img__top"
-              src="../../../assets/linear/light/user.png"
+              src="../../../assets/images/linear/light/user.png"
             />
           </v-col>
         </v-row>
@@ -24,7 +24,12 @@
             />
           </v-col>
           <v-col cols="12" class="py-2">
-            <v-text-field v-model="nickName" label="닉네임" hide-details outlined />
+            <v-text-field
+              v-model="nickName"
+              label="닉네임"
+              hide-details
+              outlined
+            />
           </v-col>
           <v-col cols="12" class="py-2">
             <v-menu
@@ -81,7 +86,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import util from "../../../mixin/util.js";
+import util from "../../../mixins/util.js";
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: memberMapState,
@@ -120,7 +125,7 @@ export default {
     }
   },
   created() {
-    this.$store.commit("common/setFullScreen", true);
+    this.$store.commit("common/SET_FULL_SCREEN", true);
   },
   async mounted() {
     this.select_member();

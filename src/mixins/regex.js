@@ -20,13 +20,10 @@ const regex = {
           "Description must be less than 100 characters"
       ],
       // true 면 이메일 사용가능, false 면 사용 불가(중복된 이메일)
-      emailValidate: true,
-      emailRules: [
-        v => !!v || "E-mail is required",
-        v =>
-          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
-          "E-mail must be valid",
-        v => this.checkEmailValidate(v) || "Email duplicated or not existed"
+      userIdValidate: true,
+      userIdRules: [
+        v => !!v || "user_id is required",
+        v => this.checkedDuplicateUserId(v) || "userId duplicated or not existed"
       ],
       emptyCheckRules: [v => !!v || "empty is not allowed"],
       // identifyPwdRules 를 사용하는 View || Component 는 data 로 pwd, identifyPwd 를 정의해야 한다.
@@ -53,21 +50,38 @@ const regex = {
         //     v
         //   ) || "Invalid Password format"
       ],
+      identifyPwdRules: [
+        v => !!v || "password is required",
+        v => this.checkedSamePwd(v) || "Same as current password"
+      ],
       userTypeRules: [v => !!v || "Type is required"],
+      userNameRules: [
+        v => !!v || "userName is required",
+        v => (v && v.length <= 50) || "userName must be less than 50 characters"
+      ],
       trainingsPlayerRules: [
         v => (v && v.length <= 7) || "이름은 7글자 넘을 수 없음."
       ],
     };
   },
   methods: {
+    checkedDuplicateUserId: function() {
+      return this.userIdValidate;
+    },
     checkedDuplicatePostion: function() {
       //구현 필요 interface
     },
     // 문자열에서 숫자만 추출
     extractNumberFromStr: function(str) {
       return str.replace(/[^0-9]/g,'');
+    },
+    checkedSamePwd: function() {
+      if (this.password === this.identifyPassword) {
+        return true;
+      } else {
+        return false;
+      }
     }
-    
   }
 }
 

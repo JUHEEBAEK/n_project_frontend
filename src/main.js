@@ -1,9 +1,7 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-import {
-  store
-} from "./store";
+import store from "./store";
 import "./registerServiceWorker";
 import "roboto-fontface/css/roboto/roboto-fontface.css";
 import "@fortawesome/fontawesome-free/css/all.css";
@@ -12,6 +10,8 @@ import "./components";
 import vuetify from "./plugins/vuetify";
 import VueCookies from "vue-cookies";
 import VueMoment from "./plugins/moment";
+import { isAuthorization } from "./mixins/auth";
+import { getUserInfo } from "./common/user.js";
 
 Vue.config.productionTip = false;
 Vue.use(VueMoment);
@@ -33,5 +33,10 @@ new Vue({
   router,
   store,
   vuetify,
+  created() {
+    if(isAuthorization()) {
+      store.commit("account/SET_INFO", getUserInfo());
+    }
+  },
   render: h => h(App)
 }).$mount("#app");

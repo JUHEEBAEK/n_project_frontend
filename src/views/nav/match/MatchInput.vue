@@ -2,9 +2,14 @@
   <div class="match__container">
     <!-- 스케쥴 리스트 영역 -->
     <v-contatner fluid>
-      <schedule-date-list :scheduleId="schedule_id" @changeDate="setScheduleData"></schedule-date-list>
+      <schedule-date-list
+        :scheduleId="schedule_id"
+        @changeDate="setScheduleData"
+      ></schedule-date-list>
       <!-- 쿼터 리스트 영역 -->
-      <squad-quarter @changeQuarterAndParams="changeQuarterAndParams"></squad-quarter>
+      <squad-quarter
+        @changeQuarterAndParams="changeQuarterAndParams"
+      ></squad-quarter>
     </v-contatner>
 
     <!-- 경기 기록 이벤트 타입 설정 부분 -->
@@ -40,8 +45,8 @@
 
 <script>
 import moment from "moment";
-import Position from "../../../assets/value/Postion.json";
-import regex from "../../../mixin/regex.js";
+import Position from "@/assets/value/position.json";
+import regex from "../../../mixins/regex.js";
 
 import { createNamespacedHelpers } from "vuex";
 const {
@@ -229,9 +234,13 @@ export default {
       }
     },
     subtractGameScore: function(eventInfo) {
-      if (eventInfo.team_type === "H") {
-        this.SUBTRACT_HOME_SCORE(1);
-      } else if (eventInfo.team_type === "A") {
+      console.log("뺴기", eventInfo);
+      const awayMinusScore = ( (eventInfo.event_type === "O.G" && eventInfo.team_type === "H")
+      || (eventInfo.event_type === "Goal" && eventInfo.team_type === "A"));
+      
+      if (awayMinusScore) {
+        this.SUBTRACT_AWAY_SCORE(1);
+      } else {
         this.SUBTRACT_HOME_SCORE(1);
       }
       this.updateGameInfo();
@@ -256,5 +265,5 @@ export default {
 
 <style
   lang="scss"
-  src="../../../styles/views/nav/match/matchInput.scss"
+  src="@/assets/scss/views/nav/match/matchInput.scss"
 ></style>

@@ -207,6 +207,10 @@ export default {
         gameForm["home_score"] = 0;
         gameForm["away_score"] = 0;
         gameForm["result"] = "N";
+        console.log(this.jocker);
+        if(this.jocker.member_id) {
+          gameForm["is_jocker"] = true;
+        }
         await this.createGame(gameForm);
       }
       this.$router.replace({
@@ -219,11 +223,17 @@ export default {
     },
     async setScheduleData() {
       if (this.scheduleIndex == -1) return;
+      console.log("1 이곳에서 에러????");
       this.$router.replace({
         name: "matchPrepare",
         params: {
           schedule_id: this.current_schedule_id,
           quarter: this.currentQuarterNumber
+        }
+      }).catch(err => {
+        // 같은 주소를 여러 번 호출할 때 나는 에러이다.
+        if(err.name != "NavigationDuplocated") {
+          throw err;
         }
       });
 

@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="dialog" v-if="type='teamList'" width="500">
+    <v-dialog v-model="dialog" v-if="(type = 'teamList')" width="500">
       <v-card>
         <v-card-title class="teamList--title">
           <span class="headline">생성된 팀 리스트</span>
@@ -29,9 +29,9 @@
 </template>
 
 <script>
-import matchValue from "../../../assets/value/match.json";
-import squad from "../../../assets/value/squad.json";
-import dialog from "../../../mixin/dialog.js";
+import matchValue from "@/assets/value/match.json";
+import squad from "@/assets/value/squad.json";
+import dialog from "@/mixins/dialog.js";
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: prepareMatchMapState,

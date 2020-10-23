@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import dialog from "../../../mixin/dialog.js";
+import dialog from "../../../mixins/dialog.js";
 
 export default {
   mixins: [dialog],

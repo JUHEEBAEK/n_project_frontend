@@ -44,14 +44,14 @@ export default {
         return this.$store.state.common.drawer;
       },
       set(val) {
-        this.setDrawer(val);
+        this.SET_DRAWER(val);
       }
     }
   },
   mounted() {},
 
   methods: {
-    ...commonMapMutations(["setDrawer"])
+    ...commonMapMutations(["SET_DRAWER"])
   }
 };
 </script>

@@ -31,7 +31,9 @@
                       <v-chip
                         :color="item.stadium_type === 'O' ? 'yellow darken-2' : ''"
                         x-small
-                      >{{ item.stadium_type === 'O' ? '실외' : '실내'}}</v-chip>
+                      >
+                      {{ item.stadium_type === 'O' ? '실외' : '실내'}}
+                      </v-chip>
                     </v-badge>
                   </div>
                 </v-scale-transition>
@@ -46,7 +48,7 @@
 
 <script>
 import moment from "moment";
-import scheduleValue from "../../assets/value/Schedule.json";
+import scheduleValue from "@/assets/value/Schedule.json";
 
 import { createNamespacedHelpers } from "vuex";
 const {
@@ -108,8 +110,6 @@ export default {
         this.scheduleId
       );
 
-    console.log(this.scheduleList);
-
     // 연동 필수
     this.slide_index = this.scheduleIndex;
   },
@@ -128,4 +128,4 @@ export default {
 };
 </script>
 
-<style lang="scss" src="../../styles/components/schedule/dateList.scss"></style>
+<style lang="scss" src="@/assets/scss/components/schedule/dateList.scss"></style>

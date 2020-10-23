@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     backPage() {
-      this.$store.commit("common/setFullScreen", false);
+      this.$store.commit("common/SET_FULL_SCREEN", false);
       this.$router.go(-1);
     }
   }
