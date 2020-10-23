@@ -95,6 +95,7 @@ export default {
     ...gameReportActions(["deleteGameEvent"]),
     ...gameReportMutations(["SET_EVENT_INFO"]),
     clickUpdateEvent: function(gameReport) {
+      console.log("gameReport", gameReport);
       this.SET_EVENT_INFO(gameReport);
       this.$emit("changeUpdateButton");
     },
@@ -107,7 +108,8 @@ export default {
           // 게임 이벤트를 삭제하는 결과를 받아온다. 받아온 결과로 점수를 1점 뺜다.
           let result = await this.deleteGameEvent(body);
           // 이벤트가 정상적으로 삭제 될 경우에만 실행이 된다.
-          if (result && gameEvent.event_type === "Goal") {
+          const isSubtractGameScore = (gameEvent.event_type === "Goal" || gameEvent.event_type === "O.G");
+          if (result && isSubtractGameScore) {
             this.$emit("subtractGameScore", gameEvent);
           }
           this.$emit("selectEventList");

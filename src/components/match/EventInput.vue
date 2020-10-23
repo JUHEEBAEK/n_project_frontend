@@ -224,15 +224,18 @@ export default {
       "getEventInfo",
       "updateGameEvent"
     ]),
-    ...gameReportMutations(["ADD_EVENT", "ADD_HOME_SCORE", "ADD_AWAY_SCORE"]),
+    ...gameReportMutations(["ADD_EVENT", "ADD_HOME_SCORE", "ADD_AWAY_SCORE", "SET_EVENT_INFO"]),
     ...gameActions(["updateGameScore"]),
     addGameScore: function(eventInfo) {
-      console.log(eventInfo);
-      if (eventInfo.team_type === "H") {
-        this.ADD_HOME_SCORE(1);
-      } else if (eventInfo.team_type === "A") {
+      const awayPlusScore = ( (eventInfo.event_type === "O.G" && eventInfo.team_type === "H")
+      || (eventInfo.event_type === "Goal" && eventInfo.team_type === "A"));
+      
+      if (awayPlusScore) {
         this.ADD_AWAY_SCORE(1);
+      } else {
+        this.ADD_HOME_SCORE(1);
       }
+
       this.$emit("updateGameInfo");
     },
     clickPlayer: function(val, type) {
@@ -278,41 +281,52 @@ export default {
     clickEventButton: function(eventfirstType) {
       this.firstEventType = eventfirstType;
       this.lastEventType = this.eventTypePair[eventfirstType];
+      console.log("this.lastEventType", this.lastEventType);
+      if(!this.lastEventType) {
+        this.lastPlayer = "";
+        this.lastPlayerId = "";
+      }
     },
     clickSaveButton: async function(event) {
       event.game_id = this.gameInfo.id;
       // 경기 기록 추가 actions
       let addGameEventresult = await this.addGameEvent(event);
       // 게임 이벤트추가 결과가 true이고 골일 경우에만 스코어를 추가시켜주기 위해서.
-      if (addGameEventresult && event.event_type === "Goal") {
-        this.addGameScore(event);
-      } else if(addGameEventresult && event.event_type === "O.G") {
+      const isAddGameScore = (event.event_type === "Goal" || event.event_type === "O.G");
+      if (addGameEventresult && isAddGameScore) {
         this.addGameScore(event);
       }
     },
     clickUpdateButton: async function(event) {
+      console.log("update", event);
       let gameReportform = {
         gameReport_id: this.gameReportEventInfo.id,
         gameReport: event
       };
-      let beforeEventType = this.gameReportEventInfo.event_type;
+      let beforeEvent = this.gameReportEventInfo;
       // 경기 기록 추가 actions
       let updateGameEventresult = await this.updateGameEvent(gameReportform);
       /* 이벤트 타입이 변경된 경우
-      골  => 다른 걸로 변경된 경우 점수 뺴기
-      다른거에서 => 골로 변경된 경우 점수 추가
+      beforeEventType 이 골, 자살골인 경우 스코어 변동
+      event_type 이 골, 자살골인 경우 스코어 변동
      */
-      let isChangeType = beforeEventType === event.event_type;
-      let isGoalChangeOtehrEvent =
-        beforeEventType === "Goal" && event.event_type !== "Goal";
-      let isOtherChangeGoalEvent =
-        beforeEventType !== "Goal" && event.event_type === "Goal";
+    //TODO: SET_EVENT_INFO 해줘야함. 초기화시키려면 여기서 초기화 시켜줘야함.
+      this.SET_EVENT_INFO(
+        {
+          last_player: null,
+          last_player_name: "",
+          last_player_uniform_number: ""
+        });
+      const isMinusGameScore = (beforeEvent.event_type === "Goal" || beforeEvent.event_type === "O.G");
+      const isAddGameScore = (event.event_type === "Goal" || event.event_type === "O.G");
+      if(isMinusGameScore) {
+        this.$emit("subtractGameScore", beforeEvent);
+      } 
 
-      if (updateGameEventresult && isGoalChangeOtehrEvent) {
-        this.$emit("subtractGameScore", event);
-      } else if (updateGameEventresult && isOtherChangeGoalEvent) {
+      if(isAddGameScore) {
         this.addGameScore(event);
       }
+       
     },
     deleteFirstPlayer: function() {
       this.firstPlayerChip = false;

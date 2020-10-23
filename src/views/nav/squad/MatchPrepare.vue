@@ -207,6 +207,10 @@ export default {
         gameForm["home_score"] = 0;
         gameForm["away_score"] = 0;
         gameForm["result"] = "N";
+        console.log(this.jocker);
+        if(this.jocker.member_id) {
+          gameForm["is_jocker"] = true;
+        }
         await this.createGame(gameForm);
       }
       this.$router.replace({

@@ -1,12 +1,12 @@
 <template>
-  <div class="gameReport__container">
+  <div class="gameReport__container ma-3">
     <v-app-bar flat color="white">
       <v-row>
         <v-spacer></v-spacer>
-        <v-col cols="2">
+        <v-col cols="5" xs="6" sm="4" md="3" lg="2" xl="2">
           <v-select v-model="nowYear" :items="years" label="년도 선택" solo rounded />
         </v-col>
-        <v-col cols="2">
+        <v-col cols="5" xs="6" sm="4" md="3" lg="2" xl="2">
           <v-select v-model="nowMonth" :items="months" label="월 선택" solo rounded />
         </v-col>
       </v-row>
@@ -30,7 +30,7 @@ export default {
     months: gameReportData.months,
     scheduleList: [],
     nowYear: new Date().getFullYear(),
-    nowMonth: "0" + (new Date().getMonth() + 1)
+    nowMonth: new Date().getMonth() + 1
   }),
   watch: {
     nowYear() {

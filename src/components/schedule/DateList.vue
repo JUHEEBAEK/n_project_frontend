@@ -31,7 +31,9 @@
                       <v-chip
                         :color="item.stadium_type === 'O' ? 'yellow darken-2' : ''"
                         x-small
-                      >{{ item.stadium_type === 'O' ? '실외' : '실내'}}</v-chip>
+                      >
+                      {{ item.stadium_type === 'O' ? '실외' : '실내'}}
+                      </v-chip>
                     </v-badge>
                   </div>
                 </v-scale-transition>
@@ -107,8 +109,6 @@ export default {
       this.slide_index = this.SET_SCHEDULE_INDEX_WITH_SCHEDULE_ID(
         this.scheduleId
       );
-
-    console.log(this.scheduleList);
 
     // 연동 필수
     this.slide_index = this.scheduleIndex;

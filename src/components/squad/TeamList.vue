@@ -75,7 +75,6 @@
       <v-col cols="3"></v-col>
       <v-col cols="12">
         <div class="selectTeam__box">
-          <v-select class="team__select" :items="teamList"></v-select>
           <div class="team__home">
             <v-card color="grey lighten-2" width="150" height="150">
               <v-card-title class="justify-center"
@@ -109,7 +108,6 @@
               </v-card-text>
             </v-card>
           </div>
-          <v-select class="team__select" :items="teamList"></v-select>
         </div>
       </v-col>
       <v-col cols="12" v-if="jocker.name !== null">
@@ -144,9 +142,7 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers(
 
 export default {
   mixins: [dialog],
-  data: () => ({
-    teamList: ["FS 슛타트", "FS 하비", "FS눈누난나"]
-  }),
+  data: () => ({}),
   computed: {
     ...mapState([
       "isHome",

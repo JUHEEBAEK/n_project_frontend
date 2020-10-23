@@ -234,10 +234,14 @@ export default {
       }
     },
     subtractGameScore: function(eventInfo) {
-      if (eventInfo.team_type === "H") {
-        this.SUBTRACT_HOME_SCORE(1);
-      } else if (eventInfo.team_type === "A") {
+      console.log("뺴기", eventInfo);
+      const awayMinusScore = ( (eventInfo.event_type === "O.G" && eventInfo.team_type === "H")
+      || (eventInfo.event_type === "Goal" && eventInfo.team_type === "A"));
+      
+      if (awayMinusScore) {
         this.SUBTRACT_AWAY_SCORE(1);
+      } else {
+        this.SUBTRACT_HOME_SCORE(1);
       }
       this.updateGameInfo();
     },
