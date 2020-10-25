@@ -3,12 +3,11 @@
     <ranking-filter @filterChanged="filterRanking"/>
     <v-card color="basil">
       <v-card-title class="text-center justify-center py-6">
-        <h1 class="font-weight-bold display-3 basil--text">NNNN Ranking</h1>
+        <h1 class="font-weight-bold display-3 basil--text">N-Ranking</h1>
       </v-card-title>
       <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
         <v-tab v-for="(item, index) in tabItems" :key="index">{{ item }}</v-tab>
       </v-tabs>
-
       <v-tabs-items v-model="tab">
         <v-tab-item v-for="(item, index) in tabItems" :key="index">
           <v-card color="basil" flat>
@@ -55,7 +54,6 @@ export default {
       "get_clean_sheet_ranking_filter",
     ]),
     filterRanking(filter){
-      console.log("filterRanking", filter)
       this.get_goal_ranking_filter(filter)
       this.get_assist_ranking_filter(filter)
       this.get_clean_sheet_ranking_filter(filter)

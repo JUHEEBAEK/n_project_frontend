@@ -1,6 +1,6 @@
 <template>
-  <div align-center justify-center class="login__main">
-    <v-card class="elevation-0 login__container">
+  <div class="login__main">
+    <v-card class="login__container">
       <v-card-title class="login__header">
         <div class="header__logo-image">
           <v-img
@@ -83,10 +83,11 @@ const { mapActions: accountActions } = createNamespacedHelpers("account");
 export default {
   mixins: [regex, util],
   created() {
+    console.log("createrd login");
     this.$store.commit("common/SET_FULL_SCREEN", true);
+    this.$store.commit("common/SET_SNACK_BAR", true);
   },
   computed: {
-    ...commonState(["snackBar"]),
     ...mapGetters("components/layout", {
       fullScreen: "fullScreen"
     })
@@ -108,10 +109,12 @@ export default {
       if (this.$refs.form.validate()) {
         this.setLoadingBar(true);
         const res = await login(this.username, this.password);
-        console.log("loginRes", res);
+        console.log("loginRes:::::::", res);
         if (res.status !== 400 && res === 200) {
+          console.log("성공");
           this.$router.push({ path: "/" });
-        } else {
+        }else {
+          console.log("실패");
           // FIXME: 오류를 여러번 이어서 냈을 때 처음만 스낵바 보이고 나머지는 안보임????
           this.setSnackBar(this.snackBarFail, res.data.message);
         }
