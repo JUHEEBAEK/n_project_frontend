@@ -26,7 +26,6 @@ const state = {
 const getters = {
   snackBar(state) {
     if (state.snackBar) {
-      console.log("getters", state.snackBar);
       return state.snackBar;
     } else {
       return null;

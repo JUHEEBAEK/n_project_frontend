@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar>
+  <v-toolbar class="toolbar__main">
     <v-btn icon @click="backPage">
       <v-icon class="fas fa-arrow-left" />
     </v-btn>
@@ -29,4 +29,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.toolbar__main {
+  width: 100%;
+}
+</style>
