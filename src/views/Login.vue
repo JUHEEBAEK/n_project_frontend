@@ -1,6 +1,6 @@
 <template>
-  <div align-center justify-center class="login__main">
-    <v-card class="elevation-0 login__container">
+  <div class="login__main">
+    <v-card class="login__container">
       <v-card-title class="login__header">
         <div class="header__logo-image">
           <v-img

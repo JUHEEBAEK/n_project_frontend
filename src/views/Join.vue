@@ -1,5 +1,5 @@
 <template>
-  <div align-center justify-center class="join__main">
+  <div class="join__main">
     <div class="join__header">
       <core-Back :tableHeader="title" />
     </div>
