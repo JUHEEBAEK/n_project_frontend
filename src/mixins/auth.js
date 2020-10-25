@@ -1,6 +1,6 @@
 import store from "../store";
 import router from "../router";
-import { singIn, join} from "../api/auth.js";
+import { singIn } from "../api/auth.js";
 import { getToken, getTokenPayload, saveToken, deleteToken } from "../common/token.js";
 import { getUserInfo, saveUserInfo, deleteUserInfo } from "../common/user.js";
 /* - 목적 : 인증되어(로그인 되어) 있는 사용자 인지 체크하는 로직  
@@ -34,6 +34,7 @@ export const login = async (userId, password) => {
     formData.append("password", password);
 
     const result = await singIn(body);
+    console.log("login mixins auth: ",result);
     /* - JWT 발급
        - LocalStorage 에 Token 지정
        - LocalStorage 에 유저 정보 저장 
@@ -59,15 +60,15 @@ export const login = async (userId, password) => {
   }
 };
 
-export const joinProcess = async (data) => {
-  try {
-    const result = await join(data);
-    return result;
-  }catch (error) {
-    console.error(error);
-    return error;
-  }
-};
+// export const joinProcess = async (data) => {
+//   try {
+//     const result = await join(data);
+//     return result;
+//   }catch (error) {
+//     console.error(error);
+//     return error;
+//   }
+// };
 
 export const logout = async () => {
   try {

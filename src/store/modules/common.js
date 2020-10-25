@@ -16,13 +16,17 @@ const state = {
   fullScreen: null,
   loading: false,
   setting: false,
+  type: null,
   snackBar: false,
-  type: null
+  snackBarPurpose: null,
+  // 스낵바에 들어가는 내용
+  snackBarMessage: null,
 };
 
 const getters = {
   snackBar(state) {
     if (state.snackBar) {
+      console.log("getters", state.snackBar);
       return state.snackBar;
     } else {
       return null;
@@ -62,6 +66,8 @@ const mutations = {
   [constants.setDrawer]: set("drawer"),
   [constants.setSetting]: set("setting"),
   [constants.setSnackBar]: set("snackBar"),
+  [constants.setPurpose]: set("snackBarPurpose"),
+  [constants.setMessage]: set("snackBarMessage"),
   [constants.setAlert]: set("alert"),
   SET_DIALOG(state, value) {
     state.dialog = value;
@@ -97,9 +103,11 @@ const actions = {
   async setLoading({ commit }, value) {
     commit("SET_LOADING_BAR", value);
   },
-  async set_SnackBar({
+  async setSnackBar({
     commit
   }, value) {
+    console.log("commit", commit);
+    console.log("value", value);
     commit("SET_SNACK_BAR", value);
   },
   async setType({ commit }, value) {

@@ -135,7 +135,8 @@ import { mapGetters, mapState } from "vuex";
 import regex from "../mixins/regex";
 import util from "../mixins/util.js";
 // api
-import { duplicateUserId } from "@/api/auth.js";
+import { duplicateUserId, join } from "@/api/auth.js";
+
 
 import { createNamespacedHelpers } from "vuex";
 const {
@@ -178,7 +179,6 @@ export default {
   methods: {
     ...teamMapActions(["select_all_team"]),
     ...memberMapActions(["select_member"]),
-    ...accountMapActions(["join"]),
     //FIXME: 아이디 중복체크 다시 확인
     checkDuplicated: async function() {
       if (this.userId) {
@@ -203,6 +203,7 @@ export default {
           team_id: this.selectedTeam.idTeam
         };
         let joinResult = await this.join(body);
+        console.log("joinResult", joinResult);
         if (joinResult.status === 200) {
           this.$router.push({ path: "/login" });
           this.setSnackBar(
