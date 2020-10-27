@@ -68,8 +68,7 @@ export default {
   data () {
     return {
       contests: [
-        {label:"자체경기", value:'P'},
-        {label:"훈련", value:'T'},
+        {label:"자체경기", value:'P,T'},
         {label:"리그 경기", value:'L'},
         {label:"친선", value:'M'},
         {label:"대회", value:'C'}
@@ -95,7 +94,7 @@ export default {
         {label:"11", value: "11"},
         {label:"12", value: "12"},
       ],
-      selectedContest: ['P', 'T'],
+      selectedContest: ['P,T'],
       selectedYear: 2020,
       selectedMonth: "0"
     }
