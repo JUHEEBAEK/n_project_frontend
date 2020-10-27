@@ -34,6 +34,9 @@ export default {
     snackBar: {
       get() {
         return this.$store.state["common"].snackBar;
+      },
+      set(value) {
+        return this.$store.commit("common/SET_SNACK_BAR", value);
       }
     }
   },

@@ -1,6 +1,4 @@
-import {
-  set
-} from "../../utils/index";
+import { set } from "../../utils/index";
 import * as constants from "../constants";
 const state = {
   // navigation 의 상태 (들어가 있는지 나와있는지)
@@ -14,13 +12,14 @@ const state = {
   /* 1. fullScreen : true ( AppBar 와 nav 가 없는 상태 )
   2. fullScreen : null or false */
   fullScreen: null,
+  homeTitle: "",
   loading: false,
   setting: false,
   type: null,
   snackBar: false,
   snackBarPurpose: null,
   // 스낵바에 들어가는 내용
-  snackBarMessage: null,
+  snackBarMessage: null
 };
 
 const getters = {
@@ -73,6 +72,9 @@ const mutations = {
   },
   SET_FULL_SCREEN(state, value) {
     state.fullScreen = value;
+  },
+  SET_HOME_TITLE(state, value) {
+    state.homeTitle = value;
   },
   SET_LOADING_BAR(state, value) {
     state.loading = value;
