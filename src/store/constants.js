@@ -1,11 +1,16 @@
 // layout 과 관련된 부분
 export const setDrawer = "SET_DRAWER";
 export const setSetting = "SET_SETTING";
-export const setSnackBar = "SET_SNACK_BAR";
 export const setAlert = "SET_ALERT";
 
+export const setSnackBar = "SET_SNACK_BAR";
+export const setMessage = "SET_SNACK_BAR_MESSAGE";
+export const setPurpose = "SET_SNACK_BAR_PURPOSE";
+
+
 export const setModal = "SET_MODAL";
-export const setSearchResult = "SET_SEARCH_RESULT";
+export const setSearchTeamResult = "SET_SEARCH_TEAM_RESULT";
+export const setSearchUnitTeamResult = "SET_SEARCH_UNIT_TEAM_RESULT";
 
 export const setNewScheduleModal = "SET_NEW_SCHEDULE_MODAL";
 export const setFullScheduleModal = "SET_FULL_SCHEDULE_MODAL";

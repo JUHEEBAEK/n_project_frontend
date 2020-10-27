@@ -223,10 +223,7 @@ export default {
       if (length < 9) {
         this.attendTeamCount.push(length + 2);
       } else {
-        this.setSnackBar(
-          this.snackBarFail,
-          "더 이상 팀 수를 늘릴 수 없습니다."
-        );
+        this.setSnackBar( { purpose: this.snackBarFail, message: "더 이상 팀 수를 늘릴 수 없습니다." });
       }
     },
     setJoker: function(isJoker) {

@@ -3,8 +3,12 @@
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  .join__header {
+    width: 100%;
+  }
 
   .join__container {
     // padding: 30px;
@@ -56,12 +60,11 @@
     .join__actions {
       padding: 20px 30px;
       display: flex;
-      flex-direction: column;
+      justify-content: flex-end;
 
       .join__button {
         height: 40px;
         border-radius: 10px;
-        margin-bottom: 4px;
       }
 
       .find__button {

@@ -1,8 +1,11 @@
 <template>
-  <div align-center justify-center class="join__main">
+  <div class="join__main">
+    <div class="join__header">
+      <core-Back :tableHeader="title" />
+    </div>
     <v-card class="join__container">
       <v-row class="pa-0 ma-0">
-        <v-col cols="4" class="join__left">
+        <v-col cols="12" xs="12" sm="12" md="3" lg="4" xl="4" class="join__left">
           <div class="join__header">
             <span class="header__text">Join us</span>
             <v-img
@@ -20,7 +23,7 @@
             </div>
           </div>
         </v-col>
-        <v-col cols="8" class="join__right">
+        <v-col cols="12" xs="12" sm="12" md="9" lg="8" xl="8" class="join__right">
           <v-form class="join__content" ref="join_form" lazy-validation>
             <v-row class="right__box">
               <v-col cols="12">
@@ -98,23 +101,14 @@
             </v-row>
           </v-form>
           <div class="join__actions">
-            <v-row justify="end">
-              <v-col cols="2">
-                <v-btn class="join__button" outlined block @click="clear"
-                  >Clear</v-btn
-                >
-              </v-col>
-              <v-col cols="2">
-                <v-btn
-                  class="join__button"
-                  color="#000"
-                  block
-                  dark
-                  @click="submit"
-                  >Join</v-btn
-                >
-              </v-col>
-            </v-row>
+            <v-btn class="join__button mr-2" outlined @click="clear">Clear</v-btn>
+            <v-btn
+              class="join__button ml-2"
+              color="#000"
+              dark
+              @click="submit">
+              Join
+            </v-btn>
           </div>
         </v-col>
       </v-row>
@@ -135,7 +129,8 @@ import { mapGetters, mapState } from "vuex";
 import regex from "../mixins/regex";
 import util from "../mixins/util.js";
 // api
-import { duplicateUserId } from "@/api/auth.js";
+import { duplicateUserId, join } from "@/api/auth.js";
+
 
 import { createNamespacedHelpers } from "vuex";
 const {
@@ -167,6 +162,7 @@ export default {
     })
   },
   data: () => ({
+    title: "JOIN",
     userId: "",
     isCheked: false,
     name: "",
@@ -178,7 +174,6 @@ export default {
   methods: {
     ...teamMapActions(["select_all_team"]),
     ...memberMapActions(["select_member"]),
-    ...accountMapActions(["join"]),
     //FIXME: 아이디 중복체크 다시 확인
     checkDuplicated: async function() {
       if (this.userId) {
@@ -203,6 +198,7 @@ export default {
           team_id: this.selectedTeam.idTeam
         };
         let joinResult = await this.join(body);
+        console.log("joinResult", joinResult);
         if (joinResult.status === 200) {
           this.$router.push({ path: "/login" });
           this.setSnackBar(
