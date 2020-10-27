@@ -5,6 +5,11 @@ export const getAllTeam = async() => {
   return response.data;
 };
 
+export const getUnitTeamList = async() => {
+  const response = await generalReq("get", "/api/team/unitList");
+  return response.data;
+};
+
 export const createTeam = async(form) => {
   try {
     const response = await generalReq("post", "/api/team/create", form);

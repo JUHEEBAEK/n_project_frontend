@@ -12,7 +12,8 @@ import GameReport from "../views/footer/GameReport.vue";
 import GameReportDetail from "../views/footer/GameReportDetail.vue";
 import Ranking from "../views/footer/Ranking.vue";
 
-import Team from "../views/nav/TeamView.vue";
+import TeamDetails from "../views/nav/team/Details.vue";
+import TeamAdmin from "../views/nav/team/TeamAdmin.vue";
 import Profile from "../views/nav/member/Profile.vue";
 import MemberAdd from "../views/nav/member/MemberAdd.vue";
 import MemberAdmin from "../views/nav/member/MemberAdmin.vue";
@@ -86,8 +87,13 @@ const routes = [{
   },
   // navigation view
   {
-    path: "/team",
-    component: Team,
+    path: "/team-admin",
+    component: TeamAdmin,
+  },
+  {
+    name: "teamDetails",
+    path: "/team/:teamId",
+    component: TeamDetails
   },
   {
     path: "/member-admin",

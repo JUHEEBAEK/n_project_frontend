@@ -1,7 +1,7 @@
 {
   "navigationItems": [{
       "title": "TEAM",
-      "to": "/team",
+      "to": "/team-admin",
       "icon": "fsnnnn_emblem_official2.png"
     },
     {

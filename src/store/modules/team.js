@@ -1,20 +1,30 @@
 import {
-  getTeamList,
-  getAllTeam
+  getAllTeam,
+  getUnitTeamList
 } from "../../api/team.js";
+import { set } from "../../utils/index";
+import * as constants from "../constants";
 
 const state = {
-  teamList: []
+  teamList: [],
+  unitTeamList: [],
+  searchTeamResult: [],
+  searchUnitTeamResult: [],
 };
 
 const getters = {};
 const mutations = {
+  [constants.setSearchTeamResult]: set("searchTeamResult"),
+  [constants.setSearchUnitTeamResult]: set("searchUnitTeamResult"),
   SELECT_ALL_TEAM(state, teamList){
     state.teamList = teamList;
-    state.searchResult = teamList;
+    state.searchTeamResult = teamList;
+  },
+  SELECT_UNIT_TEAM(state, unitTeamList){
+    state.unitTeamList = unitTeamList;
+    state.searchUnitTeamResult = unitTeamList;
   }
 };
-
 const actions = {
   async select_all_team({
     commit
@@ -27,6 +37,17 @@ const actions = {
       console.log(e);
     }
   },
+  async select_unit_team({
+    commit
+  }) {
+    try {
+      const response = await getUnitTeamList();
+      commit("SELECT_UNIT_TEAM", response);
+      return response;
+    } catch (e) {
+      console.log(e);
+    }
+  }
 };
 
 export default {
