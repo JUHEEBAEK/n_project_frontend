@@ -92,13 +92,13 @@ export default {
     ...calendarMapActions(["select_schedule", "load_member"]),
     ...squadMutations(["SET_TEAM_INDEX_CHANGED"]),
     ...mapActions(["get_attendance"]),
-    ...squadActions(["getSplitTeamListWithSchedule"]),
+    ...squadActions(["setSplitTeamListWithSchedule"]),
 
     async setScheduleData(selected_schedule) {
       if (this.scheduleIndex == -1) return;
 
       // db에서 불러오는 부분
-      await this.getSplitTeamListWithSchedule(selected_schedule.id);
+      await this.setSplitTeamListWithSchedule(selected_schedule.id);
       await this.load_member(selected_schedule.id);
 
       this.setLocalVariable(selected_schedule);
