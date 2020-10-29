@@ -146,7 +146,6 @@ export default {
   },
   methods: {
     ...calendarMapMutations(["SET_SCHEDULE_INDEX"]),
-    ...squadActions(["getSplitTeamListWithSchedule"]),
     ...prepareMatchMutations(["SET_QAURTER_INDEX"]),
     ...prepareMatchActions(["getHomeAwayMember"]),
     ...gameActions(["updateGameScore", "getGameId"]),
@@ -235,9 +234,10 @@ export default {
     },
     subtractGameScore: function(eventInfo) {
       console.log("뺴기", eventInfo);
-      const awayMinusScore = ( (eventInfo.event_type === "O.G" && eventInfo.team_type === "H")
-      || (eventInfo.event_type === "Goal" && eventInfo.team_type === "A"));
-      
+      const awayMinusScore =
+        (eventInfo.event_type === "O.G" && eventInfo.team_type === "H") ||
+        (eventInfo.event_type === "Goal" && eventInfo.team_type === "A");
+
       if (awayMinusScore) {
         this.SUBTRACT_AWAY_SCORE(1);
       } else {
@@ -263,7 +263,4 @@ export default {
 };
 </script>
 
-<style
-  lang="scss"
-  src="@/assets/scss/views/nav/match/matchInput.scss"
-></style>
+<style lang="scss" src="@/assets/scss/views/nav/match/matchInput.scss"></style>

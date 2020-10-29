@@ -92,7 +92,7 @@ test("Get Data from TeamSplit_DB and Save state.teamSplit", async () => {
 
   let schedule_id = 223
   
-  await store.dispatch('getSplitTeamListWithSchedule',schedule_id);
+  await store.dispatch('setSplitTeamListWithSchedule',schedule_id);
   
   check_splitTeam_property(store.state.splitTeam)
   

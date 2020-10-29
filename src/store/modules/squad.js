@@ -8,6 +8,9 @@ import {
     bulkCreateOrUpdate,
 
   } from "../../api/teamSplit.js";
+import {
+    getSplitTeamWithUnitTeam
+}from "../../api/unitTeam.js";
 
 const state = {
     team_division: {
@@ -96,7 +99,7 @@ const actions = {
             console.log(e);
         }
     },
-    async getSplitTeamListWithSchedule(context, schedule_id){
+    async setSplitTeamListWithSchedule(context, schedule_id){
         try {
             const response = await getSplitTeamListWithSchedule(schedule_id);
             context.commit("SET_SPLIT_TEAM", response.data)
@@ -104,11 +107,27 @@ const actions = {
             
             return response.data;
             // 아래 dict의 List가 온다
-            // {id: 31
-            // team_split_index: 1
-            // schedule_id: 223
-            // member_id: 3
+            // {
+            // team_split_index: 1,
+            // member_id: 3,
+            // name: "김철",
+            // uniform_number: "7"
             // team_number: 1}
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    async setSplitTeamWithUnitTeam(context, {year, schedule_id}){
+        try {
+            const response = await getSplitTeamWithUnitTeam(year, schedule_id);
+            context.commit("SET_SPLIT_TEAM", response.data)
+            context.commit("SET_TEAM_SPLIT_SELECTED")
+            return response.data;
+            // 아래 dict의 List로 들어온다
+            // {
+            // team_split_index: 1 <- 이거는 1로 고정 (한개 밖에 없음)
+            // member_id: 3
+            // team_number: 1} team_number는 받아온거 순서대로 다시 넣어주는게 좋을듯
         } catch (e) {
             console.log(e);
         }
