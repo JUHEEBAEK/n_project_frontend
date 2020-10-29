@@ -3,7 +3,7 @@
     <v-card>
       <v-app-bar dark height="360" prominent>
         <template v-slot:img="{ props }">
-          <v-img :src="imageUrl" position="top center" v-bind="props" />
+          <v-img :src="imageUrl" position="top center" contain v-bind="props" />
         </template>
         <v-btn icon @click="backPage">
           <v-icon>fas fa-times</v-icon>

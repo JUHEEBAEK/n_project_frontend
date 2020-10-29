@@ -6,7 +6,7 @@ export const getAllTeam = async() => {
 };
 
 export const getUnitTeamList = async() => {
-  const response = await generalReq("get", "/api/team/unitList");
+  const response = await generalReq("get", "/api/unitTeam/list");
   return response.data;
 };
 

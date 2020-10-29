@@ -1,7 +1,13 @@
 import {
+  createTeam,
   getAllTeam,
   getUnitTeamList
 } from "../../api/team.js";
+
+import {
+  createUnitTeam
+} from "../../api/unitTeam.js";
+
 import { set } from "../../utils/index";
 import * as constants from "../constants";
 
@@ -26,6 +32,22 @@ const mutations = {
   }
 };
 const actions = {
+  async add_team(context, form) {
+    try {
+      const response = await createTeam(form);
+      return response;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async add_unit_team(context, form) {
+    try {
+      const response = await createUnitTeam(form);
+      return response;
+    } catch (e) {
+      console.log(e);
+    }
+  },
   async select_all_team({
     commit
   }) {

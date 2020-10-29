@@ -39,6 +39,7 @@ const util = {
       this.SET_SNACK_BAR_MESSAGE(message);
     },
     setDialogAndType(value) {
+      console.log("??", value);
       this.$store.commit("common/SET_DIALOG_AND_TYPE", value);
     }
   }

@@ -11,8 +11,8 @@
     <v-row>
       <v-col cols="12">
         <v-data-table
-          :headers="headers"
-          :items="searchTeamResult"
+          :headers="selectedHeaders"
+          :items="selectedList"
           :loading="tableLoading"
           :footer-props="teamPaging"
           sort-by="name"
@@ -20,118 +20,29 @@
           @click:row="movePage"
           class="elevation-1 table__team"
         >
-          <template v-slot:top>
-            <v-dialog v-model="dialog" max-width="500px">
-              <v-card :loading="isLoading">
-                <v-card-title>
-                  <span class="headline">{{ formTitle }}</span>
-                </v-card-title>
-
-                <v-card-text>
-                  <v-container>
-                    <v-row>
-                      <v-col cols="12" sm="6">
-                        <v-text-field
-                          v-model="editedItem.name"
-                          label="이름"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-menu
-                          v-model="menu2"
-                          :close-on-content-click="false"
-                          :nudge-right="40"
-                          transition="scale-transition"
-                          offset-y
-                          min-width="290px"
-                        >
-                          <template v-slot:activator="{ on }">
-                            <v-text-field
-                              label="입단일"
-                              hide-details
-                              readonly
-                              prepend-icon="fas fa-calendar-alt"
-                              :value="editedItem.join_date"
-                              v-on="on"
-                            />
-                          </template>
-                          <v-date-picker
-                            v-model="editedItem.join_date"
-                            @input="menu2 = false"
-                          />
-                        </v-menu>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field
-                          v-model="editedItem.nick_name"
-                          label="닉네임"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field
-                          type="number"
-                          min="1"
-                          max="3"
-                          v-model="editedItem.grade"
-                          label="등급"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-menu
-                          v-model="menu"
-                          :close-on-content-click="false"
-                          :nudge-right="40"
-                          transition="scale-transition"
-                          offset-y
-                          min-width="290px"
-                        >
-                          <template v-slot:activator="{ on }">
-                            <v-text-field
-                              label="탈퇴날짜"
-                              hide-details
-                              clearable
-                              readonly
-                              prepend-icon="fas fa-calendar-alt"
-                              :value="editedItem.withdraw_date"
-                              v-on="on"
-                            />
-                          </template>
-                          <v-date-picker
-                            v-model="editedItem.withdraw_date"
-                            @input="menu = false"
-                          />
-                        </v-menu>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-card-text>
-
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                  <v-btn color="blue darken-1" text @click="save(editedItem)"
-                    >Save</v-btn
-                  >
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <v-icon small class="mr-2" @click="editItem(item)"
-              >fas fa-pencil-alt</v-icon
-            >
-            <v-icon small @click="deleteMember(item.id)">fas fa-trash-alt</v-icon>
+            <v-btn icon class="pa-2">
+              <v-icon @click.stop.native="modifyTeam(item)">fas fa-pencil-alt</v-icon>
+            </v-btn>
+            <v-btn icon class="pa-2">
+              <v-icon @click.stop.native="deleteTeam(tem)">fas fa-trash-alt</v-icon>
+            </v-btn>
           </template>
         </v-data-table>
       </v-col>
     </v-row>
+    <dialog-team-modify
+      v-if="dialog === true && type === 'unitTeamModify'"
+      :selectedTeam="clickedTeam"
+    ></dialog-team-modify>
   </div>
 </template>
 
 <script>
-import moment from "moment";
+import headerJson from "@/assets/value/header.json";
+
+import dialog from "../../mixins/dialog.js";
 import util from "../../mixins/util.js";
-import memberValue from "@/assets/value/member.json";
 
 import { createNamespacedHelpers } from "vuex";
 const {
@@ -141,43 +52,35 @@ const {
 } = createNamespacedHelpers("team");
 
 export default {
-  mixins: [util],
+  mixins: [dialog, util],
   data: () => ({
-    teamType: "Team",
     menu: false,
-    menu2: false,
+    clickedTeam: {},
     dialog: false,
     isLoading: false,
-    unitTeamList: [],
-    headers: [
-      {
-        text: "Name",
-        align: "start",
-        sortable: true,
-        value: "name"
-      },
-      { text: "Actions", value: "actions", sortable: false, align: "center" }
-    ],
-    editedIndex: -1,
-    editedItem: {
-      name: "",
-    },
-    defaultItem: {
-      name: "",
-    },
+    teamType: "Team",
     teamPaging: { "items-per-page-options": [10000] },
     tableLoading: false
   }),
   computed: {
-    ...teamMapState(["searchTeamResult"]),
+    ...teamMapState(["searchTeamResult", "searchUnitTeamResult"]),
     formTitle() {
       return this.editedIndex === -1 ? "팀 추가" : "팀 정보 수정";
-    }
-  },
-  watch: {
-    dialog(val) {
-      val || this.close();
     },
+    selectedList() {
+      if(this.teamType === "Team") {
+        return this.searchTeamResult;
+      }else {
+        return this.searchUnitTeamResult;
+      }
+    },
+    selectedHeaders() {
+      if(this.teamType === "Team") {
+        return headerJson.teamHeaders;
+      }else {
+        return headerJson.unitTeamHeaders;
+      }
+    }
   },
   mounted() {
     this.tableLoading = true;
@@ -186,32 +89,13 @@ export default {
     this.tableLoading = false;
   },
   methods: {
-    ...teamMapMutations(["SET_SEARCH_TEAM_RESULT"]),
+    ...teamMapMutations(["SET_SEARCH_TEAM_RESULT", "SET_SEARCH_UNIT_TEAM_RESULT"]),
     ...teamMapActions([
-      "select_all_team"
+      "select_all_team",
+      "select_unit_team"
     ]),
-    async deleteTeam(team_id) {
-      let formData = { team_id: team_id };
-      if (confirm("정말 정말로 삭제하시겠습니까??")) {
-        await this.delete_team(formData);
-        this.select_all_team();
-      }
-    },
-    editItem(item) {
-      this.editedIndex = this.searchTeamResult.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-
-      this.editedItem.grade = memberValue["gradeNumber"][item.grade];
-      this.editedItem.uniform_number = Number(item.uniform_number);
-      console.log(this.editedItem.grade);
-      this.dialog = true;
-    },
-    close() {
-      this.dialog = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
+    deleteTeam(teamInfo) {
+      console.log("delete", teamInfo.team_id);
     },
     save: async function(editedItem) {
       this.isLoading = true;
@@ -235,23 +119,38 @@ export default {
       this.isLoading = false;
 
       this.select_all_team();
-      this.close();
     },
     loadTeamList: async function() {
       await this.select_all_team();
       this.setAllTeamList(this.searchTeamResult);
     },
-    loadUnitTeamList: function() {
-      this.unitTeamList = [];
+    loadUnitTeamList: async function() {
+      await this.select_unit_team();
+      this.setUnitTeamList(this.searchUnitTeamResult);
+    },
+    modifyTeam: function (item) {
+      console.log("1");
+      if(this.teamType === "Unit") {
+        console.log("2");
+        console.log("modify", item);
+        this.clickedTeam = item;
+        this.setDialogAndType({ dialog: true, type: "unitTeamModify" });
+      }
     },
     movePage(teamInfo) {
-      this.$router.push({
-        name: "teamDetails",
-        params: { memberId: teamInfo.idTeam }
-      });
+      console.log(teamInfo);
+      if(this.teamType === "Unit") {
+        this.$router.push({
+          name: "unitTeamDetails",
+          params: { teamId: teamInfo.id_unit_team }
+        });
+      }
     },
     setAllTeamList(teamList) {
       this.SET_SEARCH_TEAM_RESULT(teamList);
+    },
+    setUnitTeamList(teamList) {
+      this.SET_SEARCH_UNIT_TEAM_RESULT(teamList);
     }
   }
 };
