@@ -145,9 +145,8 @@ export default {
         "YYYY-MM-DD"
       );
       let formData = { member_id: memberInfo.id, member: memberInfo };
-
-      this.setSnackBar(this.snackBarSuccess, "정상적으로 수정되었습니다");
       this.update_member(formData);
+      this.setSnackBar(this.snackBarSuccess, "정상적으로 수정되었습니다");
       this.$router.go(-1);
     },
     deleteMember(memberId) {

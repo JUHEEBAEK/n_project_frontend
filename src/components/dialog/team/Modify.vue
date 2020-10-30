@@ -2,96 +2,114 @@
   <div>
     <v-dialog v-model="dialog" v-if="type = 'unitTeamModify'" width="600">
       <v-card>
-        <v-form ref="formUnitTeamModify" class="form">
-          <v-row>
-            <v-col cols="12"> 
-              <v-radio-group v-model="teamType" row>
-                <v-radio label="팀" value="Team"></v-radio>
-                <v-radio label="유닛 팀" value="Unit"></v-radio>
-              </v-radio-group>
-            </v-col>
-            <v-col cols="12" lg="6" class="py-2">
-              <v-text-field
-                v-model="name"
-                label="이름"
-                hide-details
-                outlined
-                :rules="[v => !!v || '입력해주십시오.']"
-              />
-            </v-col>
-            <v-col cols="12" lg="6" class="py-2">
-              <v-text-field
-                v-model="description"
-                label="설명"
-                hide-details
-                outlined
-                :rules="[v => !!v || '입력해주십시오.']"
-              />
-            </v-col>
-            <v-col cols="12" lg="6" class="py-2">
-              <v-menu
-                v-model="menuSeason"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="290px"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="season"
-                    prepend-icon="mdi-calendar"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  v-model="date"
-                  @input="menuSeason = false"
-                ></v-date-picker>
-              </v-menu>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="12" class="text-right">
-              <v-btn color="primary" large @click="submit">저장</v-btn>
-            </v-col>
-          </v-row>
-        </v-form>
-        <v-card-actions>
-          <v-spacer></v-spacer>
+        <v-card-title>
+          팀 정보 수정
+          <v-spacer />
+          <a class="title__icon-close" @click="close" />
+        </v-card-title>
+        <v-card-text>
+          <v-form ref="formUnitTeamModify" class="form">
+            <v-row>
+              <v-col cols="12" class="py-2">
+                <v-text-field
+                  v-model="name"
+                  label="팀 이름"
+                  hide-details
+                  outlined
+                  :rules="[v => !!v || '입력해주십시오.']"
+                />
+              </v-col>
+              <v-col cols="12" class="py-2">
+                <v-text-field
+                  v-model="description"
+                  label="상세정보"
+                  hide-details
+                  outlined
+                  :rules="[v => !!v || '입력해주십시오.']"
+                />
+              </v-col>
+              <v-col cols="12" class="py-2">
+                <v-text-field
+                  v-model="season"
+                  type="number"
+                  label="시즌"
+                  outlined
+                  hide-details
+                  prepend-inner-icon="fas fa-calendar-alt"
+                />
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="justify-end mx-4">
           <v-btn color="primary" @click="save">저장</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
+    
   </div>
 </template>
 
 <script>
 import dialog from "../../../mixins/dialog.js";
-import util from "../../../mixins/util.js";
+// import util from "../../../mixins/util.js";
+
+import { createNamespacedHelpers } from "vuex";
+const {
+  mapActions: teamMapActions
+} = createNamespacedHelpers("team");
 
 export default {
-  mixins: [dialog, util],
+  mixins: [dialog],
   props: {
     selectedTeam: Object
   },
   data:() => ({
     name: "",
     description: "",
-    menuSeason: false,
     season: null
   }),
+  created() {
+    console.log(this.selectedTeam);
+    this.name = this.selectedTeam.name;
+    this.description = this.selectedTeam.description;
+    this.season = this.selectedTeam.season;
+  },
   methods: {
-    save: function () {
-      console.log("save");
+    ...teamMapActions(["update_unit_team"]),
+    close() {
+      this.setDialogAndType({ dialog: false, type: null });
+    },
+    save: async function () {
+      this.$emit("setLoadingBar", true);
+      let teamInfo = {
+        name: this.name,
+        description: this.description,
+        season: this.season,
+      }
+      let body = { id_unit_team: this.selectedTeam.id_unit_team, unit_team_info: teamInfo };
+      const result = await this.update_unit_team(body);
+      if(result.status === 200) {
+        this.$emit("setSnackBar", "showSuccess", "정상적으로 수정되었습니다");
+      }else {
+        this.$emit("setSnackBar", "showFail", "서버 에러");
+      }
+      this.$emit("setLoadingBar", false);
+      this.close();
     }
   }
 
 }
 </script>
 
-<style>
-
+<style scoped lang="scss">
+.title__icon-close {
+    width: 32px;
+    height: 32px;
+    background: url("../../../assets/images/close.svg");
+    &:hover {
+      border-radius: 50%;
+      background-color: #8c8c8c14;
+    }
+  }
 </style>

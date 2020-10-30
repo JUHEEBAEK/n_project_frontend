@@ -17,3 +17,21 @@ export const getSplitTeamWithUnitTeam = async(year,schedule_id) => {
       console.log(e);
   }
 };
+
+export const updateUnitTeam = async(unitTeamInfo) => {
+  try {
+    const response = await generalReq("put", "/api/unitTeam/update", unitTeamInfo);
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export const deleteUnitTeam = async(unitTeamId) => {
+  try {
+    const response = await generalReq("delete", "/api/unitTeam/delete", unitTeamId);
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+}

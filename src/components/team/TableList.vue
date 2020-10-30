@@ -2,7 +2,7 @@
   <div>
      <v-row>
       <v-col cols="12">
-        <v-radio-group v-model="teamType" row>
+        <v-radio-group v-model="teamType" row @change="changeType">
           <v-radio label="팀" value="Team"></v-radio>
           <v-radio label="유닛 팀" value="Unit"></v-radio>
         </v-radio-group>
@@ -25,7 +25,7 @@
               <v-icon @click.stop.native="modifyTeam(item)">fas fa-pencil-alt</v-icon>
             </v-btn>
             <v-btn icon class="pa-2">
-              <v-icon @click.stop.native="deleteTeam(tem)">fas fa-trash-alt</v-icon>
+              <v-icon @click.stop.native="deleteTeam(item)">fas fa-trash-alt</v-icon>
             </v-btn>
           </template>
         </v-data-table>
@@ -34,7 +34,16 @@
     <dialog-team-modify
       v-if="dialog === true && type === 'unitTeamModify'"
       :selectedTeam="clickedTeam"
+      @setSnackBar="setSnackBar"
+      @setLoadingBar="setLoadingBar"
     ></dialog-team-modify>
+    <!-- util -->
+    <util-snack-bar
+      v-if="snackBar"
+      :purpose="snackBarPurpose"
+      :message="snackBarMessage"
+    />
+    <util-loading v-if="loading" :size="100" />
   </div>
 </template>
 
@@ -51,19 +60,22 @@ const {
   mapActions: teamMapActions
 } = createNamespacedHelpers("team");
 
+const {
+  mapState: commonMapState,
+  mapMutations: commonMapMutations,
+} = createNamespacedHelpers("common");
+
+
 export default {
   mixins: [dialog, util],
   data: () => ({
     menu: false,
     clickedTeam: {},
-    dialog: false,
-    isLoading: false,
-    teamType: "Team",
     teamPaging: { "items-per-page-options": [10000] },
     tableLoading: false
   }),
   computed: {
-    ...teamMapState(["searchTeamResult", "searchUnitTeamResult"]),
+    ...teamMapState(["teamType", "searchTeamResult", "searchUnitTeamResult"]),
     formTitle() {
       return this.editedIndex === -1 ? "팀 추가" : "팀 정보 수정";
     },
@@ -89,36 +101,34 @@ export default {
     this.tableLoading = false;
   },
   methods: {
-    ...teamMapMutations(["SET_SEARCH_TEAM_RESULT", "SET_SEARCH_UNIT_TEAM_RESULT"]),
+    ...teamMapMutations([
+      "SET_SEARCH_TEAM_RESULT", 
+      "SET_SEARCH_UNIT_TEAM_RESULT", 
+      "SET_TEAM_TYPE"
+    ]),
     ...teamMapActions([
       "select_all_team",
-      "select_unit_team"
+      "select_unit_team",
+      "delete_unit_team"
     ]),
-    deleteTeam(teamInfo) {
-      console.log("delete", teamInfo.team_id);
+    changeType(val) {
+      this.SET_TEAM_TYPE(val);
     },
-    save: async function(editedItem) {
-      this.isLoading = true;
-      let formData = { team_id: editedItem.id, team: editedItem };
-      const result = await this.update_team(formData);
-      console.log(result.status);
-      switch (result.status) {
-        case 200:
-          this.$emit("setSnackBar", "showSuccess", "정상적으로 수정되었습니다");
-          break;
-        case 401:
-          this.$emit("setSnackBar", "showFail", "인증 실패");
-          break;
-        case 500:
-          this.$emit("setSnackBar", "showFail", "서버 에러");
-          break;
-        default:
-          this.$emit("setSnackBar", "showFail", "네트워크 에러");
-          break;
+    deleteTeam: async function(teamInfo) {
+      console.log("delete", teamInfo);
+      this.tableLoading = true;
+      let formData = { id_unit_team: teamInfo.id_unit_team };
+      if (confirm("정말로 삭제하시겠습니까??")) {
+        const result = await this.delete_unit_team(formData);
+        console.log(result);
+        if(result.status === 200) {
+          this.setSnackBar(this.snackBarSuccess, "정상적으로 삭제 되었습니다.")
+          this.loadTeamList();
+        }else {
+          this.setSnackBar(this.snackBarFail, "에러 실패!!");
+        }
       }
-      this.isLoading = false;
-
-      this.select_all_team();
+      this.tableLoading = false;
     },
     loadTeamList: async function() {
       await this.select_all_team();
@@ -129,16 +139,12 @@ export default {
       this.setUnitTeamList(this.searchUnitTeamResult);
     },
     modifyTeam: function (item) {
-      console.log("1");
       if(this.teamType === "Unit") {
-        console.log("2");
-        console.log("modify", item);
         this.clickedTeam = item;
         this.setDialogAndType({ dialog: true, type: "unitTeamModify" });
       }
     },
     movePage(teamInfo) {
-      console.log(teamInfo);
       if(this.teamType === "Unit") {
         this.$router.push({
           name: "unitTeamDetails",

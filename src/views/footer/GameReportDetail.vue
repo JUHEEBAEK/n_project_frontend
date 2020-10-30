@@ -1,5 +1,6 @@
 <template>
   <div>
+    <core-breadcrumbs :items="items" />
     <report-game-info :gameInfo="gameInfo"></report-game-info>
     <report-position-view :game_id="game_id"></report-position-view>
     <report-event-list :gameInfo="gameInfo" :gameEventList="eventList"></report-event-list>
@@ -29,6 +30,19 @@ const {
 
 export default {
   name: "TesmSetting",
+  data: () => ({
+    items: [
+      {
+        text: "경기 리스트",
+        disabled: false,
+        href: "/gameReport",
+      },
+      {
+        text: "경기 리포트",
+        disabled: true,
+      }
+    ]
+  }),
   props: {
     game_id: {
       type: [String, Number],

@@ -197,7 +197,7 @@ export default {
           member_id: this.selectedMember.id,
           team_id: this.selectedTeam.idTeam
         };
-        let joinResult = await this.join(body);
+        let joinResult = await join(body);
         console.log("joinResult", joinResult);
         if (joinResult.status === 200) {
           this.$router.push({ path: "/login" });
