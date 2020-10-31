@@ -29,8 +29,11 @@
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: teamMapState,
-  mapMutations: teamMapMutations
 } = createNamespacedHelpers("team");
+const {
+  mapState: commonMapState,
+  mapMutations: commonMapMutations
+} = createNamespacedHelpers("common");
 export default {
   props: {
     title: String,
@@ -45,7 +48,8 @@ export default {
     isLoading: false
   }),
   computed: {
-    ...teamMapState(["teamType", "teamList", "unitTeamList"])
+    ...teamMapState(["teamType", "teamList", "unitTeamList"]),
+    ...commonMapState(["searchResult"])
   },
   watch: {
     search(val) {
@@ -53,7 +57,7 @@ export default {
     }
   },
   methods: {
-    ...teamMapMutations(["SET_SEARCH_TEAM_RESULT", "SET_SEARCH_UNIT_TEAM_RESULT"]),
+    ...commonMapMutations(["SET_SEARCH_RESULT"]),
     searchList: async function(val) {
       if(this.teamType === "Team") {
         this.searchTeamResultList(val);
@@ -67,9 +71,9 @@ export default {
           let name = item.name;
           return name.indexOf(val) > -1;
         });
-        this.SET_SEARCH_TEAM_RESULT(result);
+        this.SET_SEARCH_RESULT(result);
       } else {
-        this.SET_SEARCH_TEAM_RESULT(this.teamList);
+        this.SET_SEARCH_RESULT(this.teamList);
       }
     },
     searchUnitTeamResultList(val) {
@@ -78,9 +82,9 @@ export default {
           let name = item.name;
           return name.indexOf(val) > -1;
         });
-        this.SET_SEARCH_UNIT_TEAM_RESULT(result);
+        this.SET_SEARCH_RESULT(result);
       } else {
-        this.SET_SEARCH_UNIT_TEAM_RESULT(this.unitTeamList);
+        this.SET_SEARCH_RESULT(this.unitTeamList);
       }
     },
     moveTeamAdd() {

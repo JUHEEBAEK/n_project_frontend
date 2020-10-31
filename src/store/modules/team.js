@@ -18,24 +18,16 @@ const state = {
   teamType: "Team",
   unitTeamList: [],
   unitTeamInfo: {},
-  // searchResult: [],
-  searchTeamResult: [],
-  searchUnitTeamResult: [],
 };
 
 const getters = {};
 const mutations = {
-  [constants.setSearchTeamResult]: set("searchTeamResult"),
-  [constants.setSearchUnitTeamResult]: set("searchUnitTeamResult"),
-  // [constants.setSearchResult]: set("searchResult"),
   [constants.setTeamType]: set("teamType"),
   SELECT_ALL_TEAM(state, teamList){
     state.teamList = teamList;
-    state.searchTeamResult = teamList;
   },
   SELECT_UNIT_TEAM(state, unitTeamList){
     state.unitTeamList = unitTeamList;
-    state.searchUnitTeamResult = unitTeamList;
   },
   UPDATE_UNIT_TEAM(state, unitTeamInfo){
     state.unitTeamInfo = unitTeamInfo;

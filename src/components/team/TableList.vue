@@ -12,7 +12,7 @@
       <v-col cols="12">
         <v-data-table
           :headers="selectedHeaders"
-          :items="selectedList"
+          :items="searchResult"
           :loading="tableLoading"
           :footer-props="teamPaging"
           sort-by="name"
@@ -75,16 +75,10 @@ export default {
     tableLoading: false
   }),
   computed: {
-    ...teamMapState(["teamType", "searchTeamResult", "searchUnitTeamResult"]),
+    ...teamMapState(["teamType", "teamList", "unitTeamList"]),
+    ...commonMapState(["searchResult"]),
     formTitle() {
       return this.editedIndex === -1 ? "팀 추가" : "팀 정보 수정";
-    },
-    selectedList() {
-      if(this.teamType === "Team") {
-        return this.searchTeamResult;
-      }else {
-        return this.searchUnitTeamResult;
-      }
     },
     selectedHeaders() {
       if(this.teamType === "Team") {
@@ -101,11 +95,8 @@ export default {
     this.tableLoading = false;
   },
   methods: {
-    ...teamMapMutations([
-      "SET_SEARCH_TEAM_RESULT", 
-      "SET_SEARCH_UNIT_TEAM_RESULT", 
-      "SET_TEAM_TYPE"
-    ]),
+    ...teamMapMutations(["SET_TEAM_TYPE"]),
+    ...commonMapMutations(["SET_SEARCH_RESULT"]),
     ...teamMapActions([
       "select_all_team",
       "select_unit_team",
@@ -113,9 +104,13 @@ export default {
     ]),
     changeType(val) {
       this.SET_TEAM_TYPE(val);
+      if(val === "Team") {
+        this.SET_SEARCH_RESULT(this.teamList)
+      }else {
+        this.SET_SEARCH_RESULT(this.unitTeamList);
+      }
     },
     deleteTeam: async function(teamInfo) {
-      console.log("delete", teamInfo);
       this.tableLoading = true;
       let formData = { id_unit_team: teamInfo.id_unit_team };
       if (confirm("정말로 삭제하시겠습니까??")) {
@@ -132,11 +127,10 @@ export default {
     },
     loadTeamList: async function() {
       await this.select_all_team();
-      this.setAllTeamList(this.searchTeamResult);
+      this.setAllTeamList(this.teamList);
     },
     loadUnitTeamList: async function() {
       await this.select_unit_team();
-      this.setUnitTeamList(this.searchUnitTeamResult);
     },
     modifyTeam: function (item) {
       if(this.teamType === "Unit") {
@@ -153,10 +147,10 @@ export default {
       }
     },
     setAllTeamList(teamList) {
-      this.SET_SEARCH_TEAM_RESULT(teamList);
+      this.SET_SEARCH_RESULT(teamList);
     },
     setUnitTeamList(teamList) {
-      this.SET_SEARCH_UNIT_TEAM_RESULT(teamList);
+      this.SET_SEARCH_RESULT(teamList);
     }
   }
 };
