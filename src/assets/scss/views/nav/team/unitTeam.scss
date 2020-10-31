@@ -1,0 +1,28 @@
+@import "../../../global/mediaQuery.scss";
+
+.main__header {
+  display: flex;
+  height: 100px;
+  background-color:blue;
+}
+.main__content {
+  background-color: olivedrab;
+  width: 100%;
+  height: 1000px;
+  display: flex;
+  .main__left {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 30%;
+    max-width: 30%;
+    background-color: red;
+  }
+  .main__right {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 70%;
+    max-width: 70%;
+    background-color: goldenrod;
+
+  }
+}

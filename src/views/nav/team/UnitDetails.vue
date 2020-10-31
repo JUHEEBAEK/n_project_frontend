@@ -1,11 +1,13 @@
 <template>
   <div>
-    Unit Team
-    <v-row justify="start">
-      <v-col cols="12">
-        <core-breadcrumbs :items="items" />
-      </v-col>
-    </v-row>
+    <div class="main__title">
+      <core-breadcrumbs :items="items" />
+    </div>
+    <div class="main__header"></div>
+    <div class="main__content">
+      <div class="main__left"></div>
+      <div class="main__right"></div>
+    </div>
   </div>
 </template>
 
@@ -27,6 +29,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style lang="scss" src="@/assets/scss/views/nav/team/unitTeam.scss" scoped></style>
