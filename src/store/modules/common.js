@@ -19,7 +19,9 @@ const state = {
   snackBar: false,
   snackBarPurpose: null,
   // 스낵바에 들어가는 내용
-  snackBarMessage: null
+  snackBarMessage: null,
+
+  searchResult: [],
 };
 
 const getters = {
@@ -66,6 +68,7 @@ const mutations = {
   [constants.setSnackBar]: set("snackBar"),
   [constants.setPurpose]: set("snackBarPurpose"),
   [constants.setMessage]: set("snackBarMessage"),
+  [constants.setSearchResult]: set("searchResult"),
   [constants.setAlert]: set("alert"),
   SET_DIALOG(state, value) {
     state.dialog = value;
@@ -77,6 +80,7 @@ const mutations = {
     state.homeTitle = value;
   },
   SET_LOADING_BAR(state, value) {
+    console.log("SET_LOADING_BAR", value);
     state.loading = value;
   },
   SET_TYPE(state, value) {

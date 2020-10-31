@@ -44,9 +44,12 @@
 import moment from "moment";
 import { createNamespacedHelpers } from "vuex";
 const {
-  mapState: memberMapState,
   mapActions: memberMapActions
 } = createNamespacedHelpers("member");
+const {
+  mapState: commonMapState,
+  mapMutations: commonMapMutations
+} = createNamespacedHelpers("common");
 
 import util from "../../mixins/util.js";
 
@@ -56,14 +59,14 @@ export default {
     isLoading: true
   }),
   computed: {
-    ...memberMapState(["searchResult"])
+    ...commonMapState(["searchResult"])
   },
   async mounted() {
     this.isLoading = true;
     const result = await this.select_member();
     switch (result.status) {
       case 200:
-        this.setSnackBar(this.snackBarSuccess, "정상적으로 수정되었습니다");
+        this.SET_SEARCH_RESULT(result.data);
         this.isLoading = false;
         break;
       case 401:
@@ -82,6 +85,7 @@ export default {
   },
   methods: {
     ...memberMapActions(["select_member"]),
+    ...commonMapMutations(["SET_SEARCH_RESULT"]),
     moveDetails(item) {
       this.$router.push({
         name: "memberUpdatePage",

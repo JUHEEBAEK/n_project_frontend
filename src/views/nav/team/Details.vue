@@ -1,8 +1,8 @@
 <template>
   <v-container class="team__container">
-    <v-row justify="center">
+    <v-row justify="start">
       <v-col cols="12">
-        <h2>팀 소개</h2>
+        <core-breadcrumbs :items="items" />
       </v-col>
       <v-col cols="12">
         <h4>2016.09.18 창단한 FS눈누난나</h4>
@@ -27,7 +27,18 @@
 export default {
   data: () => ({
     emblem: "fsnnnn_emblem_official2.png",
-    uniform: "fsnnnn_uniform.jpg"
+    uniform: "fsnnnn_uniform.jpg",
+    items: [
+      {
+        text: "팀 관리",
+        disabled: false,
+        href: "/team-admin",
+      },
+      {
+        text: "팀 상세 정보",
+        disabled: true,
+      }
+    ]
   })
 };
 </script>

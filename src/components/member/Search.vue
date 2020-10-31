@@ -30,8 +30,11 @@
 import { createNamespacedHelpers } from "vuex";
 const {
   mapState: memberMapState,
-  mapMutations: memberMapMutations
 } = createNamespacedHelpers("member");
+const {
+  mapState: commonMapState,
+  mapMutations: commonMapMutations
+} = createNamespacedHelpers("common");
 export default {
   props: {
     title: String,
@@ -46,7 +49,8 @@ export default {
     isLoading: false
   }),
   computed: {
-    ...memberMapState(["memberList", "searchResult"])
+    ...memberMapState(["memberList"]),
+    ...commonMapState(["searchResult"])
   },
   watch: {
     search(val) {
@@ -54,7 +58,7 @@ export default {
     }
   },
   methods: {
-    ...memberMapMutations(["SET_SEARCH_RESULT"]),
+    ...commonMapMutations(["SET_SEARCH_RESULT"]),
     searchList(val) {
       if (val !== "" && val.length !== 0) {
         const result = this.memberList.filter(item => {

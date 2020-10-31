@@ -10,9 +10,12 @@ import Member from "../views/footer/Member.vue";
 import SquadView from "../views/footer/Squad.vue";
 import GameReport from "../views/footer/GameReport.vue";
 import GameReportDetail from "../views/footer/GameReportDetail.vue";
+import LeagueReport from "../views/footer/LeagueReport.vue";
 import Ranking from "../views/footer/Ranking.vue";
 
 import TeamDetails from "../views/nav/team/Details.vue";
+import UnitTeamDetails from "../views/nav/team/UnitDetails.vue";
+import TeamAdd from "../views/nav/team/TeamAdd.vue";
 import TeamAdmin from "../views/nav/team/TeamAdmin.vue";
 import Profile from "../views/nav/member/Profile.vue";
 import MemberAdd from "../views/nav/member/MemberAdd.vue";
@@ -75,6 +78,11 @@ const routes = [{
     component: GameReportDetail,
     props: true
   },
+  {
+    path: "/leagueReport",
+    name: "leagueReport",
+    component: LeagueReport
+  },
   // {
   //   path: "/squadView",
   //   name: "squad",
@@ -91,9 +99,21 @@ const routes = [{
     component: TeamAdmin,
   },
   {
+    path: "/teamAdd",
+    name: "teamAdd",
+    component: TeamAdd
+  },
+  {
     name: "teamDetails",
     path: "/team/:teamId",
-    component: TeamDetails
+    component: TeamDetails,
+    props: true
+  },
+  {
+    name: "unitTeamDetails",
+    path: "/unitTeam/:teamId",
+    component: UnitTeamDetails,
+    props: true
   },
   {
     path: "/member-admin",

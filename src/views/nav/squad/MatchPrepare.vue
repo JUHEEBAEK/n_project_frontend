@@ -2,10 +2,15 @@
   <v-container class="match__container" fluid>
     <v-row class justify="center">
       <v-col cols="12">
-        <schedule-date-list :scheduleId="schedule_id" @changeDate="setScheduleData"></schedule-date-list>
+        <schedule-date-list
+          :scheduleId="schedule_id"
+          @changeDate="setScheduleData"
+        ></schedule-date-list>
       </v-col>
       <v-col cols="12">
-        <squad-quarter @changeQuarterAndParams="setScheduleData"></squad-quarter>
+        <squad-quarter
+          @changeQuarterAndParams="setScheduleData"
+        ></squad-quarter>
       </v-col>
       <v-col cols="12">
         <squad-team-list></squad-team-list>
@@ -68,14 +73,17 @@ export default {
       "quarterIndex"
     ]),
     ...prepareMatchGetters(["currentQuarterString", "currentQuarterNumber"]),
-    ...calendarMapState(["scheduleIndex"]),
+    ...calendarMapState(["scheduleIndex", "scheduleList"]),
     ...calendarMapGetters(["current_schedule_id"])
   },
   async created() {
     this.SET_QAURTER_INDEX(Number(this.quarter) - 1);
   },
   methods: {
-    ...squadActions(["getSplitTeamListWithSchedule"]),
+    ...squadActions([
+      "setSplitTeamListWithSchedule",
+      "setSplitTeamWithUnitTeam"
+    ]),
     ...calendarMapActions(["select_schedule", "load_member"]),
     ...calendarMapMutations(["CHOOSE_LATEST_SCHEDULE", "SET_SCHEDULE_INDEX"]),
     ...prepareMatchMutations([
@@ -208,7 +216,7 @@ export default {
         gameForm["away_score"] = 0;
         gameForm["result"] = "N";
         console.log(this.jocker);
-        if(this.jocker.member_id) {
+        if (this.jocker.member_id) {
           gameForm["is_jocker"] = true;
         }
         await this.createGame(gameForm);
@@ -223,22 +231,34 @@ export default {
     },
     async setScheduleData() {
       if (this.scheduleIndex == -1) return;
-      console.log("1 이곳에서 에러????");
-      this.$router.replace({
-        name: "matchPrepare",
-        params: {
-          schedule_id: this.current_schedule_id,
-          quarter: this.currentQuarterNumber
-        }
-      }).catch(err => {
-        // 같은 주소를 여러 번 호출할 때 나는 에러이다.
-        if(err.name != "NavigationDuplocated") {
-          throw err;
-        }
-      });
 
+      this.$router
+        .replace({
+          name: "matchPrepare",
+          params: {
+            schedule_id: this.current_schedule_id,
+            quarter: this.currentQuarterNumber
+          }
+        })
+        .catch((err) => {
+          // 같은 주소를 여러 번 호출할 때 나는 에러이다.
+          if (err.name != "NavigationDuplocated") {
+            throw err;
+          }
+        });
+
+      let isLeague = this.scheduleList[this.scheduleIndex].type == "L";
       // db에서 불러오는 부분
-      await this.getSplitTeamListWithSchedule(this.current_schedule_id);
+      if (isLeague) {
+        let year = this.scheduleList[this.scheduleIndex].date.slice(0, 4);
+        await this.setSplitTeamWithUnitTeam({
+          year: year,
+          schedule_id: this.current_schedule_id
+        });
+      } else {
+        await this.setSplitTeamListWithSchedule(this.current_schedule_id);
+      }
+
       await this.load_member(this.current_schedule_id);
       // prepareMatch store에서 값 세팅
       await this.setSplitTeamList();

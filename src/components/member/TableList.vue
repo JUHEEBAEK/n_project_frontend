@@ -132,10 +132,15 @@ const {
   mapMutations: memberMapMutations,
   mapActions: memberMapActions
 } = createNamespacedHelpers("member");
+const {
+  mapState: commonMapState,
+  mapMutations: commonMapMutations,
+} = createNamespacedHelpers("common");
 
 export default {
   computed: {
-    ...memberMapState(["searchResult"]),
+    ...memberMapState(["memberList"]),
+    ...commonMapState(["searchResult"]),
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
     },
@@ -145,8 +150,8 @@ export default {
       for (let i = 1; i < 100; i++) {
         number_list_1to99.push(i);
       }
-      for (let i in this.searchResult) {
-        let id_used = Number(this.searchResult[i]["uniform_number"]);
+      for (let i in this.memberList) {
+        let id_used = Number(this.memberList[i]["uniform_number"]);
         let idx = number_list_1to99.indexOf(id_used);
         if (idx > -1) number_list_1to99.splice(idx, 1);
       }
@@ -158,9 +163,10 @@ export default {
   },
   mixins: [util],
   async mounted() {
+    console.log("?1번");
     this.tableLoading = true;
     await this.select_all_member();
-    this.setAllMemberList(this.searchResult);
+    this.setAllMemberList(this.memberList);
     this.tableLoading = false;
   },
   data: () => ({
@@ -203,7 +209,7 @@ export default {
     }
   },
   methods: {
-    ...memberMapMutations(["SET_SEARCH_RESULT"]),
+    ...commonMapMutations(["SET_SEARCH_RESULT"]),
     ...memberMapActions([
       "select_all_member",
       "update_member",
@@ -211,13 +217,13 @@ export default {
     ]),
     async deleteMember(member_id) {
       let formData = { member_id: member_id };
-      if (confirm("정말 정말로 삭제하시겠습니까??")) {
+      if (confirm("정말로 삭제하시겠습니까??")) {
         await this.delete_member(formData);
         this.select_all_member();
       }
     },
     editItem(item) {
-      this.editedIndex = this.searchResult.indexOf(item);
+      this.editedIndex = this.memberList.indexOf(item);
       this.editedItem = Object.assign({}, item);
 
       this.editedItem.grade = memberValue["gradeNumber"][item.grade];
