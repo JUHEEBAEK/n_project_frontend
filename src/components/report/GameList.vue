@@ -117,13 +117,16 @@ export default {
     },
     selectedFilterlingDate: function(scheduleList) {
       let filteringDate = this.selectedYear + "-" + this.selectedMonth;
+      if (this.selectedMonth < 10) {
+        filteringDate = this.selectedYear + "-0" + this.selectedMonth;
+      }
       return scheduleList.filter(
-        scheduleInfo => scheduleInfo.date.indexOf(filteringDate) > -1
+        (scheduleInfo) => scheduleInfo.date.indexOf(filteringDate) > -1
       );
     },
     selectedFilterlingScheduleId: function(schedule_id) {
       return this.gameList.filter(
-        gameInfo => gameInfo.schedule_id == schedule_id
+        (gameInfo) => gameInfo.schedule_id == schedule_id
       );
     },
     setscheduleList: function(scheduleList) {
