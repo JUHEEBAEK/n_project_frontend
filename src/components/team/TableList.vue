@@ -18,10 +18,10 @@
           sort-by="name"
           hide-default-footer
           @click:row="movePage"
-          class="elevation-1 table__team"
+          class="elevation-1"
         >
           <template v-slot:[`item.actions`]="{ item }">
-            <v-btn icon class="pa-2">
+            <v-btn icon class="pa-2 ma-3">
               <v-icon @click.stop.native="modifyTeam(item)">fas fa-pencil-alt</v-icon>
             </v-btn>
             <v-btn icon class="pa-2">

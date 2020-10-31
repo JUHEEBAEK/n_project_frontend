@@ -18,7 +18,7 @@ const state = {
   teamType: "Team",
   unitTeamList: [],
   unitTeamInfo: {},
-  searchResult: [],
+  // searchResult: [],
   searchTeamResult: [],
   searchUnitTeamResult: [],
 };
@@ -27,7 +27,7 @@ const getters = {};
 const mutations = {
   [constants.setSearchTeamResult]: set("searchTeamResult"),
   [constants.setSearchUnitTeamResult]: set("searchUnitTeamResult"),
-  [constants.setSearchResult]: set("searchResult"),
+  // [constants.setSearchResult]: set("searchResult"),
   [constants.setTeamType]: set("teamType"),
   SELECT_ALL_TEAM(state, teamList){
     state.teamList = teamList;
