@@ -1,9 +1,11 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12" sm="6" md="6" lg="6" xl="6">
+      <v-col cols="6" sm="6" md="6" lg="6" xl="6">
         {{ userInfo }}
-        <!-- <widget-basic :headerTitle="title" :isLoading="isLoading">
+      </v-col>
+      <v-col cols="12" sm="6" md="6" lg="6" xl="6">
+        <widget-basic :headerTitle="title" :isLoading="isLoading">
         <chart-bar-inverse
             class="chart"
             :data-set="chartData"
@@ -13,7 +15,7 @@
             :bar-padding="0.3"
           />
         </widget-basic>
-        -->
+       
       </v-col>
     </v-row>
   </v-container>
