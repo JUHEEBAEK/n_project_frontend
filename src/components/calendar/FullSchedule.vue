@@ -320,5 +320,7 @@ export default {
 
 .schedule__address {
   margin-left: 45px;
+  width: 90%;
+  text-overflow: ellipsis;
 }
 </style>
