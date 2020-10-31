@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12" sm="6" md="6" lg="6" xl="6">
+      <v-col cols="6" xs="12" sm="12" md="6" lg="6" xl="6">
         {{ userInfo }}
       </v-col>
       <v-col cols="12" sm="6" md="6" lg="6" xl="6">
