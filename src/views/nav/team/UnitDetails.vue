@@ -4,7 +4,7 @@
       <core-breadcrumbs :items="items" />
     </div>
     <div class="main__header">
-      <v-avatar class="ma-2" color="teal" v-for="item in unitTeamPlayerList" :key="name">
+      <v-avatar class="ma-2" color="teal" v-for="item in unitTeamPlayerList" :key="item">
         <span class="white--text headline">{{ showTwoChar(item.name) }}</span>
       </v-avatar>
       <v-btn icon snallclass="white--text" @click="addUnitPlayer">
