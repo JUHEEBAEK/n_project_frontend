@@ -9,6 +9,8 @@ export const setPurpose = "SET_SNACK_BAR_PURPOSE";
 
 
 export const setModal = "SET_MODAL";
+export const setTeamType = "SET_TEAM_TYPE";
+export const setSearchResult = "SET_SEARCH_RESULT";
 export const setSearchTeamResult = "SET_SEARCH_TEAM_RESULT";
 export const setSearchUnitTeamResult = "SET_SEARCH_UNIT_TEAM_RESULT";
 

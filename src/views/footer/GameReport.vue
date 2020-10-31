@@ -2,6 +2,9 @@
   <div class="gameReport__container ma-3">
     <v-app-bar flat color="white">
       <v-row>
+        <v-col cols="1">
+          <v-btn outlined @click="movePage">리그전</v-btn>
+        </v-col>
         <v-spacer></v-spacer>
         <v-col cols="5" xs="6" sm="4" md="3" lg="2" xl="2">
           <v-select v-model="nowYear" :items="years" label="년도 선택" solo rounded />
@@ -37,7 +40,14 @@ export default {
       console.log("nowYear", this.nowYear);
     }
   },
-  methods: {}
+  methods: {
+    movePage() {
+      this.$router.push({
+        name: "leagueReport",
+        params: { season: this.nowYear }
+      });
+    }
+  }
 };
 </script>
 

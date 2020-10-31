@@ -29,8 +29,6 @@ const util = {
     },
     // snackBar 를 여는 함수. (snackBar 는 자동으로 닫히기 때문에 SnackBar 를 닫는 함수는 필요없다)
     setSnackBar(purpose, message) {
-      console.log("purpose", purpose);
-      console.log("message", message);
       // purpose : showSuccess or showFail
       this.snackBarPurpose = purpose;
       this.snackBarMessage = message;

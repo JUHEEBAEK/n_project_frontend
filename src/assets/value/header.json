@@ -1,0 +1,33 @@
+{
+  "teamHeaders": [
+    {
+      "text": "팀 이름",
+      "value": "name",
+      "align": "center"
+    },
+    { 
+      "text": "", 
+      "value": "actions", 
+      "sortable": false, 
+      "align": "end" 
+    }
+  ],
+  "unitTeamHeaders": [
+    {
+      "text": "팀 이름",
+      "value": "name",
+      "align": "center"
+    },
+    {
+      "text": "시즌",
+      "value": "season",
+      "align": "center"
+    },
+    { 
+      "text": "", 
+      "value": "actions", 
+      "sortable": false, 
+      "align": "end" 
+    }
+  ]
+}

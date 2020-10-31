@@ -45,7 +45,7 @@ export default {
     isLoading: false
   }),
   computed: {
-    ...teamMapMutations(["teamList", "searchResult"])
+    ...teamMapState(["teamType", "teamList", "unitTeamList"])
   },
   watch: {
     search(val) {
@@ -53,16 +53,34 @@ export default {
     }
   },
   methods: {
-    ...teamMapMutations(["SET_SEARCH_RESULT"]),
-    searchList(val) {
+    ...teamMapMutations(["SET_SEARCH_TEAM_RESULT", "SET_SEARCH_UNIT_TEAM_RESULT"]),
+    searchList: async function(val) {
+      if(this.teamType === "Team") {
+        this.searchTeamResultList(val);
+      }else {
+        this.searchUnitTeamResultList(val);
+      }
+    },
+    searchTeamResultList(val) {
       if (val !== "" && val.length !== 0) {
         const result = this.teamList.filter(item => {
           let name = item.name;
           return name.indexOf(val) > -1;
         });
-        this.SET_SEARCH_RESULT(result);
+        this.SET_SEARCH_TEAM_RESULT(result);
       } else {
-        this.SET_SEARCH_RESULT(this.teamList);
+        this.SET_SEARCH_TEAM_RESULT(this.teamList);
+      }
+    },
+    searchUnitTeamResultList(val) {
+      if (val !== "" && val.length !== 0) {
+        const result = this.unitTeamList.filter(item => {
+          let name = item.name;
+          return name.indexOf(val) > -1;
+        });
+        this.SET_SEARCH_UNIT_TEAM_RESULT(result);
+      } else {
+        this.SET_SEARCH_UNIT_TEAM_RESULT(this.unitTeamList);
       }
     },
     moveTeamAdd() {
