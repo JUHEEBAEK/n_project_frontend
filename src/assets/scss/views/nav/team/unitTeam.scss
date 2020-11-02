@@ -3,8 +3,26 @@
 .main__header {
   display: flex;
   height: 100px;
-  // background-color:blue;
   align-items: center;
+  justify-content: space-between;
+  .player__list {
+    display: flex;
+    align-items: center;
+    .player__item {
+      position: relative;
+      .item__badge {
+        position: absolute;
+        top: 5px;
+        right: 3px;
+        z-index: 2;
+        .badge__button {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+    
+  }
 }
 .main__content {
   width: 100%;

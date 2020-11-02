@@ -284,6 +284,9 @@ export default {
       } else if (type === "C") {
         this.color = "rgb(230, 124, 115)";
         this.name_type = "대회";
+      } else if (type === "S") {
+        this.color = "rgb(0, 0, 0)";
+        this.name_type = "테스트";
       }
       this.title = `[${this.name_type}] ${this.name_place} ${this.start_time} ~ ${this.end_time}`;
     },
@@ -317,5 +320,7 @@ export default {
 
 .schedule__address {
   margin-left: 45px;
+  width: 90%;
+  text-overflow: ellipsis;
 }
 </style>
