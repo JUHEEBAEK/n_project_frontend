@@ -1,5 +1,6 @@
 import {
   createUnitTeamMember,
+  deleteUnitTeamMember,
   getUnitTeamMember,
   getAllUnitMember
 } from "../../api/unitMember.js";
@@ -44,6 +45,14 @@ const actions = {
     try {
       const response = await getUnitTeamMember(unitTeamId);
       commit("SELECT_UNIT_TEAM_MEMBER", response);
+      return response;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async delete_unit_member({ commit }, payload) {
+    try {
+      const response = await deleteUnitTeamMember(payload);
       return response;
     } catch (e) {
       console.log(e);

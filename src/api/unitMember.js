@@ -15,6 +15,7 @@ export const getUnitTeamMember = async(unit_team_id) => {
       return response.data;
   } catch (e) {
       console.log(e);
+      return e;
   }
 };
 
@@ -27,9 +28,9 @@ export const getAllUnitMember = async() => {
   }
 };
 
-export const deleteUnitTeamMember = async(unitTeamId) => {
+export const deleteUnitTeamMember = async(unitMemberId) => {
   try {
-    const response = await generalReq("delete", "/api/unitMember/delete", unitTeamId);
+    const response = await generalReq("delete", "/api/unitMember/delete/" + unitMemberId);
     return response;
   } catch (e) {
     console.log(e);
