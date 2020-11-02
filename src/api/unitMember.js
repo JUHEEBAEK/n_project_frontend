@@ -18,6 +18,15 @@ export const getUnitTeamMember = async(unit_team_id) => {
   }
 };
 
+export const getAllUnitMember = async() => {
+  try {
+      const response = await generalReq("get", "/api/unitMember/list");
+      return response.data;
+  } catch (e) {
+      console.log(e);
+  }
+};
+
 export const deleteUnitTeamMember = async(unitTeamId) => {
   try {
     const response = await generalReq("delete", "/api/unitMember/delete", unitTeamId);
