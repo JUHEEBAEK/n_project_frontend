@@ -10,7 +10,7 @@
                 <span class="text__quarter">Q{{ gameInfo.quarter }}</span>
                 <span class="text__result">
                   {{ gameInfo.result }}
-                  <span class="text__caption">- WIN</span>
+                  <span class="text__caption" v-show="gameInfo.result !== 'D'">- WIN</span>
                 </span>
               </v-card-title>
               <v-card-text>
