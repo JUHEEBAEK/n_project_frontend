@@ -36,7 +36,6 @@ export const getAssistRankingFilter = async(condition) => {
     }
 };
 
-
 export const getCleanSheetRanking = async() => {
     try {
         const response = await generalReq("get", "/api/ranking/cleanSheetRanking");
@@ -54,3 +53,13 @@ export const getCleanSheetRankingFilter = async(condition) => {
         console.log(e);
     }
 };
+
+// 리그 팀 랭킹
+export const getLeagueRanking = async(year) => {
+    try {
+        const response = await generalReq("get", "/api/ranking/leagueRanking/" + year);
+        return response;
+    } catch(e) {
+        console.log(e);
+    }
+}

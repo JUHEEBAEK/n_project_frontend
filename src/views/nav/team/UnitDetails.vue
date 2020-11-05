@@ -53,7 +53,7 @@
 import dialog from "../../../mixins/dialog.js";
 import util from "../../../mixins/util.js";
 
-import { createNamespacedHelpers, mapActions } from "vuex";
+import { createNamespacedHelpers } from "vuex";
 const {
   mapState: unitMemberMapState,
   mapActions: unitMemberMapActions,
