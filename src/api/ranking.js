@@ -58,7 +58,16 @@ export const getCleanSheetRankingFilter = async(condition) => {
 export const getLeagueRanking = async(year) => {
     try {
         const response = await generalReq("get", "/api/ranking/leagueRanking/" + year);
-        return response;
+        return response.data;
+    } catch(e) {
+        console.log(e);
+    }
+}
+
+export const getRelativePerformance = async(year) => {
+    try {
+        const response = await generalReq("get", "/api/ranking/leagueRecord/" + year);
+        return response.data;
     } catch(e) {
         console.log(e);
     }

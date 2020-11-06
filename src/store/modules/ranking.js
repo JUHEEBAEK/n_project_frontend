@@ -5,7 +5,8 @@ import {
     getAssistRankingFilter,
     getCleanSheetRanking,
     getCleanSheetRankingFilter,
-    getLeagueRanking
+    getLeagueRanking,
+    getRelativePerformance
 } from "../../api/ranking.js";
 
 const state = {
@@ -14,7 +15,8 @@ const state = {
     'ASSIST': [], 
     'CLEAN_SHEET': [],
   },
-  leagueRankingData: []
+  leagueRankingData: [],
+  relativePerformance: []
 }
 const mutations = {
   SET_ASSIST_RANKING_DATA(state, assistData){
@@ -28,6 +30,9 @@ const mutations = {
   },
   SET_LEAGUE_RANKING_DATA(state, rankingData){
     state.leagueRankingData = rankingData
+  },
+  SET_RELATIVE_PERFORMANCE(state, performance){
+    state.relativePerformance = performance
   }
 }
 const actions = {
@@ -89,6 +94,15 @@ const actions = {
     try {
       const response = await getLeagueRanking(year);
       context.commit("SET_LEAGUE_RANKING_DATA", response.data);
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async get_relative_performance(context, year) {
+    try {
+      const response = await getRelativePerformance(year);
+      context.commit("SET_RELATIVE_PERFORMANCE", response.data);
       return response.data;
     } catch (e) {
       console.log(e);
