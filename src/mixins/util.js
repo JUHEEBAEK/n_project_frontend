@@ -23,6 +23,17 @@ const util = {
   },
   methods: {
     ...commonMapMutations(["SET_SNACK_BAR", "SET_SNACK_BAR_PURPOSE", "SET_SNACK_BAR_MESSAGE", "SET_LOADING_BAR"]),
+    dynamicSort(property) {
+      let sortOrder = 1;
+      if(property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+      }
+      return function(a, b) {
+        const result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+        return result * sortOrder;
+      }
+    },
     // LoadingBar 를 제어하는 함수 ( value 가 true 면 로딩바 제공, false 면 로딩바 제거 )
     setLoadingBar(value) {
       this.SET_LOADING_BAR(value);

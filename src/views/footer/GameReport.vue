@@ -1,15 +1,14 @@
 <template>
   <div class="gameReport__container ma-3">
-    <v-app-bar flat color="white">
+    <v-app-bar prominent flat color="white">
       <v-row>
-        <v-col cols="1">
+        <v-col cols="12" xs="12" sm="12" md="2" lg="2" xl="2">
           <v-btn outlined @click="movePage">리그전</v-btn>
         </v-col>
-        <v-spacer></v-spacer>
-        <v-col cols="5" xs="6" sm="4" md="3" lg="2" xl="2">
+        <v-col cols="6" xs="6" sm="6" md="3" lg="2" xl="2">
           <v-select v-model="nowYear" :items="years" label="년도 선택" solo rounded />
         </v-col>
-        <v-col cols="5" xs="6" sm="4" md="3" lg="2" xl="2">
+        <v-col cols="6" xs="6" sm="6" md="3" lg="2" xl="2">
           <v-select v-model="nowMonth" :items="months" label="월 선택" solo rounded />
         </v-col>
       </v-row>
