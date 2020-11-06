@@ -24,9 +24,9 @@
             <v-btn icon class="pa-2 ma-3">
               <v-icon @click.stop.native="modifyTeam(item)">fas fa-pencil-alt</v-icon>
             </v-btn>
-            <v-btn icon class="pa-2">
+            <!-- <v-btn icon class="pa-2">
               <v-icon @click.stop.native="deleteTeam(item)">fas fa-trash-alt</v-icon>
-            </v-btn>
+            </v-btn> -->
           </template>
         </v-data-table>
       </v-col>
