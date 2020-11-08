@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ranking-filter @filterChanged="filterRanking"/>
+    <ranking-filter @filterChanged="filterRanking" />
     <v-card color="basil">
       <v-card-title class="text-center justify-center py-6">
         <h1 class="font-weight-bold display-3 basil--text">N-Ranking</h1>
@@ -16,7 +16,6 @@
         </v-tab-item>
       </v-tabs-items>
     </v-card>
-    
   </div>
 </template>
 
@@ -32,18 +31,13 @@ export default {
   data() {
     return {
       tab: null,
-      tabItems: ["GOAL", "ASSIST", "CLEAN_SHEET"],
-      
+      tabItems: ["GOAL", "ASSIST", "CLEAN_SHEET", "ATTEND"]
     };
   },
   computed: {
     ...rankingMapState(["rankingData"])
   },
-  created() {
-    this.get_goal_ranking();
-    this.get_assist_ranking();
-    this.get_clean_sheet_ranking();
-  },
+  created() {},
   methods: {
     ...rankingMapActions([
       "get_goal_ranking",
@@ -52,15 +46,16 @@ export default {
       "get_goal_ranking_filter",
       "get_assist_ranking_filter",
       "get_clean_sheet_ranking_filter",
+      "get_attend_ranking_filter"
     ]),
-    filterRanking(filter){
-      this.get_goal_ranking_filter(filter)
-      this.get_assist_ranking_filter(filter)
-      this.get_clean_sheet_ranking_filter(filter)
+    filterRanking(filter) {
+      this.get_goal_ranking_filter(filter);
+      this.get_assist_ranking_filter(filter);
+      this.get_clean_sheet_ranking_filter(filter);
+      this.get_attend_ranking_filter(filter);
     }
   }
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

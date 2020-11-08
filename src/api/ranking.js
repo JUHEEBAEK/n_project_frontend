@@ -54,3 +54,13 @@ export const getCleanSheetRankingFilter = async(condition) => {
         console.log(e);
     }
 };
+
+export const getAttendRankingFilter = async(condition) => {
+    try {
+        const added_url = `/${condition.contest}/${condition.year}/${condition.month}`
+        const response = await generalReq("get", "/api/ranking/attendRankingFilter" + added_url);
+        return response;
+    } catch (e) {
+        console.log(e);
+    }
+};

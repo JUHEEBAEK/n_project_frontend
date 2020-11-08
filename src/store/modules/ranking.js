@@ -5,6 +5,7 @@ import {
     getAssistRankingFilter,
     getCleanSheetRanking,
     getCleanSheetRankingFilter,
+    getAttendRankingFilter,
 } from "../../api/ranking.js";
 
 const state = {
@@ -51,7 +52,12 @@ const state = {
             score: 1262,
           },
         ],
-        
+        'ATTEND':[
+          {
+            name: '상추',
+            score: 11159,
+          },
+        ]
     }
 
 }
@@ -65,6 +71,9 @@ const mutations = {
     SET_CLEAN_SHEET_RANKING_DATA(state, cleanSheetData){
       state.rankingData['CLEAN_SHEET'] = cleanSheetData
     },
+    SET_ATTEND_RANKING_DATA(state, attendData){
+      state.rankingData['ATTEND'] = attendData
+    }
 
 }
 const actions = {
@@ -122,7 +131,17 @@ const actions = {
         } catch (e) {
             console.log(e);
         }
-    },
+    }, 
+    async get_attend_ranking_filter(context, condition){
+      try {
+          const response = await getAttendRankingFilter(condition);
+          console.log(response)
+          context.commit("SET_ATTEND_RANKING_DATA", response.data);
+          return response.data;
+      } catch (e) {
+          console.log(e);
+      }
+  },
 }
 
 export default {
