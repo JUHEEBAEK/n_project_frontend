@@ -64,13 +64,15 @@
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-text-field
-                    type="number"
-                    min="1"
-                    max="3"
+                  <v-autocomplete
                     v-model="editedItem.grade"
+                    :items="grades"
+                    dense
+                    item-text="text"
+                    item-value="value"
                     label="등급"
-                  ></v-text-field>
+                  >
+                  </v-autocomplete>
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-menu
@@ -112,7 +114,7 @@
         </v-card>
       </v-dialog>
     </template>
-    <template v-slot:[`item.actions`]="{ item }">
+    <template v-slot:[`item.actions`]="{ item }" v-if="userInfo.role === 'A'" >
       <v-icon small class="mr-2" @click="editItem(item)"
         >fas fa-pencil-alt</v-icon
       >
@@ -122,7 +124,6 @@
 </template>
 
 <script>
-import moment from "moment";
 import util from "../../mixins/util.js";
 import memberValue from "@/assets/value/member.json";
 
@@ -137,10 +138,17 @@ const {
   mapMutations: commonMapMutations,
 } = createNamespacedHelpers("common");
 
+const {
+  mapState: accountMapState,
+  mapGetters: accountMapGetters
+} = createNamespacedHelpers("account");
+
+
 export default {
   computed: {
     ...memberMapState(["memberList"]),
     ...commonMapState(["searchResult"]),
+    ...accountMapGetters(["userInfo"]),
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
     },
@@ -163,7 +171,6 @@ export default {
   },
   mixins: [util],
   async mounted() {
-    console.log("?1번");
     this.tableLoading = true;
     await this.select_all_member();
     this.setAllMemberList(this.memberList);
@@ -187,6 +194,7 @@ export default {
       { text: "Withdraw Date", value: "withdraw_date", align: "center" },
       { text: "Actions", value: "actions", sortable: false, align: "center" }
     ],
+    grades: [ { text: "정회원", value: 1}, { text: "준회원", value: 2}, {text: "탈퇴", value: 3}],
     editedIndex: -1,
     editedItem: {
       name: "",

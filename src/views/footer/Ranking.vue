@@ -26,15 +26,14 @@
         <report-tab-team></report-tab-team>
       </div>
       <div class="content__general" v-if="tabs === 'PERSONAL'">
-        <ranking-filter @filterChanged="filterRanking" />
-        <v-card color="basil">
+        <ranking-filter @filterChanged="filterRanking"/>
+        <v-card>
           <v-card-title class="text-center justify-center py-6">
-            <h1 class="font-weight-bold display-3 basil--text">N-Ranking</h1>
+            <h1 class="font-weight-bold display-3">N-Ranking</h1>
           </v-card-title>
           <v-tabs
             v-model="tab"
             background-color="transparent"
-            color="basil"
             grow
           >
             <v-tab v-for="(item, index) in tabItems" :key="index">{{
@@ -43,7 +42,7 @@
           </v-tabs>
           <v-tabs-items v-model="tab">
             <v-tab-item v-for="(item, index) in tabItems" :key="index">
-              <v-card color="basil" flat>
+              <v-card flat>
                 <ranking-table :tableData="rankingData[item]"></ranking-table>
               </v-card>
             </v-tab-item>
