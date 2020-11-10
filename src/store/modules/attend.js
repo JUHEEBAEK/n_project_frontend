@@ -19,6 +19,7 @@ const state = {
     }],
     so_so_attend: [],
     ghost_attend: [],
+    outsider_attend:[]
 };
 
 const getters = {
@@ -71,29 +72,36 @@ const mutations = {
         let good_list = [];
         let so_so_list = [];
         let ghost_list = [];
+        let outsider_list = [];
 
         // 가장 count가 높은 순으로 정렬되어 있기 때문에 max값은 처음 사람의 것
         let max_count = countMonthList[0].count ? countMonthList[0].count : 0;
         let good_count = max_count * 0.7;
         let so_so_count = max_count * 0.2;
+        
 
         for (var i in countMonthList) {
-            let item = countMonthList[i];
-            item["attend"] = false;
-
-            if (item.count >= good_count) {
-                good_list.push(item);
+            let member = countMonthList[i];
+            member["attend"] = false;
+            
+            if (member.withdraw_date != null){
+                outsider_list.push(member);
                 continue;
-            } else if (item.count >= so_so_count) {
-                so_so_list.push(item);
+            }
+
+            if (member.count >= good_count) {
+                good_list.push(member);
+            } else if (member.count >= so_so_count) {
+                so_so_list.push(member);
             } else {
-                ghost_list.push(item);
+                ghost_list.push(member);
             }
         }
 
         state.good_attend = good_list;
         state.so_so_attend = so_so_list;
         state.ghost_attend = ghost_list;
+        state.outsider_attend = outsider_list;
     }
 };
 
