@@ -105,16 +105,12 @@ export default {
       });
     },
     submit: async function() {
-      console.log("login");
       if (this.$refs.form.validate()) {
         this.setLoadingBar(true);
         const res = await login(this.username, this.password);
-        console.log("loginRes:::::::", res);
         if (res.status !== 400 && res === 200) {
-          console.log("성공");
           this.$router.push({ path: "/" });
         }else {
-          console.log("실패");
           // FIXME: 오류를 여러번 이어서 냈을 때 처음만 스낵바 보이고 나머지는 안보임????
           this.setSnackBar(this.snackBarFail, res.data.message);
         }
