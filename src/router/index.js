@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import { isAuthorization } from "../mixins/auth";
+import { isAuthorization, logout } from "../mixins/auth";
 
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
@@ -41,7 +41,8 @@ const requireAuth = () => (to, from, next) => {
   if(isAuthorization()) {
     return next();
   }else {
-    next("/login");
+    logout();
+    // next("/login");
   }
 }
 

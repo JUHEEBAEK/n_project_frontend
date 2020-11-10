@@ -45,6 +45,11 @@
       "icon": "003-tshirt.png"
     },
     {
+      "title": "ME",
+      "to": "/me",
+      "icon": "003-tshirt.png"
+    },
+    {
       "title": "REPORT",
       "to": "/gameReport",
       "icon": "037-scoreboard.png"

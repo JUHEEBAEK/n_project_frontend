@@ -34,7 +34,6 @@ export const login = async (userId, password) => {
     formData.append("password", password);
 
     const result = await singIn(body);
-    console.log("login mixins auth: ",result);
     /* - JWT 발급
        - LocalStorage 에 Token 지정
        - LocalStorage 에 유저 정보 저장 
@@ -45,8 +44,8 @@ export const login = async (userId, password) => {
     }else {
       let token = result.data.Authorization;
       if(token) {
-        const { id, name, member_id, team_id, exp } = getTokenPayload(token);
-        let user = { exp, id, member_id, name, team_id };
+        const { id, name, member_id, team_id, role, exp } = getTokenPayload(token);
+        let user = { exp, id, member_id, name, team_id, role };
         saveToken(token);
         saveUserInfo(user);
         // Vuex 에 User 정보 셋업

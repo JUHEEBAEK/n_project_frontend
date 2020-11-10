@@ -10,6 +10,7 @@
           class="select__season"
           v-model="season"
           :items="seasonList"
+          readonly
           hide-details
         ></v-select>
       </div>
@@ -17,27 +18,31 @@
     <div class="team__content">
       <table class="rank__table">
         <thead>
-          <th><strong>순위</strong></th>
-          <th><strong>팀</strong></th>
-          <th><strong>경기수</strong></th>
-          <th><strong>승점</strong></th>
-          <th><strong>승</strong></th>
-          <th><strong>무</strong></th>
-          <th><strong>패</strong></th>
-          <th><strong>득점</strong></th>
-          <th><strong>실점</strong></th>
-          <th><strong>득실차</strong></th>
+          <th width="50"><strong>순위</strong></th>
+          <th width="200"><strong>팀</strong></th>
+          <th width="100"><strong>경기수</strong></th>
+          <th width="80"><strong>승점</strong></th>
+          <th width="50"><strong>승</strong></th>
+          <th width="50"><strong>무</strong></th>
+          <th width="50"><strong>패</strong></th>
+          <th width="50"><strong>득점</strong></th>
+          <th width="50"><strong>실점</strong></th>
+          <th  width="100"><strong>득실차</strong></th>
         </thead>
         <tbody>
           <tr v-for="(item, idx) in rankingData" :key="item.id_unit_team">
             <td>{{ idx + 1 }}</td>
             <td>
               <div class="table__inner">
-                <img width="25" height="25" class="emblem" :src="item.image" />
-                <span class="name">{{ item.name }}</span>
+                <img width="40" height="40" class="emblem" :src="item.image" />
+                  <span class="name">
+                    <a :href="`/unitTeam/${item.id_unit_team}`">
+                    {{ item.name }} - {{ item.description }}
+                    </a>
+                  </span>
               </div>
             </td>
-            <td>{{ item.gameCount }}</td>
+            <td width="50">{{ item.gameCount }}</td>
             <td>{{ item.victoryPoint }}</td>
             <td>{{ item.win }}</td>
             <td>{{ item.draw }}</td>
