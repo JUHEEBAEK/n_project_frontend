@@ -6,7 +6,8 @@ import {
     getCleanSheetRanking,
     getCleanSheetRankingFilter,
     getLeagueRanking,
-    getRelativePerformance
+    getRelativePerformance,
+    getAttendRankingFilter
 } from "../../api/ranking.js";
 
 const state = {
@@ -14,6 +15,7 @@ const state = {
     'GOAL': [], 
     'ASSIST': [], 
     'CLEAN_SHEET': [],
+    'ATTEND':[]
   },
   leagueRankingData: [],
   relativePerformance: []
@@ -33,6 +35,9 @@ const mutations = {
   },
   SET_RELATIVE_PERFORMANCE(state, performance){
     state.relativePerformance = performance
+  },
+  SET_ATTEND_RANKING_DATA(state, attendData){
+    state.rankingData['ATTEND'] = attendData
   }
 }
 const actions = {
@@ -107,7 +112,17 @@ const actions = {
     } catch (e) {
       console.log(e);
     }
-  }
+  },
+  async get_attend_ranking_filter(context, condition){
+    try {
+        const response = await getAttendRankingFilter(condition);
+        console.log(response)
+        context.commit("SET_ATTEND_RANKING_DATA", response.data);
+        return response.data;
+    } catch (e) {
+        console.log(e);
+    }
+  },
 }
 export default {
     state,
