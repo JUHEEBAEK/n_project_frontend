@@ -21,7 +21,16 @@
       <div class="score__container">
         <div class="text__bigTitle">{{ gameInfo.home_score }} : {{ gameInfo.away_score }}</div>
         <div class="text__description">
-          <span class="mr-4 mb-1">{{ `Quarter ${gameInfo.quarter}`}}</span>
+          <v-select
+            class="input__select"
+            v-model="gameInfo.quarter"
+            solo
+            dense
+            prefix="Quarter "
+            item-text="quarter"
+            :items="quarterList"
+            @change="setGameInfo"
+          />
           <v-icon small>fas fa-stopwatch</v-icon>
           <span class="mx-1">10 '</span>
         </div>
@@ -46,6 +55,10 @@ export default {
     gameInfo: {
       type: Object,
       default: null
+    },
+    quarterList: {
+      type: Object,
+      default: null
     }
   },
   created() {
@@ -60,6 +73,22 @@ export default {
   methods: {
     formatGameType(gameType) {
       return gameValue.gameTypeFormat[gameType];
+    },
+    movePage(gameInfo) {
+      console.log(gameInfo);
+      this.$router.push({
+        name: "gameDetails",
+        params: { game_id: gameInfo.id, schedule_id: gameInfo.schedule_id }
+      });
+      this.$router.go();
+    },
+    setGameInfo(val) {
+      console.log(val);
+      this.quarterList.forEach(element => {
+        if(element.quarter === val) {
+          this.movePage(element);
+        }
+      });
     }
   }
 };

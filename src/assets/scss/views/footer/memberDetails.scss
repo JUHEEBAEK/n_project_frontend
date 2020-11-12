@@ -26,7 +26,7 @@
         .text__uniformNumber {
           position: absolute;
           top: 35px;
-          left: 47%;
+          left: 39%;
           font-weight: bold;
           color: navy;
         }
@@ -36,7 +36,9 @@
       .card__container {
         vertical-align: text-bottom;
         height: 160px;
-        align-self: flex-end;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
         .text__name {
           font-size: 40px;
           font-weight: lighter;

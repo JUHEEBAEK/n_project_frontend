@@ -45,9 +45,9 @@ export const searchWithScheduleIdAndQuarter = async(form) => {
     }
 };
 
-export const searchWithScheduleId = async(form) => {
+export const searchWithScheduleId = async(scheduleId) => {
     try {
-        const response = await generalReq("post", "/api/game/searchWithScheduleId", form);
+        const response = await generalReq("get", "/api/game/searchWithScheduleId/" + scheduleId);
         return response;
     } catch (e) {
         console.log(e);

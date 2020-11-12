@@ -1,7 +1,7 @@
 <template>
   <div>
     <core-breadcrumbs :items="items" />
-    <report-game-info :gameInfo="gameInfo"></report-game-info>
+    <report-game-info :gameInfo="gameInfo" :quarterList="gameList"></report-game-info>
     <report-position-view :game_id="game_id"></report-position-view>
     <report-event-list :gameInfo="gameInfo" :gameEventList="eventList"></report-event-list>
   </div>
@@ -47,20 +47,25 @@ export default {
     game_id: {
       type: [String, Number],
       default: null
+    },
+    schedule_id: {
+      type: [String, Number],
+      default: null
     }
   },
   computed: {
-    ...gameMapState(["gameInfo"]),
+    ...gameMapState(["gameInfo", "gameList"]),
     ...gameReportState(["eventList"]),
     ...prepareMatchState(["homeMembers", "awayMembers"])
   },
   async created() {
     await this.getGameInfo(this.game_id);
+    await this.getGameListWithScheduleId(this.schedule_id);
     this.getHomeAwayMemberList();
     this.selectEventList();
   },
   methods: {
-    ...gameMapAction(["getMultiplexGameInfo"]),
+    ...gameMapAction(["getMultiplexGameInfo", "getGameListWithScheduleId"]),
     ...gameReportActions(["getEventList"]),
     ...gameReportMutations(["SET_EVENT_INFO"]),
     ...prepareMatchActions(["getHomeAwayMember"]),
