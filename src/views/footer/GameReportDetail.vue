@@ -4,6 +4,7 @@
     <report-game-info :gameInfo="gameInfo" :quarterList="gameList"></report-game-info>
     <report-position-view :game_id="game_id"></report-position-view>
     <report-event-list :gameInfo="gameInfo" :gameEventList="eventList"></report-event-list>
+    <util-spinner v-if="loading"></util-spinner>
   </div>
 </template>
 
@@ -28,8 +29,11 @@ const {
   mapActions: gameReportActions
 } = createNamespacedHelpers("gameReport");
 
+import util from "../../mixins/util.js";
+
 export default {
   name: "TesmSetting",
+  mixins: [util],
   data: () => ({
     items: [
       {
@@ -71,7 +75,9 @@ export default {
     ...prepareMatchActions(["getHomeAwayMember"]),
     getGameInfo: async function(gameId) {
       // TODO: loadingBar 추가해주기 setLoadingBar
+      this.setLoadingBar(true);
       this.gameInfo = await this.getMultiplexGameInfo(gameId);
+      this.setLoadingBar(false);
     },
     getHomeAwayMemberList: async function() {
       let scheduleAndQuarter = {
