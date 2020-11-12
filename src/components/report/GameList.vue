@@ -108,7 +108,7 @@ export default {
     },
     getGameList: async function() {
       this.gameList = await this.selectGameList();
-      this.divideSchduleIdInGame();
+      this.divideSchduleIdInGame( );
       this.setscheduleList(this.filteredSchedule);
     },
     getScheduleList: async function() {
