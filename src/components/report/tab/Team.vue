@@ -87,27 +87,19 @@ export default {
       return item.win * 3 + item.draw * 1;
     }
   },
-  created() {
-    console.log("1");
-    this.loadRelativePerformance();
-    console.log("2");
-    this.loadRankingData();
+  async created() {
+    await this.loadRelativePerformance();
+    await this.loadRankingData();
   },
   methods: {
     loadRelativePerformance: async function() {
-      console.log("1-1");
       this.relativePerformance = await getRelativePerformance(this.season);
     },
     loadRankingData: async function() {
-      console.log("2-1");
       const result = await getLeagueRanking(this.season);
-      console.log("2-2");
       this.rankingData = this.formatRankingData(result);
-      console.log("2-3");
       this.sortByVictoryPoint();
-      console.log("2-4");
       this.isSameVitoryPoint();
-      console.log("2-5");
       this.sortByVictoryPoint();
     },
     formatRankingData: function(rankingData) {
@@ -117,7 +109,6 @@ export default {
         item.earnAndLoss = item.goalEarn - item.goalLose;
         item.orderValue = item.victoryPoint + (item.earnAndLoss/10000);
       });
-      console.log("1-3-1");
       return rankingData;
     },
     isSameVitoryPoint: function() {
@@ -130,7 +121,6 @@ export default {
           this.addRelativePerformanceOrderValue(curRankingData.id_unit_team, nextRankingData.id_unit_team, index);
         }
       });
-      console.log("1-5-1");
     },
     // 상대전적 구한걸로 orderValue값 조절하는 애
     addRelativePerformanceOrderValue: function(curTeamId, nextTeamId, index) {
@@ -140,7 +130,6 @@ export default {
       }else {
         this.rankingData[index+1].orderValue += 1/1000000;
       }
-      console.log("1-5-2");
     },
     // 두개의 팀간의 상대전적 구하는 함수
     isMoreWinTeamA(teamAId, teamBId) {
@@ -161,7 +150,6 @@ export default {
         }
       });
 
-      console.log("1-5-3");
       if(winCount.teamA <= winCount.teamB) {
         return false;
       }else if(winCount.teamA > winCount.teamB){
@@ -179,7 +167,6 @@ export default {
     },
     sortByVictoryPoint: function() {
       this.rankingData.sort(this.dynamicSort("-orderValue"));
-      console.log("1-4-1", this.rankingData);
     }
   }
 }
