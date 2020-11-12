@@ -75,7 +75,6 @@ export default {
       return gameValue.gameTypeFormat[gameType];
     },
     movePage(gameInfo) {
-      console.log(gameInfo);
       this.$router.push({
         name: "gameDetails",
         params: { game_id: gameInfo.id, schedule_id: gameInfo.schedule_id }
@@ -83,7 +82,6 @@ export default {
       this.$router.go();
     },
     setGameInfo(val) {
-      console.log(val);
       this.quarterList.forEach(element => {
         if(element.quarter === val) {
           this.movePage(element);

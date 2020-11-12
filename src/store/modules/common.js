@@ -80,7 +80,6 @@ const mutations = {
     state.homeTitle = value;
   },
   SET_LOADING_BAR(state, value) {
-    console.log("SET_LOADING_BAR", value);
     state.loading = value;
   },
   SET_TYPE(state, value) {
