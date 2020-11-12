@@ -93,7 +93,7 @@ export default {
   name: "BarChart",
   props: {
     height: { default: 450 },
-    width: { default: 300 },
+    width: { default: 280 },
     dataSet: { default: [] },
     marginLeft: { default: 40 },
     marginTop: { default: 40 },

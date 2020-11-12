@@ -12,6 +12,7 @@ import GameReport from "../views/footer/GameReport.vue";
 import GameReportDetail from "../views/footer/GameReportDetail.vue";
 import LeagueReport from "../views/footer/LeagueReport.vue";
 import Ranking from "../views/footer/Ranking.vue";
+import Me from "../views/footer/MemberDetails.vue";
 
 import TeamDetails from "../views/nav/team/Details.vue";
 import UnitTeamDetails from "../views/nav/team/UnitDetails.vue";
@@ -74,7 +75,7 @@ const routes = [{
     component: GameReport
   },
   {
-    path: "/gameReport/details/:game_id",
+    path: "/gameReport/:schedule_id/details/:game_id",
     name: "gameDetails",
     component: GameReportDetail,
     props: true
@@ -89,6 +90,12 @@ const routes = [{
   //   name: "squad",
   //   component: SquadView
   // },
+  {
+    path: "/member/details/:member_id",
+    name: "memberDetails",
+    component: Me,
+    props: true
+  },
   {
     path: "/ranking",
     name: "ranking",

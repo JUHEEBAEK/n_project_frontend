@@ -87,6 +87,10 @@
       .text__description {
         font-size: 1rem;
         font-weight: 500;
+        .input__select {
+          max-width: 140px;
+          margin: auto;
+        }
       }
     }
 

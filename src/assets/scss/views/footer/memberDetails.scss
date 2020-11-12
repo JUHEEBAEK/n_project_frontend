@@ -1,0 +1,109 @@
+@import "../../global/mediaQuery.scss";
+
+.container {
+  width: 100%;
+  padding: 12px;
+  .row__first {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1 1 auto;
+    .col__first {
+      align-self: center;
+      .card__container {
+        display: flex;
+        justify-content: center;
+        height: 160px;
+      }
+      .first__team {
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        padding: 0 10px;
+      }
+      .first__uniformNumber {
+        position: relative;
+        align-self: center;
+        .text__uniformNumber {
+          position: absolute;
+          top: 35px;
+          left: 39%;
+          font-weight: bold;
+          color: navy;
+        }
+      }
+    }
+    .col__second {
+      .card__container {
+        vertical-align: text-bottom;
+        height: 160px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        .text__name {
+          font-size: 40px;
+          font-weight: lighter;
+          text-align: right;
+        }
+      }
+    }
+    
+  }
+  .row__second {
+    .col__box {
+      .card__container {
+        height: 150px;
+        width: 150px;
+        background-color: #f1f1f1;
+        border-radius: 16px;
+        .card__title {
+          padding: 12px;
+          text-align: left;
+          font-size: 16px;
+          font-weight: 600;
+        }
+        .card__content {
+          padding-top:50px;
+          padding-right: 24px;
+          text-align: right;
+          font-size: 24px;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+  .row__third {
+    .card__container {
+      background-color: #f1f1f1;
+      border-radius: 16px;
+      .card__title {
+        padding: 12px;
+        text-align: left;
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .card__content {
+        .rank__item {
+          display: flex;
+          font-size: 18px;
+          padding-left: 20px;
+          justify-content: space-around;
+          .text__rank {
+            font-size: 20px;
+            font-weight: bold;
+          }
+          .text__name {
+            font-size: 20px;
+            color: #121212;
+          }
+          .text__count {
+            font-size: 24px;
+            color: #121212;
+          }
+        }
+        
+      }
+    }
+    
+  }
+}
+
