@@ -42,7 +42,7 @@
             </div>
             <div class="second__box">
               <div class="text__name">
-                {{ userInfo.name }}
+                {{ profile.name }}
               </div>
             </div>
           </v-card>
@@ -164,7 +164,9 @@ export default {
     ...personalMapState(["whoMyAssistList", "whoMyGoalList"]),
     ...teamMapState(["teamInfo"])
   },
-  created() {
+  async created () {
+    console.log("created");
+    await this.getMemberInfo(this.member_id);
     this.getCount(this.member_id);
   },
   methods: {
@@ -178,10 +180,9 @@ export default {
       "get_number_of_attended",
       "get_number_of_played_match"
     ]),
-    getCount(member_id, year) {
+    getCount: async function(member_id, year) {
       const teamId = this.userInfo.team_id;
       this.getTeamInfo(teamId);
-      this.getMemberInfo(member_id);
       this.getNumberOfGoal(member_id, year);
       this.getNumberOfAssist(member_id, year);
       this.getNumberOfDaysAttended(member_id, year);
@@ -196,6 +197,7 @@ export default {
       const result = await this.details_team(teamId);
     },
     getMemberInfo: async function(memberId) {
+      console.log("getMemberInfo");
       const result = await this.details_member(memberId);
     },
     getNumberOfGoal: async function(memberId, year) {
