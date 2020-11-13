@@ -83,7 +83,7 @@ const actions = {
     try {
       const response = await detailsMember(payload);
       commit("DETAILS_MEMBER", response.data);
-      return response.data;
+      return response;
     } catch (e) {
       console.log(e);
     }

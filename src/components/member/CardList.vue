@@ -10,7 +10,7 @@
         v-for="(item, idx) in searchResult"
         :key="idx"
       >
-        <v-card class="card__profile px-0 py-1 ma-1">
+        <v-card class="card__profile px-0 py-1 ma-1" @click="movePage(item)">
           <v-img
             class="white--text align-end"
             aspect-ratio="2"
@@ -90,6 +90,12 @@ export default {
       this.$router.push({
         name: "memberUpdatePage",
         params: { memberId: item.id }
+      });
+    },
+    movePage(member) {
+      this.$router.push({ 
+        name: "memberDetails", 
+        params: { member_id: member.id }
       });
     }
   }

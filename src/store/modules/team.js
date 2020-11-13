@@ -1,7 +1,8 @@
 import {
   createTeam,
   getAllTeam,
-  getUnitTeamList
+  getUnitTeamList,
+  getTeamInfo
 } from "../../api/team.js";
 
 import {
@@ -15,6 +16,7 @@ import * as constants from "../constants";
 
 const state = {
   teamList: [],
+  teamInfo: {},
   teamType: "Team",
   unitTeamList: [],
   unitTeamInfo: {},
@@ -32,7 +34,9 @@ const mutations = {
   UPDATE_UNIT_TEAM(state, unitTeamInfo){
     state.unitTeamInfo = unitTeamInfo;
   },
-  DELETE_UNIT_TEAM(state, unitTeamId){}
+  GET_INFO_TEAM(state, teamInfo){
+    state.teamInfo = teamInfo;
+  },
 };
 const actions = {
   async add_team(context, form) {
@@ -87,7 +91,18 @@ const actions = {
     } catch (e) {
       console.log(e);
     }
-  }
+  },
+  async details_team({
+    commit
+  }, payload) {
+    try {
+      const response = await getTeamInfo(payload);
+      commit("GET_INFO_TEAM", response.data);
+      return response;
+    } catch (e) {
+      console.log(e);
+    }
+  },
 
 };
 

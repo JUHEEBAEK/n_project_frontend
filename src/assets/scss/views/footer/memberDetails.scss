@@ -14,35 +14,46 @@
         justify-content: center;
         height: 160px;
       }
-      .first__team {
-        display: flex;
-        flex-direction: column;
-        align-self: center;
-        padding: 0 10px;
-      }
-      .first__uniformNumber {
-        position: relative;
-        align-self: center;
-        .text__uniformNumber {
-          position: absolute;
-          top: 35px;
-          left: 39%;
-          font-weight: bold;
-          color: navy;
-        }
-      }
+      
     }
     .col__second {
       .card__container {
         vertical-align: text-bottom;
         height: 160px;
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
         align-items: flex-end;
-        .text__name {
-          font-size: 40px;
-          font-weight: lighter;
-          text-align: right;
+        padding: 30px;
+        .first__box {
+          .box__team {
+            display: flex;
+            flex-direction: column;
+            align-self: center;
+            padding: 10px;
+            .avatar__container {
+              width: 70px;
+              height: 70px;
+            }
+          }
+          .box__uniformNumber {
+            position: relative;
+            align-self: center;
+            .text__uniformNumber {
+              position: absolute;
+              top: 18px;
+              left: 37%;
+              font-size: 15px;
+              font-weight: bold;
+              color: navy;
+            }
+          }
+        }
+        .second__box {
+          .text__name {
+            font-size: 40px;
+            font-weight: lighter;
+            text-align: right;
+          }
         }
       }
     }
@@ -51,8 +62,8 @@
   .row__second {
     .col__box {
       .card__container {
-        height: 150px;
-        width: 150px;
+        // width: 200px;
+        height: 160px;
         background-color: #f1f1f1;
         border-radius: 16px;
         .card__title {
@@ -62,11 +73,19 @@
           font-weight: 600;
         }
         .card__content {
-          padding-top:50px;
-          padding-right: 24px;
-          text-align: right;
-          font-size: 24px;
-          font-weight: bold;
+          display: flex;
+          .card__img {
+            width: 50px;
+            height: 50px;
+          }
+          span {
+            padding-top: 50px;
+            padding-right: 24px;
+            text-align: right;
+            font-size: 24px;
+            font-weight: bold;
+          }
+          
         }
       }
     }
@@ -75,6 +94,8 @@
     .card__container {
       background-color: #f1f1f1;
       border-radius: 16px;
+      max-height: 390px;
+      overflow-y: scroll;
       .card__title {
         padding: 12px;
         text-align: left;

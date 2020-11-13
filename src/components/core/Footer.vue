@@ -31,9 +31,9 @@ export default {
   },
   methods: {
     movePage(item) {
-      console.log(item);
       if(item.title === "ME") {
         this.$router.push({ name: "memberDetails", params: { member_id: this.userInfo.member_id }});
+        this.$router.go();
       }else {
         this.$router.push({ path: item.to });
       }

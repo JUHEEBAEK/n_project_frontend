@@ -133,7 +133,14 @@ export default {
   methods: {
     ...memberMapActions(["details_member", "delete_member", "update_member"]),
     async getMemberInfo(memberId) {
-      this.memberInfo = await this.details_member(memberId);
+      const res = await this.details_member(memberId);
+      if(res.status !== 200) {
+        this.setSnackBar(this.snackBarFail, "에러 발생");
+        this.$router.go(-1);
+      }else {
+        this.memberInfo = res.data;
+      }
+      
       this.setMemberInfo(this.memberInfo);
     },
     setMemberInfo(memberInfo) {
