@@ -29,7 +29,7 @@ export const getTeamList = async() => {
 };
 
 
-export const detailsTeam = async(id) => {
+export const getTeamInfo = async(id) => {
   const response = await generalReq("get", "/api/team/" + id);
   return response;
 };
