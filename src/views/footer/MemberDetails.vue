@@ -113,6 +113,7 @@
         </v-col>
       </v-row>
     </div>
+    <util-loading v-if="loading" :size="100" />
   </div>
 </template>
 
@@ -120,6 +121,7 @@
 import { createNamespacedHelpers } from "vuex";
 import { mapGetters } from "vuex";
 
+import util from "../../mixins/util.js";
 import memberConst from "../../assets/value/member.json";
 
 const {
@@ -143,6 +145,7 @@ const {
 } = createNamespacedHelpers("personal");
 
 export default {
+  mixins: [util],
   props: {
     member_id: [String, Number]
   },
@@ -156,7 +159,6 @@ export default {
     },
     yearList: memberConst.years,
     year: 0
-    // selectedYear: 0,
   }),
   computed: {
     ...accountMapGetters(["userInfo"]),
@@ -165,9 +167,10 @@ export default {
     ...teamMapState(["teamInfo"])
   },
   async created () {
-    console.log("created");
+    this.setLoadingBar(true);
     await this.getMemberInfo(this.member_id);
-    this.getCount(this.member_id);
+    await this.getCount(this.member_id);
+    this.setLoadingBar(false);
   },
   methods: {
     ...memberMapActions(["details_member"]),
@@ -180,7 +183,7 @@ export default {
       "get_number_of_attended",
       "get_number_of_played_match"
     ]),
-    getCount: async function(member_id, year) {
+    getCount: function(member_id, year) {
       const teamId = this.userInfo.team_id;
       this.getTeamInfo(teamId);
       this.getNumberOfGoal(member_id, year);
@@ -197,7 +200,6 @@ export default {
       const result = await this.details_team(teamId);
     },
     getMemberInfo: async function(memberId) {
-      console.log("getMemberInfo");
       const result = await this.details_member(memberId);
     },
     getNumberOfGoal: async function(memberId, year) {
