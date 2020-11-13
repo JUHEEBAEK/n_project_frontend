@@ -5,7 +5,7 @@
       <div class="item__content">
         <v-slide-group v-model="model" center-active class="pa-4" show-arrows>
           <v-slide-item v-for="(gameInfo, idx) in schedule.gameList" :key="idx">
-            <v-card class="game__card" @click="clickGame(gameInfo)">
+            <v-card class="game__card" @click="clickGame(gameInfo, schedule.id)">
               <v-card-title class="game__title">
                 <span class="text__quarter">Q{{ gameInfo.quarter }}</span>
                 <span class="text__result">
@@ -100,15 +100,15 @@ export default {
   methods: {
     ...calendarMapActions(["select_schedule", "get_member_squad_info"]),
     ...gameActions(["selectGameList", "getHomeTeamSquad", "getAwayTeamSquad"]),
-    clickGame: function(gameInfo) {
+    clickGame: function(gameInfo, scheduleId) {
       this.$router.push({
         name: "gameDetails",
-        params: { game_id: gameInfo.id }
+        params: { game_id: gameInfo.id, schedule_id: scheduleId }
       });
     },
     getGameList: async function() {
       this.gameList = await this.selectGameList();
-      this.divideSchduleIdInGame();
+      this.divideSchduleIdInGame( );
       this.setscheduleList(this.filteredSchedule);
     },
     getScheduleList: async function() {

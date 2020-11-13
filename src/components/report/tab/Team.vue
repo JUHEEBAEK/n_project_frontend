@@ -87,9 +87,9 @@ export default {
       return item.win * 3 + item.draw * 1;
     }
   },
-  created() {
-    this.loadRelativePerformance();
-    this.loadRankingData();
+  async created() {
+    await this.loadRelativePerformance();
+    await this.loadRankingData();
   },
   methods: {
     loadRelativePerformance: async function() {
@@ -146,7 +146,7 @@ export default {
           winCount.teamA += 1;
         }
         if(isWinBTeam){
-           winCount.teamB += 1;
+          winCount.teamB += 1;
         }
       });
 

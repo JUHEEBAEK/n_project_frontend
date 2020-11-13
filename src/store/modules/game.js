@@ -1,5 +1,6 @@
 import {
   searchWithScheduleIdAndQuarter,
+  searchWithScheduleId,
   updateGame,
   selectGameList,
   getMultiplexInfo,
@@ -143,8 +144,8 @@ const actions = {
     try {
       let response = await searchWithScheduleId(payload);
       if (response.data){
-        commit("SET_GAME_LIST", response.data[0])  
-        return response.data.insertId
+        commit("SET_GAME_LIST", response.data)  
+        return response.data
       }else{
         return false;
       } 

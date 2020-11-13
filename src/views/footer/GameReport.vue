@@ -27,7 +27,6 @@ export default {
   data: () => ({
     years: gameReportData.years,
     months: gameReportData.months,
-    scheduleList: [],
     nowYear: new Date().getFullYear(),
     nowMonth: new Date().getMonth() + 1
   }),

@@ -46,8 +46,8 @@
     },
     {
       "title": "ME",
-      "to": "/me",
-      "icon": "003-tshirt.png"
+      "to": "/member/details",
+      "icon": "player.png"
     },
     {
       "title": "REPORT",

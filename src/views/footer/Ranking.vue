@@ -29,21 +29,24 @@
         <ranking-filter @filterChanged="filterRanking"/>
         <v-card>
           <v-card-title class="text-center justify-center py-6">
-            <h1 class="font-weight-bold display-3">N-Ranking</h1>
+            <div class="font-weight-bold display-3">N-Ranking</div>
           </v-card-title>
+          <v-card-subtitle>
+              <span>단, 랭킹을 계수하는 기준은 깍두기 없이 5, 6명 실외 구장을 기준으로 한다. </span>
+          </v-card-subtitle>
           <v-tabs
             v-model="tab"
             background-color="transparent"
             grow
           >
-            <v-tab v-for="(item, index) in tabItems" :key="index">{{
-              item
-            }}</v-tab>
+            <v-tab v-for="(item, index) in tabItems" :key="index">
+              {{ item }}
+            </v-tab>
           </v-tabs>
           <v-tabs-items v-model="tab">
             <v-tab-item v-for="(item, index) in tabItems" :key="index">
               <v-card flat>
-                <ranking-table :tableData="rankingData[item]"></ranking-table>
+                <ranking-table :tableData="rankingData[item]" :playedMatched="rankingData['ATTEND']"></ranking-table>
               </v-card>
             </v-tab-item>
           </v-tabs-items>
@@ -66,7 +69,7 @@ export default {
     return {
       tabs: null,
       tab: null,
-      tabItems: ["GOAL", "ASSIST", "CLEAN_SHEET", "ATTEND"]
+      tabItems: ["GOAL", "ASSIST", "CLEAN_SHEET"]
     };
   },
   computed: {

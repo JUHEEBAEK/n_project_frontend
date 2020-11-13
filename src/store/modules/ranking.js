@@ -116,7 +116,6 @@ const actions = {
   async get_attend_ranking_filter(context, condition){
     try {
         const response = await getAttendRankingFilter(condition);
-        console.log(response)
         context.commit("SET_ATTEND_RANKING_DATA", response.data);
         return response.data;
     } catch (e) {
