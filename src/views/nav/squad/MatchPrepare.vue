@@ -48,6 +48,10 @@ const {
   mapActions: prepareMatchActions
 } = createNamespacedHelpers("prepareMatch");
 
+const {
+  mapGetters: accountMapGetters
+} = createNamespacedHelpers("account");
+
 export default {
   props: {
     schedule_id: {
@@ -63,6 +67,10 @@ export default {
     members: null
   }),
   computed: {
+    ...accountMapGetters(["userInfo"]),
+    ...calendarMapGetters(["current_schedule_id"]),
+    ...calendarMapState(["scheduleIndex", "scheduleList"]),
+    ...prepareMatchGetters(["currentQuarterString", "currentQuarterNumber"]),
     ...prepareMatchState([
       "selectedSplitedTeam",
       "homeTeam",
@@ -71,10 +79,7 @@ export default {
       "homeMembers",
       "awayMembers",
       "quarterIndex"
-    ]),
-    ...prepareMatchGetters(["currentQuarterString", "currentQuarterNumber"]),
-    ...calendarMapState(["scheduleIndex", "scheduleList"]),
-    ...calendarMapGetters(["current_schedule_id"])
+    ])
   },
   async created() {
     this.SET_QAURTER_INDEX(Number(this.quarter) - 1);
@@ -214,7 +219,8 @@ export default {
         gameForm["away_squad_id"] = awaySquadId;
         gameForm["home_score"] = 0;
         gameForm["away_score"] = 0;
-        gameForm["result"] = "N";
+        gameForm["result"] = "D";
+        gameForm["user_id"] = this.userInfo.id;
         console.log(this.jocker);
         if (this.jocker.member_id) {
           gameForm["is_jocker"] = true;

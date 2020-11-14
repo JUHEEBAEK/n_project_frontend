@@ -153,6 +153,11 @@ const {
   mapActions: gameReportActions
 } = createNamespacedHelpers("gameReport");
 
+const {
+  mapGetters: accountMapGetters
+} = createNamespacedHelpers("account");
+
+
 export default {
   props: {
     isUpdate: {
@@ -182,14 +187,15 @@ export default {
     eventIconColor: matchValue.gameReportEventIconColor
   }),
   computed: {
-    ...prepareMatchState(["homeMembers", "awayMembers"]),
+    ...accountMapGetters(["userInfo"]),
+    ...gameState(["gameInfo"]),
     ...gameReportState([
       "eventList",
       "gameReportEventInfo",
       "homeScore",
       "awayScore"
     ]),
-    ...gameState(["gameInfo"]),
+    ...prepareMatchState(["homeMembers", "awayMembers"]),
     isSingleType() {
       return (this.lastEventType === "");
     }
@@ -289,6 +295,7 @@ export default {
     },
     clickSaveButton: async function(event) {
       event.game_id = this.gameInfo.id;
+      event.user_id = this.userInfo.id;
       // 경기 기록 추가 actions
       let addGameEventresult = await this.addGameEvent(event);
       // 게임 이벤트추가 결과가 true이고 골일 경우에만 스코어를 추가시켜주기 위해서.

@@ -44,8 +44,8 @@ export const login = async (userId, password) => {
     }else {
       let token = result.data.Authorization;
       if(token) {
-        const { id, name, member_id, team_id, role, exp } = getTokenPayload(token);
-        let user = { exp, id, member_id, name, team_id, role };
+        const { id, user_id, name, member_id, team_id, role, exp } = getTokenPayload(token);
+        let user = { exp, id, user_id, member_id, name, team_id, role };
         saveToken(token);
         saveUserInfo(user);
         // Vuex 에 User 정보 셋업
