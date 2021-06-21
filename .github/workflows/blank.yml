@@ -35,7 +35,7 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run build
+        run: npm run build:prod
 
       - name: Transfer to S3 for serving static
         uses: jakejarvis/s3-sync-action@master
