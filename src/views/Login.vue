@@ -9,10 +9,10 @@
             contain
           />
         </div>
-        <div class="header__logo-text">Log in to your account</div>
+        <div class="header__logo-text">Welcome to the futsal~!!!</div>
       </v-card-title>
       <div>
-        <v-form class="login__content" ref="form" lazy-validation>
+        <v-form ref="form" class="login__content" lazy-validation>
           <v-text-field
             v-model="username"
             autocomplete="off"

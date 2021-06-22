@@ -1,11 +1,11 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12" sm="6" md="6" lg="6" xl="6">
+      <v-col cols="12" xs="12" sm="6" md="6" lg="6" xl="6">
         {{ userInfo }}
       </v-col>
       <v-col cols="12" sm="6" md="6" lg="6" xl="6">
-        <widget-basic :headerTitle="title" :isLoading="isLoading">
+        <widget-basic :header-title="title" :is-loading="isLoading">
           <chart-bar-inverse
             class="chart"
             :data-set="chartData"
@@ -34,14 +34,14 @@ const {
 } = createNamespacedHelpers("account");
 
 export default {
-  created() {
-    this.$store.commit("common/SET_FULL_SCREEN", false);
-  },
   data: () => ({
     chartData: [],
     title: "2020 출석횟수",
     isLoading: false
   }),
+  created() {
+    this.$store.commit("common/SET_FULL_SCREEN", false);
+  },
   computed: {
     ...accountMapGetters(["userInfo"])
   },
