@@ -1,11 +1,7 @@
-import {
-  createLocalVue
-} from "@vue/test-utils";
+import { createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import storeConfig from "@/store/modules/calendar.js";
-import {
-  cloneDeep
-} from "lodash";
+import { cloneDeep } from "lodash";
 
 test("State has right values", () => {
   // 환경세팅
@@ -32,7 +28,8 @@ test("Mutation Setters work", () => {
   store.commit("SET_FULL_SCHEDULE_MODAL", test_value);
   expect(store.state.newScheduleBox).toBe(test_value);
 
-  let input_schedule_list = [{
+  let input_schedule_list = [
+    {
       id: 168,
       date: "2019-08-10",
       type: "P",
@@ -68,7 +65,8 @@ test("Mutation Setters work", () => {
     }
   ];
 
-  let result_schedule_list = [{
+  let result_schedule_list = [
+    {
       id: 168,
       date: "2019-08-10",
       type: "P",
@@ -113,90 +111,92 @@ test("Setting Members according to Schedule", async () => {
   localVue.use(Vuex);
   const store = new Vuex.Store(cloneDeep(storeConfig));
 
-  const initial_scheduleList = [{
-    id: 167
-  }, {
-    id: 168
-  }];
+  const initial_scheduleList = [
+    {
+      id: 167
+    },
+    {
+      id: 168
+    }
+  ];
 
-  const input_member_list = [{
+  const input_member_list = [
+    {
       id: 36,
       member_id: 36,
       schedule_id: 168,
-      name: "김나경",
+      name: "김나경"
     },
     {
       id: 31,
       member_id: 31,
       schedule_id: 168,
-      name: "윤영임",
-
+      name: "윤영임"
     },
     {
       id: 14,
       member_id: 14,
       schedule_id: 168,
-      name: "김지현",
+      name: "김지현"
     },
     {
       id: 10,
       member_id: 10,
       schedule_id: 168,
-      name: "박아란",
-
+      name: "박아란"
     },
     {
       id: 2,
       member_id: 2,
       schedule_id: 168,
-      name: "백주희",
-
+      name: "백주희"
     },
     {
       id: 11,
       member_id: 11,
       schedule_id: 168,
-      name: "원지향",
-
+      name: "원지향"
     },
     {
       id: 20,
       member_id: 20,
       schedule_id: 168,
-      name: "조명선",
-
+      name: "조명선"
     },
     {
       id: 12,
       member_id: 12,
       schedule_id: 168,
-      name: "최예린",
+      name: "최예린"
     },
     {
       id: 30,
       member_id: 30,
       schedule_id: 168,
-      name: "함박눈",
+      name: "함박눈"
     }
   ];
-  const expect_result = [{
-    id: 167
-  }, {
-    attendCount: 9,
-    id: 168,
-    member_id_list: [36, 31, 14, 10, 2, 11, 20, 12, 30],
-    member_name_list: [
-      "김나경",
-      "윤영임",
-      "김지현",
-      "박아란",
-      "백주희",
-      "원지향",
-      "조명선",
-      "최예린",
-      "함박눈"
-    ]
-  }];
+  const expect_result = [
+    {
+      id: 167
+    },
+    {
+      attendCount: 9,
+      id: 168,
+      member_id_list: [36, 31, 14, 10, 2, 11, 20, 12, 30],
+      member_name_list: [
+        "김나경",
+        "윤영임",
+        "김지현",
+        "박아란",
+        "백주희",
+        "원지향",
+        "조명선",
+        "최예린",
+        "함박눈"
+      ]
+    }
+  ];
   // await store.dispatch('select_schedule')
   store.state.scheduleList = initial_scheduleList;
   store.commit("ADD_MEMBER_LIST", input_member_list);
@@ -213,16 +213,16 @@ test("Get Schedule with specific id ", async () => {
   let schedule_with_id = await store.dispatch("get_schedule_info", intput_id);
 
   let expected_schedule = {
-    "address": "서울 관악구 은천로 86 두산아파트",
-    "date": "2018-01-06",
-    "end_time": null,
-    "id": 1,
-    "name": "[자체 경기] 풀굿",
-    "nick_name": "풀굿",
-    "place": "풀굿 FC 풋살장(봉천)",
-    "stadium_id": 10,
-    "start_time": null,
-    "type": "P"
-  }
+    address: "서울 관악구 은천로 86 두산아파트",
+    date: "2018-01-06",
+    end_time: null,
+    id: 1,
+    name: "[자체 경기] 풀굿",
+    nick_name: "풀굿",
+    place: "풀굿 FC 풋살장(봉천)",
+    stadium_id: 10,
+    start_time: null,
+    type: "P"
+  };
   expect(schedule_with_id).toStrictEqual(expected_schedule);
 });

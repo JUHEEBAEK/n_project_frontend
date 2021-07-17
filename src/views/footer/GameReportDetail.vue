@@ -1,9 +1,15 @@
 <template>
   <div>
     <core-breadcrumbs :items="items" />
-    <report-game-info :game-info="gameInfo" :quarter-list="gameList"></report-game-info>
+    <report-game-info
+      :game-info="gameInfo"
+      :quarter-list="gameList"
+    ></report-game-info>
     <report-position-view :game_id="game_id"></report-position-view>
-    <report-event-list :game-info="gameInfo" :game-event-list="eventList"></report-event-list>
+    <report-event-list
+      :game-info="gameInfo"
+      :game-event-list="eventList"
+    ></report-event-list>
     <util-spinner v-if="loading"></util-spinner>
   </div>
 </template>
@@ -49,11 +55,11 @@ export default {
       {
         text: "경기 리스트",
         disabled: false,
-        href: "/gameReport",
+        href: "/gameReport"
       },
       {
         text: "경기 리포트",
-        disabled: true,
+        disabled: true
       }
     ]
   }),

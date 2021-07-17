@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12" xs="12" sm="6" md="6" lg="6" xl="6">
-        <!-- {{ userInfo }} -->
+        {{ userInfo }}
       </v-col>
       <v-col cols="12" sm="6" md="6" lg="6" xl="6">
         <widget-basic :header-title="title" :is-loading="isLoading">
@@ -14,7 +14,7 @@
             :tick-count="5"
             :bar-padding="0.3"
           />
-          </widget-basic>
+        </widget-basic>
       </v-col>
     </v-row>
   </v-container>

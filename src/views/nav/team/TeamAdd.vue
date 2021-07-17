@@ -13,7 +13,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="12"> 
+          <v-col cols="12">
             <v-radio-group v-model="teamType" row>
               <v-radio label="팀" value="Team"></v-radio>
               <v-radio label="유닛 팀" value="Unit"></v-radio>
@@ -66,9 +66,7 @@
 import { mapGetters } from "vuex";
 import util from "../../../mixins/util.js";
 import { createNamespacedHelpers } from "vuex";
-const {
-  mapActions: teamMapActions
-} = createNamespacedHelpers("team");
+const { mapActions: teamMapActions } = createNamespacedHelpers("team");
 
 export default {
   name: "TeamAdd",
@@ -78,7 +76,7 @@ export default {
     name: "",
     teamType: "Team",
     season: new Date().toISOString().substr(0, 4),
-    menuSeason: false,
+    menuSeason: false
   }),
   computed: {
     ...mapGetters("common", {
@@ -86,8 +84,8 @@ export default {
     })
   },
   watch: {
-    menuSeason (val) {
-      val && this.$nextTick(() => (this.$refs.picker.activePicker = 'YEAR'))
+    menuSeason(val) {
+      val && this.$nextTick(() => (this.$refs.picker.activePicker = "YEAR"));
     }
   },
   created() {
@@ -97,14 +95,14 @@ export default {
     ...teamMapActions(["add_team", "add_unit_team"]),
     submit() {
       if (this.$refs.formTeamAdd.validate()) {
-        if(this.teamType === "Team") {
+        if (this.teamType === "Team") {
           let _srcData = {};
           _srcData["name"] = this.name;
           this.add_team(_srcData).then(() => {
             this.setSnackBar(this.snackBarSuccess, "정상적으로 추가되었습니다");
             history.back();
           });
-        }else {
+        } else {
           let _srcData = {};
           _srcData["name"] = this.name;
           _srcData["description"] = this.description;

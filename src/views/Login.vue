@@ -110,7 +110,7 @@ export default {
         const res = await login(this.username, this.password);
         if (res.status !== 400 && res === 200) {
           this.$router.push({ path: "/" });
-        }else {
+        } else {
           // FIXME: 오류를 여러번 이어서 냈을 때 처음만 스낵바 보이고 나머지는 안보임????
           this.setSnackBar(this.snackBarFail, res.data.message);
         }

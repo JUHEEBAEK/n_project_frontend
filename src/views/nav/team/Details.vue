@@ -7,7 +7,14 @@
       <v-col cols="12">
         <h4>2016.09.18 창단한 FS눈누난나</h4>
       </v-col>
-      <v-col cols="6" xs="12" sm="12" md="6" lg="6" class="align-content-center">
+      <v-col
+        cols="6"
+        xs="12"
+        sm="12"
+        md="6"
+        lg="6"
+        class="align-content-center"
+      >
         <div class="subheading">엠블럼</div>
         <v-img aspect-ratio="1" contain :src="$imgBaseUrl + emblem"></v-img>
       </v-col>
@@ -32,11 +39,11 @@ export default {
       {
         text: "팀 관리",
         disabled: false,
-        href: "/team-admin",
+        href: "/team-admin"
       },
       {
         text: "팀 상세 정보",
-        disabled: true,
+        disabled: true
       }
     ]
   })

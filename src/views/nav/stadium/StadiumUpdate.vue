@@ -33,7 +33,10 @@
           </v-col>
         </v-row>
         <v-col cols="12" md="9" lg="9" xl="9">
-          <stadium-map v-model="markerPosition" :make-marker-with-click="true" />
+          <stadium-map
+            v-model="markerPosition"
+            :make-marker-with-click="true"
+          />
         </v-col>
         <v-row>
           <v-col cols="12" class="text-right">

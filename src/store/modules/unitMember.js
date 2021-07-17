@@ -7,15 +7,15 @@ import {
 
 const state = {
   unitTeamPlayerList: [],
-  allUnitMemberList: [],
+  allUnitMemberList: []
 };
 
 const getters = {};
 const mutations = {
-  SELECT_UNIT_TEAM_MEMBER(state, memberList){
+  SELECT_UNIT_TEAM_MEMBER(state, memberList) {
     state.unitTeamPlayerList = memberList;
   },
-  SELECT_ALL_UNIT_MEMBER(state, unitMemberList){
+  SELECT_ALL_UNIT_MEMBER(state, unitMemberList) {
     state.allUnitMemberList = unitMemberList;
   }
 };
@@ -28,9 +28,7 @@ const actions = {
       console.log(e);
     }
   },
-  async select_all_unit_member({
-    commit
-  }) {
+  async select_all_unit_member({ commit }) {
     try {
       const response = await getAllUnitMember();
       commit("SELECT_ALL_UNIT_MEMBER", response);
@@ -39,9 +37,7 @@ const actions = {
       console.log(e);
     }
   },
-  async select_unit_team_member({
-    commit
-  }, unitTeamId) {
+  async select_unit_team_member({ commit }, unitTeamId) {
     try {
       const response = await getUnitTeamMember(unitTeamId);
       commit("SELECT_UNIT_TEAM_MEMBER", response);

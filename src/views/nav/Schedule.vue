@@ -3,7 +3,9 @@
     <core-alert />
     <v-sheet height="64">
       <v-toolbar flat dense color="white">
-        <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">Today</v-btn>
+        <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday"
+          >Today</v-btn
+        >
         <v-btn fab text small color="grey darken-2" @click="prev">
           <v-icon small>fas fa-chevron-left</v-icon>
         </v-btn>
@@ -41,14 +43,26 @@
                   v-on="on"
                   @click.stop
                   @click="load_member(schedule.id)"
-                >{{ schedule.name }}</div>
+                >
+                  {{ schedule.name }}
+                </div>
               </template>
 
-              <calendar-schedule :selected-schedule="schedule" @close="close(schedule)"></calendar-schedule>
-              <calendar-fullSchedule :schedule-id="schedule.id" @closeEvent="close(schedule)"></calendar-fullSchedule>
+              <calendar-schedule
+                :selected-schedule="schedule"
+                @close="close(schedule)"
+              ></calendar-schedule>
+              <calendar-fullSchedule
+                :schedule-id="schedule.id"
+                @closeEvent="close(schedule)"
+              ></calendar-fullSchedule>
             </v-menu>
           </template>
-          <calendar-add :new-schedule-box="newScheduleBox" :selected-date="clickDay" :day="date"></calendar-add>
+          <calendar-add
+            :new-schedule-box="newScheduleBox"
+            :selected-date="clickDay"
+            :day="date"
+          ></calendar-add>
         </template>
       </v-calendar>
     </v-sheet>
@@ -133,7 +147,7 @@ export default {
     close(schedule) {
       schedule.open = false;
     }
-  },
+  }
 };
 </script>
 

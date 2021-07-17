@@ -48,9 +48,7 @@ const {
   mapActions: prepareMatchActions
 } = createNamespacedHelpers("prepareMatch");
 
-const {
-  mapGetters: accountMapGetters
-} = createNamespacedHelpers("account");
+const { mapGetters: accountMapGetters } = createNamespacedHelpers("account");
 
 export default {
   props: {
@@ -246,7 +244,7 @@ export default {
             quarter: this.currentQuarterNumber
           }
         })
-        .catch((err) => {
+        .catch(err => {
           // 같은 주소를 여러 번 호출할 때 나는 에러이다.
           if (err.name != "NavigationDuplocated") {
             throw err;

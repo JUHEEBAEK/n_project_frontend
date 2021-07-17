@@ -26,19 +26,18 @@
         <report-tab-team></report-tab-team>
       </div>
       <div v-if="tabs === 'PERSONAL'" class="content__general">
-        <ranking-filter @filterChanged="filterRanking"/>
+        <ranking-filter @filterChanged="filterRanking" />
         <v-card>
           <v-card-title class="text-center justify-center py-6">
             <div class="font-weight-bold display-3">N-Ranking</div>
           </v-card-title>
           <v-card-subtitle>
-              <span>단, 랭킹을 계수하는 기준은 깍두기 없이 5, 6명 실외 구장을 기준으로 한다. </span>
+            <span
+              >단, 랭킹을 계수하는 기준은 깍두기 없이 5, 6명 실외 구장을
+              기준으로 한다.
+            </span>
           </v-card-subtitle>
-          <v-tabs
-            v-model="tab"
-            background-color="transparent"
-            grow
-          >
+          <v-tabs v-model="tab" background-color="transparent" grow>
             <v-tab v-for="(item, index) in tabItems" :key="index">
               {{ item }}
             </v-tab>
@@ -46,7 +45,10 @@
           <v-tabs-items v-model="tab">
             <v-tab-item v-for="(item, index) in tabItems" :key="index">
               <v-card flat>
-                <ranking-table :table-data="rankingData[item]" :played-matched="rankingData['ATTEND']"></ranking-table>
+                <ranking-table
+                  :table-data="rankingData[item]"
+                  :played-matched="rankingData['ATTEND']"
+                ></ranking-table>
               </v-card>
             </v-tab-item>
           </v-tabs-items>

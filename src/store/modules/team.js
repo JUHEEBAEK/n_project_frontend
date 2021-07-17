@@ -19,24 +19,24 @@ const state = {
   teamInfo: {},
   teamType: "Team",
   unitTeamList: [],
-  unitTeamInfo: {},
+  unitTeamInfo: {}
 };
 
 const getters = {};
 const mutations = {
   [constants.setTeamType]: set("teamType"),
-  SELECT_ALL_TEAM(state, teamList){
+  SELECT_ALL_TEAM(state, teamList) {
     state.teamList = teamList;
   },
-  SELECT_UNIT_TEAM(state, unitTeamList){
+  SELECT_UNIT_TEAM(state, unitTeamList) {
     state.unitTeamList = unitTeamList;
   },
-  UPDATE_UNIT_TEAM(state, unitTeamInfo){
+  UPDATE_UNIT_TEAM(state, unitTeamInfo) {
     state.unitTeamInfo = unitTeamInfo;
   },
-  GET_INFO_TEAM(state, teamInfo){
+  GET_INFO_TEAM(state, teamInfo) {
     state.teamInfo = teamInfo;
-  },
+  }
 };
 const actions = {
   async add_team(context, form) {
@@ -55,9 +55,7 @@ const actions = {
       console.log(e);
     }
   },
-  async select_all_team({
-    commit
-  }) {
+  async select_all_team({ commit }) {
     try {
       const response = await getAllTeam();
       commit("SELECT_ALL_TEAM", response);
@@ -92,9 +90,7 @@ const actions = {
       console.log(e);
     }
   },
-  async details_team({
-    commit
-  }, payload) {
+  async details_team({ commit }, payload) {
     try {
       const response = await getTeamInfo(payload);
       commit("GET_INFO_TEAM", response.data);
@@ -102,8 +98,7 @@ const actions = {
     } catch (e) {
       console.log(e);
     }
-  },
-
+  }
 };
 
 export default {

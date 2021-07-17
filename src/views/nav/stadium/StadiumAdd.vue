@@ -15,7 +15,10 @@
             <v-btn @click="searchWithKeyword(searchKeyword)">주소 검색 </v-btn>
           </v-col>
           <v-col cols="12" md="9" lg="9" xl="9">
-            <stadium-map v-model="markerPosition" :make-marker-with-click="true" />
+            <stadium-map
+              v-model="markerPosition"
+              :make-marker-with-click="true"
+            />
           </v-col>
           <v-col>
             <v-list>
