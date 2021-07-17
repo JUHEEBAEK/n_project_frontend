@@ -4,14 +4,16 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --mode development",
-    "serve:prod": "vue-cli-service serve --mode production",
+    "test:unit": "vue-cli-service test:unit",
+    "lint": "vue-cli-service lint",
     "build:dev": "vue-cli-service build --mode development --dist",
     "build:prod": "vue-cli-service build --mode production --dist",
+    "nohup": "nohup vue-cli-service serve --mode production &",
     "prebuild": "rm -rf dist",
-    "lint": "vue-cli-service lint",
-    "test:unit": "vue-cli-service test:unit",
+    "serve:prod": "vue-cli-service serve --mode production",
     "start": "vue-cli-service serve",
-    "nohup": "nohup vue-cli-service serve --mode production &"
+    "storybook:build": "vue-cli-service storybook:build -c config/storybook",
+    "storybook:serve": "vue-cli-service storybook:serve -p 6006 -c config/storybook"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.8.2",
@@ -33,6 +35,9 @@
     "vuex-mock-store": "0.0.8"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^6.0.26",
+    "@storybook/addon-links": "^6.0.26",
+    "@storybook/vue": "^6.3.4",
     "@vue/cli-plugin-babel": "^4.1.0",
     "@vue/cli-plugin-eslint": "^4.1.0",
     "@vue/cli-plugin-pwa": "^4.1.0",
@@ -50,6 +55,7 @@
     "prettier": "^1.19.1",
     "sass": "^1.19.0",
     "sass-loader": "^8.0.0",
+    "vue-cli-plugin-storybook": "~2.1.0",
     "vue-cli-plugin-vuetify": "^2.0.3",
     "vue-jest": "^3.0.5",
     "vue-template-compiler": "^2.6.10",
