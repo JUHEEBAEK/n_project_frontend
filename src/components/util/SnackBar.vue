@@ -21,14 +21,13 @@ export default {
     },
     purpose: {
       type: String,
-      defalult: "showSuccess"
+      default: "showSuccess"
     },
     timeout: {
       type: Number,
       default: 2000
     }
   },
-  created() {},
   data: () => ({}),
   computed: {
     snackBar: {
@@ -40,6 +39,7 @@ export default {
       }
     }
   },
+  created() {},
   methods: {
     setColor: function() {
       if (this.purpose === "showSuccess") {

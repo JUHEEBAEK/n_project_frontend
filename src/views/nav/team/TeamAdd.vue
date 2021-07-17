@@ -1,6 +1,6 @@
 <template>
   <div>
-    <core-Back :tableHeader="title" />
+    <core-Back :table-header="title" />
     <v-card class="card__addForm pa-4">
       <v-form ref="formTeamAdd" class="form">
         <v-row class="bg__primary py-10" justify="center">

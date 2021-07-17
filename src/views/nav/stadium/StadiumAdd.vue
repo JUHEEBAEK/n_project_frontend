@@ -1,6 +1,6 @@
 <template>
   <div>
-    <core-Back :tableHeader="title" />
+    <core-Back :table-header="title" />
     <v-card class="card__addForm pa-4">
       <v-form ref="formStadiumAdd" class="form">
         <v-row>
@@ -8,14 +8,14 @@
             <v-text-field
               v-model="searchKeyword"
               label="주소 검색어"
-              v-on:keyup.enter="searchWithKeyword(searchKeyword)"
+              @keyup.enter="searchWithKeyword(searchKeyword)"
             />
           </v-col>
           <v-col cols="3">
             <v-btn @click="searchWithKeyword(searchKeyword)">주소 검색 </v-btn>
           </v-col>
           <v-col cols="12" md="9" lg="9" xl="9">
-            <stadium-map :makeMarkerWithClick="true" v-model="markerPosition" />
+            <stadium-map v-model="markerPosition" :make-marker-with-click="true" />
           </v-col>
           <v-col>
             <v-list>

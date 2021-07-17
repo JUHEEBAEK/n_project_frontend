@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="dialog" v-if="type = 'addUnitMember'" width="600">
+    <v-dialog v-if="type = 'addUnitMember'" v-model="dialog" width="600">
       <v-card>
         <v-card-title>
           유닛 팀 선수 추가
@@ -56,7 +56,10 @@ const {
 export default {
   mixins: [dialog],
   props: {
-    unit_team_id: String
+    unitTeamId: {
+      type: String,
+      default: ""
+    }
   },
   data:() => ({
     memberWithoutTeamList: [],

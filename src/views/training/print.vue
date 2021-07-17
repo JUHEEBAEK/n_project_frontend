@@ -71,8 +71,8 @@
           <v-col cols="7" class="py-0">
             <div>
               <input
-                class="file__input"
                 ref="hiddenInputFile"
+                class="file__input"
                 type="file"
                 accept="image/png, image/jpeg"
                 @change="onChangeImages"
@@ -323,9 +323,7 @@ import { mapGetters } from "vuex";
 import regex from "../../mixins/regex";
 
 export default {
-  async created() {
-    this.$store.commit("common/SET_FULL_SCREEN", true);
-  },
+  mixins: [regex],
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
     coach: null,
@@ -336,11 +334,13 @@ export default {
     team: null,
     teamList: ["TNT FC"]
   }),
-  mixins: [regex],
   computed: {
     ...mapGetters("components/layout", {
       fullScreen: "fullScreen"
     })
+  },
+  async created() {
+    this.$store.commit("common/SET_FULL_SCREEN", true);
   },
   methods: {
     clearImage: function() {

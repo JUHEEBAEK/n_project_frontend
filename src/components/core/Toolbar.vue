@@ -8,8 +8,8 @@
       <v-spacer></v-spacer>
       <div class="bar__second-profile">
         <v-menu
-          class="profile__menu"
           v-model="menu"
+          class="profile__menu"
           :close-on-content-click="false"
           :nudge-width="120"
           offset-y
@@ -55,7 +55,7 @@ const { mapGetters: accountMapGetters } = createNamespacedHelpers("account");
 import { logout } from "../../mixins/auth.js";
 
 export default {
-  name: "Toolbar.vue",
+  name: "ToolbarVue",
   data: () => ({
     title: "Nunnu Nanna"
   }),

@@ -2,17 +2,17 @@
   <div>
     <v-row class="position__field" justify="center">
       <v-col
+        v-for="item in positionList"
+        :key="item"
         cols="4"
         class="text-center px-0 pb-0"
         align-self="center"
-        v-for="item in positionList"
-        :key="item"
       >
         <v-btn v-if="item" @click="openDialog(item)">{{ item }}</v-btn>
         <v-text-field
           v-if="item"
-          class="position__name"
           v-model="position[selectType][item]"
+          class="position__name"
           clearable
           readonly
         ></v-text-field>
@@ -20,17 +20,17 @@
     </v-row>
     <v-row class="position__bench" justify="center">
       <v-col
+        v-for="item in benchList"
+        :key="item"
         cols="4"
         class="text-center px-0 pb-0"
         align-self="center"
-        v-for="item in benchList"
-        :key="item"
       >
         <v-btn v-if="item" @click="openDialog(item)">{{ item }}</v-btn>
         <v-text-field
           v-if="item"
-          class="position__name"
           v-model="position[selectType][item]"
+          class="position__name"
           clearable
           readonly
         ></v-text-field>
@@ -38,8 +38,8 @@
     </v-row>
     <dialog-squad-position
       v-if="dialog === true && type === 'position'"
-      :selectTeam="selectTeam"
-      :selectPosition="selectPosition"
+      :select-team="selectTeam"
+      :select-position="selectPosition"
       @savePosition="savePosition"
     ></dialog-squad-position>
   </div>

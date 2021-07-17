@@ -16,10 +16,10 @@
               </v-btn>
               <v-text-field
                 ref="title"
+                v-model="title"
                 dense
                 hide-details
                 height="48"
-                v-model="title"
                 placeholder="제목 및 시간 추가"
               />
               <v-btn color="primary" dark class="ma-2" @click="save()">Save</v-btn>
@@ -66,8 +66,8 @@
                   />
                 </template>
                 <v-time-picker
-                  ref="startTimePicker"
                   v-if="menu_start"
+                  ref="startTimePicker"
                   v-model="start_time"
                   format="24hr"
                   full-width
@@ -132,7 +132,7 @@
                 ></v-select>
               </div>
               <div class="schedule__address py-3">
-                <v-text-field dense hide-details filled v-model="address" readonly />
+                <v-text-field v-model="address" dense hide-details filled readonly />
               </div>
             </v-col>
           </v-row>
@@ -182,12 +182,12 @@ const {
 } = createNamespacedHelpers("stadium");
 
 export default {
-  async created() {
-    await this.getStadiumList();
-    await this.getScheduleInfo(this.scheduleId);
+  props: {
+    scheduleId: {
+      type: [String, Number],
+      default: "" || 0
+    }
   },
-  props: ["scheduleId"],
-  watch: {},
   data: () => ({
     menu_date: false,
     menu_start: false,
@@ -209,6 +209,11 @@ export default {
   computed: {
     ...calendarMapState(["fullScheduleDialog", "scheduleInfo"]),
     ...stadiumMapState(["stadiumList"])
+  },
+  watch: {},
+  async created() {
+    await this.getStadiumList();
+    await this.getScheduleInfo(this.scheduleId);
   },
   methods: {
     ...calendarMapMutations(["SET_FULL_SCHEDULE_MODAL"]),

@@ -3,7 +3,7 @@
     <!-- 스케쥴 리스트 영역 -->
     <v-contatner fluid>
       <schedule-date-list
-        :scheduleId="schedule_id"
+        :schedule-id="schedule_id"
         @changeDate="setScheduleData"
       ></schedule-date-list>
       <!-- 쿼터 리스트 영역 -->
@@ -18,7 +18,7 @@
       <v-row class="event__main">
         <!-- 경기 기록 페이지 -->
         <match-event-input
-          :isUpdate="isUpdate"
+          :is-update="isUpdate"
           @setGameReport="setGameReport"
           @setGameId="setGameId"
           @initSaveButton="initSaveButton"
@@ -28,7 +28,7 @@
           @selectEventList="selectEventList"
         ></match-event-input>
         <match-event-list
-          :gameEventList="eventList"
+          :game-event-list="eventList"
           @selectEventList="selectEventList"
           @subtractGameScore="subtractGameScore"
           @changeUpdateButton="changeUpdateButton"
@@ -81,14 +81,14 @@ const {
 } = createNamespacedHelpers("game");
 
 export default {
-  mixins: [regex],
   filters: {
     setMomentMonth: function(val) {
       return moment(val).format("MMM");
     }
   },
+  mixins: [regex],
   props: {
-    schedule_id: {
+    scheduleId: {
       type: [String, Number],
       default: null
     },

@@ -57,8 +57,8 @@
     <v-row>
       <v-col cols="12" class="mx-2 py-1">
         <v-switch
-          class="mt-0"
           v-model="isHome"
+          class="mt-0"
           hide-details
           :label="`Status: ${setStatus}`"
         ></v-switch>
@@ -110,7 +110,7 @@
           </div>
         </div>
       </v-col>
-      <v-col cols="12" v-if="jocker.name !== null">
+      <v-col v-if="jocker.name !== null" cols="12">
         <div class="team__jocker">
           <v-card
             class="mx-auto"

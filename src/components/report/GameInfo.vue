@@ -22,8 +22,8 @@
         <div class="text__bigTitle">{{ gameInfo.home_score }} : {{ gameInfo.away_score }}</div>
         <div class="text__description">
           <v-select
-            class="input__select"
             v-model="gameInfo.quarter"
+            class="input__select"
             solo
             dense
             prefix="Quarter "
@@ -61,14 +61,14 @@ export default {
       default: null
     }
   },
-  created() {
-    // this.getGameInfo(this.game_id);
-  },
   data() {
     return {
       homeEmblem: "emblem/nnnn_emblem01.jpg",
       awayEmblem: "emblem/nnnn_emblem02.jpg"
     };
+  },
+  created() {
+    // this.getGameInfo(this.game_id);
   },
   methods: {
     formatGameType(gameType) {

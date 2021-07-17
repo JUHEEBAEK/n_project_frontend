@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="dialog" v-if="(type = 'position')" width="600">
+    <v-dialog v-if="(type = 'position')" v-model="dialog" width="600">
       <v-card>
         <v-card-title>
           <v-toolbar flat>{{ selectPosition }} 선택</v-toolbar>
@@ -41,10 +41,10 @@ export default {
       default: null
     }
   },
-  created() {},
   data: () => ({
     isActive: null
   }),
+  created() {},
   methods: {
     clickMember(member) {
       this.isActive = member.id;

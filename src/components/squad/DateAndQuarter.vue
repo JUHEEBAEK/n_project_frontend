@@ -51,9 +51,9 @@ import { createNamespacedHelpers } from "vuex";
 const { mapState, mapMutations } = createNamespacedHelpers("prepareMatch");
 
 export default {
-  name: "dateAndQuarter",
-  created() {},
+  name: "DateAndQuarter",
   mixins: [regex],
+  created() {},
   computed: {
     ...mapState(["quarterList", "date", "menu_date"])
   },

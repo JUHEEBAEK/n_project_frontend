@@ -58,18 +58,17 @@ const {
 } = createNamespacedHelpers("calendar");
 
 export default {
+  filters: {
+    setMomentMonth: function(val) {
+      return moment(val).format("MMM");
+    }
+  },
   props: {
     scheduleId: {
       type: [String, Number],
       default: null
     }
   },
-  filters: {
-    setMomentMonth: function(val) {
-      return moment(val).format("MMM");
-    }
-  },
-  mounted() {},
   data: () => ({
     month: null,
     slide_index: null,
@@ -78,6 +77,7 @@ export default {
     setDay: moment().format("DD"),
     scheduleColor: scheduleValue.colorAndType
   }),
+  mounted() {},
   computed: {
     ...calendarMapState(["scheduleIndex", "scheduleList"]),
     slide_index: {

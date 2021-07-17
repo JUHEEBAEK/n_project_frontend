@@ -53,10 +53,15 @@
 import matchValue from "@/assets/value/match.json";
 
 export default {
-  created() {},
   props: {
-    gameEventList: Array,
-    gameInfo: Object
+    gameEventList: {
+      type: Array,
+      default: () => []
+    },
+    gameInfo: {
+      type: Object,
+      default: () => {}
+    } 
   },
   data: () => ({
     windowSize: {
@@ -64,6 +69,7 @@ export default {
       y: 0
     }
   }),
+  created() {},
   mounted() {
     this.onResize();
   },

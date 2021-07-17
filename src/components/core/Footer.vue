@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-bottom-navigation app fixed color="light-blue darken-4" v-model="bottomNav" height="72">
+    <v-bottom-navigation v-model="bottomNav" app fixed color="light-blue darken-4" height="72">
       <v-btn v-for="item in items" :key="item.title" @click="movePage(item)">
         <span>{{ item.title }}</span>
         <v-img :src="$imgBaseUrl + item.icon" class="footer__img" contain />
@@ -21,7 +21,7 @@ const {
 } = createNamespacedHelpers("account");
 
 export default {
-  name: "Footer.vue",
+  name: "FooterVue",
   data: () => ({
     bottomNav: "CALENDAR",
     items: CoreValueItem.footerItems

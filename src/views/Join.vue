@@ -1,7 +1,7 @@
 <template>
   <div class="join__main">
     <div class="join__header">
-      <core-Back :tableHeader="title" />
+      <core-Back :table-header="title" />
     </div>
     <v-card class="join__container">
       <v-row class="pa-0 ma-0">
@@ -24,7 +24,7 @@
           </div>
         </v-col>
         <v-col cols="12" xs="12" sm="12" md="9" lg="8" xl="8" class="join__right">
-          <v-form class="join__content" ref="join_form" lazy-validation>
+          <v-form ref="join_form" class="join__content" lazy-validation>
             <v-row class="right__box">
               <v-col cols="12">
                 <v-text-field
@@ -148,19 +148,6 @@ const { mapActions: accountMapActions } = createNamespacedHelpers("account");
 
 export default {
   mixins: [regex, util],
-  created() {
-    this.$store.commit("common/SET_FULL_SCREEN", true);
-    this.loadTeamList();
-    this.loadMemberList();
-  },
-  computed: {
-    ...commonState(["common"]),
-    ...teamMapState(["teamList"]),
-    ...memberMapState(["memberList"]),
-    ...mapGetters("components/layout", {
-      fullScreen: "fullScreen"
-    })
-  },
   data: () => ({
     title: "JOIN",
     userId: "",
@@ -171,6 +158,19 @@ export default {
     selectedTeam: "",
     selectedMember: ""
   }),
+  computed: {
+    ...commonState(["common"]),
+    ...teamMapState(["teamList"]),
+    ...memberMapState(["memberList"]),
+    ...mapGetters("components/layout", {
+      fullScreen: "fullScreen"
+    })
+  },
+  created() {
+    this.$store.commit("common/SET_FULL_SCREEN", true);
+    this.loadTeamList();
+    this.loadMemberList();
+  },
   methods: {
     ...teamMapActions(["select_all_team"]),
     ...memberMapActions(["select_member"]),

@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: "memberList",
+  name: "MemberList",
   data: () => ({
     title: "MEMBER"
   })

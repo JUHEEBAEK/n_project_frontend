@@ -3,7 +3,7 @@
     <v-row class justify="center">
       <v-col cols="12">
         <schedule-date-list
-          :scheduleId="schedule_id"
+          :schedule-id="schedule_id"
           @changeDate="setScheduleData"
         ></schedule-date-list>
       </v-col>
@@ -21,7 +21,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-btn @click="save" color="primary">저장</v-btn>
+        <v-btn color="primary" @click="save">저장</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -54,7 +54,7 @@ const {
 
 export default {
   props: {
-    schedule_id: {
+    scheduleId: {
       type: [String, Number],
       default: null
     },

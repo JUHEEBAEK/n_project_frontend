@@ -50,8 +50,8 @@
       <v-card-text>
         <span class="data__text">
           <v-text-field
-            class="data__time"
             v-model="time"
+            class="data__time"
             label="시간"
             outlined
             hide-details

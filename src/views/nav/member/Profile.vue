@@ -112,9 +112,6 @@ export default {
       default: null
     }
   },
-  async created() {
-    await this.getMemberInfo(this.memberId);
-  },
   data: () => ({
     menu: false,
     memberInfo: {},
@@ -129,6 +126,9 @@ export default {
   }),
   computed: {
     ...memberMapState(["profile"])
+  },
+  async created() {
+    await this.getMemberInfo(this.memberId);
   },
   methods: {
     ...memberMapActions(["details_member", "delete_member", "update_member"]),

@@ -2,19 +2,19 @@
   <div>
     <v-container class="pitch__container">
       <v-row
-        justify="space-around"
         v-for="groupLine in positionLabel"
         :key="groupLine"
+        justify="space-around"
         :class="`group__${groupLine}`"
       >
-        <v-col cols="4" class="position__area" v-for="item in groupLine" :key="item">
+        <v-col v-for="item in groupLine" :key="item" cols="4" class="position__area">
           <div class="position__container">
             <div class="position__label">{{ item }}</div>
             <div class="position__content">
               <v-btn
+                v-if="memberSquad[item]"
                 class="position__name"
                 small
-                v-if="memberSquad[item]"
                 fab
                 depressed
               >{{ memberSquad[item] }}</v-btn>

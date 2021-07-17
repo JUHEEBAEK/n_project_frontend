@@ -11,16 +11,16 @@
       <template v-slot:activator="{ on }">
         <div
           v-ripple
-          v-on="on"
           class="schedule__new muji"
+          v-on="on"
           @click.stop="close()"
         >
           {{ new_schedule_title }}
         </div>
       </template>
 
-      <v-card color="grey lighten-4" :slotData="slotData">
-        <v-form class="form" ref="form" lazy-validation>
+      <v-card color="grey lighten-4" :slot-data="slotData">
+        <v-form ref="form" class="form" lazy-validation>
           <v-toolbar
             class="popover__header"
             height="40"
@@ -80,12 +80,12 @@
                   <template v-slot:activator="{ on }">
                     <v-text-field
                       v-model="selectedDate"
-                      v-on="on"
                       dense
                       disabled
                       readonly
                       :placeholder="selectedDate"
                       :rules="emptyCheckRules"
+                      v-on="on"
                     />
                   </template>
                   <v-date-picker
@@ -115,10 +115,10 @@
                   <template v-slot:activator="{ on }">
                     <v-text-field
                       v-model="start_time"
-                      v-on="on"
                       label="START TIME"
                       readonly
                       :rules="emptyCheckRules"
+                      v-on="on"
                     />
                   </template>
                   <v-time-picker
@@ -144,10 +144,10 @@
                   <template v-slot:activator="{ on }">
                     <v-text-field
                       v-model="end_time"
-                      v-on="on"
                       label="END TIME"
                       readonly
                       :rules="emptyCheckRules"
+                      v-on="on"
                     ></v-text-field>
                   </template>
                   <v-time-picker
@@ -207,7 +207,21 @@ const { mapMutations: commonMapMutations } = createNamespacedHelpers("common");
 
 import moment from "moment";
 export default {
-  props: ["selectedDate", "day", "newScheduleBox"],
+  mixins: [regex],
+  props: {
+    selectedDate: {
+      type: String,
+      default: ""
+    },
+    day: {
+      type: String,
+      default: ""
+    },
+    newScheduleBox: {
+      type: Boolean,
+      default: false
+    }
+  },
   data: () => ({
     popover_menu: false,
     color: "rgb(230, 124, 115)",
@@ -223,10 +237,6 @@ export default {
     new_schedule_title: "(제목없음)",
     types: stringSchedules.typeList
   }),
-  mixins: [regex],
-  created() {
-    this.date = this._clickDate;
-  },
   computed: {
     ...calendarMapState(["newScheduleBox"]),
     ...stadiuMapState(["stadiumList"]),
@@ -239,6 +249,15 @@ export default {
       };
     }
   },
+  watch: {
+    newScheduleBox(val) {
+      this.initDialog();
+    }
+  },
+  created() {
+    this.date = this._clickDate;
+  },
+  
   mounted() {
     this.select_stadium();
   },
@@ -278,11 +297,6 @@ export default {
           this.select_schedule();
         });
       }
-    }
-  },
-  watch: {
-    newScheduleBox(val) {
-      this.initDialog();
     }
   }
 };

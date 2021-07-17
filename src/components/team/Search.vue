@@ -36,7 +36,10 @@ const {
 } = createNamespacedHelpers("common");
 export default {
   props: {
-    title: String,
+    title: {
+      type: String,
+      default: ""
+    },
     isAddButton: {
       type: Boolean,
       default: false

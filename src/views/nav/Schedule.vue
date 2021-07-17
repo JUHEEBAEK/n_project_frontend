@@ -40,16 +40,15 @@
                   :style="`background-color:${schedule.color}`"
                   v-on="on"
                   @click.stop
-                  v-html="schedule.name"
                   @click="load_member(schedule.id)"
-                ></div>
+                >{{ schedule.name }}</div>
               </template>
 
-              <calendar-schedule :selectedSchedule="schedule" @close="close(schedule)"></calendar-schedule>
-              <calendar-fullSchedule :scheduleId="schedule.id" @closeEvent="close(schedule)"></calendar-fullSchedule>
+              <calendar-schedule :selected-schedule="schedule" @close="close(schedule)"></calendar-schedule>
+              <calendar-fullSchedule :schedule-id="schedule.id" @closeEvent="close(schedule)"></calendar-fullSchedule>
             </v-menu>
           </template>
-          <calendar-add :newScheduleBox="newScheduleBox" :selectedDate="clickDay" :day="date"></calendar-add>
+          <calendar-add :new-schedule-box="newScheduleBox" :selected-date="clickDay" :day="date"></calendar-add>
         </template>
       </v-calendar>
     </v-sheet>
@@ -105,6 +104,9 @@ export default {
       return map;
     }
   },
+  mounted() {
+    this.select_schedule();
+  },
   methods: {
     ...calendarMapMutations(["SET_NEW_SCHEDULE_MODAL"]),
     ...calendarMapActions(["select_schedule", "load_member"]),
@@ -132,9 +134,6 @@ export default {
       schedule.open = false;
     }
   },
-  mounted() {
-    this.select_schedule();
-  }
 };
 </script>
 

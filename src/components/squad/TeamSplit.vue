@@ -9,9 +9,9 @@
           <v-btn
             dark
             color="blue"
-            @click="INITIALIZE_ATTEND_MEMBER"
             outlined
             large
+            @click="INITIALIZE_ATTEND_MEMBER"
             >초기화</v-btn
           >
         </v-list-item-actions>
@@ -33,8 +33,8 @@
                     <v-item
                       v-for="item in attendTeamCount"
                       :key="item"
-                      class="group__item"
                       v-slot:default="{ active, toggle }"
+                      class="group__item"
                     >
                       <v-btn
                         :color="active ? 'primary' : ''"
@@ -148,7 +148,7 @@
       </v-row>
       <v-row>
         <v-col cols="12">
-          <v-btn @click="save" color="primary">저장</v-btn>
+          <v-btn color="primary" @click="save">저장</v-btn>
         </v-col>
       </v-row>
     </v-card-text>

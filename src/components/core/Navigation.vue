@@ -11,7 +11,7 @@
       <v-divider />
       <v-list nav>
         <v-list-item-group color="primary">
-          <v-list-item class="nav__item" v-for="item in items" :key="item.title" :to="`${item.to}`">
+          <v-list-item v-for="item in items" :key="item.title" class="nav__item" :to="`${item.to}`">
             <v-list-item-icon>
               <v-img :src="$imgBaseUrl + item.icon" contain width="24" />
             </v-list-item-icon>

@@ -13,7 +13,6 @@
 
 <script>
 export default {
-  data: () => ({}),
   props: {
     cardInfoLoading: {
       type: Boolean,
@@ -39,7 +38,8 @@ export default {
       type: String,
       default: null
     }
-  }
+  },
+  data: () => ({})
 };
 </script>
 

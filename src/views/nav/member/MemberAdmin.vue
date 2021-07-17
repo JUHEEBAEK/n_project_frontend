@@ -1,6 +1,6 @@
 <template>
   <div>
-    <member-search :title="title" :isAddButton="isAddButton"></member-search>
+    <member-search :title="title" :is-add-button="isAddButton"></member-search>
     <member-table-list></member-table-list>
     <util-snack-bar
       v-if="snackBar === true"

@@ -7,8 +7,8 @@
       </div>
       <div class="header__second">
         <v-select
-          class="select__season"
           v-model="season"
+          class="select__season"
           :items="seasonList"
           readonly
           hide-details

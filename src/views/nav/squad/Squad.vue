@@ -6,11 +6,11 @@
       </v-col>
       <v-col cols="12" sm="12" md="5">
         <schedule-info-card
-          :scheduleName="scheduleName"
-          :scheduleStart="scheduleStart"
-          :scheduleEnd="scheduleEnd"
-          :scheduleStadium="scheduleStadium"
-          :scheduleAddress="scheduleAddress"
+          :schedule-name="scheduleName"
+          :schedule-start="scheduleStart"
+          :schedule-end="scheduleEnd"
+          :schedule-stadium="scheduleStadium"
+          :schedule-address="scheduleAddress"
         ></schedule-info-card>
       </v-col>
       <v-col cols="12" sm="12" md="7">
@@ -46,7 +46,7 @@ import regex from "../../../mixins/regex.js";
 import util from "../../../mixins/util.js";
 
 export default {
-  name: "Attendance.vue",
+  name: "AttendanceVue",
 
   mixins: [util, regex],
   data: () => ({

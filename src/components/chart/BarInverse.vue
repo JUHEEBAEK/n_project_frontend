@@ -17,13 +17,13 @@
           :d="`M0.5,6V0.5H${width}.5V6`"
         ></path>
         <g
+          v-for="(tick, index) in xTicks"
+          :key="index"
           class="tick"
           opacity="1"
           font-size="10"
           font-family="sans-serif"
           text-anchor="end"
-          v-for="(tick, index) in xTicks"
-          :key="index"
           :transform="`translate(${x(tick) + 0.5}, 0)`"
         >
           <line stroke="currentColor" y2="-6"></line>
@@ -42,13 +42,13 @@
           :d="`M0.5,${height}.5H0.5V0.5H-6`"
         ></path>
         <g
+          v-for="(bar, index) in bars"
+          :key="index"
           class="tick"
           opacity="1"
           font-size="10"
           font-family="sans-serif"
           text-anchor="middle"
-          v-for="(bar, index) in bars"
-          :key="index"
           :transform="`translate(0, ${bar.y + bar.height / 2})`"
         >
           <line stroke="currentColor" x2="-6"></line>
@@ -58,8 +58,8 @@
       <g class="bars" fill="none">
         <rect
           v-for="(bar, index) in bars"
-          fill="url(#mainGradient)"
           :key="index"
+          fill="url(#mainGradient)"
           :height="bar.height"
           :width="bar.width"
           :x="bar.x"
@@ -92,15 +92,15 @@ import * as d3 from "d3";
 export default {
   name: "BarChart",
   props: {
-    height: { default: 450 },
-    width: { default: 280 },
-    dataSet: { default: [] },
-    marginLeft: { default: 40 },
-    marginTop: { default: 40 },
-    marginBottom: { default: 40 },
-    marginRight: { default: 40 },
-    tickCount: { default: 5 },
-    barPadding: { default: 0.3 }
+    height: { type: Number, default: 450 },
+    width: { type: Number, default: 280 },
+    dataSet: { type: Array, default: () => [] },
+    marginLeft: { type: Number, default: 40 },
+    marginTop: { type: Number, default: 40 },
+    marginBottom: { type: Number, default: 40 },
+    marginRight: { type: Number, default: 40 },
+    tickCount: { type: Number, default: 5 },
+    barPadding: { type: Number, default: 0.3 }
   },
   data() {
     return {

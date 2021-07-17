@@ -6,8 +6,8 @@
     <div class="main__header">
       <div class="player__list">
         <div>총 <b>{{ unitTeamPlayerList.length }}</b> 명</div>
-        <div class="player__item" v-for="item in unitTeamPlayerList" :key="item">
-          <div class="item__badge" v-if="isActive">
+        <div v-for="item in unitTeamPlayerList" :key="item" class="player__item">
+          <div v-if="isActive" class="item__badge">
             <v-btn class="badge__button" fab color="error" x-small @click="deleteMember(item)">
               <v-icon x-small class="fas fa-times"></v-icon>
             </v-btn>

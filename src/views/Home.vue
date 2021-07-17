@@ -39,11 +39,11 @@ export default {
     title: "2020 출석횟수",
     isLoading: false
   }),
-  created() {
-    this.$store.commit("common/SET_FULL_SCREEN", false);
-  },
   computed: {
     ...accountMapGetters(["userInfo"])
+  },
+  created() {
+    this.$store.commit("common/SET_FULL_SCREEN", false);
   },
   async mounted() {
     // 출석횟수 가져오기

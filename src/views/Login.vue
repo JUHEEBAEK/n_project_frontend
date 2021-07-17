@@ -82,20 +82,20 @@ const { mapActions: accountActions } = createNamespacedHelpers("account");
 
 export default {
   mixins: [regex, util],
-  created() {
-    console.log("createrd login");
-    this.$store.commit("common/SET_FULL_SCREEN", true);
-    this.$store.commit("common/SET_SNACK_BAR", true);
-  },
+  data: () => ({
+    username: "",
+    password: null
+  }),
   computed: {
     ...mapGetters("components/layout", {
       fullScreen: "fullScreen"
     })
   },
-  data: () => ({
-    username: "",
-    password: null
-  }),
+  created() {
+    console.log("createrd login");
+    this.$store.commit("common/SET_FULL_SCREEN", true);
+    this.$store.commit("common/SET_SNACK_BAR", true);
+  },
   methods: {
     ...accountActions(["loginProcess"]),
     clickToJoin: function() {

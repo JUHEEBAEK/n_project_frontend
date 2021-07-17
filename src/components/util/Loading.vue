@@ -12,13 +12,13 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
-  data: () => ({}),
   props: {
     size: {
       type: Number,
       default: 600
     }
   },
+  data: () => ({}),
   computed: {
     ...mapGetters("common", {
       loading: "loading"

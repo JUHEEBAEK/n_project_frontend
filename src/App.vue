@@ -11,7 +11,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "app",
+  name: "App",
   computed: {
     ...mapGetters("common", {
       fullScreen: "fullScreen"

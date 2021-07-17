@@ -1,13 +1,13 @@
 <template>
   <div class="scrollable">
     <v-row>
-      <v-col class="py-1" cols="12" v-for="(item, idx) in searchResult" :key="idx">
+      <v-col v-for="(item, idx) in searchResult" :key="idx" class="py-1" cols="12">
         <v-card class="stadium__container" @click="cardClickEvent(item, idx)">
           <v-card-title class="stadium__title">
             <div class="text text__title">{{ item.name }}</div>
           </v-card-title>
           <v-card-text class="stadium__description pa-2">
-            <v-tooltip top v-if="item.address.length > 32">
+            <v-tooltip v-if="item.address.length > 32" top>
               <template v-slot:activator="{ on, attrs }">
                 <div class="text text__caption" v-bind="attrs" v-on="on">{{ item.address }}</div>
               </template>

@@ -2,13 +2,13 @@
   <div>
     <v-row>
       <v-col
+        v-for="(item, idx) in searchResult"
+        :key="idx"
         cols="12"
         sm="6"
         md="4"
         lg="3"
         class="pa-0"
-        v-for="(item, idx) in searchResult"
-        :key="idx"
       >
         <v-card class="card__profile px-0 py-1 ma-1" @click="movePage(item)">
           <v-img
@@ -36,7 +36,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <util-spinner :isLoading="isLoading"></util-spinner>
+    <util-spinner :is-loading="isLoading"></util-spinner>
   </div>
 </template>
 

@@ -1,12 +1,12 @@
 <template>
-  <div class="widget__container" v-show="show">
+  <div v-show="show" class="widget__container">
     <div class="widget__container__header">
       <span class="header__title">{{ headerTitle }}</span>
     </div>
-    <div class="widget__container__content" v-show="!isLoading">
+    <div v-show="!isLoading" class="widget__container__content">
       <slot></slot>
     </div>
-    <div class="widget__container__loader" v-show="isLoading">
+    <div v-show="isLoading" class="widget__container__loader">
       <v-progress-circular
         indeterminate
         dark
@@ -19,9 +19,18 @@
 <script>
 export default {
   props: {
-    headerTitle: String,
-    loadingColor: String,
-    isLoading: Boolean
+    headerTitle: {
+      type: String,
+      default: ""
+    },
+    loadingColor: {
+      type: String,
+      default: "",
+    },
+    isLoading: { 
+      type: Boolean,
+      default: false
+    }
   },
   data: () => ({
     show: true,

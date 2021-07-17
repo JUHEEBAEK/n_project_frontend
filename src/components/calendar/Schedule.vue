@@ -21,14 +21,14 @@
           <div class="col-10 text-left">
             <div class="row">
               <div class="col-12 py-0">
-                <span class="schedule__title" v-html="selectedSchedule.name" />
+                <span class="schedule__title"> {{ selectedSchedule.name }} </span>
               </div>
             </div>
             <div class="row">
               <div class="col-12 py-0">
-                <span class="schedule__start" v-html="selectedSchedule.start" />
+                <span class="schedule__start"> {{ selectedSchedule.start }} </span>
                 ~
-                <span class="schedule__end" v-html="selectedSchedule.end" />
+                <span class="schedule__end"> {{ selectedSchedule.end }} </span>
               </div>
             </div>
           </div>
@@ -42,12 +42,12 @@
           <div class="col-10 text-left">
             <div class="row">
               <div class="col-12 py-0">
-                <span class="schedule__stadium_name" v-html="selectedSchedule.stadium_name" />
+                <span class="schedule__stadium_name"> {{ selectedSchedule.stadium_name }} </span>
               </div>
             </div>
             <div class="row">
               <div class="col-12 py-0">
-                <span class="schedule__address" v-html="selectedSchedule.address" />
+                <span class="schedule__address"> {{ selectedSchedule.address }} </span>
               </div>
             </div>
           </div>
@@ -61,15 +61,15 @@
           <div class="col-10 text-left">
             <div class="row">
               <div class="col-12 py-0">
-                <span class="schedule__attend" v-html="`참석자 ${selectedSchedule.attendCount} 명`" />
+                <span class="schedule__attend"> {{ `참석자 ${selectedSchedule.attendCount} 명` }} </span>
               </div>
             </div>
             <div class="row">
               <div class="col-12 py-0">
                 <span
-                  class="attend__member"
                   v-for="(item, idx) in selectedSchedule.member_name_list"
                   :key="idx"
+                  class="attend__member"
                 >{{ item }},</span>
               </div>
             </div>
@@ -88,7 +88,12 @@ const {
 } = createNamespacedHelpers("calendar");
 
 export default {
-  props: ["selectedSchedule"],
+  props: {
+    selectedSchedule : {
+      type: [String, Number],
+      default: "" || 0
+    }
+  },
   methods: {
     ...calendarMapMutations(["SET_FULL_SCHEDULE_MODAL"]),
     ...calendarMapActions(["delete_schedule"]),

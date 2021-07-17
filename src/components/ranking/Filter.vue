@@ -23,9 +23,9 @@
           <v-checkbox
             v-for="(contest, index) in contests"
             :key="`contest-${index}`"
+            v-model="selectedContest"
             :label="contest.label"
             :value="contest.value"
-            v-model="selectedContest"
           />
         </div>
       </v-col>
@@ -100,9 +100,6 @@ export default {
     };
   },
   computed: {},
-  mounted() {
-    this.emitEvent();
-  },
   watch: {
     selectedContest(value) {
       this.emitEvent();
@@ -113,6 +110,9 @@ export default {
     selectedMonth(value) {
       this.emitEvent();
     }
+  },
+  mounted() {
+    this.emitEvent();
   },
   methods: {
     emitEvent() {

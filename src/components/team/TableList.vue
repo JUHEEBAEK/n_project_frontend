@@ -17,8 +17,8 @@
           :footer-props="teamPaging"
           sort-by="name"
           hide-default-footer
-          @click:row="movePage"
           class="elevation-1"
+          @click:row="movePage"
         >
           <template v-slot:[`item.actions`]="{ item }">
             <v-btn icon class="pa-2 ma-3">
@@ -33,7 +33,7 @@
     </v-row>
     <dialog-team-modify
       v-if="dialog === true && type === 'unitTeamModify'"
-      :selectedTeam="clickedTeam"
+      :selected-team="clickedTeam"
       @setSnackBar="setSnackBar"
       @setLoadingBar="setLoadingBar"
     ></dialog-team-modify>

@@ -91,7 +91,7 @@
           <div class="card__container">
             <div class="card__title">내 골 넣을 때 도움 준 사람들</div>
             <div class="card__content">
-              <div class="rank__item" v-for="(assister, index) in whoMyAssistList" :key="`assist_${index}`">
+              <div v-for="(assister, index) in whoMyAssistList" :key="`assist_${index}`" class="rank__item">
                 <b class="text__rank">{{ index + 1 }}</b>
                 <span class="text__name">{{ assister.name}}</span>
                 <span class="text__count">{{ assister.score }} assist</span>
@@ -103,7 +103,7 @@
            <div class="card__container">
             <div class="card__title">내 도움으로 골 넣은 사람들</div>
             <div class="card__content">
-              <div class="rank__item" v-for="(goaler, index) in whoMyGoalList" :key="`goal_${index}`">
+              <div v-for="(goaler, index) in whoMyGoalList" :key="`goal_${index}`" class="rank__item">
                 <b class="text__rank">{{ index + 1 }}</b>
                 <span class="text__name">{{ goaler.name}}</span>
                 <span class="text__count">{{ goaler.score }} goal</span>
@@ -147,7 +147,9 @@ const {
 export default {
   mixins: [util],
   props: {
-    member_id: [String, Number]
+    memberId: {
+      type: [String, Number],
+    }
   },
   data: () => ({
     imgUrl: "003-tshirt.png",
@@ -168,8 +170,9 @@ export default {
   },
   async created () {
     this.setLoadingBar(true);
-    await this.getMemberInfo(this.member_id);
-    await this.getCount(this.member_id);
+    console.log(this.memberId)
+    await this.getMemberInfo(this.memberId);
+    await this.getCount(this.memberId);
     this.setLoadingBar(false);
   },
   methods: {

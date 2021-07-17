@@ -114,7 +114,7 @@
         </v-card>
       </v-dialog>
     </template>
-    <template v-slot:[`item.actions`]="{ item }" v-if="userInfo.role === 'A'" >
+    <template v-if="userInfo.role === 'A'" v-slot:[`item.actions`]="{ item }" >
       <v-icon small class="mr-2" @click="editItem(item)"
         >fas fa-pencil-alt</v-icon
       >
@@ -145,37 +145,7 @@ const {
 
 
 export default {
-  computed: {
-    ...memberMapState(["memberList"]),
-    ...commonMapState(["searchResult"]),
-    ...accountMapGetters(["userInfo"]),
-    formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item";
-    },
-    uniform_number_not_used_list() {
-      let number_list_1to99 = [];
-      number_list_1to99.push("");
-      for (let i = 1; i < 100; i++) {
-        number_list_1to99.push(i);
-      }
-      for (let i in this.memberList) {
-        let id_used = Number(this.memberList[i]["uniform_number"]);
-        let idx = number_list_1to99.indexOf(id_used);
-        if (idx > -1) number_list_1to99.splice(idx, 1);
-      }
-      // 자기 번호 다시 넣어주기
-      number_list_1to99.push(this.editedItem.uniform_number);
-
-      return number_list_1to99;
-    }
-  },
   mixins: [util],
-  async mounted() {
-    this.tableLoading = true;
-    await this.select_all_member();
-    this.setAllMemberList(this.memberList);
-    this.tableLoading = false;
-  },
   data: () => ({
     menu: false,
     menu2: false,
@@ -211,10 +181,40 @@ export default {
     memberPaging: { "items-per-page-options": [10000] },
     tableLoading: false
   }),
+  computed: {
+    ...memberMapState(["memberList"]),
+    ...commonMapState(["searchResult"]),
+    ...accountMapGetters(["userInfo"]),
+    formTitle() {
+      return this.editedIndex === -1 ? "New Item" : "Edit Item";
+    },
+    uniform_number_not_used_list() {
+      let number_list_1to99 = [];
+      number_list_1to99.push("");
+      for (let i = 1; i < 100; i++) {
+        number_list_1to99.push(i);
+      }
+      for (let i in this.memberList) {
+        let id_used = Number(this.memberList[i]["uniform_number"]);
+        let idx = number_list_1to99.indexOf(id_used);
+        if (idx > -1) number_list_1to99.splice(idx, 1);
+      }
+      // 자기 번호 다시 넣어주기
+      number_list_1to99.push(this.editedItem.uniform_number);
+
+      return number_list_1to99;
+    }
+  },
   watch: {
     dialog(val) {
       val || this.close();
     }
+  },
+  async mounted() {
+    this.tableLoading = true;
+    await this.select_all_member();
+    this.setAllMemberList(this.memberList);
+    this.tableLoading = false;
   },
   methods: {
     ...commonMapMutations(["SET_SEARCH_RESULT"]),

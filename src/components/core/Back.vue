@@ -13,8 +13,13 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "back",
-  props: ["tableHeader"],
+  name: "Back",
+  props: {
+    tableHeader: {
+      type: Array,
+      default: () => []
+    }
+  },
   computed: {
     ...mapGetters("common", {
       fullScreen: "fullScreen"

@@ -3,7 +3,7 @@
     <stadium-toolbar />
     <v-row>
       <v-col cols="12" md="9" lg="9" xl="9">
-        <stadium-map :selectedStadiumIndex="selectedStadiumIndex" :showStadium="true" :makeMarkerWithClick="false"/>
+        <stadium-map :selected-stadium-index="selectedStadiumIndex" :show-stadium="true" :make-marker-with-click="false"/>
       </v-col>
       <v-col cols="12" md="3" lg="3" xl="3">
         <stadium-cardList @selectStadium="handleSelect"  />
@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: "stadiumList",
+  name: "StadiumList",
   data: () => ({
     title: "STADIUM",
     selectedStadiumIndex: null,

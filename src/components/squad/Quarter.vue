@@ -5,9 +5,9 @@
         <v-slide-group v-model="slideIndex" show-arrows center-active>
           <v-slide-item
             v-for="item in quarterList"
-            class="my-2"
             :key="item"
             v-slot:default="{ active, toggle }"
+            class="my-2"
           >
             <v-card
               class="quarter__card"

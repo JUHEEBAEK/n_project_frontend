@@ -1,6 +1,6 @@
 <template>
   <div class="gameReport__list">
-    <div class="gameReport__item" v-for="(schedule, index) in filteredSchedule" :key="schedule.id">
+    <div v-for="(schedule, index) in filteredSchedule" :key="schedule.id" class="gameReport__item">
       <div class="item__title">{{ schedule.date }}</div>
       <div class="item__content">
         <v-slide-group v-model="model" center-active class="pa-4" show-arrows>
@@ -10,7 +10,7 @@
                 <span class="text__quarter">Q{{ gameInfo.quarter }}</span>
                 <span class="text__result">
                   {{ gameInfo.result }}
-                  <span class="text__caption" v-show="gameInfo.result !== 'D'">- WIN</span>
+                  <span v-show="gameInfo.result !== 'D'" class="text__caption">- WIN</span>
                 </span>
               </v-card-title>
               <v-card-text>
@@ -22,9 +22,9 @@
                 <v-badge class="mr-3" color="#ccda11" dot></v-badge>
                 <template>
                   <v-chip
-                    color="white"
                     v-for="(item, i) in gameIdList[index]['home'][idx]"
                     :key="`home_${gameInfo.id}_${i}`"
+                    color="white"
                     class
                     x-small
                   >{{ item.name }}</v-chip>
@@ -33,9 +33,9 @@
               <v-card-text>
                 <v-badge class="mr-3" color="#da8c11" dot></v-badge>
                 <v-chip
-                  color="white"
                   v-for="(item, i) in gameIdList[index]['away'][idx]"
                   :key="`away_${gameInfo.id}_${i}`"
+                  color="white"
                   x-small
                 >{{ item.name }}</v-chip>
               </v-card-text>
@@ -64,17 +64,22 @@ const {
 
 export default {
   props: {
-    game_id: [String, Number],
-    selectedYear: String,
-    selectedMonth: String
+    gameId: {
+      type: [String, Number],
+      default: "" || 0
+    },
+    selectedYear: {
+      type: String,
+      default: "" || 0
+    },
+    selectedMonth: {
+      type: String,
+      default: "" || 0
+    }
   },
   computed: {
     ...calendarMapState(["scheduleList"]),
     ...gameMapState(["gameList"])
-  },
-  async created() {
-    await this.getScheduleList();
-    this.getGameList();
   },
   watch: {
     selectedYear(year) {
@@ -87,6 +92,10 @@ export default {
       this.divideSchduleIdInGame();
       this.setscheduleList(this.filteredSchedule);
     }
+  },
+  async created() {
+    await this.getScheduleList();
+    this.getGameList();
   },
   data() {
     return {

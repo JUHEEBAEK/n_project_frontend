@@ -22,10 +22,10 @@
     </div>
     <div class="bottom__divider"></div>
     <div class="bottom__content">
-      <div class="content__general" v-if="tabs === 'TEAM'">
+      <div v-if="tabs === 'TEAM'" class="content__general">
         <report-tab-team></report-tab-team>
       </div>
-      <div class="content__general" v-if="tabs === 'PERSONAL'">
+      <div v-if="tabs === 'PERSONAL'" class="content__general">
         <ranking-filter @filterChanged="filterRanking"/>
         <v-card>
           <v-card-title class="text-center justify-center py-6">
@@ -46,7 +46,7 @@
           <v-tabs-items v-model="tab">
             <v-tab-item v-for="(item, index) in tabItems" :key="index">
               <v-card flat>
-                <ranking-table :tableData="rankingData[item]" :playedMatched="rankingData['ATTEND']"></ranking-table>
+                <ranking-table :table-data="rankingData[item]" :played-matched="rankingData['ATTEND']"></ranking-table>
               </v-card>
             </v-tab-item>
           </v-tabs-items>

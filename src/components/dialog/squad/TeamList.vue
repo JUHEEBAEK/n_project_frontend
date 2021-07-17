@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="dialog" v-if="(type = 'teamList')" width="500">
+    <v-dialog v-if="(type = 'teamList')" v-model="dialog" width="500">
       <v-card>
         <v-card-title class="teamList--title">
           <span class="headline">생성된 팀 리스트</span>

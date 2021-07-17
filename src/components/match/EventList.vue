@@ -4,16 +4,16 @@
       <v-card-title class="report__header">
         <span class="report__title">게임 기록</span>
         <span
-          class="report__score"
           v-if="homeScore !== undefined"
+          class="report__score"
         >{{ `${homeScore} : ${awayScore} ` }}</span>
       </v-card-title>
       <v-card-text class="report__content">
         <v-timeline class="report__timeline">
           <v-timeline-item
-            class="report__item"
             v-for="gameReport in gameEventList"
             :key="gameReport"
+            class="report__item"
             small
             fill-dot
             color="white"
@@ -43,8 +43,8 @@
               <span class="d-none d-sm-flex px-2">{{ gameReport.last_player_name }}</span>
               <span class="d-flex d-sm-none">{{ showTwoCharAt(gameReport.last_player_name) }}</span>
               <v-icon
-                x-small
                 v-if="gameReport.last_player_name"
+                x-small
               >{{ eventChipSecondIcon[gameReport.event_type] }}</v-icon>
             </v-chip>
           </v-timeline-item>
@@ -72,7 +72,6 @@ const {
 } = createNamespacedHelpers("game");
 
 export default {
-  created() {},
   props: {
     gameEventList: {
       default: null,
@@ -91,6 +90,7 @@ export default {
     ...gameState(["gameInfo"]),
     ...gameReportState(["homeScore", "awayScore"])
   },
+  created() {},
   methods: {
     ...gameReportActions(["deleteGameEvent"]),
     ...gameReportMutations(["SET_EVENT_INFO"]),

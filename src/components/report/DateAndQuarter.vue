@@ -25,10 +25,10 @@
           </template>
           <v-date-picker
             v-model="date"
-            @input="menu = false"
             :allowed-dates="allowedEvents"
             :events="arrayEvents"
             event-color="green lighten-1"
+            @input="menu = false"
           ></v-date-picker>
         </v-menu>
       </v-col>

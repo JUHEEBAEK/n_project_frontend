@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="dialog" v-if="type = 'unitTeamModify'" width="600">
+    <v-dialog v-if="type = 'unitTeamModify'" v-model="dialog" width="600">
       <v-card>
         <v-card-title>
           팀 정보 수정
@@ -61,7 +61,10 @@ const {
 export default {
   mixins: [dialog],
   props: {
-    selectedTeam: Object
+    selectedTeam: {
+      type: Object,
+      default: () => {}
+    }
   },
   data:() => ({
     name: "",

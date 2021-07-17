@@ -25,14 +25,14 @@ const {
 } = createNamespacedHelpers("stadium");
 
 export default {
-  computed: {
-    ...stadiuMapState(["stadiumList", "searchResult"])
-  },
   data: () => ({
     model: null,
     search: null,
     isLoading: false
   }),
+  computed: {
+    ...stadiuMapState(["stadiumList", "searchResult"])
+  },
   watch: {
     search(val) {
       this.searchList(val);

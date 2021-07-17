@@ -1,9 +1,9 @@
 <template>
   <div>
     <core-breadcrumbs :items="items" />
-    <report-game-info :gameInfo="gameInfo" :quarterList="gameList"></report-game-info>
+    <report-game-info :game-info="gameInfo" :quarter-list="gameList"></report-game-info>
     <report-position-view :game_id="game_id"></report-position-view>
-    <report-event-list :gameInfo="gameInfo" :gameEventList="eventList"></report-event-list>
+    <report-event-list :game-info="gameInfo" :game-event-list="eventList"></report-event-list>
     <util-spinner v-if="loading"></util-spinner>
   </div>
 </template>
@@ -34,6 +34,16 @@ import util from "../../mixins/util.js";
 export default {
   name: "TesmSetting",
   mixins: [util],
+  props: {
+    gameId: {
+      type: [String, Number],
+      default: null
+    },
+    scheduleId: {
+      type: [String, Number],
+      default: null
+    }
+  },
   data: () => ({
     items: [
       {
@@ -47,16 +57,6 @@ export default {
       }
     ]
   }),
-  props: {
-    game_id: {
-      type: [String, Number],
-      default: null
-    },
-    schedule_id: {
-      type: [String, Number],
-      default: null
-    }
-  },
   computed: {
     ...gameMapState(["gameInfo", "gameList"]),
     ...gameReportState(["eventList"]),

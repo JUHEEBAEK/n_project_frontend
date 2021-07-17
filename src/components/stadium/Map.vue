@@ -53,21 +53,6 @@ export default {
   computed: {
     ...stadiuMapState(["searchResult"])
   },
-  async mounted() {
-    this.initMarkerImage();
-
-    this.initMap();
-    this.initMarker();
-
-    if (this.showStadium) {
-      await this.select_stadium();
-      this.displayAllMarker(this.searchResult);
-      this.addInfowindowToMarkers(this.searchResult);
-    }
-    if (this.makeMarkerWithClick) {
-      this.addEventMakeMarkerWithClick();
-    }
-  },
   watch: {
     searchResult(val) {
       if (this.showStadium) {
@@ -107,6 +92,21 @@ export default {
 
         this.map.setCenter(kakaoPosition);
       }
+    }
+  },
+  async mounted() {
+    this.initMarkerImage();
+
+    this.initMap();
+    this.initMarker();
+
+    if (this.showStadium) {
+      await this.select_stadium();
+      this.displayAllMarker(this.searchResult);
+      this.addInfowindowToMarkers(this.searchResult);
+    }
+    if (this.makeMarkerWithClick) {
+      this.addEventMakeMarkerWithClick();
     }
   },
   methods: {

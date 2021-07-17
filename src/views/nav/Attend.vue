@@ -7,12 +7,12 @@
       <v-row class="fill-height" align="center" justify="center">
         <v-col cols="12" sm="12" md="12" lg="3">
           <schedule-info-card
-            :cardInfoLoading="cardInfoLoading"
-            :scheduleName="scheduleName"
-            :scheduleStart="scheduleStart"
-            :scheduleEnd="scheduleEnd"
-            :scheduleStadium="scheduleStadium"
-            :scheduleAddress="scheduleAddress"
+            :card-info-loading="cardInfoLoading"
+            :schedule-name="scheduleName"
+            :schedule-start="scheduleStart"
+            :schedule-end="scheduleEnd"
+            :schedule-stadium="scheduleStadium"
+            :schedule-address="scheduleAddress"
           ></schedule-info-card>
         </v-col>
         <v-col cols="12" sm="12" md="12" lg="8">
@@ -34,7 +34,7 @@ const {
 } = createNamespacedHelpers("calendar");
 
 export default {
-  name: "Attend.vue",
+  name: "AttendVue",
   data: () => ({
     memberList: [],
     countMonthList: [],
