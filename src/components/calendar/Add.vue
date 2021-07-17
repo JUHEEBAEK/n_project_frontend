@@ -257,7 +257,7 @@ export default {
   created() {
     this.date = this._clickDate;
   },
-  
+
   mounted() {
     this.select_stadium();
   },

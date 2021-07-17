@@ -27,7 +27,7 @@
           <th width="50"><strong>패</strong></th>
           <th width="50"><strong>득점</strong></th>
           <th width="50"><strong>실점</strong></th>
-          <th  width="100"><strong>득실차</strong></th>
+          <th width="100"><strong>득실차</strong></th>
         </thead>
         <tbody>
           <tr v-for="(item, idx) in rankingData" :key="item.id_unit_team">
@@ -35,11 +35,11 @@
             <td>
               <div class="table__inner">
                 <img width="40" height="40" class="emblem" :src="item.image" />
-                  <span class="name">
-                    <a :href="`/unitTeam/${item.id_unit_team}`">
+                <span class="name">
+                  <a :href="`/unitTeam/${item.id_unit_team}`">
                     {{ item.name }} - {{ item.description }}
-                    </a>
-                  </span>
+                  </a>
+                </span>
               </div>
             </td>
             <td width="50">{{ item.gameCount }}</td>
@@ -58,7 +58,6 @@
           </tr>
         </tbody>
       </table>
-
     </div>
   </div>
 </template>
@@ -67,7 +66,7 @@
 import util from "../../../mixins/util.js";
 
 import { createNamespacedHelpers } from "vuex";
-import { 
+import {
   getLeagueRanking,
   getRelativePerformance
 } from "../../../api/ranking.js";
@@ -107,61 +106,71 @@ export default {
         item.image = this.setTeamEmblem(item.name);
         item.victoryPoint = item.win * 3 + item.draw * 1;
         item.earnAndLoss = item.goalEarn - item.goalLose;
-        item.orderValue = item.victoryPoint + (item.earnAndLoss/10000);
+        item.orderValue = item.victoryPoint + item.earnAndLoss / 10000;
       });
       return rankingData;
     },
     isSameVitoryPoint: function() {
       this.rankingData.forEach((curRankingData, index) => {
-        if(index === this.rankingData.length-1) {
+        if (index === this.rankingData.length - 1) {
           return;
         }
         let nextRankingData = this.rankingData[index + 1];
-        if(curRankingData.orderValue ===  nextRankingData.orderValue) {
-          this.addRelativePerformanceOrderValue(curRankingData.id_unit_team, nextRankingData.id_unit_team, index);
+        if (curRankingData.orderValue === nextRankingData.orderValue) {
+          this.addRelativePerformanceOrderValue(
+            curRankingData.id_unit_team,
+            nextRankingData.id_unit_team,
+            index
+          );
         }
       });
     },
     // 상대전적 구한걸로 orderValue값 조절하는 애
     addRelativePerformanceOrderValue: function(curTeamId, nextTeamId, index) {
       const isMoreWinCurTeam = this.isMoreWinTeamA(curTeamId, nextTeamId);
-      if(isMoreWinCurTeam) {
-        this.rankingData[index].orderValue += 1/1000000;
-      }else {
-        this.rankingData[index+1].orderValue += 1/1000000;
+      if (isMoreWinCurTeam) {
+        this.rankingData[index].orderValue += 1 / 1000000;
+      } else {
+        this.rankingData[index + 1].orderValue += 1 / 1000000;
       }
     },
     // 두개의 팀간의 상대전적 구하는 함수
     isMoreWinTeamA(teamAId, teamBId) {
       let winCount = { teamA: 0, teamB: 0 };
       this.relativePerformance.forEach(performance => {
-        let homeTeamSameTeamA = (performance.homeId === teamAId && performance.awayId === teamBId);
-        let awayTeamSameTeamA = (performance.awayId === teamAId && performance.homeId === teamBId);
+        let homeTeamSameTeamA =
+          performance.homeId === teamAId && performance.awayId === teamBId;
+        let awayTeamSameTeamA =
+          performance.awayId === teamAId && performance.homeId === teamBId;
 
         // A팀이 이기는 경우
-        const isWinATeam = (performance.result === "H" && homeTeamSameTeamA) || (performance.result === "A" && awayTeamSameTeamA);
+        const isWinATeam =
+          (performance.result === "H" && homeTeamSameTeamA) ||
+          (performance.result === "A" && awayTeamSameTeamA);
         // ㅠ팀이 이기는 경우
-        const isWinBTeam = (performance.result === "H" && awayTeamSameTeamA) || (performance.result === "A" && homeTeamSameTeamA);
-        if(isWinATeam) {
+        const isWinBTeam =
+          (performance.result === "H" && awayTeamSameTeamA) ||
+          (performance.result === "A" && homeTeamSameTeamA);
+        if (isWinATeam) {
           winCount.teamA += 1;
         }
-        if(isWinBTeam){
+        if (isWinBTeam) {
           winCount.teamB += 1;
         }
       });
 
-      if(winCount.teamA <= winCount.teamB) {
+      if (winCount.teamA <= winCount.teamB) {
         return false;
-      }else if(winCount.teamA > winCount.teamB){
+      } else if (winCount.teamA > winCount.teamB) {
         return true;
       }
     },
     setTeamEmblem(name) {
-      if(name === "FS팀") {
+      if (name === "FS팀") {
         return require("@/assets/images/emblem/team_fs.png");
-      }else if(name === "난나팀") {
+      } else if (name === "난나팀") {
         return require("@/assets/images/emblem/team_nanna.png");
-      }else {
+      } else {
         return require("@/assets/images/emblem/team_nunnu.png");
       }
     },
@@ -169,7 +178,11 @@ export default {
       this.rankingData.sort(this.dynamicSort("-orderValue"));
     }
   }
-}
+};
 </script>
 
-<style scoped lang="scss" src="@/assets/scss/components/report/tab/team.scss"></style>
+<style
+  scoped
+  lang="scss"
+  src="@/assets/scss/components/report/tab/team.scss"
+></style>

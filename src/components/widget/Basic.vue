@@ -25,9 +25,9 @@ export default {
     },
     loadingColor: {
       type: String,
-      default: "",
+      default: ""
     },
-    isLoading: { 
+    isLoading: {
       type: Boolean,
       default: false
     }

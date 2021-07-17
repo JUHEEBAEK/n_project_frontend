@@ -5,9 +5,13 @@ import "@fortawesome/fontawesome-free/css/all.css";
 
 Vue.use(Vuetify);
 
-export default new Vuetify({
+Vue.use(Vuetify);
+
+const opts = {
   icons: {
     iconfont: "fa"
   },
   theme
-});
+};
+
+export default new Vuetify(opts);

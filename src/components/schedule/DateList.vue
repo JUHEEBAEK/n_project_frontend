@@ -25,14 +25,22 @@
               <v-row class="fill-height" align="center" justify="center">
                 <v-scale-transition>
                   <div>
-                    <v-badge :color="scheduleColor[item.type]" left :content="item.game_count">
-                      <p class="date__Mon my-2">{{ item.date | setMomentMonth }}</p>
+                    <v-badge
+                      :color="scheduleColor[item.type]"
+                      left
+                      :content="item.game_count"
+                    >
+                      <p class="date__Mon my-2">
+                        {{ item.date | setMomentMonth }}
+                      </p>
                       <p class="date__day mb-0">{{ item.date.substr(8, 2) }}</p>
                       <v-chip
-                        :color="item.stadium_type === 'O' ? 'yellow darken-2' : ''"
+                        :color="
+                          item.stadium_type === 'O' ? 'yellow darken-2' : ''
+                        "
                         x-small
                       >
-                      {{ item.stadium_type === 'O' ? '실외' : '실내'}}
+                        {{ item.stadium_type === "O" ? "실외" : "실내" }}
                       </v-chip>
                     </v-badge>
                   </div>
@@ -128,4 +136,7 @@ export default {
 };
 </script>
 
-<style lang="scss" src="@/assets/scss/components/schedule/dateList.scss"></style>
+<style
+  lang="scss"
+  src="@/assets/scss/components/schedule/dateList.scss"
+></style>

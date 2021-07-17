@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-if="type = 'addUnitMember'" v-model="dialog" width="600">
+    <v-dialog v-if="(type = 'addUnitMember')" v-model="dialog" width="600">
       <v-card>
         <v-card-title>
           유닛 팀 선수 추가
@@ -31,7 +31,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    
   </div>
 </template>
 
@@ -39,9 +38,7 @@
 import dialog from "../../../mixins/dialog.js";
 
 import { createNamespacedHelpers } from "vuex";
-const {
-  mapActions: teamMapActions
-} = createNamespacedHelpers("team");
+const { mapActions: teamMapActions } = createNamespacedHelpers("team");
 
 const {
   mapState: memberMapState,
@@ -61,7 +58,7 @@ export default {
       default: ""
     }
   },
-  data:() => ({
+  data: () => ({
     memberWithoutTeamList: [],
     name: "",
     description: "",
@@ -69,7 +66,7 @@ export default {
   }),
   computed: {
     ...memberMapState(["memberList"]),
-    ...unitMemberMapState(["allUnitMemberList"]),
+    ...unitMemberMapState(["allUnitMemberList"])
   },
   async created() {
     await this.loadAllUnitMemberList();
@@ -83,7 +80,7 @@ export default {
     },
     loadMemberList: async function() {
       await this.select_member();
-      let memberIdList = []
+      let memberIdList = [];
       this.allUnitMemberList.forEach(unitMember => {
         memberIdList.push(unitMember.member_id);
       });
@@ -94,37 +91,37 @@ export default {
     },
     setMemberWithoutTeamList(memberIdList) {
       this.memberWithoutTeamList = this.memberList.filter(
-        item => memberIdList.indexOf(item.id) < 0 
+        item => memberIdList.indexOf(item.id) < 0
       );
     },
-    save: async function () {
+    save: async function() {
       this.$emit("setLoadingBar", true);
       let body = {
         member_id: this.selectedMember.id,
-        unit_team_id: this.unit_team_id,
-      }
+        unit_team_id: this.unit_team_id
+      };
       const result = await this.add_unit_member(body);
-      if(result.status === 200) {
+      if (result.status === 200) {
         this.$emit("setSnackBar", "showSuccess", "정상적으로 추가되었습니다");
         this.$emit("reloadUnitTeamMember");
-      }else {
+      } else {
         this.$emit("setSnackBar", "showFail", "서버 에러");
       }
       this.close();
       this.$emit("setLoadingBar", false);
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
 .title__icon-close {
-    width: 32px;
-    height: 32px;
-    background: url("../../../assets/images/close.svg");
-    &:hover {
-      border-radius: 50%;
-      background-color: #8c8c8c14;
-    }
+  width: 32px;
+  height: 32px;
+  background: url("../../../assets/images/close.svg");
+  &:hover {
+    border-radius: 50%;
+    background-color: #8c8c8c14;
   }
+}
 </style>

@@ -33,7 +33,12 @@
         </v-menu>
       </v-col>
       <v-col cols="12" xs="12" sm="12" md="6" lg="3" xl="3">
-        <v-autocomplete v-model="values" :items="quarterList" solo rounded></v-autocomplete>
+        <v-autocomplete
+          v-model="values"
+          :items="quarterList"
+          solo
+          rounded
+        ></v-autocomplete>
       </v-col>
     </v-row>
   </div>
@@ -65,5 +70,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

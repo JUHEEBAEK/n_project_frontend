@@ -27,9 +27,7 @@
 
 <script>
 import { createNamespacedHelpers } from "vuex";
-const {
-  mapState: teamMapState,
-} = createNamespacedHelpers("team");
+const { mapState: teamMapState } = createNamespacedHelpers("team");
 const {
   mapState: commonMapState,
   mapMutations: commonMapMutations
@@ -62,9 +60,9 @@ export default {
   methods: {
     ...commonMapMutations(["SET_SEARCH_RESULT"]),
     searchList: async function(val) {
-      if(this.teamType === "Team") {
+      if (this.teamType === "Team") {
         this.searchTeamResultList(val);
-      }else {
+      } else {
         this.searchUnitTeamResultList(val);
       }
     },

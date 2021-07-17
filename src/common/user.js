@@ -1,9 +1,9 @@
 // 로그인 하고 있는 사용자의 최신 정보를 저장
-export const saveUserInfo = (userInfo) => {
+export const saveUserInfo = userInfo => {
   console.log(userInfo);
   try {
     localStorage.setItem("nnnn_user_info", JSON.stringify(userInfo));
-  } catch(err) {
+  } catch (err) {
     return err;
   }
 };
@@ -13,10 +13,10 @@ export const saveUserInfo = (userInfo) => {
 export const getUserInfo = () => {
   try {
     return JSON.parse(localStorage.getItem("nnnn_user_info"));
-  } catch(err) {
+  } catch (err) {
     return err;
   }
-}
+};
 
 // 유저 정보를 삭제하는 경우 ( 로그아웃, 토큰 기간 만료 등 )
 export const deleteUserInfo = () => {

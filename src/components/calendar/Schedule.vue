@@ -21,12 +21,16 @@
           <div class="col-10 text-left">
             <div class="row">
               <div class="col-12 py-0">
-                <span class="schedule__title"> {{ selectedSchedule.name }} </span>
+                <span class="schedule__title">
+                  {{ selectedSchedule.name }}
+                </span>
               </div>
             </div>
             <div class="row">
               <div class="col-12 py-0">
-                <span class="schedule__start"> {{ selectedSchedule.start }} </span>
+                <span class="schedule__start">
+                  {{ selectedSchedule.start }}
+                </span>
                 ~
                 <span class="schedule__end"> {{ selectedSchedule.end }} </span>
               </div>
@@ -42,12 +46,16 @@
           <div class="col-10 text-left">
             <div class="row">
               <div class="col-12 py-0">
-                <span class="schedule__stadium_name"> {{ selectedSchedule.stadium_name }} </span>
+                <span class="schedule__stadium_name">
+                  {{ selectedSchedule.stadium_name }}
+                </span>
               </div>
             </div>
             <div class="row">
               <div class="col-12 py-0">
-                <span class="schedule__address"> {{ selectedSchedule.address }} </span>
+                <span class="schedule__address">
+                  {{ selectedSchedule.address }}
+                </span>
               </div>
             </div>
           </div>
@@ -61,7 +69,9 @@
           <div class="col-10 text-left">
             <div class="row">
               <div class="col-12 py-0">
-                <span class="schedule__attend"> {{ `참석자 ${selectedSchedule.attendCount} 명` }} </span>
+                <span class="schedule__attend">
+                  {{ `참석자 ${selectedSchedule.attendCount} 명` }}
+                </span>
               </div>
             </div>
             <div class="row">
@@ -70,7 +80,8 @@
                   v-for="(item, idx) in selectedSchedule.member_name_list"
                   :key="idx"
                   class="attend__member"
-                >{{ item }},</span>
+                  >{{ item }},</span
+                >
               </div>
             </div>
           </div>
@@ -89,7 +100,7 @@ const {
 
 export default {
   props: {
-    selectedSchedule : {
+    selectedSchedule: {
       type: [String, Number],
       default: "" || 0
     }

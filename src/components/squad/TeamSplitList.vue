@@ -12,33 +12,27 @@ import { createNamespacedHelpers } from "vuex";
 const {
   mapState: squadState,
   mapMutations: squadMutations,
-  mapActions: squadActions,
+  mapActions: squadActions
 } = createNamespacedHelpers("squad");
-const {
-  mapMutations: calendarMutations,
-} = createNamespacedHelpers("calendar");
+const { mapMutations: calendarMutations } = createNamespacedHelpers("calendar");
 export default {
-  
-  data: () => ({
-  }),
+  data: () => ({}),
   computed: {
     ...squadState(["teamSplitList"]),
-    teamSplitSelected:{
-      get(){
-        return this.$store.state.squad.teamSplitSelected
+    teamSplitSelected: {
+      get() {
+        return this.$store.state.squad.teamSplitSelected;
       },
-      set(value){
-        this.SET_TEAM_INDEX_CHANGED(value)
+      set(value) {
+        this.SET_TEAM_INDEX_CHANGED(value);
       }
     }
   },
-  
+
   methods: {
-    ...squadMutations(["SET_TEAM_INDEX_CHANGED"]),
-  },
-  
+    ...squadMutations(["SET_TEAM_INDEX_CHANGED"])
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

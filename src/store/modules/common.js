@@ -3,10 +3,18 @@ import * as constants from "../constants";
 const state = {
   // navigation 의 상태 (들어가 있는지 나와있는지)
   alert: false,
-  colorIndex: ["#000","#ccda11", "#da8c11", "#118eda", "#da1175", "#11da76", "#8f11da"],
+  colorIndex: [
+    "#000",
+    "#ccda11",
+    "#da8c11",
+    "#118eda",
+    "#da1175",
+    "#11da76",
+    "#8f11da"
+  ],
   // 1. dialog : true ( Dialog 이 열린 상태 )
- // 2. dialog : null or false ( Dialog 이 닫힌 상태 )
- // dialog 종류 : Confirm.vue 인지 혹은 Manager.vue 인지
+  // 2. dialog : null or false ( Dialog 이 닫힌 상태 )
+  // dialog 종류 : Confirm.vue 인지 혹은 Manager.vue 인지
   dialog: null,
   drawer: false,
   /* 1. fullScreen : true ( AppBar 와 nav 가 없는 상태 )
@@ -21,7 +29,7 @@ const state = {
   // 스낵바에 들어가는 내용
   snackBarMessage: null,
 
-  searchResult: [],
+  searchResult: []
 };
 
 const getters = {
@@ -107,9 +115,7 @@ const actions = {
   async setLoading({ commit }, value) {
     commit("SET_LOADING_BAR", value);
   },
-  async setSnackBar({
-    commit
-  }, value) {
+  async setSnackBar({ commit }, value) {
     console.log("commit", commit);
     console.log("value", value);
     commit("SET_SNACK_BAR", value);

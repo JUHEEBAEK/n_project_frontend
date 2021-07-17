@@ -3,10 +3,9 @@
     <v-card class="report__container" elevation="1" color="#cfead0">
       <v-card-title class="report__header">
         <span class="report__title">게임 기록</span>
-        <span
-          v-if="homeScore !== undefined"
-          class="report__score"
-        >{{ `${homeScore} : ${awayScore} ` }}</span>
+        <span v-if="homeScore !== undefined" class="report__score">{{
+          `${homeScore} : ${awayScore} `
+        }}</span>
       </v-card-title>
       <v-card-text class="report__content">
         <v-timeline class="report__timeline">
@@ -31,8 +30,12 @@
               @click="clickUpdateEvent(gameReport)"
               @click:close="deleteButton(gameReport)"
             >
-              <span class="d-none d-sm-flex px-2">{{ gameReport.first_player_name }}</span>
-              <span class="d-flex d-sm-none">{{ showTwoCharAt(gameReport.first_player_name) }}</span>
+              <span class="d-none d-sm-flex px-2">{{
+                gameReport.first_player_name
+              }}</span>
+              <span class="d-flex d-sm-none">{{
+                showTwoCharAt(gameReport.first_player_name)
+              }}</span>
               <v-icon
                 x-small
                 :style="{
@@ -40,12 +43,15 @@
                 }"
                 :class="eventChipFirstIcon[gameReport.event_type]"
               ></v-icon>
-              <span class="d-none d-sm-flex px-2">{{ gameReport.last_player_name }}</span>
-              <span class="d-flex d-sm-none">{{ showTwoCharAt(gameReport.last_player_name) }}</span>
-              <v-icon
-                v-if="gameReport.last_player_name"
-                x-small
-              >{{ eventChipSecondIcon[gameReport.event_type] }}</v-icon>
+              <span class="d-none d-sm-flex px-2">{{
+                gameReport.last_player_name
+              }}</span>
+              <span class="d-flex d-sm-none">{{
+                showTwoCharAt(gameReport.last_player_name)
+              }}</span>
+              <v-icon v-if="gameReport.last_player_name" x-small>{{
+                eventChipSecondIcon[gameReport.event_type]
+              }}</v-icon>
             </v-chip>
           </v-timeline-item>
         </v-timeline>
@@ -108,7 +114,8 @@ export default {
           // 게임 이벤트를 삭제하는 결과를 받아온다. 받아온 결과로 점수를 1점 뺜다.
           let result = await this.deleteGameEvent(body);
           // 이벤트가 정상적으로 삭제 될 경우에만 실행이 된다.
-          const isSubtractGameScore = (gameEvent.event_type === "Goal" || gameEvent.event_type === "O.G");
+          const isSubtractGameScore =
+            gameEvent.event_type === "Goal" || gameEvent.event_type === "O.G";
           if (result && isSubtractGameScore) {
             this.$emit("subtractGameScore", gameEvent);
           }

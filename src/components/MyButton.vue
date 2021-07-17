@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'MyButton',
+  name: "MyButton",
 
   methods: {
     onClick() {
@@ -16,10 +16,10 @@ export default {
        *
        * @event click
        */
-      this.$emit('click')
+      this.$emit("click");
     }
   }
-}
+};
 </script>
 
 <style scoped>

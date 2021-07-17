@@ -9,7 +9,7 @@ requireModule.keys().forEach(fileName => {
   const moduleName = fileName.replace(/(\.\/|\.js)/gi, "");
   modules[moduleName] = {
     namespaced: true,
-    
+
     ...requireModule(fileName).default
   };
 });

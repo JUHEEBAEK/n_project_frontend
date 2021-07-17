@@ -30,24 +30,25 @@ import MatchPrepare from "../views/nav/squad/MatchPrepare.vue";
 import MatchInput from "../views/nav/match/MatchInput.vue";
 import NotFound from "../views/NotFound.vue";
 
-import Stadium from "../views/nav/stadium/Stadium.vue"
-import StadiumAdd from "../views/nav/stadium/StadiumAdd.vue"
-import StadiumUpdate from "../views/nav/stadium/StadiumUpdate.vue"
+import Stadium from "../views/nav/stadium/Stadium.vue";
+import StadiumAdd from "../views/nav/stadium/StadiumAdd.vue";
+import StadiumUpdate from "../views/nav/stadium/StadiumUpdate.vue";
 
-import Training from "../views/training/print.vue"
+import Training from "../views/training/print.vue";
 
 Vue.use(Router);
 
 const requireAuth = () => (to, from, next) => {
-  if(isAuthorization()) {
+  if (isAuthorization()) {
     return next();
-  }else {
+  } else {
     logout();
     // next("/login");
   }
-}
+};
 
-const routes = [{
+const routes = [
+  {
     path: "/",
     name: "home",
     component: Home,
@@ -104,7 +105,7 @@ const routes = [{
   // navigation view
   {
     path: "/team-admin",
-    component: TeamAdmin,
+    component: TeamAdmin
   },
   {
     path: "/teamAdd",
@@ -125,7 +126,7 @@ const routes = [{
   },
   {
     path: "/member-admin",
-    component: MemberAdmin,
+    component: MemberAdmin
   },
   {
     path: "/attend",
@@ -162,7 +163,7 @@ const routes = [{
   {
     path: "/matchPrepare",
     name: "matchPrepareBasic",
-    component: MatchPrepare,
+    component: MatchPrepare
   },
   {
     path: "/matchInput/schedule/:schedule_id/quarter/:quarter",
@@ -173,12 +174,12 @@ const routes = [{
   {
     path: "/stadium",
     name: "stadium",
-    component: Stadium  
+    component: Stadium
   },
   {
     path: "/StadiumAdd",
     name: "stadiumAdd",
-    component: StadiumAdd 
+    component: StadiumAdd
   },
   {
     name: "stadiumUpdate",
@@ -196,7 +197,7 @@ const routes = [{
     name: "training",
     component: Training
   }
-]
+];
 
 const router = new Router({
   mode: "history",

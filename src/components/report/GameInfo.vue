@@ -3,10 +3,12 @@
     <div class="gameInfo__header">
       <div class="header__first">
         <span class="px-1 text__type">{{ formatGameType(gameInfo.type) }}</span>
-        <span class="px-1 text__date">{{ $moment(gameInfo.date).format("D MMM YYYY") }}</span>
+        <span class="px-1 text__date">{{
+          $moment(gameInfo.date).format("D MMM YYYY")
+        }}</span>
       </div>
       <div class="header__second">
-        <span class="text__staduim">{{ gameInfo.stadium_name}}</span>
+        <span class="text__staduim">{{ gameInfo.stadium_name }}</span>
       </div>
     </div>
     <div class="gameInfo__content">
@@ -19,7 +21,9 @@
         <div class="title__name">NNNN - HOME</div>
       </div>
       <div class="score__container">
-        <div class="text__bigTitle">{{ gameInfo.home_score }} : {{ gameInfo.away_score }}</div>
+        <div class="text__bigTitle">
+          {{ gameInfo.home_score }} : {{ gameInfo.away_score }}
+        </div>
         <div class="text__description">
           <v-select
             v-model="gameInfo.quarter"
@@ -83,7 +87,7 @@ export default {
     },
     setGameInfo(val) {
       this.quarterList.forEach(element => {
-        if(element.quarter === val) {
+        if (element.quarter === val) {
           this.movePage(element);
         }
       });
@@ -92,4 +96,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped src="@/assets/scss/components/report/gameInfo.scss"></style>
+<style
+  lang="scss"
+  scoped
+  src="@/assets/scss/components/report/gameInfo.scss"
+></style>

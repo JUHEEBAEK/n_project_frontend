@@ -9,7 +9,7 @@ const getters = {
     } else {
       return null;
     }
-  },
+  }
 };
 
 const mutations = {
@@ -18,7 +18,7 @@ const mutations = {
   },
   LOGOUT(state) {
     state.userInfo = null;
-  },
+  }
 };
 
 const actions = {
@@ -29,7 +29,6 @@ const actions = {
     commit("LOGOUT");
   }
 };
-
 
 export default {
   state,

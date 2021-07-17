@@ -4,13 +4,13 @@ import {
   getStadiumList,
   deleteStadium,
   updateStadium,
-  detailsStadium,
+  detailsStadium
 } from "../../api/stadium.js";
 
 const state = {
   stadiumList: [],
   stadiumProfile: {},
-  searchResult: [],
+  searchResult: []
 };
 
 const getters = {};
@@ -24,7 +24,7 @@ const mutations = {
   },
   SET_SEARCH_RESULT(state, searchResult) {
     state.searchResult = searchResult;
-  },
+  }
 };
 
 const actions = {
@@ -70,12 +70,12 @@ const actions = {
     } catch (e) {
       console.log(e);
     }
-  },
+  }
 };
 
 export default {
   state,
   getters,
   mutations,
-  actions,
+  actions
 };

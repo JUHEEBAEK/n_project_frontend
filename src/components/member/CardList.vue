@@ -43,9 +43,7 @@
 <script>
 import moment from "moment";
 import { createNamespacedHelpers } from "vuex";
-const {
-  mapActions: memberMapActions
-} = createNamespacedHelpers("member");
+const { mapActions: memberMapActions } = createNamespacedHelpers("member");
 const {
   mapState: commonMapState,
   mapMutations: commonMapMutations
@@ -93,8 +91,8 @@ export default {
       });
     },
     movePage(member) {
-      this.$router.push({ 
-        name: "memberDetails", 
+      this.$router.push({
+        name: "memberDetails",
         params: { member_id: member.id }
       });
     }

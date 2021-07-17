@@ -7,7 +7,12 @@
         justify="space-around"
         :class="`group__${groupLine}`"
       >
-        <v-col v-for="item in groupLine" :key="item" cols="4" class="position__area">
+        <v-col
+          v-for="item in groupLine"
+          :key="item"
+          cols="4"
+          class="position__area"
+        >
           <div class="position__container">
             <div class="position__label">{{ item }}</div>
             <div class="position__content">
@@ -17,7 +22,8 @@
                 small
                 fab
                 depressed
-              >{{ memberSquad[item] }}</v-btn>
+                >{{ memberSquad[item] }}</v-btn
+              >
             </div>
           </div>
         </v-col>
@@ -66,4 +72,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped src="@/assets/scss/components/squad/soccerField.scss"></style>
+<style
+  lang="scss"
+  scoped
+  src="@/assets/scss/components/squad/soccerField.scss"
+></style>

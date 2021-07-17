@@ -2,7 +2,9 @@
   <div>
     <v-app-bar flat color="white" class="pa-0">
       <h3 class="mr-5">{{ title }}</h3>
-      <v-toolbar-title class="member__count grey--text">총 {{ searchResult.length }} 명</v-toolbar-title>
+      <v-toolbar-title class="member__count grey--text"
+        >총 {{ searchResult.length }} 명</v-toolbar-title
+      >
       <v-spacer />
       <v-text-field
         v-model="search"
@@ -28,9 +30,7 @@
 
 <script>
 import { createNamespacedHelpers } from "vuex";
-const {
-  mapState: memberMapState,
-} = createNamespacedHelpers("member");
+const { mapState: memberMapState } = createNamespacedHelpers("member");
 const {
   mapState: commonMapState,
   mapMutations: commonMapMutations

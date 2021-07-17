@@ -20,7 +20,7 @@ const mutations = {
   [constants.SELECT_MEMBER](state, memberList) {
     state.memberList = memberList;
   },
-  SELECT_ALL_MEMBER(state, memberList){
+  SELECT_ALL_MEMBER(state, memberList) {
     state.memberList = memberList;
   },
   [constants.DELETE_MEMBER](state, memberId) {},
@@ -29,7 +29,7 @@ const mutations = {
   },
   [constants.UPDATE_MEMBER](state, memberProfile) {
     state.res = memberProfile;
-  },
+  }
 };
 
 const actions = {
@@ -41,9 +41,7 @@ const actions = {
       console.log(e);
     }
   },
-  async select_member({
-    commit
-  }) {
+  async select_member({ commit }) {
     try {
       const response = await getReqularMember();
       commit("SELECT_MEMBER", response.data);
@@ -53,9 +51,7 @@ const actions = {
     }
   },
 
-  async select_all_member({
-    commit
-  }) {
+  async select_all_member({ commit }) {
     try {
       const response = await getAllMember();
       commit("SELECT_ALL_MEMBER", response);
@@ -65,9 +61,7 @@ const actions = {
     }
   },
 
-  async delete_member({
-    commit
-  }, payload) {
+  async delete_member({ commit }, payload) {
     try {
       const response = await deleteMember(payload);
       commit("DELETE_MEMBER", response);
@@ -77,9 +71,7 @@ const actions = {
     }
   },
 
-  async details_member({
-    commit
-  }, payload) {
+  async details_member({ commit }, payload) {
     try {
       const response = await detailsMember(payload);
       commit("DETAILS_MEMBER", response.data);
@@ -89,9 +81,7 @@ const actions = {
     }
   },
 
-  async update_member({
-    commit
-  }, payload) {
+  async update_member({ commit }, payload) {
     try {
       const response = await updateMember(payload);
       commit("UPDATE_MEMBER", response);

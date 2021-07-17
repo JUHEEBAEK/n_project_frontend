@@ -9,16 +9,16 @@ import {
 
 const state = {
   whoMyAssistList: [],
-  whoMyGoalList: [],
-}
+  whoMyGoalList: []
+};
 const mutations = {
-  SET_MY_ASSISTER_LIST(state, myAssistList){
-    state.whoMyAssistList = myAssistList
+  SET_MY_ASSISTER_LIST(state, myAssistList) {
+    state.whoMyAssistList = myAssistList;
   },
-  SET_MY_GOALER_LIST(state, myGoalList){
-    state.whoMyGoalList = myGoalList
+  SET_MY_GOALER_LIST(state, myGoalList) {
+    state.whoMyGoalList = myGoalList;
   }
-}
+};
 const actions = {
   async get_my_assister_list(context, payload) {
     try {
@@ -70,9 +70,9 @@ const actions = {
       console.log(e);
     }
   }
-}
+};
 export default {
-    state,
-    mutations,
-    actions
+  state,
+  mutations,
+  actions
 };

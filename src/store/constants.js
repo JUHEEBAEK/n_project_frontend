@@ -7,7 +7,6 @@ export const setSnackBar = "SET_SNACK_BAR";
 export const setMessage = "SET_SNACK_BAR_MESSAGE";
 export const setPurpose = "SET_SNACK_BAR_PURPOSE";
 
-
 export const setModal = "SET_MODAL";
 export const setTeamType = "SET_TEAM_TYPE";
 export const setSearchResult = "SET_SEARCH_RESULT";
@@ -24,7 +23,7 @@ export const DETAILS_MEMBER = "DETAILS_MEMBER";
 
 export const SELECT_STADIUM = "SELECT_STADIUM";
 
-export const get_schedule_info = "GET_SCHEDULE_INFO"
+export const get_schedule_info = "GET_SCHEDULE_INFO";
 
 // prepareMatch 부분
 export const setDate = "SET_DATE";

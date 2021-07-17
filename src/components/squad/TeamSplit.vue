@@ -223,7 +223,10 @@ export default {
       if (length < 9) {
         this.attendTeamCount.push(length + 2);
       } else {
-        this.setSnackBar( { purpose: this.snackBarFail, message: "더 이상 팀 수를 늘릴 수 없습니다." });
+        this.setSnackBar({
+          purpose: this.snackBarFail,
+          message: "더 이상 팀 수를 늘릴 수 없습니다."
+        });
       }
     },
     setJoker: function(isJoker) {
@@ -244,7 +247,7 @@ export default {
       value.color = this.colorIndex[value.teamNumber];
     },
     removeJocekr: function() {
-      this.attendMember.map((item) => {
+      this.attendMember.map(item => {
         if (item.teamNumber === 0) {
           // teamNumber, color를 초기화
           item.teamNumber = null;

@@ -4,7 +4,12 @@
       <v-card-title class="home__header">HOME</v-card-title>
       <v-card-text class="home__content">
         <v-row justify="center">
-          <v-col v-for="player in homeMembers" :key="player" cols="4" align-self="center">
+          <v-col
+            v-for="player in homeMembers"
+            :key="player"
+            cols="4"
+            align-self="center"
+          >
             <div>
               <v-btn
                 rounded
@@ -15,7 +20,8 @@
                     : 'light blue lighten-2'
                 "
                 @click="clickPlayer(player, 'H')"
-              >{{ player.name }}</v-btn>
+                >{{ player.name }}</v-btn
+              >
             </div>
           </v-col>
         </v-row>
@@ -34,7 +40,13 @@
             align-self="center"
           >
             <div>
-              <v-btn dark rounded small color="tertiary" @click="clickEventButton(eventType.type)">
+              <v-btn
+                dark
+                rounded
+                small
+                color="tertiary"
+                @click="clickEventButton(eventType.type)"
+              >
                 {{ eventType.name }}
                 <v-icon
                   right
@@ -69,7 +81,9 @@
             </v-col>
             <v-col cols="6" md="3">
               <div class="label__text">선수1</div>
-              <v-chip class="ma-2" close @click:close="deleteFirstPlayer">{{ firstPlayer }}</v-chip>
+              <v-chip class="ma-2" close @click:close="deleteFirstPlayer">{{
+                firstPlayer
+              }}</v-chip>
             </v-col>
             <v-col cols="6" md="3">
               <div class="label__text">상태</div>
@@ -79,14 +93,15 @@
               <div class="label__text">선수2</div>
               <v-chip
                 v-if="
-                firstEventType === 'Goal' ||
-                  firstEventType === 'Out' ||
-                  firstEventType === 'K.O'
-              "
+                  firstEventType === 'Goal' ||
+                    firstEventType === 'Out' ||
+                    firstEventType === 'K.O'
+                "
                 class="ma-2"
                 close
                 @click:close="deleteLastPlayer"
-              >{{ lastPlayer }}</v-chip>
+                >{{ lastPlayer }}</v-chip
+              >
             </v-col>
           </v-row>
           <v-row class="action__container">
@@ -110,7 +125,12 @@
       <v-card-title class="away__header">AWAY</v-card-title>
       <v-card-text class="away__content">
         <v-row justify="center">
-          <v-col v-for="player in awayMembers" :key="player" cols="4" align-self="center">
+          <v-col
+            v-for="player in awayMembers"
+            :key="player"
+            cols="4"
+            align-self="center"
+          >
             <v-btn
               rounded
               small
@@ -120,7 +140,8 @@
                   : 'light blue lighten-2'
               "
               @click="clickPlayer(player, 'A')"
-            >{{ player.name }}</v-btn>
+              >{{ player.name }}</v-btn
+            >
           </v-col>
         </v-row>
       </v-card-text>
@@ -153,10 +174,7 @@ const {
   mapActions: gameReportActions
 } = createNamespacedHelpers("gameReport");
 
-const {
-  mapGetters: accountMapGetters
-} = createNamespacedHelpers("account");
-
+const { mapGetters: accountMapGetters } = createNamespacedHelpers("account");
 
 export default {
   props: {
@@ -197,7 +215,7 @@ export default {
     ]),
     ...prepareMatchState(["homeMembers", "awayMembers"]),
     isSingleType() {
-      return (this.lastEventType === "");
+      return this.lastEventType === "";
     }
   },
   watch: {
@@ -230,12 +248,18 @@ export default {
       "getEventInfo",
       "updateGameEvent"
     ]),
-    ...gameReportMutations(["ADD_EVENT", "ADD_HOME_SCORE", "ADD_AWAY_SCORE", "SET_EVENT_INFO"]),
+    ...gameReportMutations([
+      "ADD_EVENT",
+      "ADD_HOME_SCORE",
+      "ADD_AWAY_SCORE",
+      "SET_EVENT_INFO"
+    ]),
     ...gameActions(["updateGameScore"]),
     addGameScore: function(eventInfo) {
-      const awayPlusScore = ( (eventInfo.event_type === "O.G" && eventInfo.team_type === "H")
-      || (eventInfo.event_type === "Goal" && eventInfo.team_type === "A"));
-      
+      const awayPlusScore =
+        (eventInfo.event_type === "O.G" && eventInfo.team_type === "H") ||
+        (eventInfo.event_type === "Goal" && eventInfo.team_type === "A");
+
       if (awayPlusScore) {
         this.ADD_AWAY_SCORE(1);
       } else {
@@ -254,12 +278,12 @@ export default {
         alert("같은 사람을 선택할 수 없습니다.");
         this.init();
         return;
-      } 
+      }
       this.teamType = type;
-      if(this.isSingleType || this.firstPlayer === null) {
+      if (this.isSingleType || this.firstPlayer === null) {
         this.firstPlayer = val.name;
         this.firstPlayerId = val.member_id;
-      }else {
+      } else {
         this.lastPlayer = val.name;
         this.lastPlayerId = val.member_id;
       }
@@ -270,9 +294,9 @@ export default {
         event_type: this.firstEventType,
         first_player: this.firstPlayerId,
         team_type: this.teamType
-      };  
-      if(!this.isSingleType) {
-        event.last_player = this.lastPlayerId
+      };
+      if (!this.isSingleType) {
+        event.last_player = this.lastPlayerId;
       }
       if (this.isUpdate) {
         await this.clickUpdateButton(event);
@@ -288,7 +312,7 @@ export default {
       this.firstEventType = eventfirstType;
       this.lastEventType = this.eventTypePair[eventfirstType];
       console.log("this.lastEventType", this.lastEventType);
-      if(!this.lastEventType) {
+      if (!this.lastEventType) {
         this.lastPlayer = "";
         this.lastPlayerId = "";
       }
@@ -299,7 +323,8 @@ export default {
       // 경기 기록 추가 actions
       let addGameEventresult = await this.addGameEvent(event);
       // 게임 이벤트추가 결과가 true이고 골일 경우에만 스코어를 추가시켜주기 위해서.
-      const isAddGameScore = (event.event_type === "Goal" || event.event_type === "O.G");
+      const isAddGameScore =
+        event.event_type === "Goal" || event.event_type === "O.G";
       if (addGameEventresult && isAddGameScore) {
         this.addGameScore(event);
       }
@@ -317,23 +342,23 @@ export default {
       beforeEventType 이 골, 자살골인 경우 스코어 변동
       event_type 이 골, 자살골인 경우 스코어 변동
      */
-    //TODO: SET_EVENT_INFO 해줘야함. 초기화시키려면 여기서 초기화 시켜줘야함.
-      this.SET_EVENT_INFO(
-        {
-          last_player: null,
-          last_player_name: "",
-          last_player_uniform_number: ""
-        });
-      const isMinusGameScore = (beforeEvent.event_type === "Goal" || beforeEvent.event_type === "O.G");
-      const isAddGameScore = (event.event_type === "Goal" || event.event_type === "O.G");
-      if(isMinusGameScore) {
+      //TODO: SET_EVENT_INFO 해줘야함. 초기화시키려면 여기서 초기화 시켜줘야함.
+      this.SET_EVENT_INFO({
+        last_player: null,
+        last_player_name: "",
+        last_player_uniform_number: ""
+      });
+      const isMinusGameScore =
+        beforeEvent.event_type === "Goal" || beforeEvent.event_type === "O.G";
+      const isAddGameScore =
+        event.event_type === "Goal" || event.event_type === "O.G";
+      if (isMinusGameScore) {
         this.$emit("subtractGameScore", beforeEvent);
-      } 
+      }
 
-      if(isAddGameScore) {
+      if (isAddGameScore) {
         this.addGameScore(event);
       }
-       
     },
     deleteFirstPlayer: function() {
       this.firstPlayerChip = false;

@@ -1,6 +1,4 @@
-import {
-  set
-} from "../../utils/index";
+import { set } from "../../utils/index";
 import {
   createSchedule,
   getScheduleList,
@@ -9,9 +7,7 @@ import {
   getMemberSquadInfo,
   getInfo
 } from "../../api/schedule.js";
-import {
-  attendList
-} from "../../api/attend.js";
+import { attendList } from "../../api/attend.js";
 
 import * as constants from "../constants";
 const state = {
@@ -20,19 +16,18 @@ const state = {
   scheduleList: [],
   scheduleInfo: {},
   attendMember: [],
-  scheduleIndex: null,
+  scheduleIndex: null
 };
 
 const getters = {
   current_schedule_id(state) {
     if (state.scheduleList[state.scheduleIndex]) {
-      return state.scheduleList[state.scheduleIndex].id
+      return state.scheduleList[state.scheduleIndex].id;
     } else {
       return null;
     }
-
   }
-}
+};
 
 const mutations = {
   [constants.setNewScheduleModal]: set("newScheduleBox"),
@@ -58,13 +53,13 @@ const mutations = {
       item["open"] = false;
 
       let type_list = {
-        'T': 0,
-        'P': 1,
-        'L': 2,
-        'M': 3,
-        'C': 4
-      }
-      item["type_index"] = type_list[item["type"]]
+        T: 0,
+        P: 1,
+        L: 2,
+        M: 3,
+        C: 4
+      };
+      item["type_index"] = type_list[item["type"]];
 
       //넣어주기
       schedule_list.push(item);
@@ -112,61 +107,68 @@ const mutations = {
   },
   CHANGED_TEAM_OF_ATTEND_member(state, team_division) {
     // colorIndex를 common에서 가져오는게 좋다
-    let colorIndex = ["#000", "#ccda11", "#da8c11", "#118eda", "#da1175", "#11da76", "#8f11da"]
-    let search_index = {}
+    let colorIndex = [
+      "#000",
+      "#ccda11",
+      "#da8c11",
+      "#118eda",
+      "#da1175",
+      "#11da76",
+      "#8f11da"
+    ];
+    let search_index = {};
     for (let i in state.attendMember) {
-      search_index[state.attendMember[i].id] = Number(i)
+      search_index[state.attendMember[i].id] = Number(i);
     }
     for (let i in team_division.teams) {
-      let new_team_number = Number(i) + 1
+      let new_team_number = Number(i) + 1;
       for (let j in team_division.teams[i]) {
-        let member_id = team_division.teams[i][j]
-        let member_index = search_index[member_id]
-        state.attendMember[member_index].teamNumber = new_team_number
-        state.attendMember[member_index].color = colorIndex[new_team_number]
+        let member_id = team_division.teams[i][j];
+        let member_index = search_index[member_id];
+        state.attendMember[member_index].teamNumber = new_team_number;
+        state.attendMember[member_index].color = colorIndex[new_team_number];
       }
     }
     if (team_division.jocker_player) {
-      let new_team_number = 0
-      let member_id = team_division.jocker_player
-      let member_index = search_index[member_id]
-      state.attendMember[member_index].teamNumber = new_team_number
+      let new_team_number = 0;
+      let member_id = team_division.jocker_player;
+      let member_index = search_index[member_id];
+      state.attendMember[member_index].teamNumber = new_team_number;
       if (new_team_number == -1) {
-        state.attendMember[member_index].color = "grey"
+        state.attendMember[member_index].color = "grey";
       } else {
-        state.attendMember[member_index].color = colorIndex[new_team_number]
+        state.attendMember[member_index].color = colorIndex[new_team_number];
       }
-
     }
   },
   INITIALIZE_ATTEND_MEMBER(state) {
     for (let i in state.attendMember) {
-      state.attendMember[i].color = "grey"
-      state.attendMember[i].teamNumber = null
+      state.attendMember[i].color = "grey";
+      state.attendMember[i].teamNumber = null;
     }
   },
   SET_SCHEDULE_INDEX(state, index) {
-    state.scheduleIndex = index
+    state.scheduleIndex = index;
   },
   SET_SCHEDULE_INDEX_WITH_SCHEDULE_ID(state, schedule_id) {
-    state.scheduleList.forEach(function (schedule, index) {
+    state.scheduleList.forEach(function(schedule, index) {
       if (schedule.id == schedule_id) {
-        state.scheduleIndex = index
+        state.scheduleIndex = index;
       }
     });
   },
   FILL_TEAM_NUMBER(state) {
     // null 인 teamnumber을 -1로 바꿈
-    // 더 좋은 함수명이 있으면 고쳐야됨 
+    // 더 좋은 함수명이 있으면 고쳐야됨
     for (let i in state.attendMember) {
-      let member = state.attendMember[i]
+      let member = state.attendMember[i];
       if (member["teamNumber"] == null) {
-        state.attendMember[i]["teamNumber"] = -1
+        state.attendMember[i]["teamNumber"] = -1;
       }
     }
   },
   CHOOSE_LATEST_SCHEDULE(state) {
-    state.scheduleIndex = (state.scheduleList.length - 1);
+    state.scheduleIndex = state.scheduleList.length - 1;
   }
 };
 
@@ -201,9 +203,7 @@ const actions = {
     const response = await attendList(id);
     context.commit("ADD_MEMBER_LIST", response.data);
   },
-  async delete_schedule({
-    dispatch
-  }, schedule_id_form) {
+  async delete_schedule({ dispatch }, schedule_id_form) {
     try {
       const response = await deleteSchedule(schedule_id_form);
       dispatch("select_schedule");
@@ -212,10 +212,7 @@ const actions = {
       console.log(e);
     }
   },
-  async update_schedule({
-    commit,
-    dispatch
-  }, update_form) {
+  async update_schedule({ commit, dispatch }, update_form) {
     try {
       const response = await updateSchedule(update_form);
       dispatch("select_schedule");
@@ -233,7 +230,6 @@ const actions = {
       console.log(e);
     }
   }
-
 };
 
 export default {

@@ -16,11 +16,12 @@ import { getUserInfo } from "./common/user.js";
 Vue.config.productionTip = false;
 Vue.use(VueMoment);
 Vue.use(VueCookies);
-Vue.prototype.$imgBaseUrl = "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/"
+Vue.prototype.$imgBaseUrl =
+  "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/";
 
 const ignoreWarnMessage =
   "The .native modifier for v-on is only valid on components but it was used on <div>.";
-Vue.config.warnHandler = function (msg, vm, trace) {
+Vue.config.warnHandler = function(msg, vm, trace) {
   // `trace` is the component hierarchy trace
   if (msg === ignoreWarnMessage) {
     msg = null;
@@ -34,9 +35,10 @@ new Vue({
   store,
   vuetify,
   created() {
-    if(isAuthorization()) {
+    if (isAuthorization()) {
       store.commit("account/SET_INFO", getUserInfo());
     }
   },
+  template: "<v-app><story/></v-app>",
   render: h => h(App)
 }).$mount("#app");

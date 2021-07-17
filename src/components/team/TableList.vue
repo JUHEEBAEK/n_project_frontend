@@ -1,6 +1,6 @@
 <template>
   <div>
-     <v-row>
+    <v-row>
       <v-col cols="12">
         <v-radio-group v-model="teamType" row @change="changeType">
           <v-radio label="팀" value="Team"></v-radio>
@@ -22,7 +22,9 @@
         >
           <template v-slot:[`item.actions`]="{ item }">
             <v-btn icon class="pa-2 ma-3">
-              <v-icon @click.stop.native="modifyTeam(item)">fas fa-pencil-alt</v-icon>
+              <v-icon @click.stop.native="modifyTeam(item)"
+                >fas fa-pencil-alt</v-icon
+              >
             </v-btn>
             <!-- <v-btn icon class="pa-2">
               <v-icon @click.stop.native="deleteTeam(item)">fas fa-trash-alt</v-icon>
@@ -62,9 +64,8 @@ const {
 
 const {
   mapState: commonMapState,
-  mapMutations: commonMapMutations,
+  mapMutations: commonMapMutations
 } = createNamespacedHelpers("common");
-
 
 export default {
   mixins: [dialog, util],
@@ -81,9 +82,9 @@ export default {
       return this.editedIndex === -1 ? "팀 추가" : "팀 정보 수정";
     },
     selectedHeaders() {
-      if(this.teamType === "Team") {
+      if (this.teamType === "Team") {
         return headerJson.teamHeaders;
-      }else {
+      } else {
         return headerJson.unitTeamHeaders;
       }
     }
@@ -104,9 +105,9 @@ export default {
     ]),
     changeType(val) {
       this.SET_TEAM_TYPE(val);
-      if(val === "Team") {
-        this.SET_SEARCH_RESULT(this.teamList)
-      }else {
+      if (val === "Team") {
+        this.SET_SEARCH_RESULT(this.teamList);
+      } else {
         this.SET_SEARCH_RESULT(this.unitTeamList);
       }
     },
@@ -116,10 +117,10 @@ export default {
       if (confirm("정말로 삭제하시겠습니까??")) {
         const result = await this.delete_unit_team(formData);
         console.log(result);
-        if(result.status === 200) {
-          this.setSnackBar(this.snackBarSuccess, "정상적으로 삭제 되었습니다.")
+        if (result.status === 200) {
+          this.setSnackBar(this.snackBarSuccess, "정상적으로 삭제 되었습니다.");
           this.loadTeamList();
-        }else {
+        } else {
           this.setSnackBar(this.snackBarFail, "에러 실패!!");
         }
       }
@@ -132,14 +133,14 @@ export default {
     loadUnitTeamList: async function() {
       await this.select_unit_team();
     },
-    modifyTeam: function (item) {
-      if(this.teamType === "Unit") {
+    modifyTeam: function(item) {
+      if (this.teamType === "Unit") {
         this.clickedTeam = item;
         this.setDialogAndType({ dialog: true, type: "unitTeamModify" });
       }
     },
     movePage(teamInfo) {
-      if(this.teamType === "Unit") {
+      if (this.teamType === "Unit") {
         this.$router.push({
           name: "unitTeamDetails",
           params: { teamId: teamInfo.id_unit_team }

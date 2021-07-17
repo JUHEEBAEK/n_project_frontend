@@ -8,8 +8,17 @@
           aspect-ratio="1"
           width="60"
         ></v-img>
-        <v-img id="liftingPlayer2" src="../../assets/images/player1.png" width="60"></v-img>
-        <v-img id="liftingBall" src="../../assets/images/football.png" width="30" aspect-ratio="1"></v-img>
+        <v-img
+          id="liftingPlayer2"
+          src="../../assets/images/player1.png"
+          width="60"
+        ></v-img>
+        <v-img
+          id="liftingBall"
+          src="../../assets/images/football.png"
+          width="30"
+          aspect-ratio="1"
+        ></v-img>
       </div>
     </div>
   </v-dialog>

@@ -4,31 +4,31 @@ import axios from "axios";
    3. 참고 : "get" 의 경우에는 data 를 " " 처럼 공백으로 보내고. url 에 해당 params 를 담아서 요청하면 된다. */
 export async function generalReq(method, url, data) {
   // 개발 환경인지 프로덕션 환경인지 구분
-  const DOMAIN = 
+  const DOMAIN =
     process.env.NODE_ENV === "development"
-  ? "http://localhost:3000"
-  : "http://52.78.180.164:3000";
+      ? "http://localhost:3000"
+      : "http://52.78.180.164:3000";
   axios.defaults.baseURL = DOMAIN;
   try {
     const res = await axios({
       method,
       url,
-      data : data
+      data: data
     });
     return res;
   } catch (err) {
-      console.log(err);
+    console.log(err);
     return err;
   }
 }
 
 export async function authReq(method, url, token, data) {
   // 개발 환경인지 프로덕션 환경인지 구분
-  const DOMAIN = 
+  const DOMAIN =
     process.env.NODE_ENV === "development"
-  ? "http://localhost:3000"
-  : "http://52.78.180.164:3000";
-  
+      ? "http://localhost:3000"
+      : "http://52.78.180.164:3000";
+
   axios.defaults.baseURL = DOMAIN;
   axios.defaults.headers.common = { "x-access-token": token };
   try {
@@ -36,13 +36,12 @@ export async function authReq(method, url, token, data) {
     const res = await axios({
       method,
       url,
-      data : data
+      data: data
     });
-    console.log("res",res);
+    console.log("res", res);
     return res;
   } catch (err) {
-      console.log(err);
+    console.log(err);
     return err;
   }
 }
-

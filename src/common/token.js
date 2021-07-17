@@ -4,16 +4,15 @@ import VueCookies from "vue-cookies";
 // cookie 상에 저장되어 있는 토큰이 있는지 확인
 export const getToken = () => {
   try {
-    if(localStorage.getItem("access_token")) {
+    if (localStorage.getItem("access_token")) {
       return JSON.parse(localStorage.getItem("access_token"));
     } else {
-      return false
+      return false;
     }
-  } catch(err) {
+  } catch (err) {
     console.err(err);
     return false;
   }
-  ;
 };
 
 // 토큰의 payload 를 보려는 경우
@@ -21,7 +20,7 @@ export const getTokenPayload = token => {
   try {
     const jwtToken = jwt_decode(token);
     return jwtToken.payload;
-  }catch(err) {
+  } catch (err) {
     console.error(err);
     return false;
   }

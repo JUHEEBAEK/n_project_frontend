@@ -5,7 +5,10 @@
         <v-card class="home__container">
           <v-card-title>HOME</v-card-title>
           <v-card-text>
-            <squad-soccer-field :position-label="homePositionLabel" :member-squad="homeMemberSquad"></squad-soccer-field>
+            <squad-soccer-field
+              :position-label="homePositionLabel"
+              :member-squad="homeMemberSquad"
+            ></squad-soccer-field>
           </v-card-text>
         </v-card>
       </v-col>
@@ -16,7 +19,10 @@
         <v-card class="away__container">
           <v-card-title>AWAY</v-card-title>
           <v-card-text>
-            <squad-soccer-field :position-label="awayPositionLabel" :member-squad="awayMemberSquad"></squad-soccer-field>
+            <squad-soccer-field
+              :position-label="awayPositionLabel"
+              :member-squad="awayMemberSquad"
+            ></squad-soccer-field>
           </v-card-text>
         </v-card>
       </v-col>
@@ -77,5 +83,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

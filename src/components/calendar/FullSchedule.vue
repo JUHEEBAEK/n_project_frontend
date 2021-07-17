@@ -22,7 +22,9 @@
                 height="48"
                 placeholder="제목 및 시간 추가"
               />
-              <v-btn color="primary" dark class="ma-2" @click="save()">Save</v-btn>
+              <v-btn color="primary" dark class="ma-2" @click="save()"
+                >Save</v-btn
+              >
               <v-spacer></v-spacer>
             </v-toolbar>
           </v-col>
@@ -38,7 +40,14 @@
                 min-width="290px"
               >
                 <template v-slot:activator="{ on }">
-                  <v-text-field ref="menu_date" v-model="date" solo dense readonly v-on="on" />
+                  <v-text-field
+                    ref="menu_date"
+                    v-model="date"
+                    solo
+                    dense
+                    readonly
+                    v-on="on"
+                  />
                 </template>
                 <v-date-picker v-model="date" dense no-title />
               </v-menu>
@@ -132,7 +141,13 @@
                 ></v-select>
               </div>
               <div class="schedule__address py-3">
-                <v-text-field v-model="address" dense hide-details filled readonly />
+                <v-text-field
+                  v-model="address"
+                  dense
+                  hide-details
+                  filled
+                  readonly
+                />
               </div>
             </v-col>
           </v-row>

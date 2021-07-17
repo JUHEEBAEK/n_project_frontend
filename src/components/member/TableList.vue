@@ -114,7 +114,7 @@
         </v-card>
       </v-dialog>
     </template>
-    <template v-if="userInfo.role === 'A'" v-slot:[`item.actions`]="{ item }" >
+    <template v-if="userInfo.role === 'A'" v-slot:[`item.actions`]="{ item }">
       <v-icon small class="mr-2" @click="editItem(item)"
         >fas fa-pencil-alt</v-icon
       >
@@ -135,14 +135,13 @@ const {
 } = createNamespacedHelpers("member");
 const {
   mapState: commonMapState,
-  mapMutations: commonMapMutations,
+  mapMutations: commonMapMutations
 } = createNamespacedHelpers("common");
 
 const {
   mapState: accountMapState,
   mapGetters: accountMapGetters
 } = createNamespacedHelpers("account");
-
 
 export default {
   mixins: [util],
@@ -164,7 +163,11 @@ export default {
       { text: "Withdraw Date", value: "withdraw_date", align: "center" },
       { text: "Actions", value: "actions", sortable: false, align: "center" }
     ],
-    grades: [ { text: "정회원", value: 1}, { text: "준회원", value: 2}, {text: "탈퇴", value: 3}],
+    grades: [
+      { text: "정회원", value: 1 },
+      { text: "준회원", value: 2 },
+      { text: "탈퇴", value: 3 }
+    ],
     editedIndex: -1,
     editedItem: {
       name: "",

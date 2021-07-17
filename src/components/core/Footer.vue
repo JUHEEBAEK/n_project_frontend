@@ -1,6 +1,12 @@
 <template>
   <div>
-    <v-bottom-navigation v-model="bottomNav" app fixed color="light-blue darken-4" height="72">
+    <v-bottom-navigation
+      v-model="bottomNav"
+      app
+      fixed
+      color="light-blue darken-4"
+      height="72"
+    >
       <v-btn v-for="item in items" :key="item.title" @click="movePage(item)">
         <span>{{ item.title }}</span>
         <v-img :src="$imgBaseUrl + item.icon" class="footer__img" contain />
@@ -14,11 +20,9 @@ import CoreValueItem from "../../assets/value/CoreValueItem.json";
 
 import { createNamespacedHelpers } from "vuex";
 import { mapGetters } from "vuex";
-import router from '../../router';
+import router from "../../router";
 
-const {
-  mapGetters: accountMapGetters
-} = createNamespacedHelpers("account");
+const { mapGetters: accountMapGetters } = createNamespacedHelpers("account");
 
 export default {
   name: "FooterVue",
@@ -31,10 +35,13 @@ export default {
   },
   methods: {
     movePage(item) {
-      if(item.title === "ME") {
-        this.$router.push({ name: "memberDetails", params: { member_id: this.userInfo.member_id }});
+      if (item.title === "ME") {
+        this.$router.push({
+          name: "memberDetails",
+          params: { member_id: this.userInfo.member_id }
+        });
         this.$router.go();
-      }else {
+      } else {
         this.$router.push({ path: item.to });
       }
     }
@@ -42,4 +49,8 @@ export default {
 };
 </script>
 
-<style scoped lang="scss" src="@/assets/scss/components/core/footer.scss"></style>
+<style
+  scoped
+  lang="scss"
+  src="@/assets/scss/components/core/footer.scss"
+></style>

@@ -1,7 +1,12 @@
 <template>
   <div class="scrollable">
     <v-row>
-      <v-col v-for="(item, idx) in searchResult" :key="idx" class="py-1" cols="12">
+      <v-col
+        v-for="(item, idx) in searchResult"
+        :key="idx"
+        class="py-1"
+        cols="12"
+      >
         <v-card class="stadium__container" @click="cardClickEvent(item, idx)">
           <v-card-title class="stadium__title">
             <div class="text text__title">{{ item.name }}</div>
@@ -9,15 +14,23 @@
           <v-card-text class="stadium__description pa-2">
             <v-tooltip v-if="item.address.length > 32" top>
               <template v-slot:activator="{ on, attrs }">
-                <div class="text text__caption" v-bind="attrs" v-on="on">{{ item.address }}</div>
+                <div class="text text__caption" v-bind="attrs" v-on="on">
+                  {{ item.address }}
+                </div>
               </template>
               <span>{{ item.address }}</span>
             </v-tooltip>
-            <div v-else class="text text__caption" v-bind="attrs" v-on="on">{{ item.address }}</div>
+            <div v-else class="text text__caption" v-bind="attrs" v-on="on">
+              {{ item.address }}
+            </div>
           </v-card-text>
           <v-card-actions class="justify-center">
-            <v-btn color="primary" text @click="moveDetails(item)">UPDATE</v-btn>
-            <v-btn color="red" text @click="deleteStadium(item.id)">DELETE</v-btn>
+            <v-btn color="primary" text @click="moveDetails(item)"
+              >UPDATE</v-btn
+            >
+            <v-btn color="red" text @click="deleteStadium(item.id)"
+              >DELETE</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-col>

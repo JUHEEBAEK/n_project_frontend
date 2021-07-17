@@ -1,47 +1,47 @@
 import {
-    getGoalRanking,
-    getGoalRankingFilter,
-    getAssistRanking,
-    getAssistRankingFilter,
-    getCleanSheetRanking,
-    getCleanSheetRankingFilter,
-    getLeagueRanking,
-    getRelativePerformance,
-    getAttendRankingFilter
+  getGoalRanking,
+  getGoalRankingFilter,
+  getAssistRanking,
+  getAssistRankingFilter,
+  getCleanSheetRanking,
+  getCleanSheetRankingFilter,
+  getLeagueRanking,
+  getRelativePerformance,
+  getAttendRankingFilter
 } from "../../api/ranking.js";
 
 const state = {
   rankingData: {
-    'GOAL': [], 
-    'ASSIST': [], 
-    'CLEAN_SHEET': [],
-    'ATTEND':[]
+    GOAL: [],
+    ASSIST: [],
+    CLEAN_SHEET: [],
+    ATTEND: []
   },
   leagueRankingData: [],
   relativePerformance: []
-}
+};
 const mutations = {
-  SET_ASSIST_RANKING_DATA(state, assistData){
-    state.rankingData['ASSIST'] = assistData
+  SET_ASSIST_RANKING_DATA(state, assistData) {
+    state.rankingData["ASSIST"] = assistData;
   },
-  SET_CLEAN_SHEET_RANKING_DATA(state, cleanSheetData){
-    state.rankingData['CLEAN_SHEET'] = cleanSheetData
+  SET_CLEAN_SHEET_RANKING_DATA(state, cleanSheetData) {
+    state.rankingData["CLEAN_SHEET"] = cleanSheetData;
   },
-  SET_GOAL_RANKING_DATA(state, goalData){
-    state.rankingData['GOAL'] = goalData
+  SET_GOAL_RANKING_DATA(state, goalData) {
+    state.rankingData["GOAL"] = goalData;
   },
-  SET_LEAGUE_RANKING_DATA(state, rankingData){
-    state.leagueRankingData = rankingData
+  SET_LEAGUE_RANKING_DATA(state, rankingData) {
+    state.leagueRankingData = rankingData;
   },
-  SET_RELATIVE_PERFORMANCE(state, performance){
-    state.relativePerformance = performance
+  SET_RELATIVE_PERFORMANCE(state, performance) {
+    state.relativePerformance = performance;
   },
-  SET_ATTEND_RANKING_DATA(state, attendData){
-    state.rankingData['ATTEND'] = attendData
+  SET_ATTEND_RANKING_DATA(state, attendData) {
+    state.rankingData["ATTEND"] = attendData;
   }
-}
+};
 const actions = {
-  async get_assist_ranking(context){
+  async get_assist_ranking(context) {
     try {
       const response = await getAssistRanking();
       context.commit("SET_ASSIST_RANKING_DATA", response.data);
@@ -50,16 +50,16 @@ const actions = {
       console.log(e);
     }
   },
-  async get_assist_ranking_filter(context, condition){
+  async get_assist_ranking_filter(context, condition) {
     try {
       const response = await getAssistRankingFilter(condition);
       context.commit("SET_ASSIST_RANKING_DATA", response.data);
       return response.data;
     } catch (e) {
       console.log(e);
-   }
+    }
   },
-  async get_clean_sheet_ranking(context){
+  async get_clean_sheet_ranking(context) {
     try {
       const response = await getCleanSheetRanking();
       context.commit("SET_CLEAN_SHEET_RANKING_DATA", response.data);
@@ -68,7 +68,7 @@ const actions = {
       console.log(e);
     }
   },
-  async get_clean_sheet_ranking_filter(context, condition){
+  async get_clean_sheet_ranking_filter(context, condition) {
     try {
       const response = await getCleanSheetRankingFilter(condition);
       context.commit("SET_CLEAN_SHEET_RANKING_DATA", response.data);
@@ -77,7 +77,7 @@ const actions = {
       console.log(e);
     }
   },
-  async get_goal_ranking(context){
+  async get_goal_ranking(context) {
     try {
       const response = await getGoalRanking();
       context.commit("SET_GOAL_RANKING_DATA", response.data);
@@ -86,7 +86,7 @@ const actions = {
       console.log(e);
     }
   },
-  async get_goal_ranking_filter(context, condition){
+  async get_goal_ranking_filter(context, condition) {
     try {
       const response = await getGoalRankingFilter(condition);
       context.commit("SET_GOAL_RANKING_DATA", response.data);
@@ -113,18 +113,18 @@ const actions = {
       console.log(e);
     }
   },
-  async get_attend_ranking_filter(context, condition){
+  async get_attend_ranking_filter(context, condition) {
     try {
-        const response = await getAttendRankingFilter(condition);
-        context.commit("SET_ATTEND_RANKING_DATA", response.data);
-        return response.data;
+      const response = await getAttendRankingFilter(condition);
+      context.commit("SET_ATTEND_RANKING_DATA", response.data);
+      return response.data;
     } catch (e) {
-        console.log(e);
+      console.log(e);
     }
-  },
-}
+  }
+};
 export default {
-    state,
-    mutations,
-    actions
+  state,
+  mutations,
+  actions
 };
