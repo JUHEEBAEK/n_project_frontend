@@ -7,7 +7,7 @@ export async function generalReq(method, url, data) {
   const DOMAIN =
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
-      : "http://52.78.180.164:3000";
+      : "https://nnnn-api.code2world.xyz";
   axios.defaults.baseURL = DOMAIN;
   try {
     const res = await axios({
@@ -27,7 +27,7 @@ export async function authReq(method, url, token, data) {
   const DOMAIN =
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
-      : "http://52.78.180.164:3000";
+      : "https://nnnn-api.code2world.xyz";
 
   axios.defaults.baseURL = DOMAIN;
   axios.defaults.headers.common = { "x-access-token": token };
