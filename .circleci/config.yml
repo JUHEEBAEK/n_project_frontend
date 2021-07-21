@@ -12,9 +12,20 @@ jobs:
     executor: node
     steps:
       - checkout
-      - run: npm install
-      - run: npm audit fix
-      - run: npm run build:prod
+       - run:
+          name: Installing AWS CLI
+          command: |
+            sudo apt-get -y -qq update
+            sudo apt-get install -y awscli
+            sudo apt-get install -y python-pip python-dev build-essential
+            sudo pip install awscli --upgrade
+      - run:
+         name: Preparing Artifact
+          command: |
+            npm install
+            npm audit fix
+            npm run build:prod
+            
       - aws-s3/sync:
           arguments: |
             --acl public-read \
