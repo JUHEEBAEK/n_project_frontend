@@ -9,7 +9,7 @@
             contain
           />
         </div>
-        <div class="header__logo-text">Welcome to the futsal~!!!</div>
+        <div class="header__logo-text">Welcome!!!</div>
       </v-card-title>
       <div>
         <v-form ref="form" class="login__content" lazy-validation>
