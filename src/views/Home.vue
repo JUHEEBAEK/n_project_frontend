@@ -5,7 +5,7 @@
         {{ userInfo }}
       </v-col>
       <v-col cols="12" sm="6" md="6" lg="6" xl="6">
-        <widget-basic :header-title="title" :is-loading="isLoading">
+        <!-- <widget-basic :header-title="title" :is-loading="isLoading">
           <chart-bar-inverse
             class="chart"
             :data-set="chartData"
@@ -14,7 +14,7 @@
             :tick-count="5"
             :bar-padding="0.3"
           />
-        </widget-basic>
+        </widget-basic> -->
       </v-col>
     </v-row>
   </v-container>
@@ -42,12 +42,9 @@ export default {
   computed: {
     ...accountMapGetters(["userInfo"])
   },
-  created() {
-    this.$store.commit("common/SET_FULL_SCREEN", false);
-  },
   async mounted() {
     // 출석횟수 가져오기
-    this.getAttendRate("2020");
+    // this.getAttendRate("2020");
   },
   methods: {
     ...attendMapActions(["countByYear"]),

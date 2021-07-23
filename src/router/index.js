@@ -2,11 +2,12 @@ import Vue from "vue";
 import Router from "vue-router";
 import { isAuthorization, logout } from "../mixins/auth";
 
-import Home from "../views/Home.vue";
+// import Home from "../views/Home.vue";
+const Home = () => import("@/views/Home.vue");
 import Login from "../views/Login.vue";
 import Join from "../views/Join.vue";
 
-import Member from "../views/footer/Member.vue";
+const Member = () => import("@/views/footer/Member.vue");
 import SquadView from "../views/footer/Squad.vue";
 import GameReport from "../views/footer/GameReport.vue";
 import GameReportDetail from "../views/footer/GameReportDetail.vue";
@@ -38,6 +39,12 @@ import Training from "../views/training/print.vue";
 
 Vue.use(Router);
 
+export const routesName = {
+  login: "login",
+  home: "home",
+  member: "member"
+};
+
 const requireAuth = () => (to, from, next) => {
   if (isAuthorization()) {
     return next();
@@ -50,7 +57,7 @@ const requireAuth = () => (to, from, next) => {
 const routes = [
   {
     path: "/",
-    name: "home",
+    name: routesName.home,
     component: Home,
     beforeEnter: requireAuth()
   },
@@ -67,8 +74,9 @@ const routes = [
   // footer view
   {
     path: "/member",
-    component: Member,
-    beforeEnter: requireAuth()
+    name: routesName.member,
+    component: Member
+    // beforeEnter: requireAuth()
   },
   {
     path: "/gameReport",
