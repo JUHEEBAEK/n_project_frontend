@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer v-model="drawer" :temporary="true" app overflow>
+    <v-navigation-drawer v-model="leftDrawer" :temporary="true" app overflow>
       <v-list>
         <v-list-item>
           <v-list-item-content class="float-left">
@@ -12,10 +12,10 @@
       <v-list nav>
         <v-list-item-group color="primary">
           <v-list-item
-            v-for="item in items"
+            v-for="item in leftMenus"
             :key="item.title"
             class="nav__item"
-            :to="`${item.to}`"
+            @click="movePage(item)"
           >
             <v-list-item-icon>
               <v-img :src="$imgBaseUrl + item.icon" contain width="24" />
@@ -31,32 +31,38 @@
 </template>
 
 <script>
-import CoreValueItem from "../../assets/value/CoreValueItem.json";
-import { createNamespacedHelpers } from "vuex";
-const {
-  mapState: commonMapState,
-  mapMutations: commonMapMutations
-} = createNamespacedHelpers("common");
-
 export default {
-  data: () => ({
-    items: CoreValueItem.navigationItems
-  }),
-  computed: {
-    ...commonMapState(["drawer"]),
-    drawer: {
-      get() {
-        return this.$store.state.common.drawer;
-      },
-      set(val) {
-        this.SET_DRAWER(val);
-      }
+  props: {
+    leftDrawer: {
+      type: Boolean,
+      default: false,
+      required: true
+    },
+    setLeftDrawer: {
+      type: Function,
+      default: () => {},
+      required: true
+    },
+    leftMenus: {
+      type: Array,
+      required: true
+    },
+    updateMenu: {
+      type: Function,
+      required: true
     }
   },
-  mounted() {},
-
-  methods: {
-    ...commonMapMutations(["SET_DRAWER"])
+  data: () => ({
+    // items: CoreValueItem.navigationItems
+  }),
+  watch: {
+    leftDrawer(value) {
+      this.setLeftDrawer(value);
+    },
+    movePage: function(item) {
+      console.log("movePage", item);
+      this.updateMenu(item.name);
+    }
   }
 };
 </script>

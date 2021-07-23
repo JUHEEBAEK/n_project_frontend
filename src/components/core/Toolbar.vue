@@ -1,6 +1,6 @@
 <template>
-  <v-app-bar app class="bar__contaniner">
-    <v-app-bar-nav-icon @click.stop="onClickBtn" />
+  <v-app-bar app class="appBar">
+    <v-app-bar-nav-icon @click.stop="openNavigation" />
     <router-link to="/" class="bar__first-title">
       <v-toolbar-title class="black--text">{{ title }}</v-toolbar-title>
     </router-link>
@@ -45,25 +45,43 @@
 
 <script>
 import { createNamespacedHelpers } from "vuex";
-const { mapMutations: commonMapMutations } = createNamespacedHelpers("common");
 const { mapGetters: accountMapGetters } = createNamespacedHelpers("account");
 
 import { logout } from "../../mixins/auth.js";
 
 export default {
   name: "Toolbar",
+  props: {
+    leftDrawer: {
+      type: Boolean,
+      default: false,
+      required: true
+    },
+    setLeftDrawer: {
+      type: Function,
+      default: () => {},
+      required: true
+    },
+    userInfo: {
+      type: Object,
+      default: () => ({
+        name: "",
+        email: "",
+        type: ""
+      })
+    }
+  },
   data: () => ({
     title: "Nunnu Nanna",
     menu: ""
   }),
-  computed: {
-    ...accountMapGetters(["userInfo"])
-  },
+  // computed: {
+  //   ...accountMapGetters(["userInfo"])
+  // },
   watch: {},
   methods: {
-    ...commonMapMutations(["SET_DRAWER"]),
-    onClickBtn() {
-      this.SET_DRAWER(!this.$store.state.common.drawer);
+    openNavigation() {
+      this.setLeftDrawer(!this.leftDrawer);
     },
     movePage(page) {
       console.log("move", page);

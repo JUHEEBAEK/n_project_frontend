@@ -1,0 +1,65 @@
+{
+  "navigationItems": [{
+      "title": "TEAM",
+      "to": "/team-admin",
+      "icon": "fsnnnn_emblem_official2.png"
+    },
+    {
+      "title": "MEMBER",
+      "to": "/member-admin",
+      "name": "memberAdmin",
+      "icon": "team.png"
+    },
+    {
+      "title": "ATTEND",
+      "to": "/attend",
+      "icon": "046-calendar.png"
+    },
+    {
+      "title": "STADIUM",
+      "to": "/stadium",
+      "icon": "stadium.png"
+    },
+    {
+      "title": "CALENDAR",
+      "to": "/calendar",
+      "icon": "deadline.png"
+    },
+    {
+      "title": "SQUAD",
+      "to": "/squad",
+      "icon": "003-tshirt.png"
+    }, {
+      "title": "MATCH PREPARE",
+      "to": "/matchPrepare",
+      "icon": "soccer.png"
+    }
+  ],
+  "footerItems": [{
+      "title": "MEMBER",
+      "to": "/member",
+      "name": "member",
+      "icon": "team.png"
+    },
+    {
+      "title": "SQUAD",
+      "to": "/squadView",
+      "icon": "003-tshirt.png"
+    },
+    {
+      "title": "ME",
+      "to": "/member/details",
+      "icon": "player.png"
+    },
+    {
+      "title": "REPORT",
+      "to": "/gameReport",
+      "icon": "037-scoreboard.png"
+    },
+    {
+      "title": "RANKING",
+      "to": "/ranking",
+      "icon": "006-podium.png"
+    }
+  ]
+}

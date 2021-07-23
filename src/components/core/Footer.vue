@@ -7,7 +7,11 @@
       color="light-blue darken-4"
       height="72"
     >
-      <v-btn v-for="item in items" :key="item.title" @click="movePage(item)">
+      <v-btn
+        v-for="item in footerMenus"
+        :key="item.title"
+        @click="movePage(item)"
+      >
         <span>{{ item.title }}</span>
         <v-img :src="$imgBaseUrl + item.icon" class="footer__img" contain />
       </v-btn>
@@ -26,6 +30,16 @@ const { mapGetters: accountMapGetters } = createNamespacedHelpers("account");
 
 export default {
   name: "FooterVue",
+  props: {
+    footerMenus: {
+      type: Array,
+      required: true
+    },
+    updateMenu: {
+      type: Function,
+      required: true
+    }
+  },
   data: () => ({
     bottomNav: "CALENDAR",
     items: CoreValueItem.footerItems
@@ -34,7 +48,8 @@ export default {
     ...accountMapGetters(["userInfo"])
   },
   methods: {
-    movePage(item) {
+    movePage: function(item) {
+      console.log("footer movePage", item);
       if (item.title === "ME") {
         this.$router.push({
           name: "memberDetails",
@@ -42,7 +57,7 @@ export default {
         });
         this.$router.go();
       } else {
-        this.$router.push({ path: item.to });
+        this.updateMenu(item.name);
       }
     }
   }
