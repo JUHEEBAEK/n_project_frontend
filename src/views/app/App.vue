@@ -1,29 +1,43 @@
 <template>
-  <v-app id="app">
-    <core-Toolbar></core-Toolbar>
-    <!-- <core-navigation v-if="!fullScreen"></core-navigation>
-    <core-view></core-view> -->
-    <!-- <layout-root
-      :userInfo="userInfo"
-      :userTeamInfo="userTeamInfo"
-      :signOut="signOut"
-      :currentMenu="currentMenu"
-      :updateMenu="updateMenu"
-      :manual="manual"
-      :leftMenus="leftMenus"
-    ></layout-root> -->
-    <core-footer v-if="!fullScreen"></core-footer>
+  <v-app id="app" class="app__container">
+    <req-loading :loading="appLoad" :size="100" />
+    <snack-bar :snackBar="snackBar" />
+    <div style="display:flex; justify-content: center;">
+      <authenticate v-if="!appLoad" :isAuthenticate="isLogIn">
+        <template v-slot:login>
+          <login :signIn="signIn"></login>
+        </template>
+        <template v-slot:root>
+          <core-root
+            :userInfo="userInfo"
+            :signOut="signOut"
+            :currentMenu="currentMenu"
+            :updateMenu="updateMenu"
+            :leftMenus="leftMenus"
+            :footerMenus="footerMenus"
+          />
+        </template>
+      </authenticate>
+    </div>
   </v-app>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { appProps } from "./props";
+import Loading from "@/components/loading";
+import Authenticate from "@/components/authenticate";
+import Login from "@/views/login/Login.vue";
+import coreRoot from "@/components/core/Root.vue";
+import SnackBar from "@/components/snackBar";
 
 export default {
   name: "App",
-  props: {
-    ...appProps
+  components: {
+    authenticate: Authenticate,
+    "req-loading": Loading,
+    "snack-bar": SnackBar,
+    "core-root": coreRoot,
+    login: Login
   },
   computed: {
     ...mapGetters("global", {
@@ -35,16 +49,15 @@ export default {
       footerMenus: "footerMenus"
     }),
     ...mapGetters("account", {
-      userInfo: "info"
+      userInfo: "userInfo"
     })
   },
   created() {
-    // this.beforeStartApplication();
+    this.beforeStartApplication();
   },
   methods: {
     ...mapActions("global", ["beforeStartApplication", "signOut", "signIn"]),
-    ...mapActions(["updateMenu"]),
-    ...mapActions("account")
+    ...mapActions(["updateMenu"])
   }
 };
 </script>
@@ -58,5 +71,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  height: 100%;
+}
+// 나중에 reset vuetify 빼기
+.v-application--wrap {
+  display: flex;
+  justify-content: center;
 }
 </style>

@@ -1,0 +1,69 @@
+@import "@/assets/scss/global/mediaQuery.scss";
+
+.login__main {
+  padding: 0;
+  margin: 0;
+  // background-image: url("../../images/section02_bg.jpg");
+  width: 50vmin;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .login__container {
+    padding: 20px;
+    width: 100%;
+    // border: solid 1px #387954;
+    // background-color: #03a27c;
+    border-radius: 4px;
+    color: black;
+    @include xs {
+      padding: 0px;
+      width: 100%;
+    }
+
+    .login__header {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .header__logo-image {
+        margin: 10px 0;
+      }
+    }
+    .login__content {
+      padding: 0px 30px;
+      display: flex;
+      flex-direction: column;
+
+      .login__input {
+        width: 100%;
+        background: none;
+        color: #fff;
+        border: none;
+        font-size: 14px;
+        font-weight: 700;
+        border-radius: 10px;
+      }
+    }
+
+    .login__actions {
+      padding: 20px 30px;
+      display: flex;
+      flex-direction: column;
+
+      .login__button {
+        color: #fff;
+        height: 40px;
+        border-radius: 10px;
+        margin-bottom: 4px;
+      }
+
+      .find__button {
+        margin: 20px 0;
+        background: #455a64;
+        border: solid 1px #2d3a41;
+      }
+    }
+  }
+}

@@ -1,8 +1,8 @@
 import jwt_decode from "jwt-decode";
 
-// import ApiClient from "@/api/refactoring/api-class";
+import ApiClient from "@/api/api-class";
 import router from "@/router";
-// import { routesName } from "@/router/index_refactoring";
+import { routesName } from "@/router/routes.js";
 import snaceBarPurpose from "@/constants/snackbar";
 import constNav from "@/constants/nav.json";
 
@@ -11,14 +11,14 @@ const timeOut = 6000;
 
 const getToken = () => {
   return (
-    (localStorage.getItem("user_token") &&
-      JSON.parse(localStorage.getItem("user_token"))) ||
+    (localStorage.getItem("access_token") &&
+      JSON.parse(localStorage.getItem("access_token"))) ||
     null
   );
 };
 
 const deleteToken = () => {
-  localStorage.removeItem("user_token");
+  localStorage.removeItem("access_token");
 };
 
 const getTokenPayload = token => {
@@ -40,6 +40,12 @@ const saveToken = token => {
 };
 
 export const state = () => ({
+  apiClient: new ApiClient({
+    auth: {
+      baseURL: baseURL,
+      timeout: timeOut
+    }
+  }),
   appLoad: true,
   login: false,
   snackBar: {
@@ -96,43 +102,79 @@ const mutations = {
 };
 
 const actions = {
+  async beforeStartApplication({ commit, dispatch, rootGetters }) {
+    console.log(rootGetters);
+    // const apiClient = rootGetters["global/apiClient"];
+
+    // const token = getToken();
+    // if (token) {
+    //   const { success: successTokenVerify } = await apiClient.auth.verify(
+    //     token
+    //   );
+    //   if (successTokenVerify) {
+    //     await dispatch("setUser", token);
+    //     dispatch("updateMenu", routesName.home, { root: true });
+    //   }
+    // }
+
+    commit("SET_APP_LOAD", false);
+  },
+  async setUser({ dispatch, commit, rootGetters }, token) {
+    // const apiClient = rootGetters["global/apiClient"];
+    // apiClient.updateToken(token);
+    // saveToken(token);
+    // const { idfAccount } = getTokenPayload(token);
+    // const {
+    //   success: successGetAccount,
+    //   response
+    // } = await apiClient.account.getAccountInfo(idfAccount);
+    // if (successGetAccount) {
+    //   const userInfo = response.data;
+    //   dispatch("setInfoByAccount", userInfo, { root: true });
+    //   // fiter menus
+    //   // dispatch("setSettingLeftSubMenus");
+    //   commit("SET_LOGIN", true);
+    //   return true;
+    // } else {
+    //   return false;
+    // }
+  },
   async signOut({ commit, dispatch }) {
     commit("SET_LOGIN", false);
     dispatch("setInfoByAccount", null, { root: true });
     deleteToken();
   },
-  // async signIn({ dispatch, rootGetters, getters }, payload) {
-  //   const apiClient = rootGetters["global/apiClient"];
-  //   const { success, response, error } = await apiClient.auth.signIn(payload);
-  //   if (success) {
-  //     const { Authorization } = response.data;
-  //     const resultUserSuccess = await dispatch("setUser", Authorization);
-  //     if (resultUserSuccess) {
-  //       // await router.push({ name: routesName.home }); // (TODO) 다른 라우트 가능
-  //       return {
-  //         success: true
-  //       };
-  //     }
-  //   } else {
-  //     const { status } = error;
-  //     let message = "";
-
-  //     switch (status) {
-  //       case 401:
-  //         message = "Fail to sign in";
-  //         break;
-  //       case 500:
-  //         message = "Server Error";
-  //         break;
-  //       default:
-  //         message = "Not Valid Value";
-  //     }
-  //     dispatch("apiErrorHandler", { message }, { root: true });
-  //     return {
-  //       success: false
-  //     };
-  //   }
-  // },
+  async signIn({ dispatch, rootGetters }, payload) {
+    // const apiClient = rootGetters["global/apiClient"];
+    // const { success, response, error } = await apiClient.auth.signIn(payload);
+    // if (success) {
+    //   const { Authorization } = response.data;
+    //   const resultUserSuccess = await dispatch("setUser", Authorization);
+    //   if (resultUserSuccess) {
+    //     await router.push({ name: routesName.home }); // (TODO) 다른 라우트 가능
+    //     return {
+    //       success: true
+    //     };
+    //   }
+    // } else {
+    //   const { status } = error;
+    //   let message = "";
+    //   switch (status) {
+    //     case 401:
+    //       message = "Fail to sign in";
+    //       break;
+    //     case 500:
+    //       message = "Server Error";
+    //       break;
+    //     default:
+    //       message = "Not Valid Value";
+    //   }
+    //   dispatch("apiErrorHandler", { message }, { root: true });
+    //   return {
+    //     success: false
+    //   };
+    // }
+  },
   updateSnackBar: {
     root: true,
     handler({ commit }, payload) {

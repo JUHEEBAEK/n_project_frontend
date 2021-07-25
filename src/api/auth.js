@@ -1,10 +1,18 @@
 import { generalReq } from "./index.js";
 
-// 1. 목적 : login 기능
-// 2. 설명 : data 는 email 과 password 가 담겨져 있는 객체이다.
 export const singIn = async data => {
-  return await generalReq("post", "/api/user/login", data);
+  return await this.post(`/api/user/login`, data);
 };
+
+export async function verify(data) {
+  return await this.get(`/auth/verify`, {
+    headers: {
+      common: {
+        Authorization: data
+      }
+    }
+  });
+}
 
 // join 기능
 export const join = async data => {

@@ -34,15 +34,9 @@ const mutations = {
 const actions = {
   setInfoByAccount: {
     root: true,
-    handler({ commit, dispatch }, userInfo) {
-      commit("SET_INFO", userInfo);
-      // if (userInfo && userInfo.idfAccount) {
-      //   dispatch("setTeamInfo", userInfo.idfAccount);
-      // }
+    handler({ commit }, userInfo) {
+      commit("SET_USER_INFO", userInfo);
     }
-  },
-  async setInfo({ commit }, userInfo) {
-    commit("SET_USER_INFO", userInfo);
   },
   async logout({ commit }) {
     commit("LOGOUT");

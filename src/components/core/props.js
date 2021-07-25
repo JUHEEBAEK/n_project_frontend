@@ -1,9 +1,5 @@
 export const rootProps = {
   // global
-  language: {
-    type: String,
-    required: true
-  },
   currentMenu: {
     type: String,
     default: ""

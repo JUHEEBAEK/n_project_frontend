@@ -1,55 +1,56 @@
 <template>
   <div>
-    <core-Toolbar
+    <core-app-bar
       v-if="!fullScreen"
       :leftDrawer="leftDrawer"
       :setLeftDrawer="setLeftDrawer"
       :userInfo="userInfo"
-    ></core-Toolbar>
+      :signOut="signOut"
+    />
     <core-navigation
       v-if="!fullScreen"
       :leftDrawer="leftDrawer"
       :setLeftDrawer="setLeftDrawer"
       :leftMenus="leftMenus"
       :updateMenu="updateMenu"
-    ></core-navigation>
-    <core-view :fullScreen="fullScreen" :leftDrawer="leftDrawer"></core-view>
+    />
+    <core-view :fullScreen="fullScreen" :leftDrawer="leftDrawer" />
     <core-footer
       v-if="!fullScreen"
       :footerMenus="footerMenus"
       :updateMenu="updateMenu"
-    ></core-footer>
+    />
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import Toolbar from "./Toolbar.vue";
+import Navigation from "./Navigation.vue";
+import View from "./View.vue";
+import Footer from "./Footer.vue";
+
+import { rootProps } from "./props";
 
 export default {
+  components: {
+    "core-app-bar": Toolbar,
+    "core-navigation": Navigation,
+    "core-view": View,
+    "core-footer": Footer
+  },
+  props: {
+    ...rootProps
+  },
   data: () => ({
     fullScreen: false,
     leftDrawer: false
   }),
-  computed: {
-    ...mapGetters("global", {
-      // appLoad: "appLoad",
-      // isLogIn: "login",
-      // snackBar: "snackBar",
-      currentMenu: "currentMenu",
-      leftMenus: "leftMenus",
-      footerMenus: "footerMenus"
-    }),
-    ...mapGetters("account", {
-      userInfo: "userInfo"
-    })
-  },
   watch: {
     leftDrawer(value) {
       console.log(value);
     }
   },
   methods: {
-    ...mapActions(["updateMenu"]),
     setLeftDrawer(value) {
       this.leftDrawer = value;
     }

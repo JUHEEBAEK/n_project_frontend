@@ -44,11 +44,6 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from "vuex";
-const { mapGetters: accountMapGetters } = createNamespacedHelpers("account");
-
-import { logout } from "../../mixins/auth.js";
-
 export default {
   name: "Toolbar",
   props: {
@@ -69,16 +64,16 @@ export default {
         email: "",
         type: ""
       })
+    },
+    signOut: {
+      type: Function,
+      required: true
     }
   },
   data: () => ({
     title: "Nunnu Nanna",
     menu: ""
   }),
-  // computed: {
-  //   ...accountMapGetters(["userInfo"])
-  // },
-  watch: {},
   methods: {
     openNavigation() {
       this.setLeftDrawer(!this.leftDrawer);
@@ -88,7 +83,7 @@ export default {
     },
     logout() {
       console.log("logout");
-      logout();
+      this.signOut();
     }
   }
 };

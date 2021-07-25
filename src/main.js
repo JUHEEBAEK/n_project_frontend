@@ -2,9 +2,10 @@ import Vue from "vue";
 import Vuetify from "vuetify/lib";
 import Ripple from "vuetify/lib/directives/ripple";
 import { sync } from "vuex-router-sync";
-import App from "./App.vue";
+import App from "./views/app/App.vue";
+
 import store from "@/store/index_refactoring";
-import router from "./router";
+import router from "./router/index_refactoring";
 
 import "./registerServiceWorker"; // ???
 import "roboto-fontface/css/roboto/roboto-fontface.css"; // ???

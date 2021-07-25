@@ -1,4 +1,4 @@
-import Toolbar from "./Toolbar_refact.vue";
+import Toolbar from "./Toolbart.vue";
 
 export default {
   title: "Core/Toolbar",
