@@ -76,7 +76,15 @@
       <v-col cols="12">
         <div class="selectTeam__box">
           <div class="team__home">
-            <v-card color="grey lighten-2" width="150" height="150">
+            <v-card color="grey lighten-2" width="350" min-height="150">
+              <v-system-bar
+                v-if="homeTeam.members"
+                color="indigo darken-2"
+                dark
+              >
+                <v-spacer></v-spacer>
+                <v-icon @click="unselectTeam('home')">fas fa-times</v-icon>
+              </v-system-bar>
               <v-card-title class="justify-center"
                 >home {{ homeTeam.teamNumber }}</v-card-title
               >
@@ -94,7 +102,15 @@
             <h2 class="mx-3">VS</h2>
           </div>
           <div class="team__away">
-            <v-card color="grey lighten-2" width="150" height="150">
+            <v-card color="grey lighten-2" width="350" min-height="150">
+              <v-system-bar
+                v-if="awayTeam.members"
+                color="indigo darken-2"
+                dark
+              >
+                <v-spacer></v-spacer>
+                <v-icon @click="unselectTeam('away')">fas fa-times</v-icon>
+              </v-system-bar>
               <v-card-title class="justify-center"
                 >away {{ awayTeam.teamNumber }}</v-card-title
               >
@@ -182,43 +198,29 @@ export default {
     ]),
     ...mapActions(["setSelectedSplitedTeam"]),
     set_home_away_team(selectedTeam) {
-      let targetTeam = null;
-      let oppositeTeam = null;
+      const selectedNameList = selectedTeam.members.map(member => member.name);
+      const homeNameList = this.homeTeam.members.map(member => member.name);
+      const awayNameList = this.awayTeam.members.map(member => member.name);
 
-      if (this.isHome) {
-        targetTeam = this.homeTeam;
-        oppositeTeam = this.awayTeam;
-      } else {
-        targetTeam = this.awayTeam;
-        oppositeTeam = this.homeTeam;
+      if (
+        this.$_.isEqual(selectedNameList, homeNameList) ||
+        this.$_.isEqual(selectedNameList, awayNameList)
+      ) {
+        return;
       }
-
-      let checkOppositeTeamIsSame = selectedTeam === oppositeTeam;
-      if (checkOppositeTeamIsSame) {
-        // swap home and away
-        let tmp = {};
-        tmp = targetTeam;
-        targetTeam = oppositeTeam;
-        oppositeTeam = tmp;
-      } else {
-        targetTeam = selectedTeam;
-      }
-
-      if (this.isHome) {
-        this.SET_HOME_TEAM(targetTeam);
-        this.SET_AWAY_TEAM(oppositeTeam);
-      } else {
-        this.SET_HOME_TEAM(oppositeTeam);
-        this.SET_AWAY_TEAM(targetTeam);
+      if (!this.homeTeam.members || this.homeTeam.members.length == 0) {
+        this.SET_HOME_TEAM(selectedTeam);
+      } else if (!this.awayTeam.members || this.awayTeam.members.length == 0) {
+        this.SET_AWAY_TEAM(selectedTeam);
       }
     },
     openTeamList: function() {
       this.setDialogAndType({ dialog: true, type: "teamList" });
     },
     removeTeam() {
-      this.SET_HOME_TEAM("");
-      this.SET_AWAY_TEAM("");
-      this.SET_JOCKER("");
+      this.SET_HOME_TEAM({ members: [] });
+      this.SET_AWAY_TEAM({ members: [] });
+      this.SET_JOCKER({});
       this.SET_SELECTED_SPLIT_TEAM(null);
     },
     saveTeam(team) {
@@ -228,6 +230,13 @@ export default {
         this.SET_JOCKER(jockerMember);
       }
       this.setDialogAndType({ dialog: false, type: null });
+    },
+    unselectTeam(homeAway) {
+      if (homeAway == "home") {
+        this.SET_HOME_TEAM({ members: [] });
+      } else if (homeAway == "away") {
+        this.SET_AWAY_TEAM({ members: [] });
+      }
     }
   }
 };

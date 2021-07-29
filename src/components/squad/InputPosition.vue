@@ -1,111 +1,78 @@
 <template>
   <div>
-    <v-row class="position__field" justify="center">
-      <v-col
-        v-for="item in positionList"
-        :key="item"
-        cols="4"
-        class="text-center px-0 pb-0"
-        align-self="center"
+    <v-row justify="center">
+      <v-chip
+        v-for="(member, index) in fieldMembers"
+        class="ma-2"
+        color="indigo"
+        text-color="white"
+        :key="index"
       >
-        <v-btn v-if="item" @click="openDialog(item)">{{ item }}</v-btn>
-        <v-text-field
-          v-if="item"
-          v-model="position[selectType][item]"
-          class="position__name"
-          clearable
-          readonly
-        ></v-text-field>
-      </v-col>
+        {{ member.name }}
+      </v-chip>
     </v-row>
-    <v-row class="position__bench" justify="center">
-      <v-col
-        v-for="item in benchList"
-        :key="item"
-        cols="4"
-        class="text-center px-0 pb-0"
-        align-self="center"
-      >
-        <v-btn v-if="item" @click="openDialog(item)">{{ item }}</v-btn>
-        <v-text-field
-          v-if="item"
-          v-model="position[selectType][item]"
-          class="position__name"
-          clearable
-          readonly
-        ></v-text-field>
-      </v-col>
+    <v-row justify="center">
+      <squad-input-chip-combobox
+        v-model="goalKeeper"
+        :items="members"
+        label="골키퍼 선택"
+      />
     </v-row>
-    <dialog-squad-position
-      v-if="dialog === true && type === 'position'"
-      :select-team="selectTeam"
-      :select-position="selectPosition"
-      @savePosition="savePosition"
-    ></dialog-squad-position>
+    <v-row justify="center">
+      <squad-input-chip-combobox
+        v-model="benchMembers"
+        multiple
+        :items="members"
+        label="벤치 선택"
+      />
+    </v-row>
   </div>
 </template>
 
 <script>
-import dialog from "../../mixins/dialog.js";
-import regex from "../../mixins/regex.js";
-import Position from "@/assets/value/position.json";
-
-import { createNamespacedHelpers } from "vuex";
-const { mapState, mapMutations } = createNamespacedHelpers("prepareMatch");
-
 export default {
-  mixins: [dialog, regex],
   props: {
     members: {
-      type: Object,
+      type: Array,
       defualt: null
     }
   },
   data: () => ({
-    selectTeam: null,
-    selectPosition: null,
-    positionList: Position.list,
-    benchList: Position.benchList,
-    position: JSON.parse(JSON.stringify(Position.basicPostion))
+    goalKeeper: null,
+    benchMembers: []
   }),
-  watch: {
-    async members(value) {
-      this.onMembersChange(value);
-    }
-  },
   computed: {
-    ...mapState(["isHome", "selectType", "homeTeam", "awayTeam"])
-  },
-  methods: {
-    openDialog(val) {
-      this.selectPosition = val;
-      if (this.isHome) {
-        this.selectTeam = this.homeTeam;
-      } else {
-        this.selectTeam = this.awayTeam;
-      }
-      if (this.homeTeam && this.awayTeam) {
-        this.setDialogAndType({ dialog: true, type: "position" });
-      }
-    },
-    savePosition(member) {
-      this.position[this.selectType][member.position] = member.name;
-    },
-    async onMembersChange(members) {
-      this.position = JSON.parse(JSON.stringify(Position.basicPostion));
-
-      members.forEach(member => {
-        // member 형태
-        //  selectType, position, name
-        //    "Home",   "GK",     "김철"
-
-        this.savePosition2(member, member.selectType);
+    fieldMembers() {
+      let filteredMember = [];
+      this.members.forEach(member => {
+        if (
+          !this.benchMembers.includes(member) &&
+          !(this.goalKeeper == member)
+        ) {
+          filteredMember.push(member);
+        }
       });
-    },
-    savePosition2(member, selectType) {
-      this.position[member.selectType][member.position] = member.name;
+      return filteredMember;
     }
-  }
+  },
+  watch: {
+    goalKeeper(member) {
+      if (member) {
+        let colapseIndex = this.benchMembers.indexOf(member);
+        if (colapseIndex >= 0) {
+          this.benchMembers.splice(colapseIndex, 1);
+        }
+      }
+    },
+    benchMembers(memberList) {
+      memberList.forEach(member => {
+        if (member == this.goalKeeper) {
+          this.goalKeeper = null;
+        }
+      });
+    }
+  },
+  methods: {}
 };
 </script>
 

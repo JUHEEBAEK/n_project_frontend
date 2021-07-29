@@ -38,18 +38,18 @@ const state = {
   selectType: "Home",
   homeTeam: {
     members: [
-      {
-        id: null,
-        name: null
-      }
+      // {
+      //   id: null,
+      //   name: null
+      // }
     ]
   },
   awayTeam: {
     members: [
-      {
-        id: null,
-        name: null
-      }
+      // {
+      //   id: null,
+      //   name: null
+      // }
     ]
   },
   jocker: {

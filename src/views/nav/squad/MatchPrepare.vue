@@ -15,8 +15,15 @@
       <v-col cols="12">
         <squad-team-list></squad-team-list>
       </v-col>
-      <v-col cols="12">
-        <squad-input-position :members="members"></squad-input-position>
+      <v-col cols="6" class="box--home">
+        <squad-input-position
+          :members="homeTeam.members"
+        ></squad-input-position>
+      </v-col>
+      <v-col cols="6" class="box--away">
+        <squad-input-position
+          :members="awayTeam.members"
+        ></squad-input-position>
       </v-col>
     </v-row>
     <v-row>
@@ -116,11 +123,8 @@ export default {
         //home과 away를 return 할 것
         // TODO: 포지션에 중복된 선수가 되있으면 안된다.
       }
-      if (this.awayTeam.members) {
-        var awayExist = true;
-      } else {
-        var awayExist = false;
-      }
+      let awayExist = !!this.awayTeam.members;
+
       let formSearchGame = {};
       formSearchGame["schedule_id"] = this.current_schedule_id;
       formSearchGame["quarter"] = this.currentQuarterNumber;
