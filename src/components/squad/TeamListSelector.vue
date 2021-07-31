@@ -1,5 +1,10 @@
 <template>
   <v-row justify="center">
+    <v-col cols="12" justify-content="center">
+      <v-sheet color="grey lighten-4" class="vertical-middle py-3">
+        <v-btn large color="primary" @click="openTeamList">Team 불러오기</v-btn>
+      </v-sheet>
+    </v-col>
     <v-col cols="12" lg="10" class="py-0" align-self="center">
       <v-divider />
       <v-sheet v-if="selectedSplitedTeam !== null">
@@ -9,7 +14,7 @@
             :key="index"
             v-slot:default="{ toggle }"
           >
-            <template v-if="teamDict.teamNumber != 0">
+            <template v-if="teamDict.teamNumber != -1">
               <v-card
                 class="team__box"
                 @click.native="set_home_away_team(teamDict)"
@@ -40,15 +45,7 @@
               </v-card>
             </template>
           </v-slide-item>
-          <v-slide-item class="align-self-center">
-            <v-btn color="primary" small icon @click="removeTeam">
-              <v-icon size="24" v-text="'fas fa-minus-circle'"></v-icon>
-            </v-btn>
-          </v-slide-item>
         </v-slide-group>
-      </v-sheet>
-      <v-sheet v-else color="grey lighten-4" class="vertical-middle py-10">
-        <v-btn large @click="openTeamList">Team 불러오기</v-btn>
       </v-sheet>
       <dialog-squad-team-list
         v-if="dialog === true && type === 'teamList'"
@@ -102,19 +99,28 @@ export default {
     openTeamList: function() {
       this.setDialogAndType({ dialog: true, type: "teamList" });
     },
+    saveTeam(team) {
+      this.removeTeam();
+      this.setSelectedSplitedTeam(team.splitTeamIndex);
+
+      Object.keys(this.selectedSplitedTeam).forEach(key => {
+        const teamDict = this.selectedSplitedTeam[key];
+        if (teamDict.teamNumber == -1) {
+          this.SET_JOCKER(teamDict);
+        }
+      });
+
+      // if (isJockerExist) {
+      //   let jockerMember = this.selectedSplitedTeam[0].members[0];
+      //   this.SET_JOCKER(jockerMember);
+      // }
+      this.setDialogAndType({ dialog: false, type: null });
+    },
     removeTeam() {
       this.SET_HOME_TEAM({ members: [] });
       this.SET_AWAY_TEAM({ members: [] });
-      this.SET_JOCKER({});
+      this.SET_JOCKER({ members: [] });
       this.SET_SELECTED_SPLIT_TEAM(null);
-    },
-    saveTeam(team) {
-      this.setSelectedSplitedTeam(team.splitTeamIndex);
-      if (this.selectedSplitedTeam[0]) {
-        let jockerMember = this.selectedSplitedTeam[0].members[0];
-        this.SET_JOCKER(jockerMember);
-      }
-      this.setDialogAndType({ dialog: false, type: null });
     }
   }
 };

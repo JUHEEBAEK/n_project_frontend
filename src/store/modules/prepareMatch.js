@@ -52,8 +52,12 @@ const state = {
     ]
   },
   jocker: {
-    member_id: null,
-    name: null
+    members: [
+      // {
+      //   id: null,
+      //   name: null
+      // }
+    ]
   },
   splitTeamList: {},
   summarySplitTeamList: [
