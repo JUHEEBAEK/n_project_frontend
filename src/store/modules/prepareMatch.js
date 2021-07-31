@@ -34,7 +34,6 @@ const state = {
     "Q15"
   ],
   quarterIndex: 0,
-  isHome: true,
   selectType: "Home",
   homeTeam: {
     members: [
@@ -91,7 +90,6 @@ const mutations = {
   [constants.setHomeTeam]: set("homeTeam"),
   [constants.setAwayTeam]: set("awayTeam"),
   [constants.setJocker]: set("jocker"),
-  [constants.setIsHome]: set("isHome"),
   [constants.setType]: set("selectType"),
   [constants.setQuarterIndex]: set("quarterIndex"),
   SET_SPLIT_TEAM_LIST(state, splitTeam) {
