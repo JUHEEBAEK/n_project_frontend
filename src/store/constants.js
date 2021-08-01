@@ -30,7 +30,6 @@ export const setDate = "SET_DATE";
 export const setHomeTeam = "SET_HOME_TEAM";
 export const setAwayTeam = "SET_AWAY_TEAM";
 export const setJocker = "SET_JOCKER";
-export const setIsHome = "SET_IS_HOME";
 export const setType = "SET_TYPE";
 export const setQuarterIndex = "SET_QAURTER_INDEX";
 

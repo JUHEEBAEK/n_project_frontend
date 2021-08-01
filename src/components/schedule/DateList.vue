@@ -16,7 +16,7 @@
             v-slot:default="{ active, toggle }"
           >
             <v-card
-              class="date__card ma-2"
+              class="date__card ma-2 pt-5"
               :class="{ active: active }"
               height="90"
               width="60"

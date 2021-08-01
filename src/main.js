@@ -12,12 +12,15 @@ import VueCookies from "vue-cookies";
 import VueMoment from "./plugins/moment";
 import { isAuthorization } from "./mixins/auth";
 import { getUserInfo } from "./common/user.js";
+import _ from "lodash";
 
 Vue.config.productionTip = false;
 Vue.use(VueMoment);
 Vue.use(VueCookies);
 Vue.prototype.$imgBaseUrl =
   "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/";
+
+Object.defineProperty(Vue.prototype, "$_", { value: _ });
 
 const ignoreWarnMessage =
   "The .native modifier for v-on is only valid on components but it was used on <div>.";

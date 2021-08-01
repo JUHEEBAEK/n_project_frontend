@@ -34,27 +34,30 @@ const state = {
     "Q15"
   ],
   quarterIndex: 0,
-  isHome: true,
   selectType: "Home",
   homeTeam: {
     members: [
-      {
-        id: null,
-        name: null
-      }
+      // {
+      //   id: null,
+      //   name: null
+      // }
     ]
   },
   awayTeam: {
     members: [
-      {
-        id: null,
-        name: null
-      }
+      // {
+      //   id: null,
+      //   name: null
+      // }
     ]
   },
   jocker: {
-    member_id: null,
-    name: null
+    members: [
+      // {
+      //   id: null,
+      //   name: null
+      // }
+    ]
   },
   splitTeamList: {},
   summarySplitTeamList: [
@@ -91,7 +94,6 @@ const mutations = {
   [constants.setHomeTeam]: set("homeTeam"),
   [constants.setAwayTeam]: set("awayTeam"),
   [constants.setJocker]: set("jocker"),
-  [constants.setIsHome]: set("isHome"),
   [constants.setType]: set("selectType"),
   [constants.setQuarterIndex]: set("quarterIndex"),
   SET_SPLIT_TEAM_LIST(state, splitTeam) {
@@ -164,22 +166,7 @@ const mutations = {
       state.selectedSplitedTeam[team_number]["members"].push(member);
     }
   },
-  ADD_HOME_JOCKER(state, jockerMember) {
-    state.homeTeam.members.push({
-      member_id: jockerMember.member_id,
-      name: jockerMember.name,
-      position: "JK",
-      isJocker: true
-    });
-  },
-  ADD_AWAY_JOCKER(state, jockerMember) {
-    state.awayTeam.members.push({
-      member_id: jockerMember.member_id,
-      name: jockerMember.name,
-      position: "JK",
-      isJocker: true
-    });
-  },
+
   SET_HOME_MEMBERS(state, homeMembers) {
     state.homeMembers = homeMembers;
     state.homeTeam = {
@@ -297,7 +284,6 @@ const actions = {
   async getHomeAwayMember({ commit }, scheduleAndQuarter) {
     try {
       const gameInfo = await searchWithScheduleIdAndQuarter(scheduleAndQuarter);
-
       let membersDict = {
         homeMembers: [],
         awayMembers: []

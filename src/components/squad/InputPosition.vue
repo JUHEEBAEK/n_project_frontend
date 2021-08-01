@@ -1,109 +1,131 @@
 <template>
   <div>
-    <v-row class="position__field" justify="center">
-      <v-col
-        v-for="item in positionList"
-        :key="item"
-        cols="4"
-        class="text-center px-0 pb-0"
-        align-self="center"
-      >
-        <v-btn v-if="item" @click="openDialog(item)">{{ item }}</v-btn>
-        <v-text-field
-          v-if="item"
-          v-model="position[selectType][item]"
-          class="position__name"
-          clearable
-          readonly
-        ></v-text-field>
+    <v-row justify="center" align="center">
+      <v-col cols="2">
+        <span> 필드: </span>
+      </v-col>
+      <v-col cols="10">
+        <v-chip
+          v-for="(member, index) in fieldMembers"
+          class="ma-2"
+          color="indigo"
+          text-color="white"
+          :key="index"
+        >
+          {{ member.name }}
+        </v-chip>
       </v-col>
     </v-row>
-    <v-row class="position__bench" justify="center">
-      <v-col
-        v-for="item in benchList"
-        :key="item"
-        cols="4"
-        class="text-center px-0 pb-0"
-        align-self="center"
-      >
-        <v-btn v-if="item" @click="openDialog(item)">{{ item }}</v-btn>
-        <v-text-field
-          v-if="item"
-          v-model="position[selectType][item]"
-          class="position__name"
-          clearable
-          readonly
-        ></v-text-field>
+    <v-row justify="center" align="center">
+      <v-col cols="2">
+        <span> 골기퍼: </span>
+      </v-col>
+      <v-col>
+        <squad-input-chip-combobox
+          v-model="goalKeeper"
+          :items="members"
+          label="골키퍼 선택"
+        />
       </v-col>
     </v-row>
-    <dialog-squad-position
-      v-if="dialog === true && type === 'position'"
-      :select-team="selectTeam"
-      :select-position="selectPosition"
-      @savePosition="savePosition"
-    ></dialog-squad-position>
+    <v-row justify="center" align="center">
+      <v-col cols="2">
+        <span> 벤치: </span>
+      </v-col>
+      <v-col>
+        <squad-input-chip-combobox
+          v-model="benchMembers"
+          multiple
+          :items="members"
+          label="벤치 선택"
+        />
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
-import dialog from "../../mixins/dialog.js";
-import regex from "../../mixins/regex.js";
-import Position from "@/assets/value/position.json";
-
-import { createNamespacedHelpers } from "vuex";
-const { mapState, mapMutations } = createNamespacedHelpers("prepareMatch");
-
 export default {
-  mixins: [dialog, regex],
   props: {
     members: {
-      type: Object,
+      type: Array,
       defualt: null
     }
   },
   data: () => ({
-    selectTeam: null,
-    selectPosition: null,
-    positionList: Position.list,
-    benchList: Position.benchList,
-    position: JSON.parse(JSON.stringify(Position.basicPostion))
+    goalKeeper: null,
+    benchMembers: [],
+    jockerMembers: []
   }),
-  watch: {
-    async members(value) {
-      this.onMembersChange(value);
+  computed: {
+    fieldMembers() {
+      let fieldMembers = [];
+      this.members.forEach(member => {
+        if (
+          !this.benchMembers.includes(member) &&
+          !(this.goalKeeper == member) &&
+          !this.jockerMembers.includes(member)
+        ) {
+          fieldMembers.push(member);
+        }
+      });
+
+      return fieldMembers;
     }
   },
-  computed: {
-    ...mapState(["isHome", "selectType", "homeTeam", "awayTeam"])
+  watch: {
+    members: {
+      immediate: true,
+      handler: function(members) {
+        this.goalKeeper = null;
+        this.benchMembers = [];
+        this.jockerMembers = [];
+        members.forEach(member => {
+          if (member.position === "GK") {
+            this.goalKeeper = member;
+          }
+          if (member.position.includes("bench")) {
+            this.benchMembers.push(member);
+          }
+          if (member.position === "JK") {
+            this.jockerMembers.push(member);
+          }
+        });
+      }
+    },
+    fieldMembers() {
+      this.emitData();
+    },
+    goalKeeper(member) {
+      if (member) {
+        let colapseIndex = this.benchMembers.indexOf(member);
+        if (colapseIndex >= 0) {
+          this.benchMembers.splice(colapseIndex, 1);
+        }
+      }
+      this.emitData();
+    },
+    benchMembers(memberList) {
+      memberList.forEach(member => {
+        if (member == this.goalKeeper) {
+          this.goalKeeper = null;
+        }
+      });
+      this.emitData();
+    }
   },
   methods: {
-    openDialog(val) {
-      this.selectPosition = val;
-      if (this.isHome) {
-        this.selectTeam = this.homeTeam;
-      } else {
-        this.selectTeam = this.awayTeam;
-      }
-      if (this.homeTeam && this.awayTeam) {
-        this.setDialogAndType({ dialog: true, type: "position" });
-      }
-    },
-    savePosition(member) {
-      this.position[this.selectType][member.position] = member.name;
-    },
-    async onMembersChange(members) {
-      this.position = JSON.parse(JSON.stringify(Position.basicPostion));
-
-      members.forEach(member => {
-        // member 형태
-        //  selectType, position, name
-        //    "Home",   "GK",     "김철"
-
-        this.savePosition2(member, member.selectType);
+    emitData() {
+      let members = [];
+      this.fieldMembers.forEach(member => {
+        members.push({ ...member });
       });
-    },
-    savePosition2(member, selectType) {
-      this.position[member.selectType][member.position] = member.name;
+      if (this.goalKeeper) members.push({ ...this.goalKeeper, position: "GK" });
+      this.benchMembers.forEach(member => {
+        members.push({ ...member, position: "bench" });
+      });
+
+      this.$emit("change", members);
     }
   }
 };
