@@ -2,7 +2,7 @@
   <v-card color="grey lighten-2" width="350" min-height="100">
     <v-system-bar v-if="deletable" color="indigo darken-2" dark>
       <v-spacer></v-spacer>
-      <v-icon @click="$emit('away')">fas fa-times</v-icon>
+      <v-icon @click="$emit('delete')">fas fa-times</v-icon>
     </v-system-bar>
     <v-card-title class="justify-center">{{ title }}</v-card-title>
     <v-card-text class="member__box justify-center">
