@@ -79,6 +79,9 @@ export default {
     members: {
       immediate: true,
       handler: function(members) {
+        this.goalKeeper = null;
+        this.benchMembers = [];
+        this.jockerMembers = [];
         members.forEach(member => {
           if (member.position === "GK") {
             this.goalKeeper = member;
