@@ -262,9 +262,10 @@ export default {
         })
         .catch(err => {
           // 같은 주소를 여러 번 호출할 때 나는 에러이다.
-          if (err.name != "NavigationDuplocated") {
-            throw err;
-          }
+          // this.$router.go(this.$router.currentRoute);
+          // if (err.name != "NavigationDuplocated") {
+          //   throw err;
+          // }
         });
 
       let isLeague = this.scheduleList[this.scheduleIndex].type == "L";
