@@ -45,8 +45,6 @@
 </template>
 
 <script>
-import positionValue from "@/assets/value/position.json";
-
 export default {
   props: {
     members: {
@@ -86,7 +84,7 @@ export default {
           if (member.position === "GK") {
             this.goalKeeper = member;
           }
-          if (positionValue.benchList.includes(member.position)) {
+          if (member.position.includes("bench")) {
             this.benchMembers.push(member);
           }
           if (member.position === "JK") {
@@ -121,8 +119,8 @@ export default {
         members.push({ ...member });
       });
       if (this.goalKeeper) members.push({ ...this.goalKeeper, position: "GK" });
-      this.benchMembers.forEach((member, index) => {
-        members.push({ ...member, position: positionValue.benchList[index] });
+      this.benchMembers.forEach(member => {
+        members.push({ ...member, position: "bench" });
       });
 
       this.$emit("change", members);
