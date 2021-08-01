@@ -8,6 +8,8 @@
     :label="label"
     :multiple="multiple"
     prepend-icon="mdi-filter-variant"
+    dense
+    hide-details
     solo
   >
     <template v-slot:selection="{ attrs, item, select, selected }">
@@ -50,7 +52,6 @@ export default {
   },
   watch: {
     selectedItems(value) {
-      console.log("changed", value);
       this.$emit("input", value);
     },
     value: {

@@ -18,11 +18,13 @@
       <v-col cols="6" class="box--home">
         <squad-input-position
           :members="homeTeam.members"
+          @change="homeMembers = $event"
         ></squad-input-position>
       </v-col>
       <v-col cols="6" class="box--away">
         <squad-input-position
           :members="awayTeam.members"
+          @change="awayMembers = $event"
         ></squad-input-position>
       </v-col>
     </v-row>
@@ -69,7 +71,9 @@ export default {
     }
   },
   data: () => ({
-    members: null
+    members: null,
+    homeMembers: {},
+    awayMembers: {}
   }),
   computed: {
     ...accountMapGetters(["userInfo"]),
@@ -81,8 +85,6 @@ export default {
       "homeTeam",
       "awayTeam",
       "jocker",
-      "homeMembers",
-      "awayMembers",
       "quarterIndex"
     ])
   },
@@ -96,11 +98,7 @@ export default {
     ]),
     ...calendarMapActions(["select_schedule", "load_member"]),
     ...calendarMapMutations(["CHOOSE_LATEST_SCHEDULE", "SET_SCHEDULE_INDEX"]),
-    ...prepareMatchMutations([
-      "SET_QAURTER_INDEX",
-      "ADD_HOME_JOCKER",
-      "ADD_AWAY_JOCKER"
-    ]),
+    ...prepareMatchMutations(["SET_QAURTER_INDEX"]),
     ...prepareMatchActions([
       "setSplitTeamList",
       "setSummarySplitTeamList",
@@ -113,10 +111,7 @@ export default {
       "setSelectedSplitedTeam",
       "getHomeAwayMember"
     ]),
-    addJockerTeam: function() {
-      this.ADD_HOME_JOCKER(this.jocker);
-      this.ADD_AWAY_JOCKER(this.jocker);
-    },
+
     async save() {
       if (!this.homeTeam) {
         return;
@@ -151,13 +146,13 @@ export default {
         // 2. 스쿼드멤버를 넣기
         await this.createMultipleMemberSquad({
           squad_id: homeSquadId,
-          memberData: this.homeTeam
+          memberData: { ...this.homeTeam, members: this.homeMembers }
         });
         if (awayExist) {
           if (awaySquadId) {
             await this.createMultipleMemberSquad({
               squad_id: awaySquadId,
-              memberData: this.awayTeam
+              memberData: { ...this.awayTeam, members: this.awayMembers }
             });
           } else {
             // awaySqaud 만들기
@@ -237,6 +232,23 @@ export default {
         }
       });
     },
+    addJockerTeam: function() {
+      this.jocker.members.forEach(member => {
+        this.homeMembers.push({
+          member_id: member.member_id,
+          name: member.name,
+          position: "JK",
+          isJocker: true
+        });
+        this.awayMembers.push({
+          member_id: member.member_id,
+          name: member.name,
+          position: "JK",
+          isJocker: true
+        });
+      });
+    },
+
     async setScheduleData() {
       if (this.scheduleIndex == -1) return;
 
@@ -271,39 +283,10 @@ export default {
       // prepareMatch store에서 값 세팅
       await this.setSplitTeamList();
       await this.setSummarySplitTeamList();
-
-      this.reset_members();
-    },
-
-    async reset_members() {
-      // 현재 스케쥴이랑 쿼터 가져오기
       await this.getHomeAwayMember({
         schedule_id: this.current_schedule_id,
         quarter: this.currentQuarterNumber
       });
-
-      let members = []; // {selectType: "home", position: "", name: ""}
-      for (var i in this.homeMembers) {
-        let member = this.homeMembers[i];
-        if (member.position) {
-          members.push({
-            selectType: "Home",
-            position: member.position,
-            name: member.name
-          });
-        }
-      }
-      for (var i in this.awayMembers) {
-        let member = this.awayMembers[i];
-        if (member.position) {
-          members.push({
-            selectType: "Away",
-            position: member.position,
-            name: member.name
-          });
-        }
-      }
-      this.members = members;
     }
   }
 };

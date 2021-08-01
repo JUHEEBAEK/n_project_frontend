@@ -166,22 +166,7 @@ const mutations = {
       state.selectedSplitedTeam[team_number]["members"].push(member);
     }
   },
-  ADD_HOME_JOCKER(state, jockerMember) {
-    state.homeTeam.members.push({
-      member_id: jockerMember.member_id,
-      name: jockerMember.name,
-      position: "JK",
-      isJocker: true
-    });
-  },
-  ADD_AWAY_JOCKER(state, jockerMember) {
-    state.awayTeam.members.push({
-      member_id: jockerMember.member_id,
-      name: jockerMember.name,
-      position: "JK",
-      isJocker: true
-    });
-  },
+
   SET_HOME_MEMBERS(state, homeMembers) {
     state.homeMembers = homeMembers;
     state.homeTeam = {
@@ -299,7 +284,6 @@ const actions = {
   async getHomeAwayMember({ commit }, scheduleAndQuarter) {
     try {
       const gameInfo = await searchWithScheduleIdAndQuarter(scheduleAndQuarter);
-
       let membersDict = {
         homeMembers: [],
         awayMembers: []
