@@ -103,6 +103,7 @@ export default {
           this.benchMembers.splice(colapseIndex, 1);
         }
       }
+      this.emitData();
     },
     benchMembers(memberList) {
       memberList.forEach(member => {
@@ -110,6 +111,7 @@ export default {
           this.goalKeeper = null;
         }
       });
+      this.emitData();
     }
   },
   methods: {
