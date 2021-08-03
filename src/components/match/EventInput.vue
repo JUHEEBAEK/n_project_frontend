@@ -112,7 +112,12 @@
               </v-btn>
             </v-col>
             <v-col cols="6">
-              <v-btn class="my-1" color="primary" @click="clickButton()">
+              <v-btn
+                class="my-1"
+                color="primary"
+                :disabled="!canSubmit"
+                @click="clickButton"
+              >
                 {{ buttonName }}
                 <v-icon class="pl-2" small dark>fas fa-pencil-alt</v-icon>
               </v-btn>
@@ -216,6 +221,9 @@ export default {
     ...prepareMatchState(["homeMembers", "awayMembers"]),
     isSingleType() {
       return this.lastEventType === "";
+    },
+    canSubmit() {
+      return !!this.firstPlayerId;
     }
   },
   watch: {
