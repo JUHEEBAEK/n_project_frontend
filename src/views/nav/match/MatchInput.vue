@@ -34,19 +34,16 @@
           @clickChip="changeUpdateButton"
         ></match-event-list>
       </v-row>
-      <!-- <v-row>
-        <v-col>
-          <v-btn @click="saveGame" color="primary">저장</v-btn>
-        </v-col>
-      </v-row>-->
     </v-container>
+    <util-loading v-if="loading" :size="100" />
   </div>
 </template>
 
 <script>
 import moment from "moment";
 import Position from "@/assets/value/position.json";
-import regex from "../../../mixins/regex.js";
+import regex from "@/mixins/regex.js";
+import util from "@/mixins/util.js";
 
 import { createNamespacedHelpers } from "vuex";
 const {
@@ -86,7 +83,7 @@ export default {
       return moment(val).format("MMM");
     }
   },
-  mixins: [regex],
+  mixins: [regex, util],
   props: {
     scheduleId: {
       type: [String, Number],
@@ -127,19 +124,7 @@ export default {
     ...prepareMatchGetters(["currentQuarterNumber"]),
     ...prepareMatchState(["homeMembers", "awayMembers"]),
     ...gameState(["gameInfo"]),
-    ...gameReportState(["eventList", "awayScore", "homeScore"]),
-    setStatus() {
-      this.init();
-      if (this.isGoal) {
-        this.firstEventType = "Goal";
-        this.lastEventType = "Assist";
-        return "Goal/Assist";
-      } else {
-        this.firstEventType = "Out";
-        this.lastEventType = "In";
-        return "Change Player";
-      }
-    }
+    ...gameReportState(["eventList", "awayScore", "homeScore"])
   },
   async created() {
     this.SET_QAURTER_INDEX(Number(this.quarter));
@@ -172,9 +157,11 @@ export default {
       this.initializeGame();
     },
     async initializeGame() {
+      this.setLoadingBar(true);
       await this.setGameId();
       await this.getHomeAwayMemberList();
-      this.selectEventList();
+      await this.selectEventList();
+      this.setLoadingBar(false);
     },
     changeQuarterAndParams(item) {
       let changeQuarter = this.extractNumberFromStr(item);
@@ -190,7 +177,7 @@ export default {
     changeUpdateButton: function() {
       this.isUpdate = true;
     },
-    getHomeAwayMemberList: async function() {
+    async getHomeAwayMemberList() {
       let scheduleAndQuarter = {
         schedule_id: this.current_schedule_id,
         quarter: this.currentQuarterNumber
@@ -200,7 +187,7 @@ export default {
     initSaveButton() {
       this.isUpdate = false;
     },
-    selectEventList: async function() {
+    async selectEventList() {
       this.gameEventList = await this.getEventList(this.gameInfo.id);
     },
     setDateString(selected_schedule) {
@@ -232,8 +219,8 @@ export default {
         return "D";
       }
     },
-    subtractGameScore: function(eventInfo) {
-      console.log("뺴기", eventInfo);
+    async subtractGameScore(eventInfo) {
+      this.setLoadingBar(true);
       const awayMinusScore =
         (eventInfo.event_type === "O.G" && eventInfo.team_type === "H") ||
         (eventInfo.event_type === "Goal" && eventInfo.team_type === "A");
@@ -243,9 +230,10 @@ export default {
       } else {
         this.SUBTRACT_HOME_SCORE(1);
       }
-      this.updateGameInfo();
+      await this.updateGameInfo();
+      this.setLoadingBar(false);
     },
-    updateGameInfo: function() {
+    async updateGameInfo() {
       let gameResult = this.setGameResult();
       let body = {
         game_id: this.gameInfo.id,
@@ -256,7 +244,7 @@ export default {
           result: gameResult
         }
       };
-      this.updateGameScore(body);
+      await this.updateGameScore(body);
       this.$emit("setGameId");
     }
   }
