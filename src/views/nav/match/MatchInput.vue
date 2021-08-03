@@ -31,7 +31,7 @@
           :game-event-list="eventList"
           @selectEventList="selectEventList"
           @subtractGameScore="subtractGameScore"
-          @changeUpdateButton="changeUpdateButton"
+          @clickChip="changeUpdateButton"
         ></match-event-list>
       </v-row>
       <!-- <v-row>
