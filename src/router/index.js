@@ -76,7 +76,7 @@ const routes = [
     component: GameReport
   },
   {
-    path: "/gameReport/:schedule_id/details/:game_id",
+    path: "/gameReport/:scheduleId/details/:gameId",
     name: "gameDetails",
     component: GameReportDetail,
     props: true
