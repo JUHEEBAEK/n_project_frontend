@@ -31,8 +31,6 @@
 </template>
 
 <script>
-import gameReportData from "@/assets/value/gameReport.json";
-
 export default {
   props: {
     gameId: {
@@ -41,11 +39,20 @@ export default {
     }
   },
   data: () => ({
-    years: gameReportData.years,
-    months: gameReportData.months,
+    months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     nowYear: new Date().getFullYear(),
     nowMonth: new Date().getMonth() + 1
   }),
+  computed: {
+    years() {
+      let years = [];
+      let startYear = 2018;
+      while (startYear <= new Date().getFullYear()) {
+        years.push(startYear++);
+      }
+      return years;
+    }
+  },
   watch: {
     nowYear() {
       console.log("nowYear", this.nowYear);
