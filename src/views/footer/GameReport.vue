@@ -26,6 +26,7 @@
       :game_id="game_id"
       :selected-year="nowYear"
       :selected-month="nowMonth"
+      @clickGame="goGameDetail"
     ></report-game-list>
   </div>
 </template>
@@ -55,15 +56,27 @@ export default {
   },
   watch: {
     nowYear() {
-      console.log("nowYear", this.nowYear);
+      this.replaceUrlParams();
+    },
+    nowMonth() {
+      this.replaceUrlParams();
     }
   },
   methods: {
-    movePage() {
+    goGameDetail({ gameInfo, scheduleId }) {
       this.$router.push({
-        name: "leagueReport",
-        params: { season: this.nowYear }
+        name: "gameDetails",
+        params: { gameId: gameInfo.id, scheduleId: scheduleId }
       });
+    },
+    replaceUrlParams() {
+      this.$router
+        .replace({
+          query: { year: this.nowYear, month: this.nowMonth }
+        })
+        .catch(err => {
+          // 에러 로그 발생 시키지 않기 위함
+        });
     }
   }
 };
