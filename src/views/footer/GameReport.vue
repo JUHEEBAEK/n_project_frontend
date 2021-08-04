@@ -13,6 +13,7 @@
         </v-col>
         <v-col cols="6" xs="6" sm="6" md="3" lg="2" xl="2">
           <v-select
+            v-if="nowMonth"
             v-model="nowMonth"
             :items="months"
             label="월 선택"
@@ -41,8 +42,8 @@ export default {
   },
   data: () => ({
     months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-    nowYear: new Date().getFullYear(),
-    nowMonth: new Date().getMonth() + 1
+    nowYear: null,
+    nowMonth: null
   }),
   computed: {
     years() {
@@ -62,6 +63,11 @@ export default {
       this.replaceUrlParams();
     }
   },
+  created() {
+    this.nowYear = Number(this.$route.query.year) || new Date().getFullYear();
+    this.nowMonth =
+      Number(this.$route.query.month) || new Date().getMonth() + 1;
+  },
   methods: {
     goGameDetail({ gameInfo, scheduleId }) {
       this.$router.push({
@@ -71,7 +77,7 @@ export default {
     },
     replaceUrlParams() {
       this.$router
-        .replace({
+        .push({
           query: { year: this.nowYear, month: this.nowMonth }
         })
         .catch(err => {
