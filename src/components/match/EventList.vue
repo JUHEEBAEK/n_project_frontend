@@ -101,9 +101,8 @@ export default {
     ...gameReportActions(["deleteGameEvent"]),
     ...gameReportMutations(["SET_EVENT_INFO"]),
     clickUpdateEvent: function(gameReport) {
-      console.log("gameReport", gameReport);
       this.SET_EVENT_INFO(gameReport);
-      this.$emit("changeUpdateButton");
+      this.$emit("clickChip");
     },
     deleteButton: async function(gameReport) {
       this.gameEventList.forEach(async (gameEvent, idx) => {
