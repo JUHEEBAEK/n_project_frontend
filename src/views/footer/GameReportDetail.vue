@@ -5,12 +5,12 @@
       :game-info="gameInfo"
       :quarter-list="gameList"
     ></report-game-info>
-    <report-position-view :game_id="game_id"></report-position-view>
+    <report-position-view :gameId="gameId" />
     <report-event-list
       :game-info="gameInfo"
       :game-event-list="eventList"
     ></report-event-list>
-    <util-spinner v-if="loading"></util-spinner>
+    <util-spinner v-if="loading" />
   </div>
 </template>
 

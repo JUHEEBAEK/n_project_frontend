@@ -48,8 +48,8 @@ export default {
     ...gameMapState(["homeSquad", "awaySquad"])
   },
   created() {
-    this.getHomeTeamMembers(this.game_id);
-    this.getAwayTeamMembers(this.game_id);
+    this.getHomeTeamMembers(this.gameId);
+    this.getAwayTeamMembers(this.gameId);
   },
   data: () => ({
     homeMemberSquad: {},
@@ -59,12 +59,12 @@ export default {
   }),
   methods: {
     ...gameMapAction(["getHomeTeamSquadInfo", "getAwayTeamSquadInfo"]),
-    getHomeTeamMembers: async function(game_id) {
-      await this.getHomeTeamSquadInfo(game_id);
+    getHomeTeamMembers: async function(gameId) {
+      await this.getHomeTeamSquadInfo(gameId);
       this.translateKeyPosition(this.homeSquad, "H");
     },
-    getAwayTeamMembers: async function(game_id) {
-      await this.getAwayTeamSquadInfo(game_id);
+    getAwayTeamMembers: async function(gameId) {
+      await this.getAwayTeamSquadInfo(gameId);
       this.translateKeyPosition(this.awaySquad, "A");
     },
     translateKeyPosition: function(squadArry, teamType) {
