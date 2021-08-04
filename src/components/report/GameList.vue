@@ -123,7 +123,7 @@ export default {
     clickGame: function(gameInfo, scheduleId) {
       this.$router.push({
         name: "gameDetails",
-        params: { game_id: gameInfo.id, schedule_id: scheduleId }
+        params: { gameId: gameInfo.id, scheduleId: scheduleId }
       });
     },
     getGameList: async function() {
