@@ -44,6 +44,12 @@ export default {
     gameId: [String, Number],
     positionLabel: Array
   },
+  data: () => ({
+    homeMemberSquad: {},
+    awayMemberSquad: {},
+    homePositionLabel: positionValue.homePosition,
+    awayPositionLabel: positionValue.awayPosition
+  }),
   computed: {
     ...gameMapState(["homeSquad", "awaySquad"])
   },
@@ -51,12 +57,6 @@ export default {
     this.getHomeTeamMembers(this.gameId);
     this.getAwayTeamMembers(this.gameId);
   },
-  data: () => ({
-    homeMemberSquad: {},
-    awayMemberSquad: {},
-    homePositionLabel: positionValue.homePosition,
-    awayPositionLabel: positionValue.awayPosition
-  }),
   methods: {
     ...gameMapAction(["getHomeTeamSquadInfo", "getAwayTeamSquadInfo"]),
     getHomeTeamMembers: async function(gameId) {
@@ -68,10 +68,16 @@ export default {
       this.translateKeyPosition(this.awaySquad, "A");
     },
     translateKeyPosition: function(squadArry, teamType) {
-      let squad = {};
+      let squad = {
+        noPosition: []
+      };
       squadArry.forEach(squadInfo => {
         let position = squadInfo.position;
-        squad[position] = squadInfo.name;
+        if (position) {
+          squad[position] = squadInfo.name;
+        } else {
+          squad.noPosition.push(squadInfo);
+        }
       });
       if (teamType === "H") {
         this.homeMemberSquad = squad;

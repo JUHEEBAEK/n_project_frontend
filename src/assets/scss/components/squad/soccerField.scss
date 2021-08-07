@@ -36,29 +36,31 @@
       }
     }
 
-    .position__content {
-      line-height: 80px;
 
+  }
+  .position__content {
+    line-height: 80px;
+    
+    @include sm {
+      line-height: 60px;
+    }
+
+    @include xs {
+      line-height: 50px;
+    }
+
+    .position__name {
+      margin: 0 3px;
       @include sm {
-        line-height: 60px;
+        width: 48px;
+        height: 48px;
+        font-size: 12px;
       }
 
       @include xs {
-        line-height: 50px;
-      }
-
-      .position__name {
-        @include sm {
-          width: 48px;
-          height: 48px;
-          font-size: 12px;
-        }
-
-        @include xs {
-          width: 32px;
-          height: 32px;
-          font-size: 10px;
-        }
+        width: 32px;
+        height: 32px;
+        font-size: 10px;
       }
     }
   }
