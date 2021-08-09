@@ -121,10 +121,7 @@ export default {
     ...calendarMapActions(["select_schedule", "get_member_squad_info"]),
     ...gameActions(["selectGameList", "getHomeTeamSquad", "getAwayTeamSquad"]),
     clickGame: function(gameInfo, scheduleId) {
-      this.$router.push({
-        name: "gameDetails",
-        params: { game_id: gameInfo.id, schedule_id: scheduleId }
-      });
+      this.$emit("clickGame", { gameInfo, scheduleId });
     },
     getGameList: async function() {
       this.gameList = await this.selectGameList();

@@ -21,10 +21,29 @@
                 class="position__name"
                 small
                 fab
+                color="primary"
+                dark
                 depressed
                 >{{ memberSquad[item] }}</v-btn
               >
             </div>
+          </div>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <div class="position__content">
+            <v-btn
+              v-for="(member, index) in memberSquad.noPosition"
+              :key="index + 'noPosition'"
+              class="position__name"
+              color="primary"
+              fab
+              dark
+              small
+              depressed
+              >{{ member.name }}</v-btn
+            >
           </div>
         </v-col>
       </v-row>
@@ -46,12 +65,9 @@ export default {
   props: {
     positionLabel: {
       type: Object,
-      default: {}
+      default: () => {}
     },
     memberSquad: Object
-  },
-  computed: {
-    ...prepareMatchState(["homeMembers", "awayMembers"])
   },
   data: () => ({
     position: {
@@ -67,8 +83,9 @@ export default {
       RW: ""
     }
   }),
-  created() {},
-  methods: {}
+  computed: {
+    ...prepareMatchState(["homeMembers", "awayMembers"])
+  }
 };
 </script>
 

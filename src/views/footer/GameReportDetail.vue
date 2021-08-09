@@ -5,12 +5,12 @@
       :game-info="gameInfo"
       :quarter-list="gameList"
     ></report-game-info>
-    <report-position-view :game_id="game_id"></report-position-view>
+    <report-position-view :gameId="gameId" />
     <report-event-list
       :game-info="gameInfo"
       :game-event-list="eventList"
     ></report-event-list>
-    <util-spinner v-if="loading"></util-spinner>
+    <util-spinner v-if="loading" />
   </div>
 </template>
 
@@ -69,8 +69,8 @@ export default {
     ...prepareMatchState(["homeMembers", "awayMembers"])
   },
   async created() {
-    await this.getGameInfo(this.game_id);
-    await this.getGameListWithScheduleId(this.schedule_id);
+    await this.getGameInfo(this.gameId);
+    await this.getGameListWithScheduleId(this.scheduleId);
     this.getHomeAwayMemberList();
     this.selectEventList();
   },
@@ -82,7 +82,7 @@ export default {
     getGameInfo: async function(gameId) {
       // TODO: loadingBar 추가해주기 setLoadingBar
       this.setLoadingBar(true);
-      this.gameInfo = await this.getMultiplexGameInfo(gameId);
+      await this.getMultiplexGameInfo(gameId);
       this.setLoadingBar(false);
     },
     getHomeAwayMemberList: async function() {

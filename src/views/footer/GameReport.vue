@@ -13,6 +13,7 @@
         </v-col>
         <v-col cols="6" xs="6" sm="6" md="3" lg="2" xl="2">
           <v-select
+            v-if="nowMonth"
             v-model="nowMonth"
             :items="months"
             label="월 선택"
@@ -26,13 +27,12 @@
       :game_id="game_id"
       :selected-year="nowYear"
       :selected-month="nowMonth"
+      @clickGame="goGameDetail"
     ></report-game-list>
   </div>
 </template>
 
 <script>
-import gameReportData from "@/assets/value/gameReport.json";
-
 export default {
   props: {
     gameId: {
@@ -41,22 +41,48 @@ export default {
     }
   },
   data: () => ({
-    years: gameReportData.years,
-    months: gameReportData.months,
-    nowYear: new Date().getFullYear(),
-    nowMonth: new Date().getMonth() + 1
+    months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    nowYear: null,
+    nowMonth: null
   }),
-  watch: {
-    nowYear() {
-      console.log("nowYear", this.nowYear);
+  computed: {
+    years() {
+      let years = [];
+      let startYear = 2018;
+      while (startYear <= new Date().getFullYear()) {
+        years.push(startYear++);
+      }
+      return years;
     }
   },
+  watch: {
+    nowYear() {
+      this.replaceUrlParams();
+    },
+    nowMonth() {
+      this.replaceUrlParams();
+    }
+  },
+  created() {
+    this.nowYear = Number(this.$route.query.year) || new Date().getFullYear();
+    this.nowMonth =
+      Number(this.$route.query.month) || new Date().getMonth() + 1;
+  },
   methods: {
-    movePage() {
+    goGameDetail({ gameInfo, scheduleId }) {
       this.$router.push({
-        name: "leagueReport",
-        params: { season: this.nowYear }
+        name: "gameDetails",
+        params: { gameId: gameInfo.id, scheduleId: scheduleId }
       });
+    },
+    replaceUrlParams() {
+      this.$router
+        .push({
+          query: { year: this.nowYear, month: this.nowMonth }
+        })
+        .catch(err => {
+          // 에러 로그 발생 시키지 않기 위함
+        });
     }
   }
 };

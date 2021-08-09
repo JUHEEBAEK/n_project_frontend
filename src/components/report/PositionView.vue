@@ -44,34 +44,40 @@ export default {
     gameId: [String, Number],
     positionLabel: Array
   },
-  computed: {
-    ...gameMapState(["homeSquad", "awaySquad"])
-  },
-  created() {
-    this.getHomeTeamMembers(this.game_id);
-    this.getAwayTeamMembers(this.game_id);
-  },
   data: () => ({
     homeMemberSquad: {},
     awayMemberSquad: {},
     homePositionLabel: positionValue.homePosition,
     awayPositionLabel: positionValue.awayPosition
   }),
+  computed: {
+    ...gameMapState(["homeSquad", "awaySquad"])
+  },
+  created() {
+    this.getHomeTeamMembers(this.gameId);
+    this.getAwayTeamMembers(this.gameId);
+  },
   methods: {
     ...gameMapAction(["getHomeTeamSquadInfo", "getAwayTeamSquadInfo"]),
-    getHomeTeamMembers: async function(game_id) {
-      await this.getHomeTeamSquadInfo(game_id);
+    getHomeTeamMembers: async function(gameId) {
+      await this.getHomeTeamSquadInfo(gameId);
       this.translateKeyPosition(this.homeSquad, "H");
     },
-    getAwayTeamMembers: async function(game_id) {
-      await this.getAwayTeamSquadInfo(game_id);
+    getAwayTeamMembers: async function(gameId) {
+      await this.getAwayTeamSquadInfo(gameId);
       this.translateKeyPosition(this.awaySquad, "A");
     },
     translateKeyPosition: function(squadArry, teamType) {
-      let squad = {};
+      let squad = {
+        noPosition: []
+      };
       squadArry.forEach(squadInfo => {
         let position = squadInfo.position;
-        squad[position] = squadInfo.name;
+        if (position) {
+          squad[position] = squadInfo.name;
+        } else {
+          squad.noPosition.push(squadInfo);
+        }
       });
       if (teamType === "H") {
         this.homeMemberSquad = squad;
