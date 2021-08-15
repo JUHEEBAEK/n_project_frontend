@@ -1,12 +1,7 @@
 import store from "../store";
 import router from "../router";
-import { singIn } from "../api/auth.js";
-import {
-  getToken,
-  getTokenPayload,
-  saveToken,
-  deleteToken
-} from "../common/token.js";
+// import { singIn } from "../api/auth.js";
+import { getToken, getTokenPayload, saveToken, deleteToken } from "../common/token.js";
 import { getUserInfo, saveUserInfo, deleteUserInfo } from "../common/user.js";
 /* - 목적 : 인증되어(로그인 되어) 있는 사용자 인지 체크하는 로직  
    - 사용처 : App.vue & router/index.js */
@@ -38,26 +33,20 @@ export const login = async (userId, password) => {
     formData.append("userId", userId);
     formData.append("password", password);
 
-    const result = await singIn(body);
+    // const result = await singIn(body);
     /* - JWT 발급
        - LocalStorage 에 Token 지정
        - LocalStorage 에 유저 정보 저장 
        - result 는 response 의 body 값 */
+
+    let result = "";
     if (result.response) {
       // err 일때
       return result.response;
     } else {
       let token = result.data.Authorization;
       if (token) {
-        const {
-          id,
-          user_id,
-          name,
-          member_id,
-          team_id,
-          role,
-          exp
-        } = getTokenPayload(token);
+        const { id, user_id, name, member_id, team_id, role, exp } = getTokenPayload(token);
         let user = { exp, id, user_id, member_id, name, team_id, role };
         saveToken(token);
         saveUserInfo(user);

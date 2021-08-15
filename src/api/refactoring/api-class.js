@@ -3,7 +3,6 @@ import axios from "axios";
 
 // import config from 'config'
 import * as modules from "./modules";
-import getMessages from "@/helpers/message";
 
 // const { server } = constants
 // const ServerMessage = server.default
@@ -128,10 +127,6 @@ class ApiClient {
       }
       return Promise.resolve(result);
     };
-  }
-
-  updateLanguage(language) {
-    this.languageDictionary = getMessages(language);
   }
 
   updateToken(Authorization) {

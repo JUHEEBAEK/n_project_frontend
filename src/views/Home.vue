@@ -21,17 +21,7 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from "vuex";
 import { mapGetters } from "vuex";
-
-const {
-  mapState: attendMapState,
-  mapActions: attendMapActions
-} = createNamespacedHelpers("attend");
-const {
-  mapState: accountMapState,
-  mapGetters: accountMapGetters
-} = createNamespacedHelpers("account");
 
 export default {
   data: () => ({
@@ -47,22 +37,6 @@ export default {
     // this.getAttendRate("2020");
   },
   methods: {
-    ...attendMapActions(["countByYear"]),
-    async getAttendRate(selectedYear) {
-      this.isLoading = true;
-      let yeardata = await this.countByYear();
-      if (yeardata.lenth == 0) return;
-      this.chartData = [];
-      for (let i in yeardata) {
-        let year = yeardata[i].year;
-        if (year == selectedYear) {
-          let name = yeardata[i].name;
-          let count = Number(yeardata[i].count);
-          this.chartData.push([name, count]);
-        }
-      }
-      this.isLoading = false;
-    }
   }
 };
 </script>
