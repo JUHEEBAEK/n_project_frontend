@@ -1,13 +1,9 @@
-.loading__box {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-
-    .loading__image {
-        position: relative;
-        width: 50px;
-        height: 100px;
+.loading {
+    background-color: rgba(0, 0, 0, 0.6);
+    .loading__box {
+      background: #fff;
+      border-radius: 30%;
     }
-}
+  }
+  
+  
