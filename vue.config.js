@@ -1,17 +1,14 @@
-// module.exports = {
-//   lintOnSave: false,
-//   transpileDependencies: ["vuetify"],
-//   devServer: {
-//     disableHostCheck: true
-//   }
-// };
-
 const TerserPlugin = require("terser-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
   // vue.config.js 설정 https://cli.vuejs.org/config/
   transpileDependencies: ["vuetify"],
+  devServer: {
+    disableHostCheck: true,
+    port: 8080,
+    public: "0.0.0.0:8080"
+  },
   lintOnSave: false,
   productionSourceMap: false, // source-map 비활성화
   configureWebpack: {
