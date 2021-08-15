@@ -62,7 +62,6 @@
 <script>
 import Loading from "@/components/loading";
 
-import props from "./props";
 import { userNameRules, pwdRules } from "@/helpers/rules";
 
 export default {
@@ -70,7 +69,12 @@ export default {
   components: {
     "util-spinner": Loading
   },
-  props,
+  props: {
+    language: {
+      type: String,
+      required: true
+    }
+  },
   data: () => ({
     loading: false,
     username: null,
@@ -90,25 +94,29 @@ export default {
       this.loading = value;
     },
     clickToJoin: function() {
-      console.log("click");
       this.$router.push({
         name: "join"
       });
     },
     submit: async function() {
+      console.log("click");
       if (this.$refs.form.validate()) {
-        this.setLoadingBar(true);
-        if (this.signIn) {
-          // const res = await login(this.username, this.password);
-          await this.signIn({ email: this.email, password: this.password });
-        }
+        console.log("validate pass");
+        // this.setLoadingBar(true);
+        this.$emit("signIn", {
+          email: this.username,
+          password: this.password
+        });
+
+        // const res = await login(this.username, this.password);
+        // await this.signIn({ email: this.username, password: this.password });
         // if (res.status !== 400 && res === 200) {
         //   this.$router.push({ path: "/" });
         // } else {
         //   // FIXME: 오류를 여러번 이어서 냈을 때 처음만 스낵바 보이고 나머지는 안보임????
         //   this.setSnackBar(this.snackBarFail, res.data.message);
         // }
-        this.setLoadingBar(false);
+        // this.setLoadingBar(false);
       }
     }
   }

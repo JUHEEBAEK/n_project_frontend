@@ -38,17 +38,8 @@ export default {
       default: false,
       required: true
     },
-    setLeftDrawer: {
-      type: Function,
-      default: () => {},
-      required: true
-    },
     leftMenus: {
       type: Array,
-      required: true
-    },
-    updateMenu: {
-      type: Function,
       required: true
     }
   },
@@ -57,11 +48,11 @@ export default {
   }),
   watch: {
     leftDrawer(value) {
-      this.setLeftDrawer(value);
+      this.$emit("update:setLeftDrawer", value);
+      // this.setLeftDrawer(value);
     },
-    movePage: function(item) {
-      console.log("movePage", item);
-      this.updateMenu(item.name);
+    movePage(to) {
+      this.$emit("updateRouter", to);
     }
   }
 };

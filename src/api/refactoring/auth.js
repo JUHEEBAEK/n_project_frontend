@@ -1,8 +1,19 @@
-import { generalReq } from "./index.js";
+import { generalReq } from "../index.js";
 
-export const singIn = async data => {
+export const signIn = async data => {
   return await this.post(`/api/user/login`, data);
 };
+
+// export async function verify(data) {
+//   console.log(data);
+//   return await this.get(`/auth/verify`, {
+//     headers: {
+//       common: {
+//         Authorization: data
+//       }
+//     }
+//   });
+// }
 
 // join 기능
 export const join = async data => {

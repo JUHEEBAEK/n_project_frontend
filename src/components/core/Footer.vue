@@ -23,8 +23,6 @@
 import CoreValueItem from "../../assets/value/CoreValueItem.json";
 
 import { createNamespacedHelpers } from "vuex";
-import { mapGetters } from "vuex";
-import router from "../../router";
 
 const { mapGetters: accountMapGetters } = createNamespacedHelpers("account");
 
@@ -33,10 +31,6 @@ export default {
   props: {
     footerMenus: {
       type: Array,
-      required: true
-    },
-    updateMenu: {
-      type: Function,
       required: true
     }
   },
@@ -57,7 +51,7 @@ export default {
         });
         this.$router.go();
       } else {
-        this.updateMenu(item.name);
+        this.$emit("updateRouter", item.name);
       }
     }
   }

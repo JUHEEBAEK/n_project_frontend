@@ -29,7 +29,7 @@ import Navigation from "./Navigation.vue";
 import View from "./View.vue";
 import Footer from "./Footer.vue";
 
-import { rootProps } from "./props";
+// import { rootProps } from "./props";
 
 export default {
   components: {
@@ -39,7 +39,7 @@ export default {
     "core-footer": Footer
   },
   props: {
-    ...rootProps
+    // ...rootProps
   },
   data: () => ({
     fullScreen: false,

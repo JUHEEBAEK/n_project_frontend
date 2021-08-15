@@ -1,10 +1,12 @@
 import jwt_decode from "jwt-decode";
 
-import ApiClient from "@/api/api-class";
-import router from "@/router";
-import { routesName } from "@/router/routes.js";
+import ApiClient from "@/api/refactoring/api-class";
+// import router from "@/router";
+import router, { resetRoutes } from "@/router/index_refactoring";
+import routes from "@/router/routes.json";
+import { generateRoutes, filterRoutesByAuth } from "@/router/path";
+
 import snaceBarPurpose from "@/constants/snackbar";
-import constNav from "@/constants/nav.json";
 
 const baseURL = process.env.VUE_APP_API_ENDPOINT;
 const timeOut = 6000;
@@ -33,7 +35,7 @@ const getTokenPayload = token => {
 
 const saveToken = token => {
   try {
-    localStorage.setItem("user_token", JSON.stringify(token));
+    localStorage.setItem("access_token", JSON.stringify(token));
   } catch (err) {
     return err;
   }
@@ -46,34 +48,45 @@ export const state = () => ({
       timeout: timeOut
     }
   }),
-  appLoad: true,
-  login: false,
+  accessToken: null,
   snackBar: {
     show: false,
     purpose: "",
     message: ""
   },
   currentMenu: "",
-  leftMenus: constNav.navigationItems,
-  leftSubMenus: [],
-  footerMenus: constNav.footerItems
+  userRoutes: [],
+  breadcrumbs: [],
+  leftMenus: [],
+  footerMenus: []
 });
 
 export const getters = {
-  appLoad({ appLoad }) {
-    return appLoad;
-  },
-  login({ login }) {
-    return login;
+  isAuthorized({ accessToken }) {
+    return !!accessToken; // 로그인된 유저인지 판단하는 용도로 사용할 것
   },
   snackBar({ snackBar }) {
     return snackBar;
   },
+  apiClient({ apiClient }) {
+    console.log(apiClient);
+    return apiClient;
+  },
   currentMenu({ currentMenu }) {
+    // return breadcrumbs[0].name
     return currentMenu;
+  },
+  userRoutes({ userRoutes }) {
+    return userRoutes;
+  },
+  breadcrumbs({ breadcrumbs }) {
+    return breadcrumbs;
   },
   leftMenus({ leftMenus }) {
     return leftMenus;
+  },
+  settingSubMenus({ settingSubMenus }) {
+    return settingSubMenus;
   },
   footerMenus({ footerMenus }) {
     return footerMenus;
@@ -81,11 +94,8 @@ export const getters = {
 };
 
 const mutations = {
-  SET_APP_LOAD(state, value) {
-    state.appLoad = value;
-  },
-  SET_LOGIN(state, value) {
-    state.login = value;
+  SET_ACCESS_TOKEN(state, value) {
+    state.accessToken = value;
   },
   SET_SNACK_BAR(state, payload) {
     state.snackBar = {
@@ -93,87 +103,125 @@ const mutations = {
       ...payload
     };
   },
+  SET_USER_ROUTES(state, value) {
+    state.userRoutes = value;
+  },
+  SET_BREAD_CRUMBS(state, value) {
+    state.breadcrumbs = value;
+  },
   SET_CURRENT_MENU(state, value) {
-    state.currentMenu = value;
+    state.currentMenu = value; // FIXME breadcrumbs 첫번째 값이 항상 메뉴 값이라면 제거 가능
   },
   SET_LEFT_MENUS(state, value) {
     state.leftMenus = value;
+  },
+  SET_FOOTER_MENUS(state, value) {
+    state.footerMenus = value;
   }
 };
 
 const actions = {
-  async beforeStartApplication({ commit, dispatch, rootGetters }) {
-    console.log(rootGetters);
-    // const apiClient = rootGetters["global/apiClient"];
+  async init({ getters, dispatch }) {
+    const token = getToken();
+    getters.apiClient.setDispatch(dispatch);
 
-    // const token = getToken();
-    // if (token) {
-    //   const { success: successTokenVerify } = await apiClient.auth.verify(
-    //     token
-    //   );
-    //   if (successTokenVerify) {
-    //     await dispatch("setUser", token);
-    //     dispatch("updateMenu", routesName.home, { root: true });
-    //   }
-    // }
+    if (token) {
+      // TODO: verifyToken 이 토큰이 진짜 토큰인지 확인하는 API 만들기
+      // const { success } = await dispatch("verifyToken", token);
+      // success ? dispatch("setUser", token) : dispatch("signOut");
+      dispatch("setUser", token);
+    }
+  },
+  async setUser({ dispatch, rootGetters }, token) {
+    console.log("1. setUser", token);
+    const apiClient = rootGetters["global/apiClient"];
+    apiClient.updateToken(token);
+    await dispatch("updateToken", token);
+    //TODO: 토큰으로 User 정보 가져오는 것 만드기
+    const { success, userInfo } = await dispatch("getUser", token);
+    // const success = true;
+    const routerCurrentName = router.history.current.name;
+    const toRotuer = routerCurrentName === "login" ? "home" : routerCurrentName;
 
-    commit("SET_APP_LOAD", false);
+    if (success) {
+      console.log("getUser", userInfo);
+      await dispatch("setInfoByAccount", userInfo, { root: true });
+      await dispatch("setUserMenus", userInfo.role);
+      await dispatch("updateRouter", toRotuer, { root: true });
+    } else {
+      await dispatch("signOut");
+    }
   },
-  async setUser({ dispatch, commit, rootGetters }, token) {
-    // const apiClient = rootGetters["global/apiClient"];
-    // apiClient.updateToken(token);
-    // saveToken(token);
-    // const { idfAccount } = getTokenPayload(token);
-    // const {
-    //   success: successGetAccount,
-    //   response
-    // } = await apiClient.account.getAccountInfo(idfAccount);
-    // if (successGetAccount) {
-    //   const userInfo = response.data;
-    //   dispatch("setInfoByAccount", userInfo, { root: true });
-    //   // fiter menus
-    //   // dispatch("setSettingLeftSubMenus");
-    //   commit("SET_LOGIN", true);
-    //   return true;
-    // } else {
-    //   return false;
-    // }
+  async getUser({ getters }, token) {
+    // const apiClient = getters.apiClient;
+    const user = getTokenPayload(token);
+    // const { success, response } = await apiClient.account.getAccountInfo(
+    //   idfAccount
+    // );
+    return user;
   },
-  async signOut({ commit, dispatch }) {
-    commit("SET_LOGIN", false);
+  setUserMenus({ commit, dispatch }, userInfoType) {
+    const accessRoutes = filterRoutesByAuth(routes.routes, userInfoType);
+    const recordRoutes = generateRoutes(accessRoutes);
+
+    const leftMenus = accessRoutes.filter(
+      route => !routes.footerMenus.includes(route.name)
+    );
+    const footerMenus = routes.footerMenus.map(footer => {
+      return {
+        name: footer,
+        ...(accessRoutes.find(item => item.name === footer) || {})
+      };
+    });
+
+    resetRoutes();
+    recordRoutes.forEach(route => router.addRoute(route));
+
+    commit("SET_USER_ROUTES", accessRoutes); // user all routes
+    commit("SET_LEFT_MENUS", leftMenus); // user left menus
+    commit("SET_FOOTER_MENUS", footerMenus); // user footer menus
+  },
+  async signIn({ getters, dispatch }, payload) {
+    // TODO error 코드 기준으로 메세지 가져올 수 있도록 벼로 에러 코드별 const 작성 필요
+    console.log("signIn", payload);
+    console.log("getters", getters.apiClient.auth);
+    const { success, response, error } = await getters.apiClient.auth.signIn(
+      payload
+    );
+
+    console.log("login response", response);
+    const errorMessage = {
+      401: "Fail to sign in",
+      500: "Server Error",
+      default: "Not Valid Value"
+    };
+
+    if (success) {
+      const { Authorization } = response.data;
+      dispatch("setUser", Authorization);
+    } else {
+      const { status } = error;
+      dispatch(
+        "apiErrorHandler",
+        { message: [errorMessage[status] || errorMessage.default] },
+        { root: true }
+      );
+    }
+  },
+  signOut({ commit, dispatch }) {
+    commit("SET_ACCESS_TOKEN", null);
     dispatch("setInfoByAccount", null, { root: true });
+    dispatch("updateMenu", "login", { root: true });
     deleteToken();
   },
-  async signIn({ dispatch, rootGetters }, payload) {
-    // const apiClient = rootGetters["global/apiClient"];
-    // const { success, response, error } = await apiClient.auth.signIn(payload);
-    // if (success) {
-    //   const { Authorization } = response.data;
-    //   const resultUserSuccess = await dispatch("setUser", Authorization);
-    //   if (resultUserSuccess) {
-    //     await router.push({ name: routesName.home }); // (TODO) 다른 라우트 가능
-    //     return {
-    //       success: true
-    //     };
-    //   }
-    // } else {
-    //   const { status } = error;
-    //   let message = "";
-    //   switch (status) {
-    //     case 401:
-    //       message = "Fail to sign in";
-    //       break;
-    //     case 500:
-    //       message = "Server Error";
-    //       break;
-    //     default:
-    //       message = "Not Valid Value";
-    //   }
-    //   dispatch("apiErrorHandler", { message }, { root: true });
-    //   return {
-    //     success: false
-    //   };
-    // }
+  // token actions
+  verifyToken({ getters }, token) {
+    return getters.apiClient.auth.verify(token);
+  },
+  updateToken({ getters, commit }, token) {
+    getters.apiClient.updateToken(token);
+    commit("SET_ACCESS_TOKEN", token);
+    saveToken(token);
   },
   updateSnackBar: {
     root: true,
@@ -181,17 +229,13 @@ const actions = {
       commit("SET_SNACK_BAR", payload);
     }
   },
-  updateMenu: {
+  updateRouter: {
     root: true,
-    async handler({ commit, rootState }, toMenu) {
-      const { route } = rootState;
-      const { name: currentMenu } = route;
-      if (currentMenu !== toMenu) {
-        const reuslt = await router.push({ name: toMenu });
-        if (reuslt && reuslt.name === toMenu) {
-          commit("SET_CURRENT_MENU", toMenu);
-        }
-      }
+    handler({ rootState }, routerItem) {
+      const payload =
+        typeof routerItem === "string" ? { name: routerItem } : routerItem;
+      console.log(routerItem, rootState.route.name, payload);
+      if (routerItem !== rootState.route.name) router.push(payload);
     }
   },
   apiSuccessHandler: {
@@ -213,29 +257,18 @@ const actions = {
   apiErrorHandler: {
     root: true,
     async handler({ dispatch, getters }, { message, error }) {
-      if (message) {
-        dispatch(
-          "updateSnackBar",
-          {
-            show: true,
-            purpose: snaceBarPurpose.snackBarFail,
-            message: message
-          },
-          { root: true }
-        );
-      } else {
-        const { status } = error;
-        const message = status === 401 ? "session expire" : "server error";
-        dispatch(
-          "updateSnackBar",
-          {
-            show: true,
-            purpose: snaceBarPurpose.snackBarFail,
-            message: message
-          },
-          { root: true }
-        );
-      }
+      const { status } = error;
+      const snackbarPayload = {
+        show: true,
+        purpose: snaceBarPurpose.snackBarFail,
+        message:
+          message ||
+          (status === 401
+            ? getters.languageDictionaryModule.util.failExpireSession
+            : getters.languageDictionaryModule.util.failBasic)
+      };
+
+      dispatch("updateSnackBar", snackbarPayload, { root: true });
     }
   }
 };

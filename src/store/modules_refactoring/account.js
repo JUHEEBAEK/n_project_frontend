@@ -24,7 +24,10 @@ const mutations = {
     };
   },
   SET_USER_INFO(state, userInfo) {
-    state.userInfo = userInfo;
+    state.info = {
+      ...state.userInfo,
+      ...userInfo
+    };
   },
   LOGOUT(state) {
     state.userInfo = null;
@@ -34,8 +37,12 @@ const mutations = {
 const actions = {
   setInfoByAccount: {
     root: true,
-    handler({ commit }, userInfo) {
+    handler({ commit, dispatch }, userInfo) {
       commit("SET_USER_INFO", userInfo);
+      // TODO: 팀이 생길 때 추가하기
+      // if (userInfo && userInfo.idfAccount) {
+      //   dispatch("setTeamInfo", userInfo.idfAccount);
+      // }
     }
   },
   async logout({ commit }) {

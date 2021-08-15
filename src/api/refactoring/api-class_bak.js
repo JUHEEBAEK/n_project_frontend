@@ -18,6 +18,7 @@ const defaultHandleError = result => {
 
 /* axios */
 const defaultHandleRequest = config => {
+  console.log(config);
   return config;
 };
 
@@ -29,37 +30,33 @@ function isTimeoutError(error) {
   return false;
 }
 
+const handleSuccess = defaultHandleSuccess;
+const handleError = defaultHandleError;
+const handleRequest = defaultHandleRequest;
+
 class ApiClient {
-  constructor(
-    configModules,
-    {
-      handleSuccess = defaultHandleSuccess,
-      handleError = defaultHandleError,
-      handleRequest = defaultHandleRequest
-    }
-  ) {
+  constructor(configModules) {
     this.instances = {};
     Object.keys(configModules).forEach(module => {
-      console.log(module);
-      //   const instance = axios.create(configModules[module]);
-      //   this.instances[module] = instance;
-      //   if (module !== "background") {
-      //     instance.interceptors.request.use(handleRequest);
-      //   }
-      //   instance.interceptors.response.use(
-      //     this.handleSuccess(module, handleSuccess),
-      //     this.handleError(module, handleError)
-      //   );
-      //   /* method binding */
-      //   this[module] = {};
-      //   Object.keys(modules[module]).forEach(method => {
-      //     this[module][method] = modules[module][method].bind(instance);
-      //   });
+      const instance = axios.create(configModules[module]);
+      this.instances[module] = instance;
+      if (module !== "background") {
+        console.log(handleRequest);
+        instance.interceptors.request.use(handleRequest);
+      }
+      instance.interceptors.response.use(
+        this.handleSuccess(module, handleSuccess),
+        this.handleError(module, handleError)
+      );
+      /* method binding */
+      this[module] = {};
+      Object.keys(modules[module]).forEach(method => {
+        this[module][method] = modules[module][method].bind(instance);
+      });
     });
   }
 
   handleSuccess(module, callback) {
-    console.log(module, callback);
     return response => {
       const result = {
         success: true,

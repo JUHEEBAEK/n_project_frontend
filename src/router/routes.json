@@ -1,0 +1,35 @@
+{
+  "routes": [{
+      "path": "/home",
+      "name": "home",
+      "componentPath": "Home",
+      "meta": {
+        "title": "home",
+        "auth": ["A", "U"]
+      }
+    },
+    {
+      "path": "/adminMember",
+      "name": "adminMember",
+      "componentPath": "nav/member/MemberAdmin.vue",
+      "meta": {
+        "icon": "team.png",
+        "title": "member",
+        "auth": ["A"]
+      }
+    },
+    {
+      "path": "/member",
+      "name": "member",
+      "componentPath": "footer/Member",
+      "meta": {
+        "icon": "team.png",
+        "title": "member",
+        "auth": ["A", "U"]
+      }
+    }
+  ],
+  "footerMenus": [
+    "member"
+  ]
+}

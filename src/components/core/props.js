@@ -1,41 +1,7 @@
-export const rootProps = {
-  // global
-  currentMenu: {
-    type: String,
-    default: ""
-  },
-  leftMenus: {
-    type: Array,
-    required: true
-  },
-  footerMenus: {
-    type: Array,
-    required: true
-  },
-  // account
-  userInfo: {
-    type: Object,
-    required: true
-  },
-  signOut: {
-    type: Function,
-    required: true
-  },
-  updateMenu: {
-    type: Function,
-    required: true
-  }
-};
-
 export const appBarProps = {
   leftDrawer: {
     type: Boolean,
     default: false,
-    required: true
-  },
-  setLeftDrawer: {
-    type: Function,
-    default: () => {},
     required: true
   },
   userInfo: {
@@ -45,10 +11,6 @@ export const appBarProps = {
       email: "",
       type: ""
     })
-  },
-  signOut: {
-    type: Function,
-    required: true
   }
 };
 
@@ -56,11 +18,6 @@ export const leftNavProps = {
   leftDrawer: {
     type: Boolean,
     default: false,
-    required: true
-  },
-  setLeftDrawer: {
-    type: Function,
-    default: () => {},
     required: true
   },
   currentMenu: {
@@ -73,10 +30,6 @@ export const leftNavProps = {
   },
   footerMenus: {
     type: Array,
-    required: true
-  },
-  updateMenu: {
-    type: Function,
     required: true
   }
 };
@@ -90,6 +43,17 @@ export const mainProps = {
   fullScreen: {
     type: Boolean,
     default: false,
+    required: true
+  }
+};
+
+export const footerProps = {
+  currentMenu: {
+    type: String,
+    default: ""
+  },
+  footerMenus: {
+    type: Array,
     required: true
   }
 };
