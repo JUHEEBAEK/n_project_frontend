@@ -48,7 +48,7 @@
         </v-row>
       </div>
     </v-card>
-    <util-spinner v-if="loading"></util-spinner>
+    <req-loading :loading="loading" isBall :size="100" />
   </div>
 </template>
 
@@ -60,7 +60,7 @@ import { userNameRules, pwdRules } from "@/helpers/rules";
 export default {
   name: "Login",
   components: {
-    "util-spinner": Loading
+    "req-loading": Loading
   },
   props: {
     language: {
@@ -92,22 +92,14 @@ export default {
       });
     },
     submit: async function() {
+      this.setLoading(true);
       if (this.$refs.form.validate()) {
-        this.setLoadingBar(true);
+        this.setLoading(true);
         this.$emit("signIn", {
           userId: this.username,
           password: this.password
         });
-
-        // const res = await login(this.username, this.password);
-        // await this.signIn({ email: this.username, password: this.password });
-        // if (res.status !== 400 && res === 200) {
-        //   this.$router.push({ path: "/" });
-        // } else {
-        //   // FIXME: 오류를 여러번 이어서 냈을 때 처음만 스낵바 보이고 나머지는 안보임????
-        //   this.setSnackBar(this.snackBarFail, res.data.message);
-        // }
-        this.setLoadingBar(false);
+        this.setLoading(false);
       }
     }
   }
