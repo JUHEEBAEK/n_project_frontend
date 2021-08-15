@@ -217,7 +217,7 @@
       }
     },
     {
-      "path": "*",
+      "path": "/",
       "name": "notFound",
       "componentPath": "notFound",
       "meta": {

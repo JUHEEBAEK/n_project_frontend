@@ -133,8 +133,8 @@ const actions = {
     //TODO: 토큰으로 User 정보 가져오는 것 만드기
     const { success, userInfo } = await dispatch("getUser", token);
 
-    const routerCurrentName = router.history.current.name;
-    const toRotuer = routerCurrentName === "login" ? "home" : routerCurrentName;
+    const routerCurrentName = router.history.current.name === null ? "home" : routerCurrentName;
+    const toRotuer = routerCurrentName === "login" ? "login" : routerCurrentName;
 
     if (success) {
       await dispatch("setInfoByAccount", userInfo.payload, { root: true });
