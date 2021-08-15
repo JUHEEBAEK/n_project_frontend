@@ -1,7 +1,6 @@
 import jwt_decode from "jwt-decode";
 
 import ApiClient from "@/api/refactoring/api-class";
-// import router from "@/router";
 import router, { resetRoutes } from "@/router/index_refactoring";
 import routes from "@/router/routes.json";
 import { generateRoutes, filterRoutesByAuth } from "@/router/path";
@@ -216,7 +215,7 @@ const actions = {
     root: true,
     handler({ rootState }, routerItem) {
       const payload = typeof routerItem === "string" ? { name: routerItem } : routerItem;
-      console.log(routerItem, rootState.route.name, payload);
+      // console.log(routerItem, rootState.route.name, payload);
       if (routerItem !== rootState.route.name) router.push(payload);
     }
   },

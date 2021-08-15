@@ -36,7 +36,6 @@ export default {
     })
   },
   async mounted() {
-    console.log(this.userInfo);
     // 출석횟수 가져오기
     // this.getAttendRate("2020");
   },
