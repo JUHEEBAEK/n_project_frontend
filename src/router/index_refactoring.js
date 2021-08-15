@@ -11,7 +11,7 @@ const publicRoutes = [
   {
     path: "/join",
     name: "join",
-    component: () => import(/* webpackMode: "lazy" */ "@/views/Join.vue")
+    component: () => import(/* webpackMode: "lazy" */ "@/views/join/Join.vue")
   }
 ];
 
