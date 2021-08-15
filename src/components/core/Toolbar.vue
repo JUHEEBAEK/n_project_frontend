@@ -1,7 +1,7 @@
 <template>
   <v-app-bar app class="appBar">
     <v-app-bar-nav-icon @click.stop="openNavigation" />
-    <router-link to="/" class="bar__first-title">
+    <router-link to="/home" class="bar__first-title">
       <v-toolbar-title class="black--text">{{ title }}</v-toolbar-title>
     </router-link>
     <v-spacer></v-spacer>
@@ -17,6 +17,7 @@
         </template>
         <v-card class="profile__dropdown">
           <div class="avatar__box-info">
+            <span class="text__bold-main">{{ userInfo.role }}</span>
             <span class="text__bold-main">{{ userInfo.id }}</span>
             <v-btn class="button__item" outlined color="primary" small @click="movePage('my-profile')">내 정보</v-btn>
           </div>
@@ -31,26 +32,12 @@
 </template>
 
 <script>
+import { appBarProps } from "./props";
+
 export default {
   name: "Toolbar",
   props: {
-    leftDrawer: {
-      type: Boolean,
-      default: false,
-      required: true
-    },
-    userInfo: {
-      type: Object,
-      default: () => ({
-        name: "",
-        email: "",
-        type: ""
-      })
-    },
-    signOut: {
-      type: Function,
-      required: true
-    }
+    ...appBarProps
   },
   data: () => ({
     title: "Nunnu Nanna",
@@ -58,10 +45,10 @@ export default {
   }),
   methods: {
     openNavigation() {
-      this.setLeftDrawer(!this.leftDrawer);
+      this.$emit("setDrawer", !this.leftDrawer);
     },
     movePage(page) {
-      console.log("move", page);
+      this.$emit("updateRouter", page);
     },
     logout() {
       this.signOut();

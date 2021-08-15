@@ -3,13 +3,8 @@
     <req-loading :loading="$route.meta.requireAuth ? !isPropsAlready : isAuthorized" :size="100" />
     <snack-bar :snackBar="snackBar" />
     <template v-if="$route.meta.requireAuth">
-      <the-app-bar
-        v-bind="appbarProps"
-        @signOut="signOut"
-        @updateRouter="updateRouter"
-        @updateLanguage="updateLanguage"
-      />
-      <the-left-nav v-bind="leftNavProps" @updateRouter="updateRouter" />
+      <the-app-bar v-bind="appbarProps" @setDrawer="setLeftDrawer" @signOut="signOut" @updateRouter="updateRouter" />
+      <the-left-nav v-bind="leftNavProps" @setDrawer="setLeftDrawer" @updateRouter="updateRouter" />
       <the-layout-main v-bind="mainProps"></the-layout-main>
       <the-footer v-bind="footerProps" :footerMenus="footerMenus" @updateRouter="updateRouter" />
     </template>
@@ -78,11 +73,6 @@ export default {
     },
     footerProps() {
       return this.bindProps("footer");
-    }
-  },
-  watch: {
-    leftDrawer(value) {
-      console.log(value);
     }
   },
   created() {

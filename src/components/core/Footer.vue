@@ -1,20 +1,16 @@
 <template>
   <div>
     <v-bottom-navigation v-model="bottomNav" app fixed color="light-blue darken-4" height="72">
-      <v-btn v-for="item in footerMenus" :key="item.title" @click="movePage(item)">
-        <span>{{ item.title }}</span>
-        <v-img :src="$imgBaseUrl + item.icon" class="footer__img" contain />
+      <v-btn v-for="footer in footerMenus" :key="footer.title" @click="movePage(footer)">
+        <span>{{ footer.title }}</span>
+        <v-img :src="$imgBaseUrl + footer.meta.icon" class="footer__img" contain />
       </v-btn>
     </v-bottom-navigation>
   </div>
 </template>
 
 <script>
-import CoreValueItem from "../../assets/value/CoreValueItem.json";
-
-import { createNamespacedHelpers } from "vuex";
-
-const { mapGetters: accountMapGetters } = createNamespacedHelpers("account");
+import { mapGetters } from "vuex";
 
 export default {
   name: "FooterVue",
@@ -25,23 +21,16 @@ export default {
     }
   },
   data: () => ({
-    bottomNav: "CALENDAR",
-    items: CoreValueItem.footerItems
+    bottomNav: "CALENDAR"
   }),
   computed: {
-    ...accountMapGetters(["userInfo"])
+    ...mapGetters("account", {
+      userInfo: "userInfo"
+    })
   },
   methods: {
     movePage: function(item) {
-      if (item.title === "ME") {
-        this.$router.push({
-          name: "memberDetails",
-          params: { member_id: this.userInfo.member_id }
-        });
-        this.$router.go();
-      } else {
-        this.$emit("updateRouter", item.name);
-      }
+      this.$emit("updateRouter", item.name);
     }
   }
 };

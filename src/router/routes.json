@@ -2,6 +2,7 @@
   "routes": [{
       "path": "/home",
       "name": "home",
+      "title": "홈",
       "componentPath": "Home",
       "meta": {
         "title": "home",
@@ -11,6 +12,7 @@
     {
       "path": "/adminMember",
       "name": "adminMember",
+      "title": "회원관리",
       "componentPath": "nav/member/MemberAdmin",
       "meta": {
         "icon": "team.png",
@@ -22,12 +24,16 @@
       "path": "/member",
       "name": "member",
       "componentPath": "footer/Member",
+      "title": "Member",
       "meta": {
         "icon": "team.png",
         "title": "member",
         "auth": ["A", "U"]
       }
     }
+  ],
+  "leftMenus": [
+    "adminMember"
   ],
   "footerMenus": [
     "member"

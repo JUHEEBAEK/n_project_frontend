@@ -158,8 +158,7 @@ const actions = {
   setUserMenus({ commit }, userInfoType) {
     const accessRoutes = filterRoutesByAuth(routes.routes, userInfoType);
     const recordRoutes = generateRoutes(accessRoutes);
-
-    const leftMenus = accessRoutes.filter(route => !routes.footerMenus.includes(route.name));
+    const leftMenus = accessRoutes.filter(route => routes.leftMenus.includes(route.name));
     const footerMenus = routes.footerMenus.map(footer => {
       return {
         name: footer,
