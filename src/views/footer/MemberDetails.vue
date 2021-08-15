@@ -12,7 +12,7 @@
           </v-btn> -->
           <v-select
             v-model="year"
-            :items="yearList"
+            :items="years"
             label="season"
             solo
             item-text="label"
@@ -195,14 +195,23 @@ export default {
       goal: 0,
       assist: 0
     },
-    yearList: memberConst.years,
+
     year: 0
   }),
   computed: {
     ...accountMapGetters(["userInfo"]),
     ...memberMapState(["profile"]),
     ...personalMapState(["whoMyAssistList", "whoMyGoalList"]),
-    ...teamMapState(["teamInfo"])
+    ...teamMapState(["teamInfo"]),
+    years() {
+      let years = [{ label: "전체", value: 0 }];
+      let startYear = 2018;
+      while (startYear <= new Date().getFullYear()) {
+        years.push({ label: startYear, value: startYear });
+        startYear++;
+      }
+      return years;
+    }
   },
   async created() {
     this.setLoadingBar(true);

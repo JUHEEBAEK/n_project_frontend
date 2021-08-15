@@ -73,12 +73,6 @@ export default {
         { label: "친선", value: "M" },
         { label: "대회", value: "C" }
       ],
-      years: [
-        { label: "전체", value: 0 },
-        { label: "2018", value: 2018 },
-        { label: "2019", value: 2019 },
-        { label: "2020", value: 2020 }
-      ],
       months: [
         { label: "전체", value: "0" },
         { label: "1", value: "01" },
@@ -99,7 +93,17 @@ export default {
       selectedMonth: "0"
     };
   },
-  computed: {},
+  computed: {
+    years() {
+      let years = [{ label: "전체", value: 0 }];
+      let startYear = 2018;
+      while (startYear <= new Date().getFullYear()) {
+        years.push({ label: startYear, value: startYear });
+        startYear++;
+      }
+      return years;
+    }
+  },
   watch: {
     selectedContest(value) {
       this.emitEvent();
