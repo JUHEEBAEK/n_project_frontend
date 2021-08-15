@@ -51,7 +51,7 @@ export default {
       this.$emit("updateRouter", page);
     },
     logout() {
-      this.signOut();
+      this.$emit("signOut");
     }
   }
 };
