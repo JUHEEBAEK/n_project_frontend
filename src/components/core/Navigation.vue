@@ -10,12 +10,12 @@
     <v-divider />
     <v-list nav>
       <v-list-item-group color="primary">
-        <v-list-item v-for="item in leftMenus" :key="item.title" class="nav__item" @click="clickNavItem(item)">
+        <v-list-item v-for="item in leftMenus" :key="item.name" class="nav__item" @click="clickNavItem(item)">
           <v-list-item-icon>
             <v-img :src="$imgBaseUrl + item.meta.icon" contain width="24" />
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title class="text--black" v-text="item.title" />
+            <v-list-item-title class="text--black" v-text="item.meta.title" />
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>

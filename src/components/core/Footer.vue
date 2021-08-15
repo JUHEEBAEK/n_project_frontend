@@ -2,7 +2,7 @@
   <div>
     <v-bottom-navigation v-model="bottomNav" app fixed color="light-blue darken-4" height="72">
       <v-btn v-for="footer in footerMenus" :key="footer.title" @click="movePage(footer)">
-        <span>{{ footer.title }}</span>
+        <span>{{ footer.meta.title }}</span>
         <v-img :src="$imgBaseUrl + footer.meta.icon" class="footer__img" contain />
       </v-btn>
     </v-bottom-navigation>
