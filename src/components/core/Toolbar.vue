@@ -17,9 +17,15 @@
         </template>
         <v-card class="profile__dropdown">
           <div class="avatar__box-info">
-            <span class="text__bold-main">{{ userInfo.role }}</span>
-            <span class="text__bold-main">{{ userInfo.id }}</span>
-            <v-btn class="button__item" outlined color="primary" small @click="movePage('my-profile')">내 정보</v-btn>
+            <div class="first__box">
+              <span class="text__main">{{ userInfo.team_id === "1" ? "눈누난나" : userInfo.team_id }}</span>
+              <span class="badge__item">{{ userInfo.role === "A" ? "운영진" : "" }}</span>
+            </div>
+            <div>
+              <span class="text__main">{{ userInfo.name }}</span>
+              <span class="text__sub">{{ `(${userInfo.user_id})` }}</span>
+            </div>
+            <v-btn class="button__item" outlined color="primary" small @click="move('my-profile')">내 정보</v-btn>
           </div>
           <v-divider class="avatar__box-divider" />
           <v-card-actions class="avatar__box-logout" @click="logout">
@@ -46,6 +52,9 @@ export default {
   methods: {
     openNavigation() {
       this.$emit("setDrawer", !this.leftDrawer);
+    },
+    move(page) {
+      console.log("move", page);
     },
     movePage(page) {
       this.$emit("updateRouter", page);
