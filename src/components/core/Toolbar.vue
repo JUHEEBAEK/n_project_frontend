@@ -6,13 +6,7 @@
     </router-link>
     <v-spacer></v-spacer>
     <div class="bar__second-profile">
-      <v-menu
-        v-model="menu"
-        class="profile__menu"
-        :close-on-content-click="false"
-        :nudge-width="120"
-        offset-y
-      >
+      <v-menu v-model="menu" class="profile__menu" :close-on-content-click="false" :nudge-width="120" offset-y>
         <template v-slot:activator="{ on, attrs }">
           <div v-bind="attrs" v-on="on">
             <span class="profile__text">{{ userInfo.name }} 님</span>
@@ -24,14 +18,7 @@
         <v-card class="profile__dropdown">
           <div class="avatar__box-info">
             <span class="text__bold-main">{{ userInfo.id }}</span>
-            <v-btn
-              class="button__item"
-              outlined
-              color="primary"
-              small
-              @click="movePage('my-profile')"
-              >내 정보</v-btn
-            >
+            <v-btn class="button__item" outlined color="primary" small @click="movePage('my-profile')">내 정보</v-btn>
           </div>
           <v-divider class="avatar__box-divider" />
           <v-card-actions class="avatar__box-logout" @click="logout">
@@ -50,11 +37,6 @@ export default {
     leftDrawer: {
       type: Boolean,
       default: false,
-      required: true
-    },
-    setLeftDrawer: {
-      type: Function,
-      default: () => {},
       required: true
     },
     userInfo: {
@@ -82,15 +64,10 @@ export default {
       console.log("move", page);
     },
     logout() {
-      console.log("logout");
       this.signOut();
     }
   }
 };
 </script>
 
-<style
-  scoped
-  lang="scss"
-  src="@/assets/scss/components/core/toolbar.scss"
-></style>
+<style scoped lang="scss" src="@/assets/scss/components/core/toolbar.scss"></style>

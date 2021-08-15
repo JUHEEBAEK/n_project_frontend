@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12" xs="12" sm="6" md="6" lg="6" xl="6">
-        {{ userInfo }}
+        <span class="mx-1">사용자 정보</span><span>{{ userInfo }}</span>
       </v-col>
       <v-col cols="12" sm="6" md="6" lg="6" xl="6">
         <!-- <widget-basic :header-title="title" :is-loading="isLoading">
@@ -30,13 +30,33 @@ export default {
     isLoading: false
   }),
   computed: {
-    ...accountMapGetters(["userInfo"])
+    ...mapGetters("account", {
+      accountType: "accountType",
+      userInfo: "userInfo"
+    })
   },
   async mounted() {
+    console.log(this.userInfo);
     // 출석횟수 가져오기
     // this.getAttendRate("2020");
   },
   methods: {
+    // ...attendMapActions(["countByYear"]),
+    // async getAttendRate(selectedYear) {
+    //   this.isLoading = true;
+    //   let yeardata = await this.countByYear();
+    //   if (yeardata.lenth == 0) return;
+    //   this.chartData = [];
+    //   for (let i in yeardata) {
+    //     let year = yeardata[i].year;
+    //     if (year == selectedYear) {
+    //       let name = yeardata[i].name;
+    //       let count = Number(yeardata[i].count);
+    //       this.chartData.push([name, count]);
+    //     }
+    //   }
+    //   this.isLoading = false;
+    // }
   }
 };
 </script>

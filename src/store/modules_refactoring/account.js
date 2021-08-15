@@ -1,30 +1,29 @@
+import accountConst from "@/constants/account.js";
+
 export const state = () => ({
-  info: null,
   userInfo: {}
 });
 
 export const getters = {
-  info(state) {
-    return state.info;
-  },
   userInfo(state) {
     if (state.userInfo) {
       return state.userInfo;
     } else {
       return null;
     }
+  },
+  accountType({ userInfo }) {
+    const type = (userInfo && userInfo.role) || "";
+    if (type) {
+      return accountConst.role;
+    }
+    return "";
   }
 };
 
 const mutations = {
-  SET_INFO(state, userInfo) {
-    state.info = {
-      ...state.info,
-      ...userInfo
-    };
-  },
   SET_USER_INFO(state, userInfo) {
-    state.info = {
+    state.userInfo = {
       ...state.userInfo,
       ...userInfo
     };
@@ -37,7 +36,7 @@ const mutations = {
 const actions = {
   setInfoByAccount: {
     root: true,
-    handler({ commit, dispatch }, userInfo) {
+    handler({ commit }, userInfo) {
       commit("SET_USER_INFO", userInfo);
       // TODO: 팀이 생길 때 추가하기
       // if (userInfo && userInfo.idfAccount) {

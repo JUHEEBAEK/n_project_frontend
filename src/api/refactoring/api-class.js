@@ -28,18 +28,19 @@ function isTimeoutError(error) {
   return false;
 }
 
+// const handleSuccess = defaultHandleSuccess;
+// const handleError = defaultHandleError;
+// const handleRequest = defaultHandleRequest;
+
 class ApiClient {
   constructor(
     configModules,
-    {
-      handleSuccess = defaultHandleSuccess,
-      handleError = defaultHandleError,
-      handleRequest = defaultHandleRequest,
-      language
+    { handleSuccess, handleError, handleRequest } = {
+      handleSuccess: defaultHandleSuccess,
+      handleError: defaultHandleError,
+      handleRequest: defaultHandleRequest
     }
   ) {
-    console.log("???");
-    this.languageDictionary = getMessages(language);
     this.instances = {};
     Object.keys(configModules).forEach(module => {
       const instance = axios.create(configModules[module]);
@@ -85,18 +86,13 @@ class ApiClient {
         config: error.config
       };
       if (error.response) {
-        const { data, status } = error.response;
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        // console.log(error.response.data)
-        // console.log(error.response.status)
-        // console.log(error.response.headers)
+        const { data } = error.response;
         result = {
           ...result,
           success: false,
           error: {
-            message: (data && data.errorMsg) || "Fail to request",
-            status
+            message: data.message || "Fail to request",
+            status: data.status
           }
         };
       } else if (error.request) {
@@ -133,17 +129,13 @@ class ApiClient {
     if (Authorization) {
       Object.keys(this.instances).forEach(module => {
         if (module !== "auth" || module !== "background") {
-          this.instances[module].defaults.headers.common[
-            "Authorization"
-          ] = Authorization;
+          this.instances[module].defaults.headers.common["Authorization"] = Authorization;
         }
       });
     } else {
       Object.keys(this.instances).forEach(module => {
         if (module !== "auth" || module !== "background") {
-          delete this.instances[module].defaults.headers.common[
-            "Authorization"
-          ];
+          delete this.instances[module].defaults.headers.common["Authorization"];
         }
       });
     }

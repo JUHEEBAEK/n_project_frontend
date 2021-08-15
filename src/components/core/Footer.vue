@@ -1,17 +1,7 @@
 <template>
   <div>
-    <v-bottom-navigation
-      v-model="bottomNav"
-      app
-      fixed
-      color="light-blue darken-4"
-      height="72"
-    >
-      <v-btn
-        v-for="item in footerMenus"
-        :key="item.title"
-        @click="movePage(item)"
-      >
+    <v-bottom-navigation v-model="bottomNav" app fixed color="light-blue darken-4" height="72">
+      <v-btn v-for="item in footerMenus" :key="item.title" @click="movePage(item)">
         <span>{{ item.title }}</span>
         <v-img :src="$imgBaseUrl + item.icon" class="footer__img" contain />
       </v-btn>
@@ -43,7 +33,6 @@ export default {
   },
   methods: {
     movePage: function(item) {
-      console.log("footer movePage", item);
       if (item.title === "ME") {
         this.$router.push({
           name: "memberDetails",
@@ -58,8 +47,4 @@ export default {
 };
 </script>
 
-<style
-  scoped
-  lang="scss"
-  src="@/assets/scss/components/core/footer.scss"
-></style>
+<style scoped lang="scss" src="@/assets/scss/components/core/footer.scss"></style>

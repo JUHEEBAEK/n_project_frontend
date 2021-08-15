@@ -1,9 +1,6 @@
 <template>
   <v-app id="app" class="app__container">
-    <req-loading
-      :loading="$route.meta.requireAuth ? !isPropsAlready : isAuthorized"
-      :size="100"
-    />
+    <req-loading :loading="$route.meta.requireAuth ? !isPropsAlready : isAuthorized" :size="100" />
     <snack-bar :snackBar="snackBar" />
     <template v-if="$route.meta.requireAuth">
       <the-app-bar
@@ -14,11 +11,7 @@
       />
       <the-left-nav v-bind="leftNavProps" @updateRouter="updateRouter" />
       <the-layout-main v-bind="mainProps"></the-layout-main>
-      <the-footer
-        v-bind="footerProps"
-        :footerMenus="footerMenus"
-        @updateRouter="updateRouter"
-      />
+      <the-footer v-bind="footerProps" :footerMenus="footerMenus" @updateRouter="updateRouter" />
     </template>
     <template v-if="!$route.meta.reqireAuth && !isAuthorized">
       <router-view @signIn="signIn" />
@@ -35,12 +28,7 @@ import TheLeftNav from "@/components/core/Navigation.vue";
 import TheLayoutMain from "@/components/core/View.vue";
 import TheFooter from "@/components/core/Footer.vue";
 
-import {
-  appBarProps,
-  leftNavProps,
-  mainProps,
-  footerProps
-} from "@/components/core/props";
+import { appBarProps, leftNavProps, mainProps, footerProps } from "@/components/core/props";
 
 export default {
   name: "App",
@@ -77,12 +65,7 @@ export default {
       userInfo: "userInfo"
     }),
     isPropsAlready() {
-      return !!(
-        this.appbarProps &&
-        this.leftNavProps &&
-        this.mainProps &&
-        this.footerProps
-      );
+      return !!(this.appbarProps && this.leftNavProps && this.mainProps && this.footerProps);
     },
     appbarProps() {
       return this.bindProps("appbar");

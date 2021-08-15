@@ -11,7 +11,7 @@
     {
       "path": "/adminMember",
       "name": "adminMember",
-      "componentPath": "nav/member/MemberAdmin.vue",
+      "componentPath": "nav/member/MemberAdmin",
       "meta": {
         "icon": "team.png",
         "title": "member",

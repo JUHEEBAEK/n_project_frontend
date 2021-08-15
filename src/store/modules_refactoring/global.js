@@ -12,11 +12,7 @@ const baseURL = process.env.VUE_APP_API_ENDPOINT;
 const timeOut = 6000;
 
 const getToken = () => {
-  return (
-    (localStorage.getItem("access_token") &&
-      JSON.parse(localStorage.getItem("access_token"))) ||
-    null
-  );
+  return (localStorage.getItem("access_token") && JSON.parse(localStorage.getItem("access_token"))) || null;
 };
 
 const deleteToken = () => {
@@ -69,7 +65,6 @@ export const getters = {
     return snackBar;
   },
   apiClient({ apiClient }) {
-    console.log(apiClient);
     return apiClient;
   },
   currentMenu({ currentMenu }) {
@@ -133,20 +128,18 @@ const actions = {
     }
   },
   async setUser({ dispatch, rootGetters }, token) {
-    console.log("1. setUser", token);
     const apiClient = rootGetters["global/apiClient"];
     apiClient.updateToken(token);
     await dispatch("updateToken", token);
     //TODO: 토큰으로 User 정보 가져오는 것 만드기
     const { success, userInfo } = await dispatch("getUser", token);
-    // const success = true;
+
     const routerCurrentName = router.history.current.name;
     const toRotuer = routerCurrentName === "login" ? "home" : routerCurrentName;
 
     if (success) {
-      console.log("getUser", userInfo);
-      await dispatch("setInfoByAccount", userInfo, { root: true });
-      await dispatch("setUserMenus", userInfo.role);
+      await dispatch("setInfoByAccount", userInfo.payload, { root: true });
+      await dispatch("setUserMenus", userInfo.payload.role);
       await dispatch("updateRouter", toRotuer, { root: true });
     } else {
       await dispatch("signOut");
@@ -158,15 +151,15 @@ const actions = {
     // const { success, response } = await apiClient.account.getAccountInfo(
     //   idfAccount
     // );
-    return user;
+
+    // return !success ? { success } : { success, userInfo: response.data };
+    return { success: true, userInfo: user };
   },
-  setUserMenus({ commit, dispatch }, userInfoType) {
+  setUserMenus({ commit }, userInfoType) {
     const accessRoutes = filterRoutesByAuth(routes.routes, userInfoType);
     const recordRoutes = generateRoutes(accessRoutes);
 
-    const leftMenus = accessRoutes.filter(
-      route => !routes.footerMenus.includes(route.name)
-    );
+    const leftMenus = accessRoutes.filter(route => !routes.footerMenus.includes(route.name));
     const footerMenus = routes.footerMenus.map(footer => {
       return {
         name: footer,
@@ -183,13 +176,7 @@ const actions = {
   },
   async signIn({ getters, dispatch }, payload) {
     // TODO error 코드 기준으로 메세지 가져올 수 있도록 벼로 에러 코드별 const 작성 필요
-    console.log("signIn", payload);
-    console.log("getters", getters.apiClient.auth);
-    const { success, response, error } = await getters.apiClient.auth.signIn(
-      payload
-    );
-
-    console.log("login response", response);
+    const { success, response, error } = await getters.apiClient.auth.signIn(payload);
     const errorMessage = {
       401: "Fail to sign in",
       500: "Server Error",
@@ -200,18 +187,15 @@ const actions = {
       const { Authorization } = response.data;
       dispatch("setUser", Authorization);
     } else {
-      const { status } = error;
-      dispatch(
-        "apiErrorHandler",
-        { message: [errorMessage[status] || errorMessage.default] },
-        { root: true }
-      );
+      //TODO: errCode 어떻게 할지 생각해보기 현재는 메세지를 넘기는걸로 함.
+      const { status, message } = error;
+      dispatch("apiErrorHandler", { message: message || errorMessage.default, status: status }, { root: true });
     }
   },
   signOut({ commit, dispatch }) {
     commit("SET_ACCESS_TOKEN", null);
     dispatch("setInfoByAccount", null, { root: true });
-    dispatch("updateMenu", "login", { root: true });
+    dispatch("updateRouter", "login", { root: true });
     deleteToken();
   },
   // token actions
@@ -232,8 +216,7 @@ const actions = {
   updateRouter: {
     root: true,
     handler({ rootState }, routerItem) {
-      const payload =
-        typeof routerItem === "string" ? { name: routerItem } : routerItem;
+      const payload = typeof routerItem === "string" ? { name: routerItem } : routerItem;
       console.log(routerItem, rootState.route.name, payload);
       if (routerItem !== rootState.route.name) router.push(payload);
     }
@@ -256,16 +239,14 @@ const actions = {
   },
   apiErrorHandler: {
     root: true,
-    async handler({ dispatch, getters }, { message, error }) {
-      const { status } = error;
+    async handler({ dispatch }, { message, status }) {
+      const failExpireSession = "Session is expired. Again login please.";
+      const failBasic = "Error happened!";
+
       const snackbarPayload = {
         show: true,
         purpose: snaceBarPurpose.snackBarFail,
-        message:
-          message ||
-          (status === 401
-            ? getters.languageDictionaryModule.util.failExpireSession
-            : getters.languageDictionaryModule.util.failBasic)
+        message: message || (status === 401 ? failExpireSession : failBasic)
       };
 
       dispatch("updateSnackBar", snackbarPayload, { root: true });

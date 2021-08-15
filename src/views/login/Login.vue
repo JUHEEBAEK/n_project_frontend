@@ -37,14 +37,7 @@
       <div class="login__actions">
         <v-row>
           <v-col cols="12">
-            <v-btn
-              class="login__button"
-              color="#00ca88"
-              block
-              :ripple="false"
-              @click="submit"
-              >Login</v-btn
-            >
+            <v-btn class="login__button" color="#00ca88" block :ripple="false" @click="submit">Login</v-btn>
           </v-col>
           <v-col cols="6">
             <v-btn color="#03a27c" text @click="clickToJoin">회원가입</v-btn>
@@ -99,12 +92,10 @@ export default {
       });
     },
     submit: async function() {
-      console.log("click");
       if (this.$refs.form.validate()) {
-        console.log("validate pass");
-        // this.setLoadingBar(true);
+        this.setLoadingBar(true);
         this.$emit("signIn", {
-          email: this.username,
+          userId: this.username,
           password: this.password
         });
 
@@ -116,7 +107,7 @@ export default {
         //   // FIXME: 오류를 여러번 이어서 냈을 때 처음만 스낵바 보이고 나머지는 안보임????
         //   this.setSnackBar(this.snackBarFail, res.data.message);
         // }
-        // this.setLoadingBar(false);
+        this.setLoadingBar(false);
       }
     }
   }

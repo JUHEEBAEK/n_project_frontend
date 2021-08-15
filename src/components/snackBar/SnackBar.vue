@@ -1,13 +1,13 @@
 <template>
   <v-snackbar
-    v-if="snackBar.show && snackBar.purpose"
-    v-model="snackBar"
-    :color="setColor()"
+    v-if="snackBar.show && snackBar.purpose && snackBarData"
+    :value="show"
     multi-line
     :timeout="timeout"
+    :color="snackBarData.color"
   >
-    <v-icon v-if="icon" size="20" :color="textColor">mdi-{{ icon }}</v-icon>
-    <span class="subtitle">{{ snackBar.message }}</span>
+    <v-icon v-if="snackBarData.icon" size="20" :color="snackBarData.textColor">mdi-{{ snackBarData.icon }}</v-icon>
+    <span class="subtitle" :class="`${snackBarData.textColor}--text`">{{ snackBar.message }}</span>
   </v-snackbar>
 </template>
 
@@ -27,21 +27,39 @@ export default {
   },
   data: () => ({
     show: false,
-    color: null,
-    textColor: null,
-    icon: null,
     multiLine: true,
-    rounded: "pill"
+    rounded: "pill",
+
+    snackBarData: null,
+    snackBarType: {
+      showSuccess: {
+        icon: "check-circle-outline",
+        color: "light-green",
+        textColor: "white"
+      },
+      showWarn: {
+        icon: "alert-outline",
+        color: "yellow",
+        textColor: "black"
+      },
+      showFail: {
+        icon: "alert-outline",
+        color: "red",
+        textColor: "white"
+      },
+      default: {
+        icon: null,
+        color: null,
+        textColor: "white"
+      }
+    }
   }),
   watch: {
     snackBar: {
       immediate: true,
       async handler({ show, purpose }) {
-        if (show) {
-          this.show = true;
-        }
-
-        this.setColor(purpose);
+        if (show) this.show = true;
+        this.snackBarData = purpose && show ? this.snackBarType[purpose] : null;
         await sleep(this.timeout);
         this.reset();
       }
@@ -50,25 +68,6 @@ export default {
   methods: {
     reset() {
       this.show = false;
-    },
-    setColor(purpose) {
-      if (purpose === "showSuccess") {
-        this.color = "light-green";
-        this.textColor = "white";
-        this.icon = "check-circle-outline";
-      } else if (purpose === "showWarn") {
-        this.color = "yellow";
-        this.textColor = "black";
-        this.icon = "alert-outline";
-      } else if (purpose === "showFail") {
-        this.color = "red";
-        this.textColor = "white";
-        this.icon = "alert-outline";
-      } else {
-        this.color = null;
-        this.textColor = "white";
-        this.icon = null;
-      }
     }
   }
 };
