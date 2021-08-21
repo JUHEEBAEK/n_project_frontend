@@ -6,7 +6,7 @@ const publicRoutes = [
   {
     path: "/",
     name: "login",
-    component: () => import(/* webpackMode: "lazy" */ "@/views/login/Login")
+    component: () => import(/* webpackMode: "lazy" */ "@/views/login/Login.vue")
   },
   {
     path: "/join",

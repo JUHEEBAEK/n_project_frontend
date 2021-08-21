@@ -7,18 +7,10 @@
 </template>
 
 <script>
+import { mainProps } from "./props";
 export default {
   props: {
-    leftDrawer: {
-      type: Boolean,
-      default: false,
-      required: true
-    },
-    fullScreen: {
-      type: Boolean,
-      default: false,
-      required: true
-    }
+    ...mainProps
   }
 };
 </script>

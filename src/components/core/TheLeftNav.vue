@@ -25,8 +25,8 @@
 
 <script>
 import { leftNavProps } from "./props";
-
 export default {
+  name: "TheLeftNav",
   props: {
     ...leftNavProps
   },
@@ -34,6 +34,9 @@ export default {
     leftDrawer(value) {
       this.$emit("setDrawer", value);
     }
+  },
+  created() {
+    console.log("leftMenus", this.leftMenus);
   },
   methods: {
     clickNavItem(item) {

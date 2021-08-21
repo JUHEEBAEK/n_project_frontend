@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-bottom-navigation v-model="bottomNav" app fixed color="light-blue darken-4" height="72">
-      <v-btn v-for="footer in footerMenus" :key="footer.title" @click="movePage(footer)">
+      <v-btn v-for="(footer, index) in footerMenus" :key="`${footer.name}_${index}`" @click="movePage(footer)">
         <span>{{ footer.meta.title }}</span>
         <v-img :src="$imgBaseUrl + footer.meta.icon" class="footer__img" contain />
       </v-btn>
@@ -11,22 +11,23 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { footerProps } from "./props";
 
 export default {
-  name: "FooterVue",
+  name: "TheFooter",
   props: {
-    footerMenus: {
-      type: Array,
-      required: true
-    }
+    ...footerProps
   },
   data: () => ({
-    bottomNav: "CALENDAR"
+    bottomNav: ""
   }),
   computed: {
     ...mapGetters("account", {
       userInfo: "userInfo"
     })
+  },
+  created() {
+    console.log("footerMenus", this.footerMenus);
   },
   methods: {
     movePage: function(item) {

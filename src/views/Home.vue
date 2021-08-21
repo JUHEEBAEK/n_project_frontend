@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12" xs="12" sm="6" md="6" lg="6" xl="6">
-        <span class="mx-1">사용자 정보</span><span>{{ userInfo }}</span>
+        <span class="mx-1">사용자 정보?? </span><span>{{ userInfo }}</span>
       </v-col>
       <v-col cols="12" sm="6" md="6" lg="6" xl="6">
         <!-- <widget-basic :header-title="title" :is-loading="isLoading">

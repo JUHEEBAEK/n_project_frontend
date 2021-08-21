@@ -19,7 +19,7 @@
           <div class="avatar__box-info">
             <div class="first__box">
               <span class="text__main">{{ userInfo.team_id === "1" ? "눈누난나" : userInfo.team_id }}</span>
-              <span class="badge__item">{{ userInfo.role === "A" ? "운영진" : "" }}</span>
+              <span class="badge__item">{{ userInfo.role === "A" ? "운영진" : "회원" }}</span>
             </div>
             <div>
               <span class="text__main">{{ userInfo.name }}</span>
