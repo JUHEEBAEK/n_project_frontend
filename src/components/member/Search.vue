@@ -1,40 +1,19 @@
 <template>
-  <div>
-    <v-app-bar flat color="white" class="pa-0">
-      <h3 class="mr-5">{{ title }}</h3>
-      <v-toolbar-title class="member__count grey--text"
-        >총 {{ searchResult.length }} 명</v-toolbar-title
-      >
-      <v-spacer />
-      <v-text-field
-        v-model="search"
-        hide-details
-        placeholder="이름으로 검색"
-        prepend-icon="fas fa-search"
-        single-line
-      />
-      <v-btn
-        v-if="isAddButton"
-        class="mx-2"
-        fab
-        dark
-        small
-        color="primary"
-        @click="moveMemverAdd()"
-      >
-        <v-icon dark>fas fa-plus</v-icon>
-      </v-btn>
-    </v-app-bar>
-  </div>
+  <v-app-bar flat color="white" class="pa-0">
+    <h3 class="mr-5">{{ title }}</h3>
+    <v-toolbar-title class="member__count grey--text">총 {{ searchResult.length }} 명</v-toolbar-title>
+    <v-spacer />
+    <v-text-field v-model="search" hide-details placeholder="이름으로 검색" prepend-icon="fas fa-search" single-line />
+    <v-btn v-if="isAddButton" class="mx-2" fab dark small color="primary" @click="moveMemverAdd()">
+      <v-icon dark>fas fa-plus</v-icon>
+    </v-btn>
+  </v-app-bar>
 </template>
 
 <script>
 import { createNamespacedHelpers } from "vuex";
 const { mapState: memberMapState } = createNamespacedHelpers("member");
-const {
-  mapState: commonMapState,
-  mapMutations: commonMapMutations
-} = createNamespacedHelpers("common");
+const { mapState: commonMapState, mapMutations: commonMapMutations } = createNamespacedHelpers("common");
 export default {
   props: {
     title: {

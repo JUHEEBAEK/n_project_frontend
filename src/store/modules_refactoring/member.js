@@ -30,6 +30,18 @@ const actions = {
     } else if (error) {
       dispatch("apiErrorHandler", { error }, { root: true });
     }
+  },
+  async getAllMemberList({ commit, dispatch, rootGetters }) {
+    console.log("????");
+    const apiClient = rootGetters["global/apiClient"];
+
+    const { success, response, error } = await apiClient.member.getAllMember();
+    if (success) {
+      console.log("res", response);
+      commit("SET_MEMBER_LIST", response.data);
+    } else if (error) {
+      dispatch("apiErrorHandler", { error }, { root: true });
+    }
   }
 };
 export default {

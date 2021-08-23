@@ -3,11 +3,13 @@
     <req-loading :loading="$route.meta.requireAuth ? !isPropsAlready : isAuthorized" :size="100" />
     <snack-bar :snackBar="snackBar" />
     <template v-if="$route.meta.requireAuth">
-      <the-app-bar v-bind="appbarProps" @setDrawer="setLeftDrawer" @signOut="signOut" @updateRouter="updateRouter" />
-      <the-left-nav v-bind="leftNavProps" @setDrawer="setLeftDrawer" @updateRouter="updateRouter" />
-      <the-center-view v-bind="mainProps" />
-      <the-footer v-bind="footerProps" @updateRouter="updateRouter" />
+      <template v-if="!fullScreen">
+        <the-app-bar v-bind="appbarProps" @setDrawer="setLeftDrawer" @signOut="signOut" @updateRouter="updateRouter" />
+        <the-left-nav v-bind="leftNavProps" @setDrawer="setLeftDrawer" @updateRouter="updateRouter" />
+      </template>
     </template>
+    <the-center-view v-bind="mainProps" />
+    <the-footer v-bind="footerProps" @updateRouter="updateRouter" />
     <template v-if="!$route.meta.reqireAuth && !isAuthorized">
       <router-view @signIn="signIn" />
     </template>
@@ -59,6 +61,9 @@ export default {
       accountType: "accountType",
       userInfo: "userInfo"
     }),
+    fullScreen() {
+      return this.$route.meta.fullScreen;
+    },
     isPropsAlready() {
       return !!(this.appbarProps && this.leftNavProps && this.mainProps && this.footerProps);
     },
@@ -104,11 +109,5 @@ export default {
   text-align: center;
   color: #2c3e50;
   height: 100%;
-}
-// 나중에 reset vuetify 빼기
-.v-application--wrap {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 </style>

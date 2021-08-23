@@ -124,6 +124,7 @@ const mutations = {
 
 const actions = {
   async init({ getters, dispatch }) {
+    console.log("새로고침하면 어디로가???");
     const token = getToken();
     getters.apiClient.setDispatch(dispatch);
 
@@ -139,9 +140,7 @@ const actions = {
     //TODO: 토큰으로 User 정보 가져오는 것 만드기
     const { success, userInfo } = await dispatch("getUser", token);
 
-    const currentName = router.history.current.name === null ? "login" : router.history.current.name;
-    const toRotuer = currentName === "login" ? "home" : currentName;
-
+    const toRotuer = router.history.current.name === "login" ? "home" : router.history.current.name;
     if (success) {
       await dispatch("setInfoByAccount", userInfo.payload, { root: true });
       await dispatch("setUserMenus", userInfo.payload.role);
@@ -221,6 +220,7 @@ const actions = {
   updateRouter: {
     root: true,
     handler({ rootState }, routerItem) {
+      console.log(routerItem);
       const payload = typeof routerItem === "string" ? { name: routerItem } : routerItem;
       console.log(routerItem, rootState.route.name, payload);
       if (routerItem !== rootState.route.name) router.push(payload);
