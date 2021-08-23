@@ -132,6 +132,8 @@ const actions = {
     const { success, userInfo } = await dispatch("getUser", token);
 
     const toRotuer = router.history.current.name === "login" ? "home" : router.history.current.name;
+    const currentName = router.history.current.name === null ? "login" : router.history.current.name;
+    const toRotuer = currentName === "login" ? "home" : currentName;
 
     if (success) {
       await dispatch("setInfoByAccount", userInfo.payload, { root: true });
@@ -156,6 +158,7 @@ const actions = {
     const recordRoutes = generateRoutes(accessRoutes);
     console.log(state.leftMenus);
     const leftMenus = accessRoutes.filter(route => state.leftMenus.includes(route));
+    const leftMenus = accessRoutes.filter(route => state.leftMenus.includes(route.name));
     const footerMenus = state.footerMenus.map(footer => {
       return {
         name: footer,
@@ -192,6 +195,7 @@ const actions = {
   signOut({ commit, dispatch }) {
     commit("SET_ACCESS_TOKEN", null);
     dispatch("setInfoByAccount", null, { root: true });
+    commit("SET_LEFT_MENUS", leftMenus, { root: true });
     dispatch("updateRouter", "login", { root: true });
     deleteToken();
   },
