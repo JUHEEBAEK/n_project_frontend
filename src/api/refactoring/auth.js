@@ -1,5 +1,3 @@
-// import { generalReq } from "../index.js";
-
 export async function signIn(data) {
   return await this.post(`/api/user/login`, data);
 }
