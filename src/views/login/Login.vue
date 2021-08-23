@@ -55,7 +55,7 @@
 <script>
 import Loading from "@/components/loading";
 
-import { userNameRules, pwdRules } from "@/helpers/rules";
+import { userIdRules, pwdRules } from "@/helpers/rules";
 
 export default {
   name: "Login",
@@ -76,7 +76,7 @@ export default {
   }),
   computed: {
     idRules() {
-      return userNameRules();
+      return userIdRules();
     },
     passwordRules() {
       return pwdRules();
