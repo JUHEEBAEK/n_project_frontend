@@ -35,9 +35,6 @@ export default {
       this.$emit("setDrawer", value);
     }
   },
-  created() {
-    console.log("leftMenus", this.leftMenus);
-  },
   methods: {
     clickNavItem(item) {
       this.$emit("updateRouter", item.name);

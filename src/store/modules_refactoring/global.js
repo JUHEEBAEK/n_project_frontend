@@ -131,7 +131,6 @@ const actions = {
     //TODO: 토큰으로 User 정보 가져오는 것 만드기
     const { success, userInfo } = await dispatch("getUser", token);
 
-    const toRotuer = router.history.current.name === "login" ? "home" : router.history.current.name;
     const currentName = router.history.current.name === null ? "login" : router.history.current.name;
     const toRotuer = currentName === "login" ? "home" : currentName;
 
@@ -156,8 +155,6 @@ const actions = {
   setUserMenus({ state, commit }, userInfoType) {
     const accessRoutes = filterRoutesByAuth(routes, userInfoType);
     const recordRoutes = generateRoutes(accessRoutes);
-    console.log(state.leftMenus);
-    const leftMenus = accessRoutes.filter(route => state.leftMenus.includes(route));
     const leftMenus = accessRoutes.filter(route => state.leftMenus.includes(route.name));
     const footerMenus = state.footerMenus.map(footer => {
       return {
@@ -170,7 +167,6 @@ const actions = {
     recordRoutes.forEach(route => router.addRoute(route));
 
     commit("SET_USER_ROUTES", accessRoutes); // user all routes
-    console.log("SET_LEFT_MENUS", leftMenus);
     commit("SET_LEFT_MENUS", leftMenus); // user left menus
     commit("SET_FOOTER_MENUS", footerMenus); // user footer menus
   },
@@ -218,7 +214,7 @@ const actions = {
     root: true,
     handler({ rootState }, routerItem) {
       const payload = typeof routerItem === "string" ? { name: routerItem } : routerItem;
-      // console.log(routerItem, rootState.route.name, payload);
+      console.log(routerItem, rootState.route.name, payload);
       if (routerItem !== rootState.route.name) router.push(payload);
     }
   },

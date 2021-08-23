@@ -26,9 +26,6 @@ export default {
       userInfo: "userInfo"
     })
   },
-  created() {
-    console.log("footerMenus", this.footerMenus);
-  },
   methods: {
     movePage: function(item) {
       this.$emit("updateRouter", item.name);
