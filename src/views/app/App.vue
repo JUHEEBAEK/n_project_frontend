@@ -3,15 +3,10 @@
     <req-loading :loading="$route.meta.requireAuth ? !isPropsAlready : isAuthorized" :size="100" />
     <snack-bar :snackBar="snackBar" />
     <template v-if="$route.meta.requireAuth">
-      <the-app-bar
-        v-bind="appbarProps"
-        @signOut="signOut"
-        @updateRouter="updateRouter"
-        @updateLanguage="updateLanguage"
-      />
-      <the-left-nav v-bind="leftNavProps" @updateRouter="updateRouter" />
-      <the-layout-main v-bind="mainProps"></the-layout-main>
-      <the-footer v-bind="footerProps" :footerMenus="footerMenus" @updateRouter="updateRouter" />
+      <the-app-bar v-bind="appbarProps" @setDrawer="setLeftDrawer" @signOut="signOut" @updateRouter="updateRouter" />
+      <the-left-nav v-bind="leftNavProps" @setDrawer="setLeftDrawer" @updateRouter="updateRouter" />
+      <the-center-view v-bind="mainProps" />
+      <the-footer v-bind="footerProps" @updateRouter="updateRouter" />
     </template>
     <template v-if="!$route.meta.reqireAuth && !isAuthorized">
       <router-view @signIn="signIn" />
@@ -23,10 +18,10 @@
 import { mapGetters, mapActions } from "vuex";
 import Loading from "@/components/loading";
 import SnackBar from "@/components/snackBar";
-import TheAppBar from "@/components/core/Toolbar.vue";
-import TheLeftNav from "@/components/core/Navigation.vue";
-import TheLayoutMain from "@/components/core/View.vue";
-import TheFooter from "@/components/core/Footer.vue";
+import TheAppBar from "@/components/core/TheAppBar.vue";
+import TheLeftNav from "@/components/core/TheLeftNav.vue";
+import TheCenterView from "@/components/core/TheCenterView.vue";
+import TheFooter from "@/components/core/TheFooter.vue";
 
 import { appBarProps, leftNavProps, mainProps, footerProps } from "@/components/core/props";
 
@@ -37,7 +32,7 @@ export default {
     "snack-bar": SnackBar,
     TheAppBar,
     TheLeftNav,
-    TheLayoutMain,
+    TheCenterView,
     TheFooter
   },
   data() {
@@ -80,18 +75,12 @@ export default {
       return this.bindProps("footer");
     }
   },
-  watch: {
-    leftDrawer(value) {
-      console.log(value);
-    }
-  },
   created() {
     this.init();
   },
   methods: {
     ...mapActions(["updateRouter"]),
     ...mapActions("global", ["init", "signIn", "signOut"]),
-    setPublicComp() {}, // 뭐지??
     bindProps(prop) {
       return Object.keys(this.returnProps[prop]).reduce((props, key) => {
         props[key] = this[key];

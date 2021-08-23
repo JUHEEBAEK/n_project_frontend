@@ -27,10 +27,6 @@ export const leftNavProps = {
   leftMenus: {
     type: Array,
     required: true
-  },
-  footerMenus: {
-    type: Array,
-    required: true
   }
 };
 

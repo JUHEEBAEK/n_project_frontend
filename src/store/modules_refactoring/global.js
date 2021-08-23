@@ -1,12 +1,11 @@
 import jwt_decode from "jwt-decode";
 
 import ApiClient from "@/api/refactoring/api-class";
-// import router from "@/router";
-import router, { resetRoutes } from "@/router/index_refactoring";
-import routes from "@/router/routes.json";
+import router, { resetRoutes } from "@/router";
 import { generateRoutes, filterRoutesByAuth } from "@/router/path";
 
 import snaceBarPurpose from "@/constants/snackbar";
+import { routes, leftMenus, footerMenus } from "@/router/routes";
 
 const baseURL = process.env.VUE_APP_API_ENDPOINT;
 const timeOut = 6000;
@@ -53,8 +52,8 @@ export const state = () => ({
   currentMenu: "",
   userRoutes: [],
   breadcrumbs: [],
-  leftMenus: [],
-  footerMenus: []
+  leftMenus: leftMenus,
+  footerMenus: footerMenus
 });
 
 export const getters = {
@@ -127,15 +126,13 @@ const actions = {
       dispatch("setUser", token);
     }
   },
-  async setUser({ dispatch, rootGetters }, token) {
-    const apiClient = rootGetters["global/apiClient"];
-    apiClient.updateToken(token);
+  async setUser({ dispatch }, token) {
     await dispatch("updateToken", token);
     //TODO: 토큰으로 User 정보 가져오는 것 만드기
     const { success, userInfo } = await dispatch("getUser", token);
 
-    const routerCurrentName = router.history.current.name;
-    const toRotuer = routerCurrentName === "login" ? "home" : routerCurrentName;
+    const currentName = router.history.current.name === null ? "login" : router.history.current.name;
+    const toRotuer = currentName === "login" ? "home" : currentName;
 
     if (success) {
       await dispatch("setInfoByAccount", userInfo.payload, { root: true });
@@ -155,12 +152,11 @@ const actions = {
     // return !success ? { success } : { success, userInfo: response.data };
     return { success: true, userInfo: user };
   },
-  setUserMenus({ commit }, userInfoType) {
-    const accessRoutes = filterRoutesByAuth(routes.routes, userInfoType);
+  setUserMenus({ state, commit }, userInfoType) {
+    const accessRoutes = filterRoutesByAuth(routes, userInfoType);
     const recordRoutes = generateRoutes(accessRoutes);
-
-    const leftMenus = accessRoutes.filter(route => !routes.footerMenus.includes(route.name));
-    const footerMenus = routes.footerMenus.map(footer => {
+    const leftMenus = accessRoutes.filter(route => state.leftMenus.includes(route.name));
+    const footerMenus = state.footerMenus.map(footer => {
       return {
         name: footer,
         ...(accessRoutes.find(item => item.name === footer) || {})
@@ -195,6 +191,7 @@ const actions = {
   signOut({ commit, dispatch }) {
     commit("SET_ACCESS_TOKEN", null);
     dispatch("setInfoByAccount", null, { root: true });
+    commit("SET_LEFT_MENUS", leftMenus, { root: true });
     dispatch("updateRouter", "login", { root: true });
     deleteToken();
   },

@@ -6,7 +6,7 @@ const vuexRouterSync = store => {
       const breadcrumbs = mutation.payload.to.matched.map(route => {
         return {
           name: route.name,
-          text: route.meta.title || route.name
+          text: route.name
         };
       });
 

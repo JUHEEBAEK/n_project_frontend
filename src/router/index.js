@@ -1,216 +1,51 @@
 import Vue from "vue";
-import Router from "vue-router";
-import { isAuthorization, logout } from "../mixins/auth";
+import VueRouter from "vue-router";
 
-// import Home from "../views/Home.vue";
-const Home = () => import("@/views/Home.vue");
-import Login from "../views/Login.vue";
-import Join from "../views/Join.vue";
-
-const Member = () => import("@/views/footer/Member.vue");
-import SquadView from "../views/footer/Squad.vue";
-import GameReport from "../views/footer/GameReport.vue";
-import GameReportDetail from "../views/footer/GameReportDetail.vue";
-import LeagueReport from "../views/footer/LeagueReport.vue";
-import Ranking from "../views/footer/Ranking.vue";
-import Me from "../views/footer/MemberDetails.vue";
-
-import TeamDetails from "../views/nav/team/Details.vue";
-import UnitTeamDetails from "../views/nav/team/UnitDetails.vue";
-import TeamAdd from "../views/nav/team/TeamAdd.vue";
-import TeamAdmin from "../views/nav/team/TeamAdmin.vue";
-import Profile from "../views/nav/member/Profile.vue";
-import MemberAdd from "../views/nav/member/MemberAdd.vue";
-import MemberAdmin from "../views/nav/member/MemberAdmin.vue";
-import Attend from "../views/nav/Attend.vue";
-import Calendar from "../views/nav/Schedule.vue";
-
-import Squad from "../views/nav/squad/Squad.vue";
-import MatchPrepare from "../views/nav/squad/MatchPrepare.vue";
-
-import MatchInput from "../views/nav/match/MatchInput.vue";
-import NotFound from "../views/NotFound.vue";
-
-import Stadium from "../views/nav/stadium/Stadium.vue";
-import StadiumAdd from "../views/nav/stadium/StadiumAdd.vue";
-import StadiumUpdate from "../views/nav/stadium/StadiumUpdate.vue";
-
-import Training from "../views/training/print.vue";
-
-Vue.use(Router);
-
-export const routesName = {
-  login: "login",
-  home: "home",
-  member: "member"
-};
-
-const requireAuth = () => (to, from, next) => {
-  if (isAuthorization()) {
-    return next();
-  } else {
-    logout();
-    // next("/login");
-  }
-};
-
-const routes = [
+const publicRoutes = [
+  // token 검증없이 접근 가능한 라우터
   {
     path: "/",
-    name: routesName.home,
-    component: Home,
-    beforeEnter: requireAuth()
-  },
-  {
-    path: "/login",
     name: "login",
-    component: Login
+    component: () => import(/* webpackMode: "lazy" */ "@/views/login/Login.vue")
   },
   {
     path: "/join",
     name: "join",
-    component: Join
-  },
-  // footer view
-  {
-    path: "/member",
-    name: routesName.member,
-    component: Member
-    // beforeEnter: requireAuth()
-  },
-  {
-    path: "/gameReport",
-    name: "gameReport",
-    component: GameReport
-  },
-  {
-    path: "/gameReport/:schedule_id/details/:game_id",
-    name: "gameDetails",
-    component: GameReportDetail,
-    props: true
-  },
-  {
-    path: "/leagueReport",
-    name: "leagueReport",
-    component: LeagueReport
-  },
-  // {
-  //   path: "/squadView",
-  //   name: "squad",
-  //   component: SquadView
-  // },
-  {
-    path: "/member/details/:member_id",
-    name: "memberDetails",
-    component: Me,
-    props: true
-  },
-  {
-    path: "/ranking",
-    name: "ranking",
-    component: Ranking
-  },
-  // navigation view
-  {
-    path: "/team-admin",
-    component: TeamAdmin
-  },
-  {
-    path: "/teamAdd",
-    name: "teamAdd",
-    component: TeamAdd
-  },
-  {
-    name: "teamDetails",
-    path: "/team/:teamId",
-    component: TeamDetails,
-    props: true
-  },
-  {
-    name: "unitTeamDetails",
-    path: "/unitTeam/:teamId",
-    component: UnitTeamDetails,
-    props: true
-  },
-  {
-    path: "/member-admin",
-    component: MemberAdmin
-  },
-  {
-    path: "/attend",
-    name: "attend",
-    component: Attend
-  },
-  {
-    name: "memberUpdatePage",
-    path: "/member/:memberId",
-    component: Profile,
-    props: true
-  },
-  {
-    path: "/memberAdd",
-    name: "memberAdd",
-    component: MemberAdd
-  },
-  {
-    path: "/calendar",
-    name: "calendar",
-    component: Calendar
-  },
-  {
-    path: "/squad",
-    name: "squadInput",
-    component: Squad
-  },
-  {
-    path: "/matchPrepare/schedule/:schedule_id/quarter/:quarter",
-    name: "matchPrepare",
-    component: MatchPrepare,
-    props: true
-  },
-  {
-    path: "/matchPrepare",
-    name: "matchPrepareBasic",
-    component: MatchPrepare
-  },
-  {
-    path: "/matchInput/schedule/:schedule_id/quarter/:quarter",
-    name: "matchInput",
-    component: MatchInput,
-    props: true
-  },
-  {
-    path: "/stadium",
-    name: "stadium",
-    component: Stadium
-  },
-  {
-    path: "/StadiumAdd",
-    name: "stadiumAdd",
-    component: StadiumAdd
-  },
-  {
-    name: "stadiumUpdate",
-    path: "/stadium/:stadiumId",
-    component: StadiumUpdate,
-    props: true
-  },
-  {
-    path: "*",
-    name: "notFound",
-    component: NotFound
-  },
-  {
-    path: "/training",
-    name: "training",
-    component: Training
+    component: () => import(/* webpackMode: "lazy" */ "@/views/join/Join.vue")
   }
 ];
 
-const router = new Router({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes
-});
+/*
+[동일 라우터 요청시 vue-router rejection 처리]
+- FIXME https://github.com/vuejs/vue-router/issues/2881#issuecomment-520554378
+- 예) setting 메뉴 같이 부모 라우터가 형식상으로 존재하는 경우(setting이 없고 사실상 바로 setting/team-profile로 접근)
+  - setting 라우터 접근시 setting/team-profile로 redirect 처리하도록 해둠
+  - vuex에서 updateMenu가 payload로 받는 값이 setting인경우 현재 라우터가 setting/temp-profile이면 다른 라우터로 요청한다고 판다
+  - vue-router는 setting을 redirect하므로 동일 라우터라고 판단해서 rejection 반환
+  - 일단 TheLeftNav에서 redirect 값이 있는 경우 그 값으로 전달하로도록 처리해둠, 추후 이런 케이스가 다양해지면 추가 작업 필요
+*/
+
+// const originalPush = VueRouter.prototype.push;
+// VueRouter.prototype.push = function push(location, onResolve, onReject) {
+//   if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject);
+//   return originalPush.call(this, location).catch(err => err);
+// };
+
+Vue.use(VueRouter);
+
+const createRouter = () =>
+  new VueRouter({
+    mode: "history",
+    base: process.env.BASE_URL,
+    routes: publicRoutes
+  });
+
+const router = createRouter();
+
+export function resetRoutes() {
+  // https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
+  const newRouter = createRouter();
+  router.matcher = newRouter.matcher;
+}
 
 export default router;

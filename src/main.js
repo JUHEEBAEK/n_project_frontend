@@ -6,7 +6,7 @@ import { sync } from "vuex-router-sync";
 import App from "./views/app/App.vue";
 
 import store from "@/store/index_refactoring";
-import router from "@/router/index_refactoring";
+import router from "@/router";
 
 import "./registerServiceWorker"; // ???
 import "roboto-fontface/css/roboto/roboto-fontface.css"; // ???
@@ -27,11 +27,9 @@ Vue.use(Vuetify, {
   }
 });
 
-Vue.prototype.$imgBaseUrl =
-  "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/";
+Vue.prototype.$imgBaseUrl = "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/";
 
-const ignoreWarnMessage =
-  "The .native modifier for v-on is only valid on components but it was used on <div>.";
+const ignoreWarnMessage = "The .native modifier for v-on is only valid on components but it was used on <div>.";
 Vue.config.warnHandler = function(msg, vm, trace) {
   // `trace` is the component hierarchy trace
   if (msg === ignoreWarnMessage) {

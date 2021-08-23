@@ -1,13 +1,11 @@
 <template>
   <v-dialog v-model="loading" fullscreen>
-    <div class="loading__box">
-      <img
-        class="loading__image"
-        v-if="isBall"
-        src="@/assets/images/animation/apng_loader-ball.png"
-      />
-      <v-progress-circular v-else indeterminate color="primary" />
-    </div>
+    <v-container fluid fill-height class="loading">
+      <v-layout justify-center align-center>
+        <img v-if="isBall" src="@/assets/images/animation/apng_loader-ball.png" class="img" />
+        <v-progress-circular v-else indeterminate color="white" />
+      </v-layout>
+    </v-container>
   </v-dialog>
 </template>
 <script>

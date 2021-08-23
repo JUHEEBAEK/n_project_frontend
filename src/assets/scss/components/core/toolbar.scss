@@ -1,9 +1,29 @@
 @import "../../global/mediaQuery.scss";
+
 .avatar__box-info {
   padding: 16px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  text-align: left;
+  div {
+    padding: 4px;
+  }
+  .text__main {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .text__sub {
+    font-size: 12px;
+    font-weight: 500;
+    color: #666666;
+  }
+  .badge__item {
+    margin: 0 8px;
+    background-color: aquamarine;
+    border-radius: 8px;
+    font-size: 12px;
+    padding: 4px;
+  }
 }
 .avatar__box-logout {
   padding: 10px 16px;

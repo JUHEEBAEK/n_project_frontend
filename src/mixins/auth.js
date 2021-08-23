@@ -1,5 +1,5 @@
 import store from "../store";
-import router from "../router";
+// import router from "../router";
 // import { singIn } from "../api/auth.js";
 import { getToken, getTokenPayload, saveToken, deleteToken } from "../common/token.js";
 import { getUserInfo, saveUserInfo, deleteUserInfo } from "../common/user.js";
@@ -80,7 +80,7 @@ export const logout = async () => {
     store.commit("account/LOGOUT");
     // login page 로 redirect
     store.commit("common/SET_FULL_SCREEN", true);
-    router.push({ name: "login" });
+    // router.push({ name: "login" });
   } catch (error) {
     console.error(error);
     return error;

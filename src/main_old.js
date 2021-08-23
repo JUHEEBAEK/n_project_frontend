@@ -1,6 +1,6 @@
 import Vue from "vue";
 import App from "./App.vue";
-import router from "./router";
+// import router from "./router";
 import store from "./store";
 import "./registerServiceWorker";
 import "roboto-fontface/css/roboto/roboto-fontface.css";
@@ -16,11 +16,9 @@ import { getUserInfo } from "./common/user.js";
 Vue.config.productionTip = false;
 Vue.use(VueMoment);
 Vue.use(VueCookies);
-Vue.prototype.$imgBaseUrl =
-  "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/";
+Vue.prototype.$imgBaseUrl = "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/";
 
-const ignoreWarnMessage =
-  "The .native modifier for v-on is only valid on components but it was used on <div>.";
+const ignoreWarnMessage = "The .native modifier for v-on is only valid on components but it was used on <div>.";
 Vue.config.warnHandler = function(msg, vm, trace) {
   // `trace` is the component hierarchy trace
   if (msg === ignoreWarnMessage) {
@@ -31,7 +29,7 @@ Vue.config.warnHandler = function(msg, vm, trace) {
 };
 
 new Vue({
-  router,
+  // router,
   store,
   vuetify,
   created() {
