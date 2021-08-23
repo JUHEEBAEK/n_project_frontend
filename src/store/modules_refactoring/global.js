@@ -41,6 +41,14 @@ export const state = () => ({
     auth: {
       baseURL: baseURL,
       timeout: timeOut
+    },
+    member: {
+      baseURL: baseURL,
+      timeout: timeOut
+    },
+    team: {
+      baseURL: baseURL,
+      timeout: timeOut
     }
   }),
   accessToken: null,
@@ -191,7 +199,7 @@ const actions = {
   signOut({ commit, dispatch }) {
     commit("SET_ACCESS_TOKEN", null);
     dispatch("setInfoByAccount", null, { root: true });
-    commit("SET_LEFT_MENUS", leftMenus, { root: true });
+    commit("SET_LEFT_MENUS", leftMenus);
     dispatch("updateRouter", "login", { root: true });
     deleteToken();
   },

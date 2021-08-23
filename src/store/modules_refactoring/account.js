@@ -46,6 +46,27 @@ const actions = {
   },
   async logout({ commit }) {
     commit("LOGOUT");
+  },
+  async duplicateUserId({ dispatch, rootGetters }, userId) {
+    const apiClient = rootGetters["global/apiClient"];
+
+    const { success, response, error } = await apiClient.auth.duplicateUserId(userId);
+    if (success) {
+      const { data } = response;
+      return data.length;
+    } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
+    }
+  },
+  async join({ dispatch, rootGetters }, data) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error } = await apiClient.auth.join(data);
+    if (success) {
+      dispatch("apiSuccessHandler", { message: "축하합니다 회원가입이 완료되었습니다." }, { root: true });
+      return true;
+    } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
+    }
   }
 };
 export default {
