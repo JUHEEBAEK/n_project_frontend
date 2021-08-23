@@ -1,12 +1,14 @@
 <template>
   <div class="join__main">
-    <div class="join__header">
-      <core-Back :table-header="title" />
-    </div>
     <v-card class="join__container">
       <v-row class="pa-0 ma-0">
         <v-col cols="12" xs="12" sm="12" md="3" lg="4" xl="4" class="join__left">
           <div class="join__header">
+            <div class="header__top">
+              <v-btn icon dark @click="backPage()">
+                <v-icon>mdi-arrow-left-thick</v-icon>
+              </v-btn>
+            </div>
             <span class="header__text">Join us</span>
             <v-img width="140" contain src="@/assets/images/soccer-goal.png"></v-img>
             <div class="header__image">
@@ -23,7 +25,7 @@
                   autocomplete="off"
                   dense
                   label="아이디"
-                  :rules="userIdRules"
+                  :rules="idRules"
                   outlined
                   required
                 />
@@ -35,7 +37,7 @@
                   dense
                   label="비밀번호"
                   outlined
-                  :rules="pwdRules"
+                  :rules="passwordRules"
                   type="password"
                   required
                 />
@@ -53,15 +55,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6" lg="6" xl="6">
-                <v-text-field
-                  v-model="name"
-                  autocomplete="off"
-                  dense
-                  label="이름"
-                  :rules="nameRules"
-                  outlined
-                  required
-                />
+                <v-text-field v-model="name" autocomplete="off" dense label="이름" outlined required />
               </v-col>
               <v-col cols="12" md="6" lg="6" xl="6">
                 <v-autocomplete
@@ -78,7 +72,7 @@
               </v-col>
               <v-col cols="12" md="6" lg="6" xl="6">
                 <v-autocomplete
-                  v-model="selectedTeam"
+                  v-model="idfteam"
                   :items="teamList"
                   autocomplete="off"
                   dense
@@ -93,101 +87,92 @@
           </v-form>
           <div class="join__actions">
             <v-btn class="join__button mr-2" outlined @click="clear">Clear</v-btn>
-            <v-btn class="join__button ml-2" color="#000" dark @click="submit">
+            <v-btn class="join__button ml-2" color="green darken-4" dark @click="submit">
               Join
             </v-btn>
           </div>
         </v-col>
       </v-row>
     </v-card>
-    <!-- util -->
-    <util-snack-bar v-if="snackBar" :purpose="snackBarPurpose" :message="snackBarMessage" />
-    <util-spinner v-if="loading"></util-spinner>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
-// api
-// import { duplicateUserId, join } from "@/api/auth.js";
+import { mapGetters, mapActions } from "vuex";
 
-import { createNamespacedHelpers } from "vuex";
-const { mapState: teamMapState, mapActions: teamMapActions } = createNamespacedHelpers("team");
-
-const { mapState: memberMapState, mapActions: memberMapActions } = createNamespacedHelpers("member");
-
-const { mapState: commonState } = createNamespacedHelpers("common");
-const { mapActions: accountMapActions } = createNamespacedHelpers("account");
+import { userIdRules, pwdRules, identifyPwdRules } from "@/helpers/rules";
 
 export default {
   data: () => ({
     title: "JOIN",
     userId: "",
-    isCheked: false,
+    isDupulicateId: false,
     name: "",
     password: null,
     identifyPassword: null,
-    selectedTeam: "",
+    idfteam: "",
     selectedMember: ""
   }),
   computed: {
-    ...commonState(["common"]),
-    ...teamMapState(["teamList"]),
-    ...memberMapState(["memberList"]),
-    ...mapGetters("components/layout", {
-      fullScreen: "fullScreen"
-    })
+    ...mapGetters("team", ["teamList"]),
+    ...mapGetters("member", ["memberList"]),
+    idRules() {
+      return userIdRules(this.isDupulicateId);
+    },
+    passwordRules() {
+      return pwdRules();
+    },
+    identifyPwdRules() {
+      const isSame = this.password !== this.identifyPassword;
+      return identifyPwdRules(isSame);
+    }
   },
   created() {
-    this.$store.commit("common/SET_FULL_SCREEN", true);
-    this.loadTeamList();
     this.loadMemberList();
+    this.loadTeamList();
   },
   methods: {
-    ...teamMapActions(["select_all_team"]),
-    ...memberMapActions(["select_member"]),
-    //FIXME: 아이디 중복체크 다시 확인
-    checkDuplicated: async function() {
-      if (this.userId) {
-        // let result = await duplicateUserId(this.userId);
-        // let coutntSameId = result.data.length;
-        // if (coutntSameId > 0) {
-        //   this.userIdValidate = false;
-        // }
+    ...mapActions(["updateRouter"]),
+    ...mapActions("team", ["getTeamList"]),
+    ...mapActions("member", ["getRegularMemberList"]),
+    ...mapActions("account", ["duplicateUserId", "join"]),
+    async loadMemberList() {
+      // TODO:비밀번호 찾기 기능 만든 후에 이미 가입된 선수 빼는 것 필요
+      await this.getRegularMemberList();
+    },
+    async loadTeamList() {
+      await this.getTeamList();
+    },
+    checkDuplicated: async function(id) {
+      if (id) {
+        const response = await this.duplicateUserId(this.userId);
+        this.isDupulicateId = response > 0 ? true : false;
       }
     },
     clear: function() {
       this.$refs.join_form.reset();
     },
     submit: async function() {
-      await this.checkDuplicated();
+      await this.checkDuplicated(this.userId);
       if (this.$refs.join_form.validate()) {
-        let body = {
+        const body = {
           userId: this.userId,
           name: this.name,
           password: this.password,
           member_id: this.selectedMember.id,
-          team_id: this.selectedTeam.idTeam
+          team_id: this.idfteam.idTeam
         };
-        console.log(body);
-        // let joinResult = await join(body);
-        // console.log("joinResult", joinResult);
-        // if (joinResult.status === 200) {
-        //   this.$router.push({ path: "/login" });
-        //   this.setSnackBar(this.snackBarSuccess, "축하합니다 회원가입이 완료되었습니다.");
-        // } else {
-        //   this.setSnackBar(this.snackBarFail, res.data.message);
-        // }
+        const success = await this.join(body);
+        if (success) {
+          this.updateRouter("login");
+        }
       }
     },
-    loadMemberList: function() {
-      this.select_member();
-    },
-    loadTeamList: function() {
-      this.select_all_team();
+    backPage() {
+      this.updateRouter("login");
     }
   }
 };
 </script>
 
-<style lang="scss" src="@/assets/scss/views/join.scss" scoped></style>
+<style lang="scss" src="./join.scss" scoped></style>

@@ -14,17 +14,12 @@ const regex = {
       ],
       descriptionValidate: true,
       // /components/dialog/contract/main.vue 의 "부연설명" 에서 사용 (optional)
-      descriptionRules: [
-        v =>
-          this.checkDescription(v) ||
-          "Description must be less than 100 characters"
-      ],
+      descriptionRules: [v => this.checkDescription(v) || "Description must be less than 100 characters"],
       // true 면 이메일 사용가능, false 면 사용 불가(중복된 이메일)
       userIdValidate: true,
       userIdRules: [
         v => !!v || "user_id is required",
-        v =>
-          this.checkedDuplicateUserId(v) || "userId duplicated or not existed"
+        v => this.checkedDuplicateUserId(v) || "userId duplicated or not existed"
       ],
       emptyCheckRules: [v => !!v || "empty is not allowed"],
       // identifyPwdRules 를 사용하는 View || Component 는 data 로 pwd, identifyPwd 를 정의해야 한다.
@@ -32,16 +27,9 @@ const regex = {
         v => !!v || "Identify password is required",
         v => this.checkPwdValidate(v) || "Password Incorrect"
       ],
-      mobileRules: [
-        v => /^\d{3}-\d{3,4}-\d{4}$/.test(v) || "ex) 010-1234-5678"
-      ],
-      nameRules: [
-        v => !!v || "name is required",
-        v => (v && v.length <= 50) || "Name must be less than 50 characters"
-      ],
-      positionDuplicateRules: [
-        v => this.checkedDuplicatePostion(v) || "This player is duplicated"
-      ],
+      mobileRules: [v => /^\d{3}-\d{3,4}-\d{4}$/.test(v) || "ex) 010-1234-5678"],
+      nameRules: [v => !!v || "name is required", v => (v && v.length <= 50) || "Name must be less than 50 characters"],
+      positionDuplicateRules: [v => this.checkedDuplicatePostion(v) || "This player is duplicated"],
       pwdRules: [
         v => !!v || "password is required"
         // ,
@@ -51,18 +39,13 @@ const regex = {
         //     v
         //   ) || "Invalid Password format"
       ],
-      identifyPwdRules: [
-        v => !!v || "password is required",
-        v => this.checkedSamePwd(v) || "Same as current password"
-      ],
+      identifyPwdRules: [v => !!v || "password is required", v => this.checkedSamePwd(v) || "Same as current password"],
       userTypeRules: [v => !!v || "Type is required"],
       userNameRules: [
         v => !!v || "userName is required",
         v => (v && v.length <= 50) || "userName must be less than 50 characters"
       ],
-      trainingsPlayerRules: [
-        v => (v && v.length <= 7) || "이름은 7글자 넘을 수 없음."
-      ]
+      trainingsPlayerRules: [v => (v && v.length <= 7) || "이름은 7글자 넘을 수 없음."]
     };
   },
   methods: {
