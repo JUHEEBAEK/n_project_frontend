@@ -1,25 +1,16 @@
 <template>
   <div class="gameReport__list">
-    <div
-      v-for="(schedule, index) in filteredSchedule"
-      :key="schedule.id"
-      class="gameReport__item"
-    >
+    <div v-for="(schedule, index) in filteredSchedule" :key="schedule.id" class="gameReport__item">
       <div class="item__title">{{ schedule.date }}</div>
       <div class="item__content">
         <v-slide-group v-model="model" center-active class="pa-4" show-arrows>
           <v-slide-item v-for="(gameInfo, idx) in schedule.gameList" :key="idx">
-            <v-card
-              class="game__card"
-              @click="clickGame(gameInfo, schedule.id)"
-            >
+            <v-card class="game__card" @click="clickGame(gameInfo, schedule.id)">
               <v-card-title class="game__title">
                 <span class="text__quarter">Q{{ gameInfo.quarter }}</span>
                 <span class="text__result">
                   {{ gameInfo.result }}
-                  <span v-show="gameInfo.result !== 'D'" class="text__caption"
-                    >- WIN</span
-                  >
+                  <span v-show="gameInfo.result !== 'D'" class="text__caption">- WIN</span>
                 </span>
               </v-card-title>
               <v-card-text>
@@ -60,18 +51,7 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from "vuex";
-
-const {
-  mapState: calendarMapState,
-  mapActions: calendarMapActions
-} = createNamespacedHelpers("calendar");
-
-const {
-  mapState: gameMapState,
-  mapMutations: gameMutations,
-  mapActions: gameActions
-} = createNamespacedHelpers("game");
+import { mapState, mapActions } from "vuex";
 
 export default {
   props: {
@@ -88,9 +68,18 @@ export default {
       default: "" || 0
     }
   },
+  data() {
+    return {
+      model: null,
+      filteredSchedule: [],
+      homeMember: ["", "", "", "", ""],
+      awayMember: ["", "", "", "", ""],
+      gameIdList: []
+    };
+  },
   computed: {
-    ...calendarMapState(["scheduleList"]),
-    ...gameMapState(["gameList"])
+    ...mapState("calendar", ["scheduleList"]),
+    ...mapState("game", ["gameList"])
   },
   watch: {
     selectedYear(year) {
@@ -108,18 +97,10 @@ export default {
     await this.getScheduleList();
     this.getGameList();
   },
-  data() {
-    return {
-      model: null,
-      filteredSchedule: [],
-      homeMember: ["", "", "", "", ""],
-      awayMember: ["", "", "", "", ""],
-      gameIdList: []
-    };
-  },
+
   methods: {
-    ...calendarMapActions(["select_schedule", "get_member_squad_info"]),
-    ...gameActions(["selectGameList", "getHomeTeamSquad", "getAwayTeamSquad"]),
+    ...mapActions("calendar", ["select_schedule", "get_member_squad_info"]),
+    ...mapActions("game", ["selectGameList", "getHomeTeamSquad", "getAwayTeamSquad"]),
     clickGame: function(gameInfo, scheduleId) {
       this.$router.push({
         name: "gameDetails",
@@ -140,14 +121,10 @@ export default {
       if (this.selectedMonth < 10) {
         filteringDate = this.selectedYear + "-0" + this.selectedMonth;
       }
-      return scheduleList.filter(
-        scheduleInfo => scheduleInfo.date.indexOf(filteringDate) > -1
-      );
+      return scheduleList.filter(scheduleInfo => scheduleInfo.date.indexOf(filteringDate) > -1);
     },
     selectedFilterlingScheduleId: function(schedule_id) {
-      return this.gameList.filter(
-        gameInfo => gameInfo.schedule_id == schedule_id
-      );
+      return this.gameList.filter(gameInfo => gameInfo.schedule_id == schedule_id);
     },
     setscheduleList: function(scheduleList) {
       let _this = this;
@@ -175,8 +152,4 @@ export default {
 };
 </script>
 
-<style
-  lang="scss"
-  scoped
-  src="@/assets/scss/components/report/gameList.scss"
-></style>
+<style lang="scss" scoped src="@/assets/scss/components/report/gameList.scss"></style>

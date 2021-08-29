@@ -42,7 +42,19 @@ export const state = () => ({
       baseURL: baseURL,
       timeout: timeOut
     },
+    game: {
+      baseURL: baseURL,
+      timeout: timeOut
+    },
+    gameReport: {
+      baseURL: baseURL,
+      timeout: timeOut
+    },
     member: {
+      baseURL: baseURL,
+      timeout: timeOut
+    },
+    schedule: {
       baseURL: baseURL,
       timeout: timeOut
     },
