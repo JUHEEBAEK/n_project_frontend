@@ -1,5 +1,6 @@
 import * as auth from "./auth";
 import * as member from "./member";
 import * as team from "./team";
+import * as ranking from "./ranking";
 
-export { auth, member, team };
+export { auth, member, ranking, team };
