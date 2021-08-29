@@ -84,7 +84,6 @@ const actions = {
   async get_goal_ranking({ commit, dispatch, rootGetters }) {
     const apiClient = rootGetters["global/apiClient"];
     const { success, error, response } = await apiClient.ranking.getGoalRanking();
-
     if (success) {
       commit("SET_GOAL_RANKING_DATA", response.data);
     } else {
@@ -134,6 +133,7 @@ const actions = {
   }
 };
 export default {
+  namespaced: true,
   state,
   mutations,
   actions

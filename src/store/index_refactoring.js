@@ -5,6 +5,7 @@ import global from "./modules_refactoring/global";
 import account from "./modules_refactoring/account";
 import member from "./modules_refactoring/member";
 import team from "./modules_refactoring/team";
+import ranking from "./modules_refactoring/ranking";
 
 import vuexRouterSync from "./plugins/vuexRouterSync";
 Vue.use(Vuex);
@@ -14,7 +15,8 @@ export default new Vuex.Store({
     global,
     account,
     member,
-    team
+    team,
+    ranking
   },
   plugins: [vuexRouterSync]
   // strict: debug,

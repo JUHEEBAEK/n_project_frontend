@@ -5,25 +5,20 @@
       <v-tabs v-model="tabs">
         <v-tabs-slider></v-tabs-slider>
         <v-tab href="#PERSONAL" class="tab__item">
-          <span
-            v-if="tabs === 'PERSONAL'"
-            class="item__text-active primary--text"
-            >개인 순위</span
-          >
+          <span v-if="tabs === 'PERSONAL'" class="item__text-active primary--text">개인 순위</span>
           <span v-else class="item__text">개인 순위</span>
         </v-tab>
         <v-tab href="#TEAM" class="tab__item">
-          <span v-if="tabs === 'TEAM'" class="item__text-active primary--text"
-            >리그 전 팀 순위</span
-          >
+          <span v-if="tabs === 'TEAM'" class="item__text-active primary--text">리그 전 팀 순위</span>
           <span v-else class="item__text">리그 전 팀 순위</span>
         </v-tab>
       </v-tabs>
     </div>
     <div class="bottom__divider"></div>
+
     <div class="bottom__content">
       <div v-if="tabs === 'TEAM'" class="content__general">
-        <report-tab-team></report-tab-team>
+        <report-tab-team />
       </div>
       <div v-if="tabs === 'PERSONAL'" class="content__general">
         <ranking-filter @filterChanged="filterRanking" />
@@ -32,10 +27,7 @@
             <div class="font-weight-bold display-3">N-Ranking</div>
           </v-card-title>
           <v-card-subtitle>
-            <span
-              >단, 랭킹을 계수하는 기준은 깍두기 없이 5, 6명 실외 구장을
-              기준으로 한다.
-            </span>
+            <span>단, 랭킹을 계수하는 기준은 깍두기 없이 5, 6명 실외 구장을 기준으로 한다. </span>
           </v-card-subtitle>
           <v-tabs v-model="tab" background-color="transparent" grow>
             <v-tab v-for="(item, index) in tabItems" :key="index">
@@ -45,10 +37,7 @@
           <v-tabs-items v-model="tab">
             <v-tab-item v-for="(item, index) in tabItems" :key="index">
               <v-card flat>
-                <ranking-table
-                  :table-data="rankingData[item]"
-                  :played-matched="rankingData['ATTEND']"
-                ></ranking-table>
+                <ranking-table :table-data="rankingData[item]" :played-matched="rankingData['ATTEND']"></ranking-table>
               </v-card>
             </v-tab-item>
           </v-tabs-items>
@@ -59,14 +48,14 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from "vuex";
-const {
-  mapState: rankingMapState,
-  mapActions: rankingMapActions
-} = createNamespacedHelpers("ranking");
+import { mapState, mapActions } from "vuex";
+import RankingFilter from "@/components/ranking/Filter.vue";
+import ReportTabTeam from "@/components/report/tab/Team.vue";
+import RankingTable from "@/components/ranking/Table.vue";
 
 export default {
   name: "TesmSetting",
+  components: { RankingFilter, ReportTabTeam, RankingTable },
   data() {
     return {
       tabs: null,
@@ -75,11 +64,10 @@ export default {
     };
   },
   computed: {
-    ...rankingMapState(["rankingData"])
+    ...mapState("ranking", ["rankingData"])
   },
-  created() {},
   methods: {
-    ...rankingMapActions([
+    ...mapActions("ranking", [
       "get_goal_ranking",
       "get_assist_ranking",
       "get_clean_sheet_ranking",
