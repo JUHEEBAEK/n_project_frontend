@@ -103,7 +103,7 @@ export default {
     ...mapActions("game", ["selectGameList", "getHomeTeamSquad", "getAwayTeamSquad"]),
     clickGame: function(gameInfo, scheduleId) {
       this.$router.push({
-        name: "gameDetails",
+        name: "gameReportDetail",
         params: { game_id: gameInfo.id, schedule_id: scheduleId }
       });
     },

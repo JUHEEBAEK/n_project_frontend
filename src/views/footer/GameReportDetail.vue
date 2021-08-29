@@ -1,25 +1,19 @@
 <template>
   <div>
     <core-breadcrumbs :items="items" />
-    <report-game-info
-      :game-info="gameInfo"
-      :quarter-list="gameList"
-    ></report-game-info>
+    <report-game-info :game-info="gameInfo" :quarter-list="gameList"></report-game-info>
     <report-position-view :game_id="game_id"></report-position-view>
-    <report-event-list
-      :game-info="gameInfo"
-      :game-event-list="eventList"
-    ></report-event-list>
+    <report-event-list :game-info="gameInfo" :game-event-list="eventList"></report-event-list>
     <util-spinner v-if="loading"></util-spinner>
   </div>
 </template>
 
 <script>
 import { createNamespacedHelpers } from "vuex";
-const {
-  mapState: gameMapState,
-  mapActions: gameMapAction
-} = createNamespacedHelpers("game");
+import ReportGameInfo from "@/components/report/GameInfo.vue";
+import ReportEventList from "@/components/report/EventList.vue";
+
+const { mapState: gameMapState, mapActions: gameMapAction } = createNamespacedHelpers("game");
 
 const {
   mapState: prepareMatchState,
@@ -39,6 +33,7 @@ import util from "../../mixins/util.js";
 
 export default {
   name: "TesmSetting",
+  components: { ReportGameInfo, ReportEventList },
   mixins: [util],
   props: {
     gameId: {
