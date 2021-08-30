@@ -46,6 +46,10 @@ export const state = () => ({
       baseURL: baseURL,
       timeout: timeOut
     },
+    ranking: {
+      baseURL: baseURL,
+      timeout: timeOut
+    },
     stadium: {
       baseURL: baseURL,
       timeout: timeOut

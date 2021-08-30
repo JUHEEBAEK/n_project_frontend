@@ -2,17 +2,9 @@
   <div class="team__main">
     팀 순위!!!!
     <div class="team__header">
-      <div class="header__first">
-        <span class="text__blue">2020 시즌</span> <span>팀 순위 </span>
-      </div>
+      <div class="header__first"><span class="text__blue">2020 시즌</span> <span>팀 순위 </span></div>
       <div class="header__second">
-        <v-select
-          v-model="season"
-          class="select__season"
-          :items="seasonList"
-          readonly
-          hide-details
-        ></v-select>
+        <v-select v-model="season" class="select__season" :items="seasonList" readonly hide-details></v-select>
       </div>
     </div>
     <div class="team__content">
@@ -36,9 +28,7 @@
               <div class="table__inner">
                 <img width="40" height="40" class="emblem" :src="item.image" />
                 <span class="name">
-                  <a :href="`/unitTeam/${item.id_unit_team}`">
-                    {{ item.name }} - {{ item.description }}
-                  </a>
+                  <a :href="`/unitTeam/${item.id_unit_team}`"> {{ item.name }} - {{ item.description }} </a>
                 </span>
               </div>
             </td>
@@ -65,24 +55,18 @@
 <script>
 import util from "../../../mixins/util.js";
 
-import { createNamespacedHelpers } from "vuex";
-import {
-  getLeagueRanking,
-  getRelativePerformance
-} from "../../../api/ranking.js";
+import { mapState, mapActions } from "vuex";
 
 export default {
   mixins: [util],
   data: () => ({
     rankingData: [],
-    relativePerformance: [],
     season: 2020,
     seasonList: [2020, 2019, 2018]
   }),
   computed: {
+    ...mapState("ranking", ["relativePerformance", "leagueRankingData"]),
     setWinnerScore(item) {
-      let winnerScore = item.win * 3 + item.draw * 1;
-      console.log(item);
       return item.win * 3 + item.draw * 1;
     }
   },
@@ -91,12 +75,14 @@ export default {
     await this.loadRankingData();
   },
   methods: {
+    ...mapActions("ranking", ["get_league_ranking", "get_relative_performance"]),
     loadRelativePerformance: async function() {
-      this.relativePerformance = await getRelativePerformance(this.season);
+      await this.get_relative_performance(this.season);
     },
     loadRankingData: async function() {
-      const result = await getLeagueRanking(this.season);
-      this.rankingData = this.formatRankingData(result);
+      console.log(this);
+      await this.get_league_ranking(this.season);
+      this.rankingData = this.formatRankingData(this.leagueRankingData);
       this.sortByVictoryPoint();
       this.isSameVitoryPoint();
       this.sortByVictoryPoint();
@@ -117,11 +103,7 @@ export default {
         }
         let nextRankingData = this.rankingData[index + 1];
         if (curRankingData.orderValue === nextRankingData.orderValue) {
-          this.addRelativePerformanceOrderValue(
-            curRankingData.id_unit_team,
-            nextRankingData.id_unit_team,
-            index
-          );
+          this.addRelativePerformanceOrderValue(curRankingData.id_unit_team, nextRankingData.id_unit_team, index);
         }
       });
     },
@@ -138,19 +120,15 @@ export default {
     isMoreWinTeamA(teamAId, teamBId) {
       let winCount = { teamA: 0, teamB: 0 };
       this.relativePerformance.forEach(performance => {
-        let homeTeamSameTeamA =
-          performance.homeId === teamAId && performance.awayId === teamBId;
-        let awayTeamSameTeamA =
-          performance.awayId === teamAId && performance.homeId === teamBId;
+        let homeTeamSameTeamA = performance.homeId === teamAId && performance.awayId === teamBId;
+        let awayTeamSameTeamA = performance.awayId === teamAId && performance.homeId === teamBId;
 
         // A팀이 이기는 경우
         const isWinATeam =
-          (performance.result === "H" && homeTeamSameTeamA) ||
-          (performance.result === "A" && awayTeamSameTeamA);
+          (performance.result === "H" && homeTeamSameTeamA) || (performance.result === "A" && awayTeamSameTeamA);
         // ㅠ팀이 이기는 경우
         const isWinBTeam =
-          (performance.result === "H" && awayTeamSameTeamA) ||
-          (performance.result === "A" && homeTeamSameTeamA);
+          (performance.result === "H" && awayTeamSameTeamA) || (performance.result === "A" && homeTeamSameTeamA);
         if (isWinATeam) {
           winCount.teamA += 1;
         }
@@ -181,8 +159,4 @@ export default {
 };
 </script>
 
-<style
-  scoped
-  lang="scss"
-  src="@/assets/scss/components/report/tab/team.scss"
-></style>
+<style scoped lang="scss" src="@/assets/scss/components/report/tab/team.scss"></style>
