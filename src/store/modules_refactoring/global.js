@@ -46,6 +46,10 @@ export const state = () => ({
       baseURL: baseURL,
       timeout: timeOut
     },
+    stadium: {
+      baseURL: baseURL,
+      timeout: timeOut
+    },
     team: {
       baseURL: baseURL,
       timeout: timeOut
@@ -222,7 +226,6 @@ const actions = {
     root: true,
     handler({ rootState }, routerItem) {
       const payload = typeof routerItem === "string" ? { name: routerItem } : routerItem;
-      console.log(routerItem, rootState.route.name, payload);
       if (routerItem !== rootState.route.name) router.push(payload);
     }
   },

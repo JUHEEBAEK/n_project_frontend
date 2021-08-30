@@ -5,11 +5,7 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from "vuex";
-const {
-  mapState: stadiuMapState,
-  mapActions: stadiumMapActions
-} = createNamespacedHelpers("stadium");
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "KakaoMap",
@@ -41,17 +37,15 @@ export default {
       markers: [], // 여기다가 풋살장 위치 정보 받아와야함
       markerDefualt: null, // 지도 클릭시 보여주는 마커 value와 연동 할 것
 
-      defaultImageSrc:
-        "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/map/maps-and-location.png",
+      defaultImageSrc: "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/map/maps-and-location.png",
       defaultMarkerImage: null,
-      imageSrc:
-        "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/map/red-pin.png",
+      imageSrc: "https://juhee100bucket.s3.ap-northeast-2.amazonaws.com/image-nnnn/map/red-pin.png",
       selectedMarkerImage: null,
       selectedMarkerIndex: null
     };
   },
   computed: {
-    ...stadiuMapState(["searchResult"])
+    ...mapState("stadium", ["searchResult"])
   },
   watch: {
     searchResult(val) {
@@ -83,10 +77,7 @@ export default {
     value(val) {
       let { markerDefualt } = this;
       if (val != undefined) {
-        let kakaoPosition = new kakao.maps.LatLng(
-          Number(val.latitude),
-          Number(val.longitude)
-        );
+        let kakaoPosition = new kakao.maps.LatLng(Number(val.latitude), Number(val.longitude));
         // 마커 위치를 클릭한 위치로 옮깁니다
         markerDefualt.setPosition(kakaoPosition);
 
@@ -110,7 +101,7 @@ export default {
     }
   },
   methods: {
-    ...stadiumMapActions(["select_stadium"]),
+    ...mapActions("stadium", ["select_stadium"]),
     initMap() {
       let { map, defaultMarkerImage, value } = this;
 
@@ -130,10 +121,7 @@ export default {
       let kakaoPosition = map.getCenter();
       let markerMap = null;
       if (value != undefined) {
-        kakaoPosition = new kakao.maps.LatLng(
-          Number(value.latitude),
-          Number(value.longitude)
-        );
+        kakaoPosition = new kakao.maps.LatLng(Number(value.latitude), Number(value.longitude));
         markerMap = map;
       }
 
@@ -167,24 +155,15 @@ export default {
       var imageSize = new kakao.maps.Size(48, 48);
 
       // 마커 이미지를 생성합니다
-      this.selectedMarkerImage = new kakao.maps.MarkerImage(
-        this.imageSrc,
-        imageSize
-      );
-      this.defaultMarkerImage = new kakao.maps.MarkerImage(
-        this.defaultImageSrc,
-        imageSize
-      );
+      this.selectedMarkerImage = new kakao.maps.MarkerImage(this.imageSrc, imageSize);
+      this.defaultMarkerImage = new kakao.maps.MarkerImage(this.defaultImageSrc, imageSize);
     },
     remove() {
       this.markers[this.selectedMarkerIndex].setMap(null);
     },
     show() {
       let markerPosition = this.searchResult[this.selectedMarkerIndex];
-      const kakaoPosition = new kakao.maps.LatLng(
-        Number(markerPosition.latitude),
-        Number(markerPosition.longitude)
-      );
+      const kakaoPosition = new kakao.maps.LatLng(Number(markerPosition.latitude), Number(markerPosition.longitude));
       let new_maker = new kakao.maps.Marker({
         map: this.map, // marker.setMap(map)하는 과정을 생략
         position: kakaoPosition,
@@ -241,10 +220,7 @@ export default {
       let kakaoPositions = [];
 
       for (let i = 0; i < positions.length; i++) {
-        let position = new kakao.maps.LatLng(
-          Number(positions[i].latitude),
-          Number(positions[i].longitude)
-        );
+        let position = new kakao.maps.LatLng(Number(positions[i].latitude), Number(positions[i].longitude));
         kakaoPositions.push(position);
       }
       return kakaoPositions;
@@ -278,10 +254,7 @@ export default {
                              <span class="title"> ${nick_name} </span>
                           </a> 
                         </div>`;
-      let iwPosition = new kakao.maps.LatLng(
-        Number(latitude),
-        Number(longitude)
-      );
+      let iwPosition = new kakao.maps.LatLng(Number(latitude), Number(longitude));
       let infoWindow = new kakao.maps.CustomOverlay({
         position: iwPosition,
         content: iwContent,

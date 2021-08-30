@@ -1,12 +1,7 @@
 <template>
   <div class="scrollable">
     <v-row>
-      <v-col
-        v-for="(item, idx) in searchResult"
-        :key="idx"
-        class="py-1"
-        cols="12"
-      >
+      <v-col v-for="(item, idx) in searchResult" :key="idx" class="py-1" cols="12">
         <v-card class="stadium__container" @click="cardClickEvent(item, idx)">
           <v-card-title class="stadium__title">
             <div class="text text__title">{{ item.name }}</div>
@@ -25,12 +20,8 @@
             </div>
           </v-card-text>
           <v-card-actions class="justify-center">
-            <v-btn color="primary" text @click="moveDetails(item)"
-              >UPDATE</v-btn
-            >
-            <v-btn color="red" text @click="deleteStadium(item.id)"
-              >DELETE</v-btn
-            >
+            <v-btn color="primary" text @click="moveDetails(item)">UPDATE</v-btn>
+            <v-btn color="red" text @click="deleteStadium(item.id)">DELETE</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -40,10 +31,7 @@
 
 <script>
 import { createNamespacedHelpers } from "vuex";
-const {
-  mapState: stadiuMapState,
-  mapActions: stadiumMapActions
-} = createNamespacedHelpers("stadium");
+const { mapState: stadiuMapState, mapActions: stadiumMapActions } = createNamespacedHelpers("stadium");
 
 export default {
   data() {

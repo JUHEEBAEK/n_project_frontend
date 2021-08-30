@@ -17,8 +17,12 @@
 </template>
 
 <script>
+import StadiumMap from "@/components/stadium/Map.vue";
+import StadiumCardList from "@/components/stadium/CardList.vue";
+
 export default {
   name: "StadiumList",
+  components: { StadiumMap, StadiumCardList },
   data: () => ({
     title: "STADIUM",
     selectedStadiumIndex: null

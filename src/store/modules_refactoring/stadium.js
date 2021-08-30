@@ -1,5 +1,4 @@
 import * as constants from "../constants";
-import { createStadium, getStadiumList, deleteStadium, updateStadium, detailsStadium } from "../../api/stadium.js";
 
 const state = {
   stadiumList: [],
@@ -78,6 +77,7 @@ const actions = {
 };
 
 export default {
+  namespaced: true,
   state,
   getters,
   mutations,
