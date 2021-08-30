@@ -10,6 +10,9 @@
 
 <script>
 import { createNamespacedHelpers } from "vuex";
+import ReportGameInfo from "@/components/report/GameInfo.vue";
+import ReportEventList from "@/components/report/EventList.vue";
+
 const { mapState: gameMapState, mapActions: gameMapAction } = createNamespacedHelpers("game");
 
 const {
@@ -30,6 +33,7 @@ import util from "../../mixins/util.js";
 
 export default {
   name: "TesmSetting",
+  components: { ReportGameInfo, ReportEventList },
   mixins: [util],
   props: {
     gameId: {
