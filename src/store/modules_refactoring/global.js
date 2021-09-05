@@ -38,6 +38,10 @@ const saveToken = token => {
 
 export const state = () => ({
   apiClient: new ApiClient({
+    attend: {
+      baseURL: baseURL,
+      timeout: timeOut
+    },
     auth: {
       baseURL: baseURL,
       timeout: timeOut
@@ -54,6 +58,14 @@ export const state = () => ({
       baseURL: baseURL,
       timeout: timeOut
     },
+    memberSquad: {
+      baseURL: baseURL,
+      timeout: timeOut
+    },
+    personal: {
+      baseURL: baseURL,
+      timeout: timeOut
+    },
     ranking: {
       baseURL: baseURL,
       timeout: timeOut
@@ -62,11 +74,27 @@ export const state = () => ({
       baseURL: baseURL,
       timeout: timeOut
     },
+    squad: {
+      baseURL: baseURL,
+      timeout: timeOut
+    },
     stadium: {
       baseURL: baseURL,
       timeout: timeOut
     },
     team: {
+      baseURL: baseURL,
+      timeout: timeOut
+    },
+    teamSplit: {
+      baseURL: baseURL,
+      timeout: timeOut
+    },
+    unitMember: {
+      baseURL: baseURL,
+      timeout: timeOut
+    },
+    unitTeam: {
       baseURL: baseURL,
       timeout: timeOut
     }
@@ -159,8 +187,7 @@ const actions = {
     //TODO: 토큰으로 User 정보 가져오는 것 만드기
     const { success, userInfo } = await dispatch("getUser", token);
 
-    const currentName = router.history.current.name === null ? "login" : router.history.current.name;
-    const toRotuer = currentName === "login" ? "home" : currentName;
+    const toRotuer = router.history.current.name === "login" ? "home" : router.history.current.name;
 
     if (success) {
       await dispatch("setInfoByAccount", userInfo.payload, { root: true });
@@ -242,6 +269,8 @@ const actions = {
     root: true,
     handler({ rootState }, routerItem) {
       const payload = typeof routerItem === "string" ? { name: routerItem } : routerItem;
+      // router params 예시 payload = { name: GameReport,  params: { idfPlayer: idfPlayer, idfActivity: this.activityIdList.join() } }
+      // 쓸 떄 : this.$route.params.idfPlayer
       if (routerItem !== rootState.route.name) router.push(payload);
     }
   },
