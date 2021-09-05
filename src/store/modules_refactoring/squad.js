@@ -1,12 +1,3 @@
-import {
-  createTeamSplit,
-  getTeamSplitList,
-  getSplitTeamListWithSchedule,
-  getInfo,
-  deleteTeamSplit,
-  updateTeamSplit,
-  bulkCreateOrUpdate
-} from "../../api/teamSplit.js";
 import { getSplitTeamWithUnitTeam } from "../../api/unitTeam.js";
 
 const state = {
@@ -83,32 +74,30 @@ const mutations = {
 };
 
 const actions = {
-  async saveTeamSplit(context, payload) {
-    try {
-      const response = await bulkCreateOrUpdate(payload);
-      return response.data;
-    } catch (e) {
-      console.log(e);
-    }
-  },
-  async setSplitTeamListWithSchedule(context, schedule_id) {
-    try {
-      const response = await getSplitTeamListWithSchedule(schedule_id);
-      context.commit("SET_SPLIT_TEAM", response.data);
-      context.commit("SET_TEAM_SPLIT_SELECTED");
+  async saveTeamSplit({ dispatch, rootGetters }, payload) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error, response } = await apiClient.teamSplit.bulkCreateOrUpdate(payload);
 
+    if (success) {
       return response.data;
-      // 아래 dict의 List가 온다
-      // {
-      // team_split_index: 1,
-      // member_id: 3,
-      // name: "김철",
-      // uniform_number: "7"
-      // team_number: 1}
-    } catch (e) {
-      console.log(e);
+    } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
     }
   },
+  async setSplitTeamListWithSchedule({ commit, dispatch, rootGetters }, schedule_id) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error, response } = await apiClient.teamSplit.getSplitTeamListWithSchedule(schedule_id);
+
+    if (success) {
+      commit("SET_SPLIT_TEAM", response.data);
+      commit("SET_TEAM_SPLIT_SELECTED");
+      return response.data;
+    } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
+    }
+  },
+
+  // TODO: unitTeam 완성되고나서
   async setSplitTeamWithUnitTeam(context, { year, schedule_id }) {
     try {
       const response = await getSplitTeamWithUnitTeam(year, schedule_id);

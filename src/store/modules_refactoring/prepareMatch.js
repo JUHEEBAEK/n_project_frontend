@@ -3,36 +3,9 @@ import * as constants from "../constants";
 
 import moment from "moment";
 
-import {
-  searchWithScheduleIdAndQuarter,
-  createGame,
-  updateGame
-} from "../../api/game.js";
-import { createSquad } from "../../api/squad.js";
-import {
-  createMultipleMemberSquad,
-  deleteMemberSquad,
-  getinfoWithSquadId
-} from "../../api/memberSquad.js";
-
 const state = {
   date: moment().format("YYYY-MM-DD"),
-  quarterList: [
-    "Q1",
-    "Q2",
-    "Q3",
-    "Q4",
-    "Q5",
-    "Q6",
-    "Q7",
-    "Q8",
-    "Q9",
-    "Q10",
-    "Q11",
-    "Q12",
-    "Q13",
-    "Q15"
-  ],
+  quarterList: ["Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "Q8", "Q9", "Q10", "Q11", "Q12", "Q13", "Q15"],
   quarterIndex: 0,
   isHome: true,
   selectType: "Home",
@@ -228,93 +201,112 @@ const actions = {
 
     context.commit("PARSE_SELECTED_SPLIT_TEAM", payload);
   },
-  async checkGameAlreadyExist(context, form) {
-    try {
-      const response = await searchWithScheduleIdAndQuarter(form);
-      if (response.data) {
-        return response.data[0];
-      } else {
-        return false;
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  },
-  async createSquad(context, form) {
-    try {
-      const response = await createSquad(form);
-      if (response.data) {
-        return response.data.insertId;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  },
-  async createMultipleMemberSquad(context, { squad_id, memberData }) {
-    try {
-      let memberSquadformArray = [];
-      for (let i in memberData.members) {
-        let member = memberData.members[i];
-        memberSquadformArray.push([
-          squad_id,
-          member.member_id,
-          member.position
-        ]);
-      }
-      const response = await createMultipleMemberSquad(memberSquadformArray);
-      return true;
-    } catch (e) {
-      console.log(e);
-    }
-  },
-  async createGame(context, gameForm) {
-    try {
-      const response = await createGame(gameForm);
-      return true;
-    } catch (e) {
-      console.log(e);
-    }
-  },
-  async updateGame(context, gameUpdateForm) {
-    try {
-      const response = await updateGame(gameUpdateForm);
-      return true;
-    } catch (e) {
-      console.log(e);
-    }
-  },
-  async deleteMemberSquad(context, deleteMemberSquadForm) {
-    try {
-      const response = await deleteMemberSquad(deleteMemberSquadForm);
-      return true;
-    } catch (e) {
-      console.log(e);
-    }
-  },
+  async checkGameAlreadyExist({ commit, dispatch, rootGetters }, payload) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error, response } = await apiClient.game.searchWithScheduleIdAndQuarter(payload);
 
-  async getHomeAwayMember({ commit }, scheduleAndQuarter) {
-    try {
-      const gameInfo = await searchWithScheduleIdAndQuarter(scheduleAndQuarter);
+    if (success) {
+      return response.data[0];
+    } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
+      return false;
+    }
+  },
+  async createSquad({ commit, dispatch, rootGetters }, payload) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error, response } = await apiClient.squad.createSquad(payload);
 
+    if (success) {
+      return response.data.insertId;
+    } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
+      return false;
+    }
+  },
+  async createMultipleMemberSquad({ commit, dispatch, rootGetters }, { squad_id, memberData }) {
+    let memberSquadformArray = [];
+    for (let i in memberData.members) {
+      let member = memberData.members[i];
+      memberSquadformArray.push([squad_id, member.member_id, member.position]);
+    }
+
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error } = await apiClient.memberSquad.createMultipleMemberSquad(memberSquadformArray);
+
+    if (success) {
+      return true;
+    } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
+      return false;
+    }
+  },
+  async createGame({ commit, dispatch, rootGetters }, gameForm) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error, response } = await apiClient.game.createGame(gameForm);
+
+    if (success) {
+      return true;
+    } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
+      return false;
+    }
+  },
+  async updateGame({ commit, dispatch, rootGetters }, gameUpdateForm) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error, response } = await apiClient.game.updateGame(gameUpdateForm);
+
+    if (success) {
+      return true;
+    } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
+      return false;
+    }
+  },
+  async deleteMemberSquad({ commit, dispatch, rootGetters }, deleteMemberSquadForm) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error, response } = await apiClient.memberSquad.deleteMemberSquad(deleteMemberSquadForm);
+
+    if (success) {
+      return true;
+    } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
+      return false;
+    }
+  },
+  async getHomeAwayMember({ commit, dispatch, rootGetters }, scheduleAndQuarter) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error, response } = await apiClient.game.searchWithScheduleIdAndQuarter(scheduleAndQuarter);
+    const gameInfo = response;
+    if (success) {
       let membersDict = {
         homeMembers: [],
         awayMembers: []
       };
 
       if (gameInfo.data.length != 0) {
-        const homeMembers = await getinfoWithSquadId(
+        const { success, error, response } = await apiClient.memberSquad.getinfoWithSquadId(
           gameInfo.data[0].home_squad_id
         );
-        commit("SET_HOME_MEMBERS", homeMembers.data);
-        membersDict["homeMembers"] = homeMembers.data;
+        if (success) {
+          const homeMembers = response;
+          commit("SET_HOME_MEMBERS", homeMembers.data);
+          membersDict["homeMembers"] = homeMembers.data;
+        } else {
+          dispatch("apiErrorHandler", { error }, { root: true });
+          return false;
+        }
         if (gameInfo.data[0].away_squad_id) {
-          const awayMembers = await getinfoWithSquadId(
+          const { success, error, response } = await apiClient.memberSquad.getinfoWithSquadId(
             gameInfo.data[0].away_squad_id
           );
-          commit("SET_AWAY_MEMBERS", awayMembers.data);
-          membersDict["awayMembers"] = awayMembers.data;
+          if (success) {
+            const awayMembers = response;
+            commit("SET_AWAY_MEMBERS", awayMembers.data);
+            membersDict["awayMembers"] = awayMembers.data;
+          } else {
+            dispatch("apiErrorHandler", { error }, { root: true });
+            return false;
+          }
         } else {
           commit("SET_AWAY_MEMBERS", []);
         }
@@ -323,8 +315,9 @@ const actions = {
         commit("SET_AWAY_MEMBERS", []);
       }
       return membersDict;
-    } catch (e) {
-      console.log(e);
+    } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
+      return false;
     }
   }
 };

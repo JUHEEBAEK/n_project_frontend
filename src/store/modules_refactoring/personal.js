@@ -1,12 +1,3 @@
-import {
-  getMyAssisterById,
-  getMyGoalerById,
-  getNumberOfGoal,
-  getNumberOfAssist,
-  getNumberOfAttend,
-  getNumberOfPlayedMatch
-} from "../../api/personal.js";
-
 const state = {
   whoMyAssistList: [],
   whoMyGoalList: []
@@ -20,54 +11,66 @@ const mutations = {
   }
 };
 const actions = {
-  async get_my_assister_list(context, payload) {
-    try {
-      const response = await getMyAssisterById(payload);
-      context.commit("SET_MY_ASSISTER_LIST", response.data);
+  async get_my_assister_list({ commit, dispatch, rootGetters }, payload) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error, response } = await apiClient.personal.getMyAssisterById(payload);
+
+    if (success) {
+      commit("SET_MY_ASSISTER_LIST", response.data);
       return response.data;
-    } catch (e) {
-      console.log(e);
+    } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
     }
   },
-  async get_my_goaler_list(context, payload) {
-    try {
-      const response = await getMyGoalerById(payload);
-      context.commit("SET_MY_GOALER_LIST", response.data);
+  async get_my_goaler_list({ commit, dispatch, rootGetters }, payload) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error, response } = await apiClient.personal.getMyGoalerById(payload);
+
+    if (success) {
+      commit("SET_MY_GOALER_LIST", response.data);
       return response.data;
-    } catch (e) {
-      console.log(e);
+    } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
     }
   },
-  async get_number_of_goal(context, payload) {
-    try {
-      const response = await getNumberOfGoal(payload);
+  async get_number_of_goal({ dispatch, rootGetters }, payload) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error, response } = await apiClient.personal.getNumberOfGoal(payload);
+
+    if (success) {
       return response;
-    } catch (e) {
-      console.log(e);
+    } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
     }
   },
-  async get_number_of_assist(context, payload) {
-    try {
-      const response = await getNumberOfAssist(payload);
+  async get_number_of_assist({ dispatch, rootGetters }, payload) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error, response } = await apiClient.personal.getNumberOfAssist(payload);
+
+    if (success) {
       return response;
-    } catch (e) {
-      console.log(e);
+    } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
     }
   },
-  async get_number_of_attended(context, payload) {
-    try {
-      const response = await getNumberOfAttend(payload);
+  async get_number_of_attended({ dispatch, rootGetters }, payload) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error, response } = await apiClient.personal.getNumberOfAttend(payload);
+
+    if (success) {
       return response;
-    } catch (e) {
-      console.log(e);
+    } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
     }
   },
-  async get_number_of_played_match(context, payload) {
-    try {
-      const response = await getNumberOfPlayedMatch(payload);
+  async get_number_of_played_match({ dispatch, rootGetters }, payload) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error, response } = await apiClient.personal.getNumberOfPlayedMatch(payload);
+
+    if (success) {
       return response;
-    } catch (e) {
-      console.log(e);
+    } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
     }
   }
 };

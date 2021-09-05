@@ -1,4 +1,3 @@
-import { attendList, createAttend, countThreeMonths, deleteAttend, countByYear } from "../../api/attend.js";
 import moment from "moment";
 
 const state = {
@@ -97,16 +96,28 @@ const mutations = {
 };
 
 const actions = {
-  async get_attend({ commit }, schedule_id) {
-    const response = await attendList(schedule_id);
-    commit("SET_ATTEND", response.data);
-    commit("UPDATE_ATTEND");
+  async get_attend({ commit, dispatch, rootGetters }, schedule_id) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error, response } = await apiClient.attend.attendList(schedule_id);
+
+    if (success) {
+      commit("SET_ATTEND", response.data);
+      commit("UPDATE_ATTEND");
+    } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
+    }
   },
-  async countByYear(context) {
-    const response = await countByYear();
-    return response.data;
+  async countByYear({ dispatch, rootGetters }) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error, response } = await apiClient.attend.countByYear();
+
+    if (success) {
+      return response.data;
+    } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
+    }
   },
-  async get_attend_rate({ commit }, schedule_date) {
+  async get_attend_rate({ commit, rootGetters, dispatch }, schedule_date) {
     let date = moment(schedule_date, "YYYY-MM-DD").format("YYYYMM");
     let beforeDate = moment(schedule_date, "YYYY-MM-DD")
       .subtract(3, "months")
@@ -115,22 +126,35 @@ const actions = {
       standard_date: date,
       before_date: beforeDate
     };
-    const response = await countThreeMonths(formData);
-    commit("SET_COUNT_THREE_MONTHS", response.data);
+
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error, response } = await apiClient.attend.countThreeMonths(formData);
+
+    if (success) {
+      commit("SET_COUNT_THREE_MONTHS", response.data);
+    } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
+    }
   },
-  async add_attend(context, payload) {
-    let response = await createAttend(payload);
-    if (response) {
+  async add_attend({ dispatch, rootGetters }, payload) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error } = await apiClient.attend.createAttend(payload);
+
+    if (success) {
       return true;
     } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
       return false;
     }
   },
-  async delete_attend(context, payload) {
-    let response = await deleteAttend(payload);
-    if (response) {
+  async delete_attend({ dispatch, rootGetters }, payload) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error } = await apiClient.attend.deleteAttend(payload);
+
+    if (success) {
       return true;
     } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
       return false;
     }
   }
