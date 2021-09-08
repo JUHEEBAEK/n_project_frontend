@@ -244,10 +244,7 @@ const actions = {
     handler({ rootState }, routerItem) {
       console.log("routerItem", routerItem);
       const payload = typeof routerItem === "string" ? { name: routerItem } : routerItem;
-<<<<<<< HEAD
-=======
       console.log(rootState.route.name, payload);
->>>>>>> refactoring/#81
       if (routerItem !== rootState.route.name) router.push(payload);
     }
   },
