@@ -21,8 +21,8 @@ const routes = [
     name: "team-admin",
     componentPath: "nav/team/TeamAdmin",
     meta: {
-      icon: "fsnnnn_emblem_official2.png",
       title: "팀",
+      icon: "fsnnnn_emblem_official2.png",
       auth: ["A", "U"]
     }
   },
@@ -56,10 +56,10 @@ const routes = [
   {
     path: "/adminMember",
     name: "adminMember",
-    componentPath: "nav/member/MemberAdmin",
+    componentPath: "nav/member/Main",
     meta: {
-      icon: "team.png",
       title: "회원관리",
+      icon: "team.png",
       auth: ["A"]
     }
   },
@@ -86,8 +86,8 @@ const routes = [
     name: "attend",
     componentPath: "nav/Attend",
     meta: {
-      icon: "046-calendar.png",
       title: "참석현황",
+      icon: "046-calendar.png",
       auth: ["A", "U"]
     }
   },
@@ -96,8 +96,8 @@ const routes = [
     name: "stadium",
     componentPath: "nav/stadium/Stadium",
     meta: {
-      icon: "stadium.png",
       title: "경기장",
+      icon: "stadium.png",
       auth: ["A", "U"]
     }
   },
@@ -124,8 +124,8 @@ const routes = [
     name: "calendar",
     componentPath: "nav/Schedule",
     meta: {
-      icon: "deadline.png",
       title: "일정",
+      icon: "deadline.png",
       auth: ["A", "U"]
     }
   },
@@ -134,8 +134,8 @@ const routes = [
     name: "squad",
     componentPath: "nav/squad/Squad",
     meta: {
-      icon: "003-tshirt.png",
       title: "스쿼드",
+      icon: "003-tshirt.png",
       auth: ["A", "U"]
     }
   },
@@ -144,8 +144,8 @@ const routes = [
     name: "matchPrepareBasic",
     componentPath: "nav/squad/MatchPrepare",
     meta: {
-      icon: "soccer.png",
       title: "매치 준비",
+      icon: "soccer.png",
       auth: ["A", "U"]
     }
   },
@@ -172,8 +172,8 @@ const routes = [
     name: "member",
     componentPath: "footer/Member",
     meta: {
-      icon: "team.png",
       title: "회원",
+      icon: "team.png",
       auth: ["A", "U"]
     }
   },
@@ -182,8 +182,8 @@ const routes = [
     name: "squadView",
     componentPath: "footer/Squad",
     meta: {
-      icon: "003-tshirt.png",
       title: "SQUAD",
+      icon: "003-tshirt.png",
       auth: ["A", "U"]
     }
   },
@@ -192,8 +192,8 @@ const routes = [
     name: "myPageDetails",
     componentPath: "footer/MemberDetails",
     meta: {
-      icon: "player.png",
       title: "내 기록",
+      icon: "player.png",
       auth: ["A", "U"]
     }
   },
@@ -202,8 +202,8 @@ const routes = [
     name: "gameReport",
     componentPath: "footer/GameReport",
     meta: {
-      icon: "037-scoreboard.png",
       title: "리포트",
+      icon: "037-scoreboard.png",
       auth: ["A", "U"]
     }
   },
@@ -230,16 +230,17 @@ const routes = [
     name: "ranking",
     componentPath: "footer/Ranking",
     meta: {
-      icon: "006-podium.png",
       title: "랭킹",
+      icon: "006-podium.png",
       auth: ["A", "U"]
     }
   },
   {
-    path: "/",
+    path: "*",
     name: "notFound",
     componentPath: "notFound",
     meta: {
+      title: "Not Found",
       auth: ["A", "U"]
     }
   }

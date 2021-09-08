@@ -1,5 +1,5 @@
 export async function createMember(form) {
-  return await this.get("/api/member/create", form);
+  return await this.post("/api/member/create", form);
 }
 
 export async function getAllMember() {
@@ -14,8 +14,9 @@ export async function detailsMember(id) {
   return await this.get(`/api/member/${id}`);
 }
 
-export async function deleteMember(id) {
-  return await this.delete("/api/member/delete", id);
+export async function deleteMember(formData) {
+  console.log(formData);
+  return await this.delete("/api/member/delete", formData);
 }
 
 export async function updateMember(formData) {

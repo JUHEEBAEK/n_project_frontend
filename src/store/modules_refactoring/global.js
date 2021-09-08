@@ -91,6 +91,7 @@ export const getters = {
     return settingSubMenus;
   },
   footerMenus({ footerMenus }) {
+    console.log(footerMenus);
     return footerMenus;
   }
 };
@@ -140,11 +141,12 @@ const actions = {
     //TODO: 토큰으로 User 정보 가져오는 것 만드기
     const { success, userInfo } = await dispatch("getUser", token);
 
-    const toRotuer = router.history.current.name === "login" ? "home" : router.history.current.name;
+    const toRouter = router.history.current.name === "login" ? "home" : router.history.current.name;
+    console.log("toRouter", toRouter);
     if (success) {
       await dispatch("setInfoByAccount", userInfo.payload, { root: true });
       await dispatch("setUserMenus", userInfo.payload.role);
-      await dispatch("updateRouter", toRotuer, { root: true });
+      await dispatch("updateRouter", toRouter, { root: true });
     } else {
       await dispatch("signOut");
     }
@@ -220,9 +222,9 @@ const actions = {
   updateRouter: {
     root: true,
     handler({ rootState }, routerItem) {
-      console.log(routerItem);
+      console.log("routerItem", routerItem);
       const payload = typeof routerItem === "string" ? { name: routerItem } : routerItem;
-      console.log(routerItem, rootState.route.name, payload);
+      console.log(rootState.route.name, payload);
       if (routerItem !== rootState.route.name) router.push(payload);
     }
   },

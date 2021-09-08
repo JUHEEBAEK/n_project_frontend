@@ -6,10 +6,10 @@
       <template v-if="!fullScreen">
         <the-app-bar v-bind="appbarProps" @setDrawer="setLeftDrawer" @signOut="signOut" @updateRouter="updateRouter" />
         <the-left-nav v-bind="leftNavProps" @setDrawer="setLeftDrawer" @updateRouter="updateRouter" />
+        <the-footer v-bind="footerProps" @updateRouter="updateRouter" />
       </template>
+      <the-center-view v-bind="mainProps" />
     </template>
-    <the-center-view v-bind="mainProps" />
-    <the-footer v-bind="footerProps" @updateRouter="updateRouter" />
     <template v-if="!$route.meta.reqireAuth && !isAuthorized">
       <router-view @signIn="signIn" />
     </template>

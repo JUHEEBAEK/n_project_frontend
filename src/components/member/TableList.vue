@@ -9,6 +9,10 @@
     sort-by="name"
     hide-default-footer
   >
+    <template v-if="accountType === 'A'" v-slot:[`item.actions`]="{ item }">
+      <v-icon small class="mr-2" @click="editItem(item)">fas fa-pencil-alt</v-icon>
+      <v-icon small @click="deleteItem(item.id)">fas fa-trash-alt</v-icon>
+    </template>
   </v-data-table>
 </template>
 
@@ -30,11 +34,23 @@ export default {
     searchQuery: {
       type: String,
       default: ""
+    },
+    accountType: {
+      type: String,
+      required: true
     }
   },
   data: () => ({
     memberPaging: { "items-per-page-options": [10000] }
-  })
+  }),
+  methods: {
+    editItem(item) {
+      this.$emit("openEditDialog", true, item);
+    },
+    deleteItem(id) {
+      this.$emit("clickedDeleteMember", id);
+    }
+  }
 };
 </script>
 
