@@ -192,9 +192,16 @@ const actions = {
       return false;
     }
   },
-  async load_member(context, id) {
-    const response = await attendList(id);
-    context.commit("ADD_MEMBER_LIST", response.data);
+  async load_member({ dispatch, commit, rootGetters }, id) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error, response } = await apiClient.attend.attendList(id);
+
+    if (success) {
+      commit("ADD_MEMBER_LIST", response.data);
+    } else {
+      dispatch("apiErrorHandler", { error }, { root: true });
+      return false;
+    }
   },
   async delete_schedule({ dispatch, rootGetters }, schedule_id_form) {
     const apiClient = rootGetters["global/apiClient"];

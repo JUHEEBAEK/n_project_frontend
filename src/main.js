@@ -34,7 +34,7 @@ Vue.config.warnHandler = function(msg, vm, trace) {
   // `trace` is the component hierarchy trace
   if (msg === ignoreWarnMessage) {
     msg = null;
-    vm = null;
+    vm = null;     
     trace = null;
   }
 };
