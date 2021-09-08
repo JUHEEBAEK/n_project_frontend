@@ -111,6 +111,7 @@ export const getters = {
     return settingSubMenus;
   },
   footerMenus({ footerMenus }) {
+    console.log(footerMenus);
     return footerMenus;
   }
 };
@@ -144,6 +145,7 @@ const mutations = {
 
 const actions = {
   async init({ getters, dispatch }) {
+    console.log("새로고침하면 어디로가???");
     const token = getToken();
     getters.apiClient.setDispatch(dispatch);
 
@@ -159,13 +161,12 @@ const actions = {
     //TODO: 토큰으로 User 정보 가져오는 것 만드기
     const { success, userInfo } = await dispatch("getUser", token);
 
-    const currentName = router.history.current.name === null ? "login" : router.history.current.name;
-    const toRotuer = currentName === "login" ? "home" : currentName;
-
+    const toRouter = router.history.current.name === "login" ? "home" : router.history.current.name;
+    console.log("toRouter", toRouter);
     if (success) {
       await dispatch("setInfoByAccount", userInfo.payload, { root: true });
       await dispatch("setUserMenus", userInfo.payload.role);
-      await dispatch("updateRouter", toRotuer, { root: true });
+      await dispatch("updateRouter", toRouter, { root: true });
     } else {
       await dispatch("signOut");
     }
@@ -241,7 +242,12 @@ const actions = {
   updateRouter: {
     root: true,
     handler({ rootState }, routerItem) {
+      console.log("routerItem", routerItem);
       const payload = typeof routerItem === "string" ? { name: routerItem } : routerItem;
+<<<<<<< HEAD
+=======
+      console.log(rootState.route.name, payload);
+>>>>>>> refactoring/#81
       if (routerItem !== rootState.route.name) router.push(payload);
     }
   },

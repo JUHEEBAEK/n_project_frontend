@@ -1,0 +1,19 @@
+.member___container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 16px;
+  flex: 1;
+}
+.member__header {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+}
+.member__content {
+  padding: 12px;
+  .content__table--search {
+    padding: 0;
+    margin: 12px 0;
+  }
+}

@@ -1,8 +1,6 @@
 <template>
   <v-main>
-    <v-container fluid fill-height class="main__container">
-      <router-view v-if="!this.fullScreen" class="main__router-view" />
-    </v-container>
+    <router-view :class="`main__router-view ${routerClass}`"></router-view>
   </v-main>
 </template>
 
@@ -11,6 +9,11 @@ import { mainProps } from "./props";
 export default {
   props: {
     ...mainProps
+  },
+  computed: {
+    routerClass() {
+      return this.$route.meta.fullScreen ? "" : `main__router-view-${this.leftDrawer ? "leftOpen" : "leftClose"}`;
+    }
   }
 };
 </script>

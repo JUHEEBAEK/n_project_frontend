@@ -14,8 +14,9 @@ export const getters = {
   },
   accountType({ userInfo }) {
     const type = (userInfo && userInfo.role) || "";
+    console.log(type);
     if (type) {
-      return accountConst.role;
+      return type;
     }
     return "";
   }
