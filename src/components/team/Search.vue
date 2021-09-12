@@ -10,15 +10,7 @@
         prepend-icon="fas fa-search"
         single-line
       />
-      <v-btn
-        v-if="isAddButton"
-        class="mx-2"
-        fab
-        dark
-        small
-        color="primary"
-        @click="moveTeamAdd()"
-      >
+      <v-btn v-if="isAddButton" class="mx-2" fab dark small color="primary" @click="moveTeamAdd()">
         <v-icon dark>fas fa-plus</v-icon>
       </v-btn>
     </v-app-bar>
@@ -28,10 +20,7 @@
 <script>
 import { createNamespacedHelpers } from "vuex";
 const { mapState: teamMapState } = createNamespacedHelpers("team");
-const {
-  mapState: commonMapState,
-  mapMutations: commonMapMutations
-} = createNamespacedHelpers("common");
+const { mapState: commonMapState, mapMutations: commonMapMutations } = createNamespacedHelpers("common");
 export default {
   props: {
     title: {
@@ -87,9 +76,6 @@ export default {
       } else {
         this.SET_SEARCH_RESULT(this.unitTeamList);
       }
-    },
-    moveTeamAdd() {
-      this.$router.push("/teamAdd");
     }
   }
 };

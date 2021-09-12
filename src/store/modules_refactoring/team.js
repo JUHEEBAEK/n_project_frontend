@@ -1,9 +1,7 @@
 export const state = () => ({
   teamList: [],
   teamInfo: {},
-  teamType: "Team",
-  unitTeamList: [],
-  unitTeamInfo: {}
+  teamType: "Team"
 });
 
 export const getters = {
@@ -15,12 +13,6 @@ export const getters = {
   },
   teamType(state) {
     return state.teamType;
-  },
-  unitTeamList(state) {
-    return state.unitTeamList;
-  },
-  unitTeamInfo(state) {
-    return state.unitTeamInfo;
   }
 };
 
@@ -33,20 +25,15 @@ const mutations = {
   },
   SET_TEAM_TYPE(state, teamType) {
     state.teamType = teamType;
-  },
-  SET_UNIT_TEAM_LIST(state, list) {
-    state.unitTeamList = list;
-  },
-  SET_UNIT_TEAM_INFO(state, info) {
-    state.unitTeamInfo = info;
   }
 };
 const actions = {
   async createTeam({ dispatch, rootGetters }, form) {
     const apiClient = rootGetters["global/apiClient"];
-    const { success, error } = await apiClient.team.getAllTeam();
+    const { success, error } = await apiClient.team.getAllTeam(form);
     if (success) {
       dispatch("apiSuccessHandler", { message: "성공적으로 팀이 등록되었습니다." }, { root: true });
+      dispatch("getTeamList");
     } else if (error) {
       dispatch("apiErrorHandler", { error }, { root: true });
     }
@@ -77,9 +64,7 @@ const actions = {
     const { success, error } = await apiClient.team.updateTeam(formData);
     if (success) {
       dispatch("apiSuccessHandler", { message: "성공적으로 팀이 수정되었습니다." }, { root: true });
-
-      // TODO: 수정할 때 해주기
-      // dispatch("getCoachList");
+      dispatch("getTeamList");
 
       return true;
     } else if (error) {
@@ -117,9 +102,7 @@ const actions = {
     const { success, error } = await apiClient.team.updateUnitTeam(formData);
     if (success) {
       dispatch("apiSuccessHandler", { message: "성공적으로 유닛 팀이 수정되었습니다." }, { root: true });
-
-      // TODO: 수정할 때 해주기
-      // dispatch("getCoachList");
+      dispatch("getUnitTeamList");
 
       return true;
     } else if (error) {

@@ -16,6 +16,7 @@ import squad from "./modules_refactoring/squad";
 import stadium from "./modules_refactoring/stadium";
 import team from "./modules_refactoring/team";
 import unitMember from "./modules_refactoring/unitMember";
+import unitTeam from "./modules_refactoring/unitTeam";
 
 import vuexRouterSync from "./plugins/vuexRouterSync";
 Vue.use(Vuex);
@@ -36,7 +37,8 @@ export default new Vuex.Store({
     squad,
     stadium,
     team,
-    unitMember
+    unitMember,
+    unitTeam
   },
   plugins: [vuexRouterSync]
   // strict: debug,

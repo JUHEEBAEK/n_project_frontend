@@ -6,10 +6,6 @@ export async function getAllTeam() {
   return await this.get("/api/team/list");
 }
 
-export async function getUnitTeamList() {
-  return await this.get("/api/unitTeam/list");
-}
-
 export async function getTeamInfo(idfTeam) {
   return await this.get(`/api/team/${idfTeam}`);
 }

@@ -19,7 +19,7 @@ const routes = [
   {
     path: "/team",
     name: "team-admin",
-    componentPath: "nav/team/TeamAdmin",
+    componentPath: "nav/team/Main",
     meta: {
       title: "팀",
       icon: "fsnnnn_emblem_official2.png",
