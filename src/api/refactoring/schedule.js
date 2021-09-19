@@ -15,7 +15,7 @@ export async function getMemberSquadInfo(year, month) {
 }
 
 export async function deleteSchedule(schedule_id_form) {
-  return await this.delete("/api/schedule/delete", schedule_id_form);
+  return await this.delete("/api/schedule/delete", { data: schedule_id_form });
 }
 
 export async function updateSchedule(form) {

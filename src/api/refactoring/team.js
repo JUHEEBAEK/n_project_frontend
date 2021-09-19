@@ -15,7 +15,7 @@ export async function getTeamInfo(idfTeam) {
 }
 
 export async function deleteTeam(idfTeam) {
-  return await this.delete("/api/team/delete", idfTeam);
+  return await this.delete("/api/team/delete", { data: idfTeam });
 }
 
 export async function updateTeam(formData) {

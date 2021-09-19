@@ -11,7 +11,7 @@ export async function createMultipleMemberSquad(form) {
 }
 
 export async function deleteMemberSquad(form) {
-  return await this.delete("/api/memberSquad/delete", form);
+  return await this.delete("/api/memberSquad/delete", { data: form });
 }
 
 export async function getMemberSquadList() {

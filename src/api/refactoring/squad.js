@@ -7,7 +7,7 @@ export async function createSquad(form) {
 }
 
 export async function deleteSquad(form) {
-  return await this.delete("/api/squad/delete", form);
+  return await this.delete("/api/squad/delete", { data: form });
 }
 export async function getSquadList() {
   return await this.get(`/api/squado/list`);

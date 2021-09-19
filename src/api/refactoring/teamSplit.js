@@ -12,7 +12,7 @@ export async function getInfo(id) {
   return await this.get(`/api/teamSplit/getInfo/${id}`);
 }
 export async function deleteTeamSplit(form) {
-  return await this.delete("/api/teamSplit/delete", form);
+  return await this.delete("/api/teamSplit/delete", { data: form });
 }
 
 export async function updateTeamSplit(formData) {

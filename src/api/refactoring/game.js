@@ -26,7 +26,7 @@ export async function createGame(form) {
 }
 
 export async function deleteGame(form) {
-  return await this.delete("/api/game/delete" + form);
+  return await this.delete("/api/game/delete", { data: form });
 }
 
 export async function selectGameList() {

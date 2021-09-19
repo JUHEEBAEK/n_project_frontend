@@ -9,7 +9,7 @@ export async function detailsStadium(id) {
   return await this.get("/api/stadium/stadium/" + id);
 }
 export async function deleteStadium(stadium_id_dict) {
-  return await this.delete("/api/stadium/delete", stadium_id_dict);
+  return await this.delete("/api/stadium/delete", { data: stadium_id_dict });
 }
 export async function updateStadium(form) {
   return await this.put("/api/stadium/update", form);

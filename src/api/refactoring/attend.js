@@ -7,7 +7,7 @@ export async function createAttend(form) {
 }
 
 export async function deleteAttend(form) {
-  return await this.delete("/api/attend/getAttendList", form);
+  return await this.delete("/api/attend/getAttendList", { data: form });
 }
 
 export async function countThreeMonths(form) {
