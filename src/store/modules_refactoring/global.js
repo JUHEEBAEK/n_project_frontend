@@ -38,6 +38,10 @@ const saveToken = token => {
 
 export const state = () => ({
   apiClient: new ApiClient({
+    attend: {
+      baseURL: baseURL,
+      timeout: timeOut
+    },
     auth: {
       baseURL: baseURL,
       timeout: timeOut
@@ -54,6 +58,18 @@ export const state = () => ({
       baseURL: baseURL,
       timeout: timeOut
     },
+    memberSquad: {
+      baseURL: baseURL,
+      timeout: timeOut
+    },
+    personal: {
+      baseURL: baseURL,
+      timeout: timeOut
+    },
+    squad: {
+      baseURL: baseURL,
+      timeout: timeOut
+    },
     ranking: {
       baseURL: baseURL,
       timeout: timeOut
@@ -67,6 +83,18 @@ export const state = () => ({
       timeout: timeOut
     },
     team: {
+      baseURL: baseURL,
+      timeout: timeOut
+    },
+    teamSplit: {
+      baseURL: baseURL,
+      timeout: timeOut
+    },
+    unitTeam: {
+      baseURL: baseURL,
+      timeout: timeOut
+    },
+    unitMember: {
       baseURL: baseURL,
       timeout: timeOut
     }
