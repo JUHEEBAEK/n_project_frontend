@@ -9,7 +9,8 @@ function createRoute(route) {
     meta: {
       ...(route.meta || {}),
       requireAuth: true
-    }
+    },
+    props: true
   };
 }
 

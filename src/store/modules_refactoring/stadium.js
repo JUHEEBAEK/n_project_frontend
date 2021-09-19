@@ -59,6 +59,7 @@ const actions = {
 
     if (success) {
       commit("DETAILS_STADIUM", response.data);
+      return response.data;
     } else {
       dispatch("apiErrorHandler", { error }, { root: true });
     }

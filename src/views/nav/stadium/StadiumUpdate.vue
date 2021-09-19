@@ -5,13 +5,7 @@
       <v-form ref="formStadiumUpdate" class="form">
         <v-row>
           <v-col cols="12" class="py-2">
-            <v-text-field
-              v-model="name"
-              label="이름"
-              hide-details
-              outlined
-              :rules="[v => !!v || '입력해주십시오.']"
-            />
+            <v-text-field v-model="name" label="이름" hide-details outlined :rules="[v => !!v || '입력해주십시오.']" />
           </v-col>
           <v-col cols="12" class="py-2">
             <v-text-field
@@ -24,19 +18,11 @@
           </v-col>
 
           <v-col cols="12" class="py-2">
-            <v-text-field
-              v-model="nickName"
-              label="닉네임"
-              hide-details
-              outlined
-            />
+            <v-text-field v-model="nickName" label="닉네임" hide-details outlined />
           </v-col>
         </v-row>
         <v-col cols="12" md="9" lg="9" xl="9">
-          <stadium-map
-            v-model="markerPosition"
-            :make-marker-with-click="true"
-          />
+          <stadium-map v-model="markerPosition" :make-marker-with-click="true" />
         </v-col>
         <v-row>
           <v-col cols="12" class="text-right">
@@ -51,15 +37,14 @@
 </template>
 
 <script>
+import StadiumMap from "@/components/stadium/Map.vue";
+
 import util from "@/mixins/util.js";
-import { createNamespacedHelpers } from "vuex";
-const {
-  mapState: stadiuMapState,
-  mapActions: stadiumMapActions
-} = createNamespacedHelpers("stadium");
+import { mapActions } from "vuex";
 
 export default {
   name: "Add",
+  components: { StadiumMap },
   mixins: [util],
   props: {
     stadiumId: {
@@ -91,7 +76,7 @@ export default {
     }
   },
   methods: {
-    ...stadiumMapActions(["details_stadium", "update_stadium"]),
+    ...mapActions("stadium", ["details_stadium", "update_stadium"]),
     submit() {
       if (this.$refs.formStadiumUpdate.validate()) {
         let _srcData = {

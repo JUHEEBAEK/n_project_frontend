@@ -5,46 +5,27 @@
       <v-form ref="formStadiumAdd" class="form">
         <v-row>
           <v-col cols="9">
-            <v-text-field
-              v-model="searchKeyword"
-              label="주소 검색어"
-              @keyup.enter="searchWithKeyword(searchKeyword)"
-            />
+            <v-text-field v-model="searchKeyword" label="주소 검색어" @keyup.enter="searchWithKeyword(searchKeyword)" />
           </v-col>
           <v-col cols="3">
             <v-btn @click="searchWithKeyword(searchKeyword)">주소 검색 </v-btn>
           </v-col>
           <v-col cols="12" md="9" lg="9" xl="9">
-            <stadium-map
-              v-model="markerPosition"
-              :make-marker-with-click="true"
-            />
+            <stadium-map v-model="markerPosition" :make-marker-with-click="true" />
           </v-col>
           <v-col>
             <v-list>
               <v-list-item v-for="item in serachlist" :key="item.id">
-                <v-list-item-content
-                  class="item__list"
-                  @click="setAddress(item)"
-                >
-                  <v-list-item-title
-                    v-text="item.place_name"
-                  ></v-list-item-title>
-                  <v-list-item-subtitle
-                    class="text--primary"
-                    v-text="item.address_name"
-                  ></v-list-item-subtitle>
+                <v-list-item-content class="item__list" @click="setAddress(item)">
+                  <v-list-item-title v-text="item.place_name"></v-list-item-title>
+                  <v-list-item-subtitle class="text--primary" v-text="item.address_name"></v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-action>
                   <!--
                   https://vuetifyjs.com/ko/components/lists/
                   TODO: 돋보기 대신에 카카오맵 아이콘 들어가면 괜찮을 듯
                   -->
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    :href="item.place_url"
-                  >
+                  <a target="_blank" rel="noopener noreferrer" :href="item.place_url">
                     <v-icon>
                       fas fa-search
                     </v-icon>
@@ -74,12 +55,7 @@
           </v-col>
 
           <v-col cols="12" class="py-2">
-            <v-text-field
-              v-model="nickName"
-              label="닉네임"
-              hide-details
-              outlined
-            />
+            <v-text-field v-model="nickName" label="닉네임" hide-details outlined />
           </v-col>
         </v-row>
         <v-row>
@@ -95,15 +71,14 @@
 </template>
 
 <script>
+import StadiumMap from "@/components/stadium/Map.vue";
+import UtilSnackBar from "@/components/util/SnackBar.vue";
 import util from "@/mixins/util.js";
-import { createNamespacedHelpers } from "vuex";
-const {
-  mapState: stadiuMapState,
-  mapActions: stadiumMapActions
-} = createNamespacedHelpers("stadium");
+import { mapActions } from "vuex";
 
 export default {
   name: "Add",
+  components: { StadiumMap, UtilSnackBar },
   mixins: [util],
   data: () => ({
     title: "STADIUM ADD",
@@ -119,7 +94,7 @@ export default {
     }
   }),
   methods: {
-    ...stadiumMapActions(["add_stadium"]),
+    ...mapActions("stadium", ["add_stadium"]),
     submit() {
       if (this.$refs.formStadiumAdd.validate()) {
         let _srcData = {};
