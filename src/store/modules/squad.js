@@ -20,10 +20,7 @@ const state = {
 };
 
 const mutations = {
-  divide_member_into_team(
-    state,
-    { attend_member_id_list, number_team, jocker_exist }
-  ) {
+  divide_member_into_team(state, { attend_member_id_list, number_team, jocker_exist }) {
     // initialize
     state.team_division = {
       teams: [],
@@ -32,21 +29,13 @@ const mutations = {
 
     // jocker가 있는 경우 한명을 뺌
     if (jocker_exist) {
-      state.team_division.jocker_player = array_random_extract(
-        attend_member_id_list,
-        1
-      )[0];
+      state.team_division.jocker_player = array_random_extract(attend_member_id_list, 1)[0];
     }
 
     while (attend_member_id_list && number_team) {
       // 뺄 사람 수를 정한다
-      let number_of_player_in_team = Math.ceil(
-        attend_member_id_list.length / number_team--
-      );
-      let random_member_id_list = array_random_extract(
-        attend_member_id_list,
-        number_of_player_in_team
-      );
+      let number_of_player_in_team = Math.ceil(attend_member_id_list.length / number_team--);
+      let random_member_id_list = array_random_extract(attend_member_id_list, number_of_player_in_team);
       state.team_division.teams.push(random_member_id_list);
     }
     return true;
@@ -78,9 +67,7 @@ const mutations = {
       if (!state.splitTeam[splitTeamItem.team_split_index]) {
         state.splitTeam[splitTeamItem.team_split_index] = {};
       }
-      state.splitTeam[splitTeamItem.team_split_index][
-        splitTeamItem.member_id
-      ] = splitTeamItem;
+      state.splitTeam[splitTeamItem.team_split_index][splitTeamItem.member_id] = splitTeamItem;
     }
   },
   SET_TEAM_SPLIT_SELECTED(state) {

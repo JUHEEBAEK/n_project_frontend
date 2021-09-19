@@ -3,17 +3,8 @@
     <v-card-actions class="setting__actions">
       <v-list-item>
         <v-list-item-actions class="px-0">
-          <v-btn dark color="primary" outlined large @click="autoTeamSplit"
-            >팀나누기</v-btn
-          >
-          <v-btn
-            dark
-            color="blue"
-            outlined
-            large
-            @click="INITIALIZE_ATTEND_MEMBER"
-            >초기화</v-btn
-          >
+          <v-btn dark color="primary" outlined large @click="autoTeamSplit">팀나누기</v-btn>
+          <v-btn dark color="blue" outlined large @click="INITIALIZE_ATTEND_MEMBER">초기화</v-btn>
         </v-list-item-actions>
 
         <v-list-item-content></v-list-item-content>
@@ -45,30 +36,17 @@
                         @click.native="setTeamCount(item)"
                       >
                         <v-scroll-y-transition>
-                          <div
-                            v-if="acitve"
-                            class="flex-grow-1 text-center list__item white--text"
-                          >
+                          <div v-if="acitve" class="flex-grow-1 text-center list__item white--text">
                             {{ item }}
                           </div>
-                          <div
-                            v-else
-                            class="flex-grow-1 text-center list__item"
-                          >
+                          <div v-else class="flex-grow-1 text-center list__item">
                             {{ item }}
                           </div>
                         </v-scroll-y-transition>
                       </v-btn>
                     </v-item>
                     <v-item class="group__item">
-                      <v-btn
-                        :color="active ? 'primary' : ''"
-                        fab
-                        elevation="0"
-                        x-small
-                        @click="addTeamCount"
-                        >+</v-btn
-                      >
+                      <v-btn :color="active ? 'primary' : ''" fab elevation="0" x-small @click="addTeamCount">+</v-btn>
                     </v-item>
                   </v-item-group>
                 </v-list-item-subtitle>
@@ -125,9 +103,7 @@
     <v-card-text>
       <v-row>
         <v-col>
-          <span v-if="selectedTeam" class="title"
-            >{{ selectedTeam }} 팀의 팀원을 선택하시오</span
-          >
+          <span v-if="selectedTeam" class="title">{{ selectedTeam }} 팀의 팀원을 선택하시오</span>
           <span v-if="selectedJoker" class="title">조커를 선택하시오</span>
         </v-col>
       </v-row>
@@ -159,18 +135,8 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from "vuex";
-const { mapState: commonState } = createNamespacedHelpers("common");
-const {
-  mapState: calendarState,
-  mapMutations: calendarMutations,
-  mapActions: calendarActions
-} = createNamespacedHelpers("calendar");
-const {
-  mapState: squadState,
-  mapMutations: squadMutations,
-  mapActions: squadActions
-} = createNamespacedHelpers("squad");
+import { mapState, mapMutations, mapActions } from "vuex";
+
 export default {
   data: () => ({
     teamCount: 2,
@@ -182,9 +148,9 @@ export default {
     memberCount: 0
   }),
   computed: {
-    ...calendarState(["attendMember", "scheduleIndex", "scheduleList"]),
-    ...commonState(["colorIndex"]),
-    ...squadState(["teamSplitSelected", "team_division"])
+    ...mapState("calendar", ["attendMember", "scheduleIndex", "scheduleList"]),
+    ...mapState("common", ["colorIndex"]),
+    ...mapState("squad", ["teamSplitSelected", "team_division"])
   },
   watch: {
     attendMember(val) {
@@ -192,26 +158,22 @@ export default {
     }
   },
   methods: {
-    ...squadActions(["saveTeamSplit"]),
-    ...squadMutations(["divide_member_into_team"]),
-    ...calendarMutations([
-      "FILL_TEAM_NUMBER",
-      "CHANGED_TEAM_OF_ATTEND_member",
-      "INITIALIZE_ATTEND_MEMBER"
-    ]),
+    ...mapActions("squad", ["saveTeamSplit"]),
+    ...mapMutations("squad", ["divide_member_into_team"]),
+    ...mapMutations("calendar", ["FILL_TEAM_NUMBER", "CHANGED_TEAM_OF_ATTEND_member", "INITIALIZE_ATTEND_MEMBER"]),
     autoTeamSplit() {
       let attend_member_id_list = [];
       for (let i in this.attendMember) {
         attend_member_id_list.push(Number(this.attendMember[i]["id"]));
       }
 
-      let number_team = this.teamSplitSelected;
+      let number_team = this.teamCount;
       let jocker_exist = this.isJoker;
 
       this.divide_member_into_team({
-        attend_member_id_list: attend_member_id_list,
-        number_team: this.teamCount,
-        jocker_exist: jocker_exist
+        attend_member_id_list,
+        number_team,
+        jocker_exist
       });
       this.CHANGED_TEAM_OF_ATTEND_member(this.team_division);
     },
@@ -278,7 +240,7 @@ export default {
         selected_schedule_id: this.scheduleList[this.scheduleIndex].id,
         team_split_data: this.attendMember
       };
-      console.log(payload);
+
       await this.saveTeamSplit(payload);
 
       this.$router.push({

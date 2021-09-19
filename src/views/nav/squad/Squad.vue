@@ -24,30 +24,18 @@
 </template>
 
 <script>
-import moment from "moment";
-import { createNamespacedHelpers } from "vuex";
-const { mapState, mapActions } = createNamespacedHelpers("attend");
-const {
-  mapState: commonState,
-  mapMutations: commonMutaions
-} = createNamespacedHelpers("common");
-const {
-  mapState: calendarMapState,
-  mapMutations: calendarMapMutations,
-  mapActions: calendarMapActions
-} = createNamespacedHelpers("calendar");
-const {
-  mapState: squadState,
-  mapMutations: squadMutations,
-  mapActions: squadActions
-} = createNamespacedHelpers("squad");
+import { mapState, mapMutations, mapActions } from "vuex";
+import ScheduleDateList from "@/components/schedule/DateList.vue";
+import ScheduleInfoCard from "@/components/schedule/InfoCard.vue";
+import squadTeamSplitList from "@/components/squad/TeamSplitList.vue";
+import squadTeamSplit from "@/components/squad/TeamSplit.vue";
 
-import regex from "../../../mixins/regex.js";
-import util from "../../../mixins/util.js";
+import regex from "@/mixins/regex.js";
+import util from "@/mixins/util.js";
 
 export default {
   name: "AttendanceVue",
-
+  components: { ScheduleDateList, ScheduleInfoCard, squadTeamSplitList, squadTeamSplit },
   mixins: [util, regex],
   data: () => ({
     minCount: null,
@@ -59,10 +47,10 @@ export default {
     member_id_list: []
   }),
   computed: {
-    ...mapState(["attendance"]),
-    ...calendarMapState(["scheduleIndex", "scheduleList"]),
-    ...squadState(["splitTeam", "teamSplitSelected"]),
-    ...commonState(["colorIndex"])
+    ...mapState("attend", ["attendance"]),
+    ...mapState("calendar", ["scheduleIndex", "scheduleList"]),
+    ...mapState("squad", ["splitTeam", "teamSplitSelected"]),
+    ...mapState("common", ["colorIndex"])
   },
   watch: {
     teamSplitSelected(val) {
@@ -72,11 +60,7 @@ export default {
   async created() {
     await this.select_schedule();
 
-    if (
-      this.$route.params &&
-      this.$route.params.scheduleIndex &&
-      this.$route.params.team_split_index
-    ) {
+    if (this.$route.params && this.$route.params.scheduleIndex && this.$route.params.team_split_index) {
       this.SET_SCHEDULE_INDEX(this.$route.params.scheduleIndex);
       this.SET_TEAM_INDEX_CHANGED(this.$route.params.team_split_index);
     } else {
@@ -84,15 +68,11 @@ export default {
     }
   },
   methods: {
-    ...calendarMapMutations([
-      "SET_ATTEND_MEMBER",
-      "CHOOSE_LATEST_SCHEDULE",
-      "SET_SCHEDULE_INDEX"
-    ]),
-    ...calendarMapActions(["select_schedule", "load_member"]),
-    ...squadMutations(["SET_TEAM_INDEX_CHANGED"]),
-    ...mapActions(["get_attendance"]),
-    ...squadActions(["setSplitTeamListWithSchedule"]),
+    ...mapMutations("calendar", ["SET_ATTEND_MEMBER", "CHOOSE_LATEST_SCHEDULE", "SET_SCHEDULE_INDEX"]),
+    ...mapActions("calendar", ["select_schedule", "load_member"]),
+    ...mapMutations("squad", ["SET_TEAM_INDEX_CHANGED"]),
+    ...mapActions("attend", ["get_attendance"]),
+    ...mapActions("squad", ["setSplitTeamListWithSchedule"]),
 
     async setScheduleData(selected_schedule) {
       if (this.scheduleIndex == -1) return;

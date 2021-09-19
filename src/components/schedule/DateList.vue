@@ -8,38 +8,19 @@
       </v-col>
     </v-row>
     <v-row dense>
-      <v-col cols="12" class="schedule__list">
+      <v-col cols="12" class="schedule__list ">
         <v-slide-group v-model="slide_index" show-arrows center-active>
-          <v-slide-item
-            v-for="(item, index) in scheduleList"
-            :key="index"
-            v-slot:default="{ active, toggle }"
-          >
-            <v-card
-              class="date__card ma-2"
-              :class="{ active: active }"
-              height="90"
-              width="60"
-              @click="toggle"
-            >
+          <v-slide-item v-for="(item, index) in scheduleList" :key="index" v-slot:default="{ active, toggle }">
+            <v-card class="date__card ma-2 py-5" :class="{ active: active }" height="90" width="60" @click="toggle">
               <v-row class="fill-height" align="center" justify="center">
                 <v-scale-transition>
                   <div>
-                    <v-badge
-                      :color="scheduleColor[item.type]"
-                      left
-                      :content="item.game_count"
-                    >
+                    <v-badge :color="scheduleColor[item.type]" left :content="item.game_count">
                       <p class="date__Mon my-2">
                         {{ item.date | setMomentMonth }}
                       </p>
                       <p class="date__day mb-0">{{ item.date.substr(8, 2) }}</p>
-                      <v-chip
-                        :color="
-                          item.stadium_type === 'O' ? 'yellow darken-2' : ''
-                        "
-                        x-small
-                      >
+                      <v-chip :color="item.stadium_type === 'O' ? 'yellow darken-2' : ''" x-small>
                         {{ item.stadium_type === "O" ? "실외" : "실내" }}
                       </v-chip>
                     </v-badge>
@@ -58,12 +39,7 @@
 import moment from "moment";
 import scheduleValue from "@/assets/value/Schedule.json";
 
-import { createNamespacedHelpers } from "vuex";
-const {
-  mapState: calendarMapState,
-  mapMutations: calendarMapMutations,
-  mapActions: calendarMapActions
-} = createNamespacedHelpers("calendar");
+import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   filters: {
@@ -85,9 +61,8 @@ export default {
     setDay: moment().format("DD"),
     scheduleColor: scheduleValue.colorAndType
   }),
-  mounted() {},
   computed: {
-    ...calendarMapState(["scheduleIndex", "scheduleList"]),
+    ...mapState("calendar", ["scheduleIndex", "scheduleList"]),
     slide_index: {
       get: function() {
         return this.scheduleIndex;
@@ -110,23 +85,16 @@ export default {
   async created() {
     await this.select_schedule();
     // 선택이 안되어 있다면 가장 최신걸 선택
-    if (this.scheduleIndex == null)
-      this.SET_SCHEDULE_INDEX(this.scheduleList.length - 1);
+    if (this.scheduleIndex == null) this.SET_SCHEDULE_INDEX(this.scheduleList.length - 1);
 
-    if (this.scheduleId)
-      this.slide_index = this.SET_SCHEDULE_INDEX_WITH_SCHEDULE_ID(
-        this.scheduleId
-      );
+    if (this.scheduleId) this.slide_index = this.SET_SCHEDULE_INDEX_WITH_SCHEDULE_ID(this.scheduleId);
 
     // 연동 필수
     this.slide_index = this.scheduleIndex;
   },
   methods: {
-    ...calendarMapMutations([
-      "SET_SCHEDULE_INDEX",
-      "SET_SCHEDULE_INDEX_WITH_SCHEDULE_ID"
-    ]),
-    ...calendarMapActions(["select_schedule", "load_member"]),
+    ...mapMutations("calendar", ["SET_SCHEDULE_INDEX", "SET_SCHEDULE_INDEX_WITH_SCHEDULE_ID"]),
+    ...mapActions("calendar", ["select_schedule", "load_member"]),
     setDateString(selected_schedule) {
       this.setYear = moment(selected_schedule.date).format("YYYY");
       this.setMonth = moment(selected_schedule.date).format("MMMM");
@@ -136,7 +104,4 @@ export default {
 };
 </script>
 
-<style
-  lang="scss"
-  src="@/assets/scss/components/schedule/dateList.scss"
-></style>
+<style lang="scss" src="@/assets/scss/components/schedule/dateList.scss"></style>

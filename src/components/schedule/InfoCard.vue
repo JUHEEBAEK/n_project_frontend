@@ -2,16 +2,12 @@
   <v-card clsss="schedule__card" shaped :loading="cardInfoLoading">
     <v-card-title class="schedule__title">{{ scheduleName }}</v-card-title>
     <v-card-text>
-      <div class="schedule__time my-3 subtitle-1">
-        {{ scheduleStart }} - {{ scheduleEnd }}
-      </div>
+      <div class="schedule__time my-3 subtitle-1">{{ scheduleStart }} - {{ scheduleEnd }}</div>
     </v-card-text>
 
     <v-divider class="mx-2"></v-divider>
     <v-card-text class="schedule__stadium">{{ scheduleStadium }}</v-card-text>
-    <v-card-text class="schedule__address grey--text">{{
-      scheduleAddress
-    }}</v-card-text>
+    <v-card-text class="schedule__address grey--text">{{ scheduleAddress }}</v-card-text>
   </v-card>
 </template>
 

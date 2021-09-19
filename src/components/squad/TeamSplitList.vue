@@ -8,17 +8,12 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from "vuex";
-const {
-  mapState: squadState,
-  mapMutations: squadMutations,
-  mapActions: squadActions
-} = createNamespacedHelpers("squad");
-const { mapMutations: calendarMutations } = createNamespacedHelpers("calendar");
+import { mapState, mapMutations } from "vuex";
+
 export default {
   data: () => ({}),
   computed: {
-    ...squadState(["teamSplitList"]),
+    ...mapState("squad", ["teamSplitList"]),
     teamSplitSelected: {
       get() {
         return this.$store.state.squad.teamSplitSelected;
@@ -30,7 +25,7 @@ export default {
   },
 
   methods: {
-    ...squadMutations(["SET_TEAM_INDEX_CHANGED"])
+    ...mapMutations("squad", ["SET_TEAM_INDEX_CHANGED"])
   }
 };
 </script>
