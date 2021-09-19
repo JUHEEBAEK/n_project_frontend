@@ -1,13 +1,7 @@
 <template>
   <div>
     <v-row class="position__field" justify="center">
-      <v-col
-        v-for="item in positionList"
-        :key="item"
-        cols="4"
-        class="text-center px-0 pb-0"
-        align-self="center"
-      >
+      <v-col v-for="item in positionList" :key="item" cols="4" class="text-center px-0 pb-0" align-self="center">
         <v-btn v-if="item" @click="openDialog(item)">{{ item }}</v-btn>
         <v-text-field
           v-if="item"
@@ -19,13 +13,7 @@
       </v-col>
     </v-row>
     <v-row class="position__bench" justify="center">
-      <v-col
-        v-for="item in benchList"
-        :key="item"
-        cols="4"
-        class="text-center px-0 pb-0"
-        align-self="center"
-      >
+      <v-col v-for="item in benchList" :key="item" cols="4" class="text-center px-0 pb-0" align-self="center">
         <v-btn v-if="item" @click="openDialog(item)">{{ item }}</v-btn>
         <v-text-field
           v-if="item"
@@ -46,14 +34,16 @@
 </template>
 
 <script>
-import dialog from "../../mixins/dialog.js";
-import regex from "../../mixins/regex.js";
+import dialog from "@/mixins/dialog.js";
+import regex from "@/mixins/regex.js";
 import Position from "@/assets/value/position.json";
 
-import { createNamespacedHelpers } from "vuex";
-const { mapState, mapMutations } = createNamespacedHelpers("prepareMatch");
+import DialogSquadPosition from "@/components/dialog/squad/Position";
+
+import { mapState } from "vuex";
 
 export default {
+  components: { DialogSquadPosition },
   mixins: [dialog, regex],
   props: {
     members: {
@@ -68,14 +58,15 @@ export default {
     benchList: Position.benchList,
     position: JSON.parse(JSON.stringify(Position.basicPostion))
   }),
+  computed: {
+    ...mapState("prepareMatch", ["isHome", "selectType", "homeTeam", "awayTeam"])
+  },
   watch: {
     async members(value) {
       this.onMembersChange(value);
     }
   },
-  computed: {
-    ...mapState(["isHome", "selectType", "homeTeam", "awayTeam"])
-  },
+
   methods: {
     openDialog(val) {
       this.selectPosition = val;

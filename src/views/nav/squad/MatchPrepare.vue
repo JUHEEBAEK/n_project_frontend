@@ -2,15 +2,10 @@
   <v-container class="match__container" fluid>
     <v-row class justify="center">
       <v-col cols="12">
-        <schedule-date-list
-          :schedule-id="schedule_id"
-          @changeDate="setScheduleData"
-        ></schedule-date-list>
+        <schedule-date-list :schedule-id="schedule_id" @changeDate="setScheduleData"></schedule-date-list>
       </v-col>
       <v-col cols="12">
-        <squad-quarter
-          @changeQuarterAndParams="setScheduleData"
-        ></squad-quarter>
+        <squad-quarter @changeQuarterAndParams="setScheduleData"></squad-quarter>
       </v-col>
       <v-col cols="12">
         <squad-team-list></squad-team-list>
@@ -28,29 +23,15 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from "vuex";
-const {
-  mapState: calendarMapState,
-  mapGetters: calendarMapGetters,
-  mapMutations: calendarMapMutations,
-  mapActions: calendarMapActions
-} = createNamespacedHelpers("calendar");
-const {
-  mapState: squadState,
-  mapMutations: squadMutations,
-  mapActions: squadActions
-} = createNamespacedHelpers("squad");
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 
-const {
-  mapState: prepareMatchState,
-  mapGetters: prepareMatchGetters,
-  mapMutations: prepareMatchMutations,
-  mapActions: prepareMatchActions
-} = createNamespacedHelpers("prepareMatch");
-
-const { mapGetters: accountMapGetters } = createNamespacedHelpers("account");
+import scheduleDateList from "@/components/schedule/DateList.vue";
+import squadQuarter from "@/components/squad/Quarter.vue";
+import squadTeamList from "@/components/squad/TeamList.vue";
+import squadInputPosition from "@/components/squad/InputPosition.vue";
 
 export default {
+  components: { scheduleDateList, squadQuarter, squadTeamList, squadInputPosition },
   props: {
     scheduleId: {
       type: [String, Number],
@@ -65,11 +46,11 @@ export default {
     members: null
   }),
   computed: {
-    ...accountMapGetters(["userInfo"]),
-    ...calendarMapGetters(["current_schedule_id"]),
-    ...calendarMapState(["scheduleIndex", "scheduleList"]),
-    ...prepareMatchGetters(["currentQuarterString", "currentQuarterNumber"]),
-    ...prepareMatchState([
+    ...mapGetters("account", ["userInfo"]),
+    ...mapGetters("calendar", ["current_schedule_id"]),
+    ...mapState("calendar", ["scheduleIndex", "scheduleList"]),
+    ...mapGetters("prepareMatch", ["currentQuarterString", "currentQuarterNumber"]),
+    ...mapState("prepareMatch", [
       "selectedSplitedTeam",
       "homeTeam",
       "awayTeam",
@@ -83,18 +64,11 @@ export default {
     this.SET_QAURTER_INDEX(Number(this.quarter) - 1);
   },
   methods: {
-    ...squadActions([
-      "setSplitTeamListWithSchedule",
-      "setSplitTeamWithUnitTeam"
-    ]),
-    ...calendarMapActions(["select_schedule", "load_member"]),
-    ...calendarMapMutations(["CHOOSE_LATEST_SCHEDULE", "SET_SCHEDULE_INDEX"]),
-    ...prepareMatchMutations([
-      "SET_QAURTER_INDEX",
-      "ADD_HOME_JOCKER",
-      "ADD_AWAY_JOCKER"
-    ]),
-    ...prepareMatchActions([
+    ...mapActions(["setSplitTeamListWithSchedule", "setSplitTeamWithUnitTeam"]),
+    ...mapActions("calendar", ["select_schedule", "load_member"]),
+    ...mapMutations("calendar", ["CHOOSE_LATEST_SCHEDULE", "SET_SCHEDULE_INDEX"]),
+    ...mapMutations("prepareMatch", ["SET_QAURTER_INDEX", "ADD_HOME_JOCKER", "ADD_AWAY_JOCKER"]),
+    ...mapActions("prepareMatch", [
       "setSplitTeamList",
       "setSummarySplitTeamList",
       "checkGameAlreadyExist",
@@ -116,11 +90,8 @@ export default {
         //home과 away를 return 할 것
         // TODO: 포지션에 중복된 선수가 되있으면 안된다.
       }
-      if (this.awayTeam.members) {
-        var awayExist = true;
-      } else {
-        var awayExist = false;
-      }
+      const awayExist = !!this.awayTeam.members;
+
       let formSearchGame = {};
       formSearchGame["schedule_id"] = this.current_schedule_id;
       formSearchGame["quarter"] = this.currentQuarterNumber;

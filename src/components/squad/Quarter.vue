@@ -3,12 +3,7 @@
     <v-row class="mx-2">
       <v-col cols="12" class="quarter__list">
         <v-slide-group v-model="slideIndex" show-arrows center-active>
-          <v-slide-item
-            v-for="item in quarterList"
-            :key="item"
-            v-slot:default="{ active, toggle }"
-            class="my-2"
-          >
+          <v-slide-item v-for="item in quarterList" :key="item" v-slot:default="{ active, toggle }" class="my-2">
             <v-card
               class="quarter__card"
               :class="{ active: active }"
@@ -29,9 +24,8 @@
 </template>
 
 <script>
-import regex from "../../mixins/regex.js";
-import { createNamespacedHelpers } from "vuex";
-const { mapState, mapMutations } = createNamespacedHelpers("prepareMatch");
+import regex from "@/mixins/regex.js";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   mixins: [regex],
@@ -39,7 +33,7 @@ export default {
     menu: false
   }),
   computed: {
-    ...mapState(["quarterList", "quarterIndex"]),
+    ...mapState("prepareMatch", ["quarterList", "quarterIndex"]),
     slideIndex: {
       get: function() {
         return this.quarterIndex;
@@ -60,7 +54,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations(["SET_DATE", "SET_QAURTER_INDEX"]),
+    ...mapMutations("prepareMatch", ["SET_DATE", "SET_QAURTER_INDEX"]),
     clickOtherQuarter: function(item) {
       this.$emit("changeQuarterAndParams", item);
     }

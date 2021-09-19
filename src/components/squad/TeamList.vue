@@ -5,25 +5,14 @@
         <v-divider />
         <v-sheet v-if="selectedSplitedTeam !== null">
           <v-slide-group show-arrows>
-            <v-slide-item
-              v-for="(teamDict, index) in selectedSplitedTeam"
-              :key="index"
-              v-slot:default="{ toggle }"
-            >
+            <v-slide-item v-for="(teamDict, index) in selectedSplitedTeam" :key="index" v-slot:default="{ toggle }">
               <template v-if="teamDict.teamNumber != 0">
-                <v-card
-                  class="team__box"
-                  @click.native="set_home_away_team(teamDict)"
-                  @click="toggle"
-                >
+                <v-card class="team__box" @click.native="set_home_away_team(teamDict)" @click="toggle">
                   <v-card-title>{{ teamDict.teamNumber }}</v-card-title>
                   <v-card-text class="member__box">
-                    <span
-                      v-for="member in teamDict.members"
-                      :key="member.id"
-                      class="team__member"
-                      >{{ member.name }}</span
-                    >
+                    <span v-for="member in teamDict.members" :key="member.id" class="team__member">{{
+                      member.name
+                    }}</span>
                   </v-card-text>
                 </v-card>
               </template>
@@ -31,12 +20,9 @@
                 <v-card class="team__box">
                   <v-card-title>조커</v-card-title>
                   <v-card-text class="member__box">
-                    <span
-                      v-for="member in teamDict.members"
-                      :key="member.id"
-                      class="team__member"
-                      >{{ member.name }}</span
-                    >
+                    <span v-for="member in teamDict.members" :key="member.id" class="team__member">{{
+                      member.name
+                    }}</span>
                   </v-card-text>
                 </v-card>
               </template>
@@ -56,12 +42,7 @@
     </v-row>
     <v-row>
       <v-col cols="12" class="mx-2 py-1">
-        <v-switch
-          v-model="isHome"
-          class="mt-0"
-          hide-details
-          :label="`Status: ${setStatus}`"
-        ></v-switch>
+        <v-switch v-model="isHome" class="mt-0" hide-details :label="`Status: ${setStatus}`"></v-switch>
       </v-col>
     </v-row>
     <v-row row wrap justify="center" class="py-2">
@@ -77,16 +58,11 @@
         <div class="selectTeam__box">
           <div class="team__home">
             <v-card color="grey lighten-2" width="150" height="150">
-              <v-card-title class="justify-center"
-                >home {{ homeTeam.teamNumber }}</v-card-title
-              >
+              <v-card-title class="justify-center">home {{ homeTeam.teamNumber }}</v-card-title>
               <v-card-text class="member__box justify-center">
-                <span
-                  v-for="(member, index) in homeTeam.members"
-                  :key="index"
-                  class="team__member"
-                  >{{ member.name }}</span
-                >
+                <span v-for="(member, index) in homeTeam.members" :key="index" class="team__member">{{
+                  member.name
+                }}</span>
               </v-card-text>
             </v-card>
           </div>
@@ -95,16 +71,11 @@
           </div>
           <div class="team__away">
             <v-card color="grey lighten-2" width="150" height="150">
-              <v-card-title class="justify-center"
-                >away {{ awayTeam.teamNumber }}</v-card-title
-              >
+              <v-card-title class="justify-center">away {{ awayTeam.teamNumber }}</v-card-title>
               <v-card-text class="member__box justify-center">
-                <span
-                  v-for="(member, index) in awayTeam.members"
-                  :key="index"
-                  class="team__member"
-                  >{{ member.name }}</span
-                >
+                <span v-for="(member, index) in awayTeam.members" :key="index" class="team__member">{{
+                  member.name
+                }}</span>
               </v-card-text>
             </v-card>
           </div>
@@ -112,12 +83,7 @@
       </v-col>
       <v-col v-if="jocker.name !== null" cols="12">
         <div class="team__jocker">
-          <v-card
-            class="mx-auto"
-            color="grey lighten-2"
-            width="200"
-            height="100"
-          >
+          <v-card class="mx-auto" color="grey lighten-2" width="200" height="100">
             <v-card-text>JOCKER</v-card-text>
             <v-card-text class="member__box justify-center">
               <span class="team__member">{{ jocker.name }}</span>
@@ -126,33 +92,23 @@
         </div>
       </v-col>
     </v-row>
-    <dialog-squad-team-list
-      v-if="dialog === true && type === 'teamList'"
-      @saveTeam="saveTeam"
-    ></dialog-squad-team-list>
+    <dialog-squad-team-list v-if="dialog === true && type === 'teamList'" @saveTeam="saveTeam"></dialog-squad-team-list>
   </div>
 </template>
 
 <script>
-import dialog from "../../mixins/dialog.js";
+import dialog from "@/mixins/dialog.js";
+
+import DialogSquadTeamList from "@/components/dialog/squad/TeamList";
+
 import { createNamespacedHelpers } from "vuex";
-const { mapState, mapMutations, mapActions } = createNamespacedHelpers(
-  "prepareMatch"
-);
+const { mapState, mapMutations, mapActions } = createNamespacedHelpers("prepareMatch");
 
 export default {
+  components: { DialogSquadTeamList },
   mixins: [dialog],
-  data: () => ({}),
   computed: {
-    ...mapState([
-      "isHome",
-      "teamList",
-      "homeTeam",
-      "jocker",
-      "awayTeam",
-      "splitTeamList",
-      "selectedSplitedTeam"
-    ]),
+    ...mapState(["isHome", "teamList", "homeTeam", "jocker", "awayTeam", "splitTeamList", "selectedSplitedTeam"]),
     setStatus() {
       if (this.isHome) {
         this.SET_TYPE("Home");
