@@ -4,21 +4,12 @@
       <v-card-title class="home__header">HOME</v-card-title>
       <v-card-text class="home__content">
         <v-row justify="center">
-          <v-col
-            v-for="player in homeMembers"
-            :key="player"
-            cols="4"
-            align-self="center"
-          >
+          <v-col v-for="player in homeMembers" :key="player" cols="4" align-self="center">
             <div>
               <v-btn
                 rounded
                 small
-                :color="
-                  player.position !== 'JK'
-                    ? 'lime lighten-2'
-                    : 'light blue lighten-2'
-                "
+                :color="player.position !== 'JK' ? 'lime lighten-2' : 'light blue lighten-2'"
                 @click="clickPlayer(player, 'H')"
                 >{{ player.name }}</v-btn
               >
@@ -30,30 +21,11 @@
     <v-card class="input__container" outlined evalation="2">
       <v-card-text>
         <v-row justify="center">
-          <v-col
-            v-for="eventType in eventTypeList"
-            :key="eventType"
-            cols="6"
-            xl="3"
-            lg="3"
-            md="3"
-            align-self="center"
-          >
+          <v-col v-for="eventType in eventTypeList" :key="eventType" cols="6" xl="3" lg="3" md="3" align-self="center">
             <div>
-              <v-btn
-                dark
-                rounded
-                small
-                color="tertiary"
-                @click="clickEventButton(eventType.type)"
-              >
+              <v-btn dark rounded small color="tertiary" @click="clickEventButton(eventType.type)">
                 {{ eventType.name }}
-                <v-icon
-                  right
-                  dark
-                  :class="eventIcon[eventType.type]"
-                  :color="eventIconColor[eventType.type]"
-                ></v-icon>
+                <v-icon right dark :class="eventIcon[eventType.type]" :color="eventIconColor[eventType.type]"></v-icon>
               </v-btn>
             </div>
           </v-col>
@@ -81,9 +53,7 @@
             </v-col>
             <v-col cols="6" md="3">
               <div class="label__text">선수1</div>
-              <v-chip class="ma-2" close @click:close="deleteFirstPlayer">{{
-                firstPlayer
-              }}</v-chip>
+              <v-chip class="ma-2" close @click:close="deleteFirstPlayer">{{ firstPlayer }}</v-chip>
             </v-col>
             <v-col cols="6" md="3">
               <div class="label__text">상태</div>
@@ -92,11 +62,7 @@
             <v-col cols="6" md="3">
               <div class="label__text">선수2</div>
               <v-chip
-                v-if="
-                  firstEventType === 'Goal' ||
-                    firstEventType === 'Out' ||
-                    firstEventType === 'K.O'
-                "
+                v-if="firstEventType === 'Goal' || firstEventType === 'Out' || firstEventType === 'K.O'"
                 class="ma-2"
                 close
                 @click:close="deleteLastPlayer"
@@ -125,20 +91,11 @@
       <v-card-title class="away__header">AWAY</v-card-title>
       <v-card-text class="away__content">
         <v-row justify="center">
-          <v-col
-            v-for="player in awayMembers"
-            :key="player"
-            cols="4"
-            align-self="center"
-          >
+          <v-col v-for="player in awayMembers" :key="player" cols="4" align-self="center">
             <v-btn
               rounded
               small
-              :color="
-                player.position !== 'JK'
-                  ? 'lime lighten-2'
-                  : 'light blue lighten-2'
-              "
+              :color="player.position !== 'JK' ? 'lime lighten-2' : 'light blue lighten-2'"
               @click="clickPlayer(player, 'A')"
               >{{ player.name }}</v-btn
             >
@@ -150,31 +107,8 @@
 </template>
 
 <script>
-import moment from "moment";
 import matchValue from "@/assets/value/match.json";
-import { createNamespacedHelpers } from "vuex";
-
-const {
-  mapState: prepareMatchState,
-  mapGetters: prepareMatchGetters,
-  mapMutations: prepareMatchMutations,
-  mapActions: prepareMatchActions
-} = createNamespacedHelpers("prepareMatch");
-
-const {
-  mapState: gameState,
-  mapMutations: gameMutations,
-  mapActions: gameActions
-} = createNamespacedHelpers("game");
-
-const {
-  mapState: gameReportState,
-  mapGetters: gameReportGetters,
-  mapMutations: gameReportMutations,
-  mapActions: gameReportActions
-} = createNamespacedHelpers("gameReport");
-
-const { mapGetters: accountMapGetters } = createNamespacedHelpers("account");
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   props: {
@@ -205,15 +139,10 @@ export default {
     eventIconColor: matchValue.gameReportEventIconColor
   }),
   computed: {
-    ...accountMapGetters(["userInfo"]),
-    ...gameState(["gameInfo"]),
-    ...gameReportState([
-      "eventList",
-      "gameReportEventInfo",
-      "homeScore",
-      "awayScore"
-    ]),
-    ...prepareMatchState(["homeMembers", "awayMembers"]),
+    ...mapGetters("account", ["userInfo"]),
+    ...mapState("game", ["gameInfo"]),
+    ...mapState("gameReport", ["eventList", "gameReportEventInfo", "homeScore", "awayScore"]),
+    ...mapState("prepareMatch", ["homeMembers", "awayMembers"]),
     isSingleType() {
       return this.lastEventType === "";
     }
@@ -242,19 +171,9 @@ export default {
     await this.$emit("getHomeAwayMemberList");
   },
   methods: {
-    ...gameReportActions([
-      "getEventList",
-      "addGameEvent",
-      "getEventInfo",
-      "updateGameEvent"
-    ]),
-    ...gameReportMutations([
-      "ADD_EVENT",
-      "ADD_HOME_SCORE",
-      "ADD_AWAY_SCORE",
-      "SET_EVENT_INFO"
-    ]),
-    ...gameActions(["updateGameScore"]),
+    ...mapActions("gameReport", ["getEventList", "addGameEvent", "getEventInfo", "updateGameEvent"]),
+    ...mapMutations("gameReport", ["ADD_EVENT", "ADD_HOME_SCORE", "ADD_AWAY_SCORE", "SET_EVENT_INFO"]),
+    ...mapActions("game", ["updateGameScore"]),
     addGameScore: function(eventInfo) {
       const awayPlusScore =
         (eventInfo.event_type === "O.G" && eventInfo.team_type === "H") ||
@@ -323,8 +242,7 @@ export default {
       // 경기 기록 추가 actions
       let addGameEventresult = await this.addGameEvent(event);
       // 게임 이벤트추가 결과가 true이고 골일 경우에만 스코어를 추가시켜주기 위해서.
-      const isAddGameScore =
-        event.event_type === "Goal" || event.event_type === "O.G";
+      const isAddGameScore = event.event_type === "Goal" || event.event_type === "O.G";
       if (addGameEventresult && isAddGameScore) {
         this.addGameScore(event);
       }
@@ -348,10 +266,8 @@ export default {
         last_player_name: "",
         last_player_uniform_number: ""
       });
-      const isMinusGameScore =
-        beforeEvent.event_type === "Goal" || beforeEvent.event_type === "O.G";
-      const isAddGameScore =
-        event.event_type === "Goal" || event.event_type === "O.G";
+      const isMinusGameScore = beforeEvent.event_type === "Goal" || beforeEvent.event_type === "O.G";
+      const isAddGameScore = event.event_type === "Goal" || event.event_type === "O.G";
       if (isMinusGameScore) {
         this.$emit("subtractGameScore", beforeEvent);
       }

@@ -2,14 +2,9 @@
   <div class="match__container">
     <!-- 스케쥴 리스트 영역 -->
     <v-contatner fluid>
-      <schedule-date-list
-        :schedule-id="schedule_id"
-        @changeDate="setScheduleData"
-      ></schedule-date-list>
+      <schedule-date-list :schedule-id="schedule_id" @changeDate="setScheduleData"></schedule-date-list>
       <!-- 쿼터 리스트 영역 -->
-      <squad-quarter
-        @changeQuarterAndParams="changeQuarterAndParams"
-      ></squad-quarter>
+      <squad-quarter @changeQuarterAndParams="changeQuarterAndParams"></squad-quarter>
     </v-contatner>
 
     <!-- 경기 기록 이벤트 타입 설정 부분 -->
@@ -34,11 +29,6 @@
           @changeUpdateButton="changeUpdateButton"
         ></match-event-list>
       </v-row>
-      <!-- <v-row>
-        <v-col>
-          <v-btn @click="saveGame" color="primary">저장</v-btn>
-        </v-col>
-      </v-row>-->
     </v-container>
   </div>
 </template>
@@ -46,41 +36,17 @@
 <script>
 import moment from "moment";
 import Position from "@/assets/value/position.json";
-import regex from "../../../mixins/regex.js";
+import regex from "@/mixins/regex.js";
 
-import { createNamespacedHelpers } from "vuex";
-const {
-  mapGetters: calendarGetters,
-  mapMutations: calendarMapMutations
-} = createNamespacedHelpers("calendar");
+import scheduleDateList from "@/components/schedule/DateList.vue";
+import squadQuarter from "@/components/squad/Quarter.vue";
+import matchEventInput from "@/components/match/EventInput.vue";
+import matchEventList from "@/components/match/EventList.vue";
 
-const {
-  mapState: squadState,
-  mapMutations: squadMutations,
-  mapActions: squadActions
-} = createNamespacedHelpers("squad");
-
-const {
-  mapState: prepareMatchState,
-  mapGetters: prepareMatchGetters,
-  mapMutations: prepareMatchMutations,
-  mapActions: prepareMatchActions
-} = createNamespacedHelpers("prepareMatch");
-
-const {
-  mapState: gameReportState,
-  mapGetters: gameReportGetters,
-  mapMutations: gameReportMutations,
-  mapActions: gameReportActions
-} = createNamespacedHelpers("gameReport");
-
-const {
-  mapState: gameState,
-  mapMutations: gameMutations,
-  mapActions: gameActions
-} = createNamespacedHelpers("game");
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
+  components: { scheduleDateList, squadQuarter, matchEventInput, matchEventList },
   filters: {
     setMomentMonth: function(val) {
       return moment(val).format("MMM");
@@ -123,11 +89,11 @@ export default {
     awayPlayerList: []
   }),
   computed: {
-    ...calendarGetters(["current_schedule_id"]),
-    ...prepareMatchGetters(["currentQuarterNumber"]),
-    ...prepareMatchState(["homeMembers", "awayMembers"]),
-    ...gameState(["gameInfo"]),
-    ...gameReportState(["eventList", "awayScore", "homeScore"]),
+    ...mapGetters("calendar", ["current_schedule_id"]),
+    ...mapGetters("prepareMatch", ["currentQuarterNumber"]),
+    ...mapState("prepareMatch", ["homeMembers", "awayMembers"]),
+    ...mapState("game", ["gameInfo"]),
+    ...mapState("gameReport", ["eventList", "awayScore", "homeScore"]),
     setStatus() {
       this.init();
       if (this.isGoal) {
@@ -145,17 +111,12 @@ export default {
     this.SET_QAURTER_INDEX(Number(this.quarter));
   },
   methods: {
-    ...calendarMapMutations(["SET_SCHEDULE_INDEX"]),
-    ...prepareMatchMutations(["SET_QAURTER_INDEX"]),
-    ...prepareMatchActions(["getHomeAwayMember"]),
-    ...gameActions(["updateGameScore", "getGameId"]),
-    ...gameReportMutations([
-      "SET_HOME_SCORE",
-      "SET_AWAY_SCORE",
-      "SUBTRACT_HOME_SCORE",
-      "SUBTRACT_AWAY_SCORE"
-    ]),
-    ...gameReportActions(["getEventList", "updateGameEvent"]),
+    ...mapMutations("calendar", ["SET_SCHEDULE_INDEX"]),
+    ...mapMutations("prepareMatch", ["SET_QAURTER_INDEX"]),
+    ...mapActions("prepareMatch", ["getHomeAwayMember"]),
+    ...mapActions("game", ["updateGameScore", "getGameId"]),
+    ...mapMutations("gameReport", ["SET_HOME_SCORE", "SET_AWAY_SCORE", "SUBTRACT_HOME_SCORE", "SUBTRACT_AWAY_SCORE"]),
+    ...mapActions("gameReport", ["getEventList", "updateGameEvent"]),
 
     async setScheduleData(selected_schedule) {
       let changedScheduleId = selected_schedule.id;
