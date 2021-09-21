@@ -45,7 +45,7 @@ export default {
   }),
   methods: {
     editItem(item) {
-      this.$emit("openEditDialog", true, item);
+      this.$emit("openEditDialog", item);
     },
     deleteItem(id) {
       this.$emit("clickedDeleteMember", id);

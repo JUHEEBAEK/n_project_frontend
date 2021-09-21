@@ -81,7 +81,7 @@ export default {
     setSearchQuery(value) {
       this.searchQuery = value;
     },
-    toggleDialog(value, item) {
+    toggleDialog(item) {
       this.dialogProps = {
         value: item ? true : false,
         item
