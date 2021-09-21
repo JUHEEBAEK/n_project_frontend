@@ -24,7 +24,7 @@
         @deleteUnitTeam="removeUnitTeam"
       />
     </div>
-    <dialog-team-add :dialog="addDialog" @closeDialog="toggleAddDialog" />
+    <dialog-team-add :dialog="addDialog" :teamType="teamType" @closeDialog="toggleAddDialog" />
     <dialog-team-modify
       :dialog="dialogProps.value"
       :selectedTeam="dialogProps.item"

@@ -11,7 +11,7 @@
     @click:row="movePage"
   >
     <template v-slot:[`item.actions`]="{ item }">
-      <v-btn v-if="teamType === 'unitTeam'" outlined class="pa-2 ma-3">
+      <v-btn v-if="teamType === 'unitTeam'" outlined class="pa-2 mx-3">
         <v-icon @click.stop.native="modifyTeam(item)">fas fa-pencil-alt</v-icon>
       </v-btn>
       <v-btn outlined class="pa-2">

@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" width="600">
+  <v-dialog v-model="dialog" width="480">
     <div class="dialog__container">
       <div class="dialog__header">
         {{ `${dialogTitle} 추가` }}
@@ -16,8 +16,8 @@
           <v-row>
             <v-col cols="12">
               <v-radio-group v-model="teamType" row>
-                <v-radio label="팀" value="Team"></v-radio>
-                <v-radio label="유닛 팀" value="Unit"></v-radio>
+                <v-radio label="팀" value="team"></v-radio>
+                <v-radio label="유닛 팀" value="unitTeam"></v-radio>
               </v-radio-group>
             </v-col>
             <v-col cols="12">
@@ -31,7 +31,7 @@
               />
             </v-col>
           </v-row>
-          <v-row v-if="teamType === 'Unit'">
+          <v-row v-if="teamType === 'unitTeam'">
             <v-col cols="12" lg="6">
               <v-text-field v-model="description" autocomplete="off" label="설명" hide-details outlined />
             </v-col>
@@ -59,18 +59,18 @@ import { mapActions } from "vuex";
 
 export default {
   props: {
-    dialog: Object
+    dialog: Object,
+    teamType: String
   },
   data: () => ({
     imageUrl: require("@/assets/images/emb-default.png"),
     name: "",
-    teamType: "Team",
     season: new Date().toISOString().substr(0, 4),
     menuSeason: false
   }),
   computed: {
     dialogTitle() {
-      return this.teamType === "Team" ? "팀" : "유닛 팀";
+      return this.teamType === "team" ? "팀" : "유닛 팀";
     }
   },
   watch: {
@@ -83,14 +83,10 @@ export default {
     ...mapActions("unitTeam", ["createUnitTeam"]),
     submit() {
       if (this.$refs.formTeamAdd.validate()) {
-        if (this.teamType === "Team") {
-          const formData = {
-            name: this.name
-          };
+        if (this.teamType === "team") {
+          const formData = { name: this.name };
           const response = this.createTeam(formData);
-          if (response) {
-            this.close();
-          }
+          if (response) this.close();
         } else {
           const formData = {
             name: this.name,
@@ -98,9 +94,7 @@ export default {
             season: this.season
           };
           const response = this.createUnitTeam(formData);
-          if (response) {
-            this.close();
-          }
+          if (response) this.close();
         }
       }
     },
