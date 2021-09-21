@@ -1,37 +1,23 @@
 <template>
   <div>
-    <div class="main__title">
-      <core-breadcrumbs :items="items" />
-    </div>
+    <core-breadcrumbs :items="breadcrumb" />
     <div class="main__header">
       <div class="player__list">
         <div>
-          총 <b>{{ unitTeamPlayerList.length }}</b> 명
+          총 <b>{{ unitTeamMembers.length }}</b> 명
         </div>
-        <div
-          v-for="item in unitTeamPlayerList"
-          :key="item"
-          class="player__item"
-        >
+        <div v-for="item in unitTeamMembers" :key="item" class="player__item">
           <div v-if="isActive" class="item__badge">
-            <v-btn
-              class="badge__button"
-              fab
-              color="error"
-              x-small
-              @click="deleteMember(item)"
-            >
+            <v-btn class="badge__button" fab color="error" x-small @click="deleteMember(item)">
               <v-icon x-small class="fas fa-times"></v-icon>
             </v-btn>
           </div>
-          <v-avatar class="ma-3" color="teal">
-            <span class="white--text headline">{{
-              showTwoChar(item.name)
-            }}</span>
+          <v-avatar class="avactar__item" color="teal darken-3">
+            <span class="avactar__text">{{ showTwoChar(item.name) }}</span>
           </v-avatar>
         </div>
 
-        <v-btn icon snallclass="white--text" @click="addUnitPlayer">
+        <v-btn icon small class="grey--text" @click="addUnitPlayer">
           <v-icon class="fas fa-plus"></v-icon>
         </v-btn>
       </div>
@@ -53,51 +39,54 @@
       @setLoadingBar="setLoadingBar"
     />
     <!-- util -->
-    <util-snack-bar
-      v-if="snackBar"
-      :purpose="snackBarPurpose"
-      :message="snackBarMessage"
-    />
+    <util-snack-bar v-if="snackBar" :purpose="snackBarPurpose" :message="snackBarMessage" />
     <util-loading v-if="loading" :size="100" />
   </div>
 </template>
 
 <script>
-import dialog from "../../../mixins/dialog.js";
-import util from "../../../mixins/util.js";
-
-import { createNamespacedHelpers } from "vuex";
-const {
-  mapState: unitMemberMapState,
-  mapActions: unitMemberMapActions
-} = createNamespacedHelpers("unitMember");
+import { mapGetters, mapActions } from "vuex";
+import Breadcrumbs from "@/components/core/Breadcrumbs.vue";
 
 export default {
-  mixins: [dialog, util],
+  components: {
+    "core-breadcrumbs": Breadcrumbs
+  },
   data: () => ({
     isActive: false,
-    items: [
-      {
-        text: "팀 관리",
-        disabled: false,
-        href: "/team-admin"
-      },
-      {
-        text: "유닛 팀 상세 정보",
-        disabled: true
-      }
-    ],
     unit_team_id: ""
   }),
   computed: {
-    ...unitMemberMapState(["unitTeamPlayerList"])
+    ...mapGetters("unitTeam", ["unitTeamInfo"]),
+    ...mapGetters("unitMember", ["unitTeamMembers"]),
+    breadcrumb() {
+      return [
+        {
+          text: "팀 관리",
+          disabled: false,
+          href: "/team"
+        },
+        {
+          text: this.unitTeamInfo.name,
+          disabled: true
+        }
+      ];
+    }
   },
   created() {
-    this.unit_team_id = this.$route.params.teamId;
-    this.loadUnitTeamMember();
+    const { teamId } = this.$route.params;
+    this.loadUnitTeam(teamId);
+    this.loadUnitTeamMember(teamId);
   },
   methods: {
-    ...unitMemberMapActions(["select_unit_team_member", "delete_unit_member"]),
+    ...mapActions("unitTeam", ["getUnitTeamInfo"]),
+    ...mapActions("unitMember", ["getUnitTeamMember"]),
+    async loadUnitTeam(teamId) {
+      await this.getUnitTeamInfo(teamId);
+    },
+    async loadUnitTeamMember(teamId) {
+      await this.getUnitTeamMember(teamId);
+    },
     addUnitPlayer: function() {
       this.setDialogAndType({ dialog: true, type: "addUnitMember" });
     },
@@ -110,9 +99,6 @@ export default {
         this.setSnackBar(this.snackBarFail, "에러 실패!!");
       }
     },
-    loadUnitTeamMember() {
-      this.select_unit_team_member(this.unit_team_id);
-    },
     activeLock() {
       this.isActive = !this.isActive;
     },
@@ -123,8 +109,4 @@ export default {
 };
 </script>
 
-<style
-  lang="scss"
-  src="@/assets/scss/views/nav/team/unitTeam.scss"
-  scoped
-></style>
+<style lang="scss" src="@/assets/scss/views/nav/team/unitTeam.scss" scoped></style>
