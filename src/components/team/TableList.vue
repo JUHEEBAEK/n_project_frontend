@@ -44,7 +44,11 @@ export default {
       this.$emit("openModify", item);
     },
     deleteTeam(item) {
-      this.$emit("delete", item);
+      if (this.teamType === "unitTeam") {
+        this.$emit("deleteUnitTeam", item);
+      } else {
+        this.$emit("deleteTeam", item);
+      }
     }
   }
 };

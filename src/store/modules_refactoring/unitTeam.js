@@ -38,8 +38,7 @@ const actions = {
     if (success) {
       dispatch("apiSuccessHandler", { message: "성공적으로 유닛 팀이 수정되었습니다." }, { root: true });
 
-      // TODO: 수정할 때 해주기
-      // dispatch("getCoachList");
+      dispatch("getUnitTeamList");
 
       return true;
     } else if (error) {

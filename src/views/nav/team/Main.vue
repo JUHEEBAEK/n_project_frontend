@@ -20,7 +20,8 @@
         :teamType="teamType"
         @moveDetails="updateRouter"
         @openModify="toggleDialog"
-        @delete="deleteTeam"
+        @deleteTeam="removeTeam"
+        @deleteUnitTeam="removeUnitTeam"
       />
     </div>
     <dialog-team-add :dialog="addDialog" @closeDialog="toggleAddDialog" />
@@ -96,8 +97,8 @@ export default {
     this.tableLoading = false;
   },
   methods: {
-    ...mapActions("team", ["getTeamList"]),
-    ...mapActions("unitTeam", ["getUnitTeamList"]),
+    ...mapActions("team", ["getTeamList", "deleteTeam"]),
+    ...mapActions("unitTeam", ["getUnitTeamList", "deleteUnitTeam"]),
     async loadTeamList() {
       await this.getTeamList();
     },
@@ -110,19 +111,19 @@ export default {
     moveTeamAdd() {
       this.$router.push("/teamAdd");
     },
-    deleteTeam: async function(teamInfo) {
-      console.log("delete", teamInfo);
+    removeTeam: async function(teamInfo) {
       this.tableLoading = true;
-      let formData = { id_unit_team: teamInfo.id_unit_team };
+      const { idTeam } = teamInfo;
       if (confirm("정말로 삭제하시겠습니까??")) {
-        const result = await this.delete_unit_team(formData);
-        console.log(result);
-        if (result.status === 200) {
-          this.setSnackBar(this.snackBarSuccess, "정상적으로 삭제 되었습니다.");
-          this.loadTeamList();
-        } else {
-          this.setSnackBar(this.snackBarFail, "에러 실패!!");
-        }
+        await this.deleteTeam(idTeam);
+      }
+      this.tableLoading = false;
+    },
+    removeUnitTeam: async function(teamInfo) {
+      this.tableLoading = true;
+      const { id_unit_team } = teamInfo;
+      if (confirm("정말로 삭제하시겠습니까??")) {
+        await this.deleteUnitTeam(id_unit_team);
       }
       this.tableLoading = false;
     },
