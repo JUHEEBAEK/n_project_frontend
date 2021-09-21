@@ -88,8 +88,7 @@ export default {
       };
     },
     async remove(member_id) {
-      let formData = { member_id: member_id };
-      //FIXME: 삭제가 안 됨.
+      const formData = { member_id: member_id };
       if (confirm("정말로 삭제하시겠습니까??")) {
         await this.removeMember(formData);
       }
