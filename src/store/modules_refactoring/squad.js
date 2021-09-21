@@ -1,4 +1,4 @@
-import { getSplitTeamWithUnitTeam } from "../../api/unitTeam.js";
+import { getSplitTeamWithUnitTeam } from "../../api/refactoring/unitTeam.js";
 
 const state = {
   team_division: {

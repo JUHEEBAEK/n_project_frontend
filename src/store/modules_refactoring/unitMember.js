@@ -1,62 +1,72 @@
-import {
-  createUnitTeamMember,
-  deleteUnitTeamMember,
-  getUnitTeamMember,
-  getAllUnitMember
-} from "../../api/unitMember.js";
-
-const state = {
-  unitTeamPlayerList: [],
-  allUnitMemberList: []
+export const state = {
+  unitTeamMembers: [],
+  allUnitMembers: []
 };
 
-const getters = {};
-const mutations = {
-  SELECT_UNIT_TEAM_MEMBER(state, memberList) {
-    state.unitTeamPlayerList = memberList;
+export const getters = {
+  unitTeamMembers(state) {
+    return state.unitTeamMembers;
   },
-  SELECT_ALL_UNIT_MEMBER(state, unitMemberList) {
-    state.allUnitMemberList = unitMemberList;
+  allUnitMembers(state) {
+    return state.allUnitMembers;
   }
 };
-const actions = {
-  async add_unit_member(context, form) {
-    try {
-      const response = await createUnitTeamMember(form);
-      return response;
-    } catch (e) {
-      console.log(e);
+const mutations = {
+  SELECT_UNIT_TEAM_MEMBERS(state, list) {
+    state.unitTeamMembers = list;
+  },
+  SELECT_ALL_UNIT_MEMBERS(state, list) {
+    state.allUnitMembers = list;
+  }
+};
+
+export const actions = {
+  async createUnitMember({ dispatch, rootGetters }, form) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, error } = await apiClient.unitMember.createUnitTeamMember(form);
+    if (success) {
+      dispatch("apiSuccessHandler", { message: "성공적으로 유닛 선수를 등록했습니다." }, { root: true });
+      return true;
+    } else if (error) {
+      dispatch("apiErrorHandler", { error }, { root: true });
+      return false;
     }
   },
-  async select_all_unit_member({ commit }) {
-    try {
-      const response = await getAllUnitMember();
-      commit("SELECT_ALL_UNIT_MEMBER", response);
-      return response;
-    } catch (e) {
-      console.log(e);
+  async getAllUnitTeamMemberList({ commit, dispatch, rootGetters }) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, response, error } = await apiClient.unitMember.getAllUnitMember();
+    if (success) {
+      commit("SELECT_ALL_UNIT_MEMBERS", response.data);
+    } else if (error) {
+      dispatch("apiErrorHandler", { error }, { root: true });
     }
   },
-  async select_unit_team_member({ commit }, unitTeamId) {
-    try {
-      const response = await getUnitTeamMember(unitTeamId);
-      commit("SELECT_UNIT_TEAM_MEMBER", response);
-      return response;
-    } catch (e) {
-      console.log(e);
+  async getUnitTeamMember({ commit, dispatch, rootGetters }, unitTeamId) {
+    const apiClient = rootGetters["global/apiClient"];
+    const { success, response, error } = await apiClient.unitMember.getUnitTeamMember(unitTeamId);
+    if (success) {
+      commit("SELECT_UNIT_TEAM_MEMBERS", response.data);
+    } else if (error) {
+      dispatch("apiErrorHandler", { error }, { root: true });
     }
   },
-  async delete_unit_member({ commit }, payload) {
-    try {
-      const response = await deleteUnitTeamMember(payload);
-      return response;
-    } catch (e) {
-      console.log(e);
+  async deleteUnitMember({ dispatch, rootGetters }, formData) {
+    const apiClient = rootGetters["global/apiClient"];
+
+    const { success, error } = await apiClient.unitMember.deleteUnitTeamMember(formData);
+    if (success) {
+      dispatch("apiSuccessHandler", { message: "성공적으로 유닛선수가 삭제되었습니다." }, { root: true });
+
+      return true;
+    } else if (error) {
+      dispatch("apiErrorHandler", { error }, { root: true });
+      return false;
     }
   }
 };
 
 export default {
+  namespaced: true,
   state,
   getters,
   mutations,

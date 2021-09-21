@@ -31,6 +31,16 @@ const actions = {
       dispatch("apiErrorHandler", { error }, { root: true });
     }
   },
+  async getUnitTeamInfo({ commit, dispatch, rootGetters }, idfTeam) {
+    const apiClient = rootGetters["global/apiClient"];
+
+    const { success, response, error } = await apiClient.unitTeam.getUnitTeamInfo(idfTeam);
+    if (success) {
+      commit("SET_UNIT_TEAM_INFO", response.data);
+    } else if (error) {
+      dispatch("apiErrorHandler", { error }, { root: true });
+    }
+  },
   async updateUnitTeam({ dispatch, rootGetters }, formData) {
     const apiClient = rootGetters["global/apiClient"];
 
