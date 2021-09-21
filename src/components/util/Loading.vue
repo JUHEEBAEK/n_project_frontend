@@ -26,4 +26,4 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped src="@/assets/scss/util/loading.scss" />
+<style lang="scss" scoped src="@/assets/scss/util_todo_deleted/loading.scss" />

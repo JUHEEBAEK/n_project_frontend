@@ -1,5 +1,3 @@
-import accountConst from "@/constants/account.js";
-
 export const state = () => ({
   userInfo: {}
 });

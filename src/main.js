@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuetify from "vuetify/lib";
 import Ripple from "vuetify/lib/directives/ripple";
-import { sync } from "vuex-router-sync";
+import { sync } from "vuex-router-sync"; // 이거 사용안하면 지우기
 
 import App from "./views/app/App.vue";
 
@@ -34,7 +34,7 @@ Vue.config.warnHandler = function(msg, vm, trace) {
   // `trace` is the component hierarchy trace
   if (msg === ignoreWarnMessage) {
     msg = null;
-    vm = null;     
+    vm = null;
     trace = null;
   }
 };

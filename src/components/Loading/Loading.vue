@@ -22,4 +22,4 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped src="@/assets/scss/components/loading.scss" />
+<style lang="scss" scoped src="./loading.scss" />
