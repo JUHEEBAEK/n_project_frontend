@@ -22,7 +22,12 @@
       />
     </div>
 
-    <dialog-member :dialog="dialog" :clickedInfo="dialogProps" :memberList="memberList" @toggleDialog="toggleDialog" />
+    <dialog-member
+      :dialog="dialogProps.value"
+      :clickedInfo="dialogProps.item"
+      :memberList="memberList"
+      @toggleDialog="toggleDialog"
+    />
   </div>
 </template>
 
@@ -54,7 +59,10 @@ export default {
       { text: "탈퇴일", value: "withdraw_date", align: "center" },
       { text: "", value: "actions", sortable: false, align: "center" }
     ],
-    dialog: false
+    dialogProps: {
+      value: false,
+      item: {}
+    }
   }),
   computed: {
     ...mapGetters("account", ["accountType"]),
@@ -74,12 +82,13 @@ export default {
       this.searchQuery = value;
     },
     toggleDialog(value, item) {
-      this.dialog = value;
-      this.dialogProps = item ? item : "";
+      this.dialogProps = {
+        value: item ? true : false,
+        item
+      };
     },
     async remove(member_id) {
-      let formData = { member_id: member_id };
-      //FIXME: 삭제가 안 됨.
+      const formData = { member_id: member_id };
       if (confirm("정말로 삭제하시겠습니까??")) {
         await this.removeMember(formData);
       }

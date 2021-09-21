@@ -15,8 +15,8 @@ export async function detailsMember(id) {
 }
 
 export async function deleteMember(formData) {
-  console.log(formData);
-  return await this.delete("/api/member/delete", { data: formData });
+  const { member_id } = formData;
+  return await this.delete("/api/member/delete", { data: { member_id } });
 }
 
 export async function updateMember(formData) {
