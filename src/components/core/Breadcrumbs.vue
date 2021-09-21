@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <v-breadcrumbs :items="items">
-      <template v-slot:divider>
-        <v-icon>fas fa-angle-right</v-icon>
-      </template>
-    </v-breadcrumbs>
-  </div>
+  <v-breadcrumbs :items="items" class="pa-3">
+    <template v-slot:divider>
+      <v-icon>fas fa-angle-right</v-icon>
+    </template>
+  </v-breadcrumbs>
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template>
-  <v-main>
-    <router-view :class="`main__router-view ${routerClass}`"></router-view>
+  <v-main class="main__container">
+    <router-view class="main__router-view"></router-view>
   </v-main>
 </template>
 
@@ -9,11 +9,6 @@ import { mainProps } from "./props";
 export default {
   props: {
     ...mainProps
-  },
-  computed: {
-    routerClass() {
-      return this.$route.meta.fullScreen ? "" : `main__router-view-${this.leftDrawer ? "leftOpen" : "leftClose"}`;
-    }
   }
 };
 </script>
