@@ -10,11 +10,7 @@ export async function getUnitTeamMember(unit_team_id) {
   return await this.get(`/api/unitMember/list/${unit_team_id}`);
 }
 
-export async function deleteUnitTeamMember(formData) {
-  const { id_unit_member } = formData;
-  return await this.delete("/api/member/delete", { data: { id_unit_member } });
-}
-
-export async function updateMember(formData) {
-  return await this.put("/api/member/update", formData);
+export async function deleteUnitTeamMember(id_unit_member) {
+  const data = { id_unit_member: id_unit_member };
+  return await this.delete("/api/unitMember/delete", { data });
 }

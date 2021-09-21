@@ -4,7 +4,7 @@
     <div class="main__header">
       <div class="player__list">
         <div>
-          총 <b>{{ unitTeamMembers.length }}</b> 명
+          총 <b>{{ unitMembersLength }}</b> 명
         </div>
         <div v-for="item in unitTeamMembers" :key="item" class="player__item">
           <div v-if="isActive" class="item__badge">
@@ -13,11 +13,12 @@
             </v-btn>
           </div>
           <v-avatar class="avactar__item" color="teal darken-3">
+            <!-- TODO: 전체 이름 tooltip으로 보여주기 -->
             <span class="avactar__text">{{ showTwoChar(item.name) }}</span>
           </v-avatar>
         </div>
 
-        <v-btn icon small class="grey--text" @click="addUnitPlayer">
+        <v-btn icon small class="grey--text" @click="toggleDialog(true)">
           <v-icon class="fas fa-plus"></v-icon>
         </v-btn>
       </div>
@@ -31,34 +32,39 @@
       <div class="main__right"></div>
     </div>
 
-    <dialog-member-add-unit-member
-      v-if="dialog === true && type === 'addUnitMember'"
-      :unit_team_id="unit_team_id"
-      @reloadUnitTeamMember="loadUnitTeamMember"
-      @setSnackBar="setSnackBar"
-      @setLoadingBar="setLoadingBar"
+    <dialog-add-unit-member
+      :dialog="dialog"
+      :unitTeamId="unitTeamInfo.id_unit_team"
+      @setLoading="setLoadingBar"
+      @close="toggleDialog"
     />
-    <!-- util -->
-    <util-snack-bar v-if="snackBar" :purpose="snackBarPurpose" :message="snackBarMessage" />
-    <util-loading v-if="loading" :size="100" />
+    <req-loading :loading="loading" :size="100" />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Breadcrumbs from "@/components/core/Breadcrumbs.vue";
+import DialogAddUnitMemeber from "@/components/dialog/member/AddUnitMember.vue";
+import Loading from "@/components/loading";
 
 export default {
   components: {
-    "core-breadcrumbs": Breadcrumbs
+    "core-breadcrumbs": Breadcrumbs,
+    "dialog-add-unit-member": DialogAddUnitMemeber,
+    "req-loading": Loading
   },
   data: () => ({
     isActive: false,
-    unit_team_id: ""
+    dialog: false,
+    loading: false
   }),
   computed: {
     ...mapGetters("unitTeam", ["unitTeamInfo"]),
     ...mapGetters("unitMember", ["unitTeamMembers"]),
+    unitMembersLength() {
+      return this.unitTeamMembers.length;
+    },
     breadcrumb() {
       return [
         {
@@ -80,24 +86,21 @@ export default {
   },
   methods: {
     ...mapActions("unitTeam", ["getUnitTeamInfo"]),
-    ...mapActions("unitMember", ["getUnitTeamMember"]),
+    ...mapActions("unitMember", ["getUnitTeamMember", "deleteUnitMember"]),
     async loadUnitTeam(teamId) {
       await this.getUnitTeamInfo(teamId);
     },
     async loadUnitTeamMember(teamId) {
       await this.getUnitTeamMember(teamId);
     },
-    addUnitPlayer: function() {
-      this.setDialogAndType({ dialog: true, type: "addUnitMember" });
+    async deleteMember(member) {
+      await this.deleteUnitMember(member);
     },
-    deleteMember: async function(member) {
-      const result = await this.delete_unit_member(member.id_unit_member);
-      if (result.status === 200) {
-        this.setSnackBar(this.snackBarSuccess, "정상적으로 삭제 되었습니다.");
-        this.loadUnitTeamMember();
-      } else {
-        this.setSnackBar(this.snackBarFail, "에러 실패!!");
-      }
+    toggleDialog(value) {
+      this.dialog = value;
+    },
+    setLoadingBar(value) {
+      this.loading = value;
     },
     activeLock() {
       this.isActive = !this.isActive;

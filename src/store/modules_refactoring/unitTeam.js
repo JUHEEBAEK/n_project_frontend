@@ -47,7 +47,6 @@ const actions = {
     const { success, error } = await apiClient.unitTeam.updateUnitTeam(formData);
     if (success) {
       dispatch("apiSuccessHandler", { message: "성공적으로 유닛 팀이 수정되었습니다." }, { root: true });
-
       dispatch("getUnitTeamList");
 
       return true;

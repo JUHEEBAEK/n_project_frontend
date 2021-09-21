@@ -8,6 +8,8 @@
   .player__list {
     display: flex;
     align-items: center;
+    max-width: calc(100% - 50px);
+    flex-wrap: wrap;
     .player__item {
       position: relative;
       .avactar__item {

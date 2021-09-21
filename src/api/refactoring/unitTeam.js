@@ -11,7 +11,6 @@ export async function getSplitTeamWithUnitTeam(year, schedule_id) {
 }
 
 export async function getUnitTeamInfo(idfTeam) {
-  console.log("uniut team id", idfTeam);
   return await this.get(`/api/unitTeam/${idfTeam}`);
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" width="480">
+  <v-dialog v-model="dialog" persistent width="480">
     <div class="dialog__container">
       <div class="dialog__header">
         {{ `${dialogTitle} 추가` }}
@@ -105,42 +105,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-.dialog__container {
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  padding: 12px;
-  .dialog__header {
-    display: flex;
-    padding: 12px;
-    .title__icon-close {
-      width: 32px;
-      height: 32px;
-      background: url("../../../assets/images/close.svg");
-      &:hover {
-        border-radius: 50%;
-        background-color: #8c8c8c14;
-      }
-    }
-  }
-  .dialog__content {
-    display: flex;
-    padding: 12px;
-    justify-content: center;
-    .img__top {
-      margin: 0 auto;
-    }
-
-    .input__white {
-      background: #fff;
-      border: solid 1px secondary;
-    }
-  }
-  .dialog__actions {
-    display: flex;
-    padding: 12px;
-    justify-content: flex-end;
-  }
-}
-</style>
+<style scoped lang="scss" src="@/assets/scss/components/dialogTemplate.scss" />
