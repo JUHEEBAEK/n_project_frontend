@@ -10,8 +10,9 @@ export async function getTeamInfo(idfTeam) {
   return await this.get(`/api/team/${idfTeam}`);
 }
 
-export async function deleteTeam(idfTeam) {
-  return await this.delete("/api/team/delete", idfTeam);
+export async function deleteTeam(idTeam) {
+  const data = { team_id: idTeam };
+  return await this.delete("/api/team/delete", { data });
 }
 
 export async function updateTeam(formData) {

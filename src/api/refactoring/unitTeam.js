@@ -14,6 +14,7 @@ export async function updateUnitTeam(formData) {
   return await this.put("/api/unitTeam/update", formData);
 }
 
-export async function deleteUnitTeam(idfTeam) {
-  return await this.delete("/api/unitTeam/delete", idfTeam);
+export async function deleteUnitTeam(idfUnitTeam) {
+  const data = { id_unit_team: idfUnitTeam };
+  return await this.delete("/api/unitTeam/delete", { data });
 }
