@@ -1,6 +1,7 @@
 export const state = () => ({
   memberList: [],
-  memberInfo: {}
+  memberInfo: {},
+  profile: {}
 });
 
 export const getters = {
@@ -18,6 +19,9 @@ const mutations = {
   },
   SET_MEMBER_INFO(state, info) {
     state.memberInfo = info;
+  },
+  DETAILS_MEMBER(state, memberProfile) {
+    state.profile = memberProfile;
   }
 };
 const actions = {
@@ -65,6 +69,17 @@ const actions = {
     } else if (error) {
       dispatch("apiErrorHandler", { error }, { root: true });
       return false;
+    }
+  },
+  async details_member({ commit, dispatch, rootGetters }, memberId) {
+    const apiClient = rootGetters["global/apiClient"];
+
+    const { success, response, error } = await apiClient.member.detailsMember(memberId);
+    if (success) {
+      commit("DETAILS_MEMBER", response.data);
+      return response;
+    } else if (error) {
+      dispatch("apiErrorHandler", { error }, { root: true });
     }
   },
   async removeMember({ dispatch, rootGetters }, formData) {
