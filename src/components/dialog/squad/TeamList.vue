@@ -30,13 +30,9 @@
 
 <script>
 import matchValue from "@/assets/value/match.json";
-import squad from "@/assets/value/squad.json";
 import dialog from "@/mixins/dialog.js";
-import { createNamespacedHelpers } from "vuex";
-const {
-  mapState: prepareMatchMapState,
-  mapMutations: prepareMatchMapMutations
-} = createNamespacedHelpers("prepareMatch");
+
+import { mapState } from "vuex";
 
 export default {
   mixins: [dialog],
@@ -45,7 +41,7 @@ export default {
     headerOfSplitTeam: matchValue.headerOfSplitTeam
   }),
   computed: {
-    ...prepareMatchMapState(["summarySplitTeamList", "headerOfSplitTeam"])
+    ...mapState("prepareMatch", ["summarySplitTeamList", "headerOfSplitTeam"])
   },
   methods: {
     closeDialog() {

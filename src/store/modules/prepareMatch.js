@@ -3,36 +3,13 @@ import * as constants from "../constants";
 
 import moment from "moment";
 
-import {
-  searchWithScheduleIdAndQuarter,
-  createGame,
-  updateGame
-} from "../../api/game.js";
+import { searchWithScheduleIdAndQuarter, createGame, updateGame } from "../../api/game.js";
 import { createSquad } from "../../api/squad.js";
-import {
-  createMultipleMemberSquad,
-  deleteMemberSquad,
-  getinfoWithSquadId
-} from "../../api/memberSquad.js";
+import { createMultipleMemberSquad, deleteMemberSquad, getinfoWithSquadId } from "../../api/memberSquad.js";
 
 const state = {
   date: moment().format("YYYY-MM-DD"),
-  quarterList: [
-    "Q1",
-    "Q2",
-    "Q3",
-    "Q4",
-    "Q5",
-    "Q6",
-    "Q7",
-    "Q8",
-    "Q9",
-    "Q10",
-    "Q11",
-    "Q12",
-    "Q13",
-    "Q15"
-  ],
+  quarterList: ["Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "Q8", "Q9", "Q10", "Q11", "Q12", "Q13", "Q15"],
   quarterIndex: 0,
   isHome: true,
   selectType: "Home",
@@ -257,11 +234,7 @@ const actions = {
       let memberSquadformArray = [];
       for (let i in memberData.members) {
         let member = memberData.members[i];
-        memberSquadformArray.push([
-          squad_id,
-          member.member_id,
-          member.position
-        ]);
+        memberSquadformArray.push([squad_id, member.member_id, member.position]);
       }
       const response = await createMultipleMemberSquad(memberSquadformArray);
       return true;
@@ -304,15 +277,11 @@ const actions = {
       };
 
       if (gameInfo.data.length != 0) {
-        const homeMembers = await getinfoWithSquadId(
-          gameInfo.data[0].home_squad_id
-        );
+        const homeMembers = await getinfoWithSquadId(gameInfo.data[0].home_squad_id);
         commit("SET_HOME_MEMBERS", homeMembers.data);
         membersDict["homeMembers"] = homeMembers.data;
         if (gameInfo.data[0].away_squad_id) {
-          const awayMembers = await getinfoWithSquadId(
-            gameInfo.data[0].away_squad_id
-          );
+          const awayMembers = await getinfoWithSquadId(gameInfo.data[0].away_squad_id);
           commit("SET_AWAY_MEMBERS", awayMembers.data);
           membersDict["awayMembers"] = awayMembers.data;
         } else {

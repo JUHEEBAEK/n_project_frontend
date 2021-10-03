@@ -64,7 +64,7 @@ export default {
     this.SET_QAURTER_INDEX(Number(this.quarter) - 1);
   },
   methods: {
-    ...mapActions(["setSplitTeamListWithSchedule", "setSplitTeamWithUnitTeam"]),
+    ...mapActions("squad", ["setSplitTeamListWithSchedule", "setSplitTeamWithUnitTeam"]),
     ...mapActions("calendar", ["select_schedule", "load_member"]),
     ...mapMutations("calendar", ["CHOOSE_LATEST_SCHEDULE", "SET_SCHEDULE_INDEX"]),
     ...mapMutations("prepareMatch", ["SET_QAURTER_INDEX", "ADD_HOME_JOCKER", "ADD_AWAY_JOCKER"]),
