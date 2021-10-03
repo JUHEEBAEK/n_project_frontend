@@ -5,7 +5,7 @@
         <v-col cols="12" sm="4" md="4" lg="3" class="col__first">
           <v-select
             v-model="year"
-            :items="yearList"
+            :items="years"
             label="season"
             solo
             item-text="label"
@@ -113,15 +113,12 @@
 import { mapState, mapGetters, mapActions } from "vuex";
 
 import util from "@/mixins/util.js";
-import memberConst from "@/assets/value/member.json";
+
+import UtilLoading from "@/components/util/Loading.vue";
 
 export default {
+  components: { UtilLoading },
   mixins: [util],
-  props: {
-    memberId: {
-      type: [String, Number]
-    }
-  },
   data: () => ({
     imgUrl: "003-tshirt.png",
     count: {
@@ -130,24 +127,32 @@ export default {
       goal: 0,
       assist: 0
     },
-    yearList: memberConst.years,
-    year: 0
+    year: new Date().getFullYear()
   }),
+
   computed: {
     ...mapGetters("account", ["userInfo"]),
     ...mapState("member", ["profile"]),
+    ...mapState("team", ["teamInfo"]),
     ...mapState("personal", ["whoMyAssistList", "whoMyGoalList"]),
-    ...mapState("team", ["teamInfo"])
+    years() {
+      let years = [];
+      let startYear = 2018;
+      while (startYear <= new Date().getFullYear()) {
+        years.push(startYear++);
+      }
+      return years;
+    }
   },
   async created() {
     this.setLoadingBar(true);
-    await this.getMemberInfo(this.memberId);
+    await this.getMemberInfo(this.userInfo.member_id);
     this.getCount(this.memberId);
     this.setLoadingBar(false);
   },
   methods: {
     ...mapActions("member", ["details_member"]),
-    ...mapActions("team", ["details_team"]),
+    ...mapActions("team", ["getTeamInfo"]),
     ...mapActions("personal", [
       "get_number_of_goal",
       "get_number_of_assist",
@@ -156,9 +161,9 @@ export default {
       "get_number_of_attended",
       "get_number_of_played_match"
     ]),
-    getCount(member_id, year) {
+    async getCount(member_id, year) {
       const teamId = this.userInfo.team_id;
-      this.getTeamInfo(teamId);
+      await this.getTeamInfo(teamId);
       this.getNumberOfGoal(member_id, year);
       this.getNumberOfAssist(member_id, year);
       this.getNumberOfDaysAttended(member_id, year);
@@ -166,11 +171,8 @@ export default {
       this.getMyAssisterList(member_id, year);
       this.getMyGoalerList(member_id, year);
     },
-    selectedYear(val) {
-      this.getCount(this.member_id, val);
-    },
-    async getTeamInfo(teamId) {
-      await this.details_team(teamId);
+    async selectedYear(val) {
+      await this.getCount(this.userInfo.member_id, val);
     },
     async getMemberInfo(memberId) {
       await this.details_member(memberId);
