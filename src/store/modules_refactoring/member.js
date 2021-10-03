@@ -86,7 +86,6 @@ const actions = {
     const apiClient = rootGetters["global/apiClient"];
 
     const { success, response, error } = await apiClient.member.deleteMember(formData);
-    console.log(response);
     if (success) {
       dispatch("apiSuccessHandler", { message: "회원이 삭제 되었습니다." }, { root: true });
       dispatch("getAllMemberList");

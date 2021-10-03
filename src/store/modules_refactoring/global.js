@@ -139,7 +139,6 @@ export const getters = {
     return settingSubMenus;
   },
   footerMenus({ footerMenus }) {
-    console.log(footerMenus);
     return footerMenus;
   }
 };
@@ -173,7 +172,6 @@ const mutations = {
 
 const actions = {
   async init({ getters, dispatch }) {
-    console.log("새로고침하면 어디로가???");
     const token = getToken();
     getters.apiClient.setDispatch(dispatch);
 
@@ -190,7 +188,6 @@ const actions = {
     const { success, userInfo } = await dispatch("getUser", token);
 
     const toRouter = router.history.current.name === "login" ? "home" : router.history.current.name;
-    console.log("toRouter", toRouter);
     if (success) {
       await dispatch("setInfoByAccount", userInfo.payload, { root: true });
       await dispatch("setUserMenus", userInfo.payload.role);
@@ -270,9 +267,7 @@ const actions = {
   updateRouter: {
     root: true,
     handler({ rootState }, routerItem) {
-      console.log("routerItem", routerItem);
       const payload = typeof routerItem === "string" ? { name: routerItem } : routerItem;
-      console.log(rootState.route.name, payload);
       if (routerItem !== rootState.route.name) router.push(payload);
     }
   },

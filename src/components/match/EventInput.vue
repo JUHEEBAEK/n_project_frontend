@@ -230,7 +230,6 @@ export default {
     clickEventButton: function(eventfirstType) {
       this.firstEventType = eventfirstType;
       this.lastEventType = this.eventTypePair[eventfirstType];
-      console.log("this.lastEventType", this.lastEventType);
       if (!this.lastEventType) {
         this.lastPlayer = "";
         this.lastPlayerId = "";
@@ -248,7 +247,6 @@ export default {
       }
     },
     clickUpdateButton: async function(event) {
-      console.log("update", event);
       let gameReportform = {
         gameReport_id: this.gameReportEventInfo.id,
         gameReport: event

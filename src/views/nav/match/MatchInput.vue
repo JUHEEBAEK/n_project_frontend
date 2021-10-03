@@ -194,7 +194,6 @@ export default {
       }
     },
     subtractGameScore: function(eventInfo) {
-      console.log("뺴기", eventInfo);
       const awayMinusScore =
         (eventInfo.event_type === "O.G" && eventInfo.team_type === "H") ||
         (eventInfo.event_type === "Goal" && eventInfo.team_type === "A");

@@ -1,6 +1,5 @@
 // 로그인 하고 있는 사용자의 최신 정보를 저장
 export const saveUserInfo = userInfo => {
-  console.log(userInfo);
   try {
     localStorage.setItem("nnnn_user_info", JSON.stringify(userInfo));
   } catch (err) {

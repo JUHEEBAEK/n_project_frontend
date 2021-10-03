@@ -32,11 +32,6 @@ export default {
     nowYear: new Date().getFullYear(),
     nowMonth: new Date().getMonth() + 1
   }),
-  watch: {
-    nowYear() {
-      console.log("nowYear", this.nowYear);
-    }
-  },
   methods: {
     movePage() {
       this.$router.push({

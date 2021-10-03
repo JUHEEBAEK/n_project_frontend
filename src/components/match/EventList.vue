@@ -79,7 +79,6 @@ export default {
     ...mapMutations("gameReport", ["SET_EVENT_INFO"]),
     ...mapActions("gameReport", ["deleteGameEvent"]),
     clickUpdateEvent: function(gameReport) {
-      console.log("gameReport", gameReport);
       this.SET_EVENT_INFO(gameReport);
       this.$emit("changeUpdateButton");
     },

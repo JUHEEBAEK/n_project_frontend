@@ -190,7 +190,6 @@ export default {
         gameForm["away_score"] = 0;
         gameForm["result"] = "D";
         gameForm["user_id"] = this.userInfo.id;
-        console.log(this.jocker);
         if (this.jocker.member_id) {
           gameForm["is_jocker"] = true;
         }
