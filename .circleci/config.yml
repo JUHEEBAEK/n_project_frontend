@@ -22,8 +22,8 @@ jobs:
           aws-region: AWS_REGION
           from: ./dist
           overwrite: true
-          to: "s3://nnnn.code2world.xyz"
-      - run: aws cloudfront create-invalidation --distribution-id E1PYPHG3UU5VDH --paths "/*"
+          to: "s3://nnnn.****.xyz"
+      - run: aws cloudfront create-invalidation --distribution-id ***** --paths "/*"
 
 workflows:
   version: 2
